@@ -1,0 +1,2 @@
+/* Dashed divider */
+.nl-divider-dashed { border: 0; border-block-start: var(--border-width) dashed var(--color-line); margin: var(--space-4) 0; }

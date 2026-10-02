@@ -1,0 +1,9 @@
+/* Card */
+.nl-card {
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+}
+.nl-card { container-type: inline-size; }

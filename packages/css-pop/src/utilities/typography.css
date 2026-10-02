@@ -1,0 +1,43 @@
+/* Text styles: display, headline, eyebrow, pixel, muted, effects */
+.nl-display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-variation-settings: "wdth" 75;
+  letter-spacing: var(--tracking-display);
+  line-height: 0.92;
+  text-transform: uppercase;
+  margin: 0;
+}
+.nl-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-variation-settings: "wdth" 85;
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
+  margin: 0;
+}
+.nl-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-xs);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  font-weight: var(--weight-bold);
+}
+.nl-pixel { font-family: var(--font-pixel); letter-spacing: 0.02em; }
+.nl-muted { color: var(--color-text-secondary); }
+
+/* Outlined (hollow) display text, as in the posters */
+.nl-outline-text {
+  color: var(--color-surface);
+  -webkit-text-stroke: var(--border-width) var(--color-line);
+  paint-order: stroke fill;
+}
+/* Text with hard drop shadow */
+.nl-pop-text { text-shadow: 3px 3px 0 var(--color-line); }
+
+/* Highlighter marker */
+.nl-mark {
+  background: linear-gradient(transparent 55%, var(--color-accent) 55%);
+  padding: 0 0.1em;
+}

@@ -1,0 +1,13 @@
+{
+  "base": ["base.css"],
+  "components": [
+    "components/card.css", "components/window.css", "components/bento.css",
+    "components/button.css", "components/pill.css", "components/badge.css",
+    "components/sticker.css", "components/burst.css", "components/field.css",
+    "components/search.css", "components/check.css", "components/toggle.css",
+    "components/progress.css", "components/tabs.css", "components/bubble.css",
+    "components/toast.css", "components/info.css", "components/divider.css",
+    "components/ribbon.css", "components/table.css", "components/nav.css"
+  ],
+  "utilities": ["utilities/typography.css", "utilities/surfaces.css", "utilities/motion.css", "utilities/layout.css"]
+}

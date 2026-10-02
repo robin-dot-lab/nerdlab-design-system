@@ -1,0 +1,13 @@
+/* Toast */
+.nl-toast {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border); border-radius: var(--radius-md);
+  background: var(--color-surface-elevated); box-shadow: var(--shadow-md);
+}
+.nl-toast__icon {
+  width: 32px; height: 32px; flex: none;
+  display: grid; place-items: center;
+  border: var(--border); border-radius: var(--radius-sm);
+  background: var(--color-mint); color: var(--ink); font-weight: 800;
+}

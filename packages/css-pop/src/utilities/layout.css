@@ -1,0 +1,19 @@
+/* Layout primitives */
+/* ---------- Layout primitives ---------- */
+.nl-container { width: 100%; max-width: var(--content-max); margin-inline: auto; padding-inline: var(--space-gutter); }
+.nl-section { padding-block: var(--section-y); }
+.nl-stack { display: grid; gap: var(--stack-gap, var(--space-fluid-md)); }
+.nl-stack > * { min-width: 0; }
+.nl-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cluster-gap, var(--space-3)); }
+/* Intrinsic grid: as many columns as fit, never narrower than --grid-min, never overflowing */
+.nl-grid-auto { display: grid; gap: var(--grid-gap, var(--space-fluid-md)); grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 16rem), 100%), 1fr)); }
+.nl-grid-auto > * { min-width: 0; }
+/* Two-pane split: stacked on mobile, side by side from lg */
+.nl-split { display: grid; gap: var(--space-fluid-lg); }
+.nl-split > * { min-width: 0; }
+@media (min-width: 1024px) { .nl-split { grid-template-columns: var(--split, 1fr 1fr); } }
+.nl-full-height { min-height: 100vh; min-height: 100dvh; }
+.nl-scroll-x { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.nl-cq { container-type: inline-size; }
+/* Numbers that must always fit their tile (KPIs, prices) */
+.nl-fit-number { font-size: clamp(var(--fit-min, 1.75rem), var(--fit-cqi, 14cqi), var(--fit-max, 2.5rem)); }

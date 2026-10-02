@@ -1,0 +1,38 @@
+/* Window: OS-style card with title bar */
+/* OS window (WE'RE NEW / HARUA reference) */
+.nl-window {
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.nl-window__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  height: var(--space-8);
+  padding: 0 var(--space-3);
+  background: var(--color-accent);
+  border-block-end: var(--border);
+  color: var(--ink);
+  font-family: var(--font-pixel);
+  font-size: var(--text-xs);
+}
+.nl-window__bar--primary { background: var(--color-primary); }
+.nl-window__bar--secondary { background: var(--color-secondary); }
+.nl-window__bar--lavender { background: var(--color-lavender); }
+.nl-window__bar--mint { background: var(--color-mint); }
+.nl-window__controls { display: flex; gap: var(--space-1); }
+.nl-window__controls span {
+  width: 14px; height: 14px;
+  border: var(--border-width) solid var(--ink);
+  border-radius: 3px;
+  background: var(--cream);
+  display: grid; place-items: center;
+  font-size: 9px; line-height: 1;
+}
+.nl-window__body { padding: var(--space-5); }
+.nl-window { container-type: inline-size; }
+.nl-window__bar > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

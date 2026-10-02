@@ -1,0 +1,18 @@
+/* Info table (definition list) */
+.nl-info {
+  display: grid; grid-template-columns: auto 1fr;
+  border: var(--border); border-radius: var(--radius-md);
+  background: var(--color-surface); overflow: hidden;
+}
+.nl-info > dt, .nl-info > dd { margin: 0; padding: var(--space-3) var(--space-4); border-block-end: var(--border); }
+.nl-info > dt {
+  background: var(--color-secondary-soft); border-inline-end: var(--border);
+  font-family: var(--font-mono); font-size: var(--text-xs); font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-mono); text-transform: uppercase;
+}
+.nl-info > :nth-last-child(-n+2) { border-block-end: 0; }
+/* Definition table stacks label above value in narrow containers */
+@container (max-width: 22rem) {
+  .nl-info { grid-template-columns: 1fr; }
+  .nl-info > dt { border-inline-end: 0; border-block-end: 0; padding-block-end: 0; }
+}

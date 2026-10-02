@@ -1,0 +1,15 @@
+/* Checkbox */
+.nl-check {
+  appearance: none;
+  width: 22px; height: 22px; margin: 0;
+  border: var(--border); border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  display: inline-grid; place-items: center;
+  cursor: pointer;
+}
+.nl-check:checked { background: var(--color-mint); }
+.nl-check:checked::after { content: "✓"; font-weight: 800; color: var(--ink); font-size: 14px; }
+@media (pointer: coarse) {
+  .nl-check { width: 26px; height: 26px; }
+}

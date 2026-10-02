@@ -1,0 +1,16 @@
+/* Sticker */
+.nl-sticker {
+  display: inline-grid; place-items: center; text-align: center;
+  width: 96px; height: 96px;
+  border: var(--border-heavy);
+  border-radius: var(--radius-full);
+  background: var(--color-tomato);
+  color: var(--ink);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-variation-settings: "wdth" 75;
+  line-height: 0.95;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+}

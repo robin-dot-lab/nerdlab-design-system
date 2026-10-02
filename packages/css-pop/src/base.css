@@ -1,0 +1,20 @@
+/* Base: box model, body, focus, selection, media */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: var(--border-thick) solid var(--color-violet);
+  outline-offset: 3px;
+}
+
+::selection { background: var(--color-accent); color: var(--ink); }
+img, video { max-width: 100%; height: auto; }

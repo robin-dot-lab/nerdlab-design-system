@@ -1,0 +1,8 @@
+/* Decorative motion */
+@keyframes nl-wobble { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+@keyframes nl-spin { to { transform: rotate(360deg); } }
+.nl-wobble { animation: nl-wobble 3s ease-in-out infinite; }
+.nl-spin-slow { animation: nl-spin 18s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .nl-wobble, .nl-spin-slow { animation: none; }
+}

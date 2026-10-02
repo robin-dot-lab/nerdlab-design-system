@@ -1,0 +1,19 @@
+/* Progress bar */
+.nl-progress {
+  height: 22px;
+  border: var(--border); border-radius: var(--radius-full);
+  background: var(--color-surface);
+  overflow: hidden; padding: 3px;
+}
+.nl-progress > span {
+  display: block; height: 100%;
+  border-radius: var(--radius-full);
+  background: repeating-linear-gradient(-45deg, var(--color-primary) 0 8px, var(--color-primary-hover) 8px 16px);
+  border: var(--border-width) solid var(--ink);
+}
+/* Pixel progress */
+.nl-progress--pixel { border-radius: 0; padding: 4px; border-color: var(--pixel-bark); background: var(--pixel-sand); }
+.nl-progress--pixel > span {
+  border: 0; border-radius: 0;
+  background: repeating-linear-gradient(90deg, var(--pixel-moss) 0 10px, transparent 10px 12px);
+}

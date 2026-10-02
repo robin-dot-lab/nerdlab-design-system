@@ -1,0 +1,16 @@
+/* Speech bubble */
+.nl-bubble {
+  position: relative; display: inline-block;
+  padding: var(--space-3) var(--space-5);
+  border: var(--border); border-radius: var(--radius-md);
+  background: var(--color-surface); box-shadow: var(--shadow-sm);
+  font-family: var(--font-display); font-weight: var(--weight-black);
+  text-transform: uppercase;
+}
+.nl-bubble::after {
+  content: ""; position: absolute; left: 20px; bottom: -11px;
+  width: 16px; height: 16px;
+  background: var(--color-surface);
+  border-inline-end: var(--border); border-block-end: var(--border);
+  transform: skewX(30deg) rotate(45deg) scale(0.8);
+}

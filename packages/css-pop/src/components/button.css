@@ -1,0 +1,73 @@
+/* Button */
+.nl-btn {
+  --btn-bg: var(--color-surface);
+  --btn-bg-hover: var(--color-surface-elevated);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: var(--border);
+  border-radius: var(--radius-full);
+  background: var(--btn-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-default);
+}
+.nl-btn:hover { background: var(--btn-bg-hover); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 0 var(--color-line); }
+.nl-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 var(--color-line); }
+.nl-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: var(--shadow-sm); }
+
+.nl-btn--primary   { --btn-bg: var(--color-primary);   --btn-bg-hover: var(--color-primary-hover);   color: var(--ink); }
+.nl-btn--secondary { --btn-bg: var(--color-secondary); --btn-bg-hover: var(--color-secondary-hover); color: var(--ink); }
+.nl-btn--accent    { --btn-bg: var(--color-accent);    --btn-bg-hover: var(--color-accent-hover);    color: var(--ink); }
+.nl-btn--tomato    { --btn-bg: var(--color-tomato);    --btn-bg-hover: #FF5A1F;                      color: var(--ink); }
+.nl-btn--outline   { box-shadow: none; }
+.nl-btn--outline:hover { box-shadow: var(--shadow-sm); transform: translate(-1px, -1px); }
+.nl-btn--ghost {
+  background: transparent; border-color: transparent; box-shadow: none;
+}
+.nl-btn--ghost:hover { background: var(--color-primary-soft); box-shadow: none; transform: none; }
+.nl-btn--sm { padding: var(--space-2) var(--space-4); font-size: var(--text-sm); box-shadow: var(--shadow-sm); }
+.nl-btn--lg { padding: var(--space-4) var(--space-8); font-size: var(--text-lg); }
+.nl-btn--square { border-radius: var(--radius-md); }
+
+/* Pixel button (Pixel Art Park reference) */
+.nl-btn--pixel {
+  border: 0;
+  border-radius: 0;
+  background: var(--pixel-pumpkin);
+  color: var(--cream);
+  font-family: var(--font-pixel);
+  text-transform: uppercase;
+  box-shadow:
+    0 -4px 0 0 var(--pixel-bark), 0 4px 0 0 var(--pixel-bark),
+    -4px 0 0 0 var(--pixel-bark), 4px 0 0 0 var(--pixel-bark),
+    inset -4px -4px 0 0 #B8601A;
+  margin: 4px;
+}
+.nl-btn--pixel:hover { background: #F0913A; transform: none; box-shadow:
+    0 -4px 0 0 var(--pixel-bark), 0 4px 0 0 var(--pixel-bark),
+    -4px 0 0 0 var(--pixel-bark), 4px 0 0 0 var(--pixel-bark),
+    inset -4px -4px 0 0 #B8601A; }
+.nl-btn--pixel:active { transform: translateY(2px); }
+@media (pointer: coarse) {
+  .nl-btn { min-height: var(--touch-target); }
+  .nl-btn--square, .nl-btn--sm { min-width: var(--touch-target); }
+}
+@media (hover: none) {
+  /* no sticky "lift" after a tap */
+  .nl-btn:hover { transform: none; box-shadow: var(--shadow-md); background: var(--btn-bg); }
+  .nl-btn--outline:hover, .nl-btn--ghost:hover { box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nl-btn { transition: none; }
+}

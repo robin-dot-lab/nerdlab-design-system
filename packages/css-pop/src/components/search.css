@@ -1,0 +1,23 @@
+/* Search bar */
+/* Search bar (WE'RE NEW "scan qr-code" bar) */
+.nl-search {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-tomato);
+  box-shadow: var(--shadow-md);
+  color: var(--ink);
+}
+.nl-search input {
+  flex: 1; min-width: 0;
+  border: 0; background: transparent;
+  font: inherit; font-weight: var(--weight-semibold);
+  color: var(--ink); text-transform: uppercase;
+}
+.nl-search input::placeholder { color: rgba(27, 21, 37, 0.65); }
+.nl-search input:focus { outline: none; }
+@media (pointer: coarse) {
+  .nl-search { min-height: var(--touch-target); }
+  .nl-search input { font-size: max(1rem, 16px); }
+}

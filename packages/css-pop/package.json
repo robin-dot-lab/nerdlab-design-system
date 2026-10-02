@@ -1,0 +1,29 @@
+{
+  "name": "@nerdlab/css-pop",
+  "version": "0.1.0",
+  "description": "Nerdlab Pop skin: tokens + nl-* component classes in cascade layers",
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    "./pop.css": "./dist/pop.css",
+    "./fonts.css": "./dist/fonts.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/visual-parity.mjs"
+  },
+  "dependencies": {
+    "@nerdlab/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "pixelmatch": "^7.2.0",
+    "playwright-core": "^1.63.0",
+    "pngjs": "^7.0.0"
+  }
+}

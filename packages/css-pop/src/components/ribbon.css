@@ -1,0 +1,16 @@
+/* Marquee ribbon */
+.nl-ribbon {
+  overflow: hidden; white-space: nowrap;
+  border-block: var(--border-heavy);
+  background: var(--color-accent); color: var(--ink);
+  font-family: var(--font-display); font-weight: var(--weight-black);
+  font-variation-settings: "wdth" 75;
+  text-transform: uppercase;
+  font-size: var(--text-xl);
+  padding: var(--space-2) 0;
+}
+.nl-ribbon__track { display: inline-flex; gap: var(--space-8); animation: nl-marquee 28s linear infinite; }
+@keyframes nl-marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .nl-ribbon__track { animation: none; }
+}

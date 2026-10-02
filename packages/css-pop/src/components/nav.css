@@ -1,0 +1,38 @@
+/* Adaptive navigation */
+/* ---------- Adaptive navigation ----------
+   <button class="nl-nav-toggle" data-nav-toggle aria-controls="id" aria-expanded="false">
+   <div class="nl-nav-panel" id="id"> links… </div>
+   Visible below lg (1024px); desktop shows its own inline nav. */
+.nl-nav-toggle {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-width: var(--touch-target); min-height: var(--touch-target); padding-inline: var(--space-3);
+  color: var(--color-text-primary); cursor: pointer;
+}
+.nl-nav-toggle__icon { position: relative; width: 16px; height: 2px; background: currentColor; transition: var(--transition-default); }
+.nl-nav-toggle__icon::before, .nl-nav-toggle__icon::after { content: ""; position: absolute; inset-inline: 0; height: 2px; background: currentColor; transition: transform .2s ease; }
+.nl-nav-toggle__icon::before { inset-block-start: -5px; }
+.nl-nav-toggle__icon::after { inset-block-start: 5px; }
+.nl-nav-toggle[aria-expanded="true"] .nl-nav-toggle__icon { background: transparent; }
+.nl-nav-toggle[aria-expanded="true"] .nl-nav-toggle__icon::before { transform: translateY(5px) rotate(45deg); }
+.nl-nav-toggle[aria-expanded="true"] .nl-nav-toggle__icon::after { transform: translateY(-5px) rotate(-45deg); }
+.nl-nav-panel { display: none; }
+.nl-nav-panel[data-open="true"] {
+  display: grid; position: fixed; z-index: 60;
+  inset-inline: 0; inset-block-start: var(--nav-offset);
+  max-height: calc(100dvh - var(--nav-offset)); overflow-y: auto; overscroll-behavior: contain;
+  background: var(--color-background); color: var(--color-text-primary);
+  border-block: var(--border); box-shadow: var(--shadow-lg);
+}
+.nl-nav-panel a {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: var(--touch-target); padding-inline: var(--space-gutter);
+  border-block-end: 1px solid var(--color-border-subtle);
+  color: var(--color-text-primary); text-decoration: none;
+}
+.nl-nav-panel a:last-child { border-block-end: 0; }
+@media (min-width: 1024px) {
+  .nl-nav-toggle, .nl-nav-panel, .nl-nav-panel[data-open="true"] { display: none; }
+}
+.nl-nav-toggle { border: var(--border); border-radius: var(--radius-full); background: var(--color-surface); box-shadow: var(--shadow-sm); font-weight: var(--weight-semibold); text-transform: uppercase; font-size: var(--text-sm); }
+.nl-nav-panel a { font-weight: var(--weight-semibold); text-transform: uppercase; }
+.nl-nav-panel a:hover { background: var(--color-accent); color: var(--ink); }
