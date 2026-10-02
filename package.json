@@ -9,9 +9,11 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "storybook": "pnpm --filter @nerdlab/docs storybook"
+    "storybook": "pnpm --filter @nerdlab/docs storybook",
+    "fetch:test-fonts": "node tools/test-fonts/fetch.mjs"
   },
   "devDependencies": {
+    "playwright-core": "^1.63.0",
     "turbo": "^2.11.6"
   }
 }

@@ -1,0 +1,88 @@
+{
+  "fetchedWith": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "sources": [
+    "packages/css-pop/src/fonts.css"
+  ],
+  "entries": {
+    "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Silkscreen:wght@400;700&display=swap": {
+      "file": "43b67b52da03a5b2.css",
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 9124
+    },
+    "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y996as8bTXq_nANBjzKo3IeZx8z6up5L-eNGfyOPPtQPw.woff2": {
+      "file": "c62b1f3632bdedd0.woff2",
+      "contentType": "font/woff2",
+      "bytes": 22136
+    },
+    "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y996as8bTXq_nANBjzKo3IeZx8z6up5L-aNGfyOPPtQPw.woff2": {
+      "file": "77a1d4ca8c8bf5fe.woff2",
+      "contentType": "font/woff2",
+      "bytes": 53648
+    },
+    "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y996as8bTXq_nANBjzKo3IeZx8z6up5L-iNGfyOPPs.woff2": {
+      "file": "627e02cf196d48ff.woff2",
+      "contentType": "font/woff2",
+      "bytes": 131312
+    },
+    "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJuktqUYLkn8BJ.woff2": {
+      "file": "af882907be53d7de.woff2",
+      "contentType": "font/woff2",
+      "bytes": 14760
+    },
+    "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2": {
+      "file": "562aff8e6b66aed6.woff2",
+      "contentType": "font/woff2",
+      "bytes": 32228
+    },
+    "https://fonts.gstatic.com/s/silkscreen/v6/m8JXjfVPf62XiF7kO-i9YL1la0GA1dOkDw.woff2": {
+      "file": "629b63da958cc8b3.woff2",
+      "contentType": "font/woff2",
+      "bytes": 1116
+    },
+    "https://fonts.gstatic.com/s/silkscreen/v6/m8JXjfVPf62XiF7kO-i9YLNla0GA1dM.woff2": {
+      "file": "0df26f35f561af8d.woff2",
+      "contentType": "font/woff2",
+      "bytes": 3528
+    },
+    "https://fonts.gstatic.com/s/silkscreen/v6/m8JUjfVPf62XiF7kO-i9aAhAfmKi2PmeBvYdbA.woff2": {
+      "file": "f776288548a3e1d9.woff2",
+      "contentType": "font/woff2",
+      "bytes": 1068
+    },
+    "https://fonts.gstatic.com/s/silkscreen/v6/m8JUjfVPf62XiF7kO-i9aAhAfmyi2PmeBvY.woff2": {
+      "file": "f798d93bcc10a932.woff2",
+      "contentType": "font/woff2",
+      "bytes": 3208
+    },
+    "https://fonts.gstatic.com/s/spacemono/v17/i7dPIFZifjKcF5UAWdDRYE58RXi4EwSsbg.woff2": {
+      "file": "67dc236ec671c7f5.woff2",
+      "contentType": "font/woff2",
+      "bytes": 4116
+    },
+    "https://fonts.gstatic.com/s/spacemono/v17/i7dPIFZifjKcF5UAWdDRYE98RXi4EwSsbg.woff2": {
+      "file": "04b9632a1dda5139.woff2",
+      "contentType": "font/woff2",
+      "bytes": 9752
+    },
+    "https://fonts.gstatic.com/s/spacemono/v17/i7dPIFZifjKcF5UAWdDRYEF8RXi4EwQ.woff2": {
+      "file": "7114c2718ba62eae.woff2",
+      "contentType": "font/woff2",
+      "bytes": 9464
+    },
+    "https://fonts.gstatic.com/s/spacemono/v17/i7dMIFZifjKcF5UAWdDRaPpZUFqaHi6WZ3S_Yg.woff2": {
+      "file": "0031a602edf99ac1.woff2",
+      "contentType": "font/woff2",
+      "bytes": 4168
+    },
+    "https://fonts.gstatic.com/s/spacemono/v17/i7dMIFZifjKcF5UAWdDRaPpZUFuaHi6WZ3S_Yg.woff2": {
+      "file": "0ea8344d4c65455f.woff2",
+      "contentType": "font/woff2",
+      "bytes": 9732
+    },
+    "https://fonts.gstatic.com/s/spacemono/v17/i7dMIFZifjKcF5UAWdDRaPpZUFWaHi6WZ3Q.woff2": {
+      "file": "0fbef778a5181b9a.woff2",
+      "contentType": "font/woff2",
+      "bytes": 9552
+    }
+  }
+}

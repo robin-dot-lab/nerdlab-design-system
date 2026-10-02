@@ -7,6 +7,7 @@ import path from 'node:path';
 import { chromium } from 'playwright-core';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
+import { missingFonts, routeTestFonts } from '../../../tools/test-fonts/route.mjs';
 
 const REF_DIR = path.resolve('../../design-system-nerdlab-pop');
 const PAGES = ['design-system-preview.html', 'dashboard-preview.html'];
@@ -34,6 +35,7 @@ const browser = await chromium.launch({ channel: process.env.CHROME_CHANNEL ?? '
 let failures = 0;
 async function shot(dir, page, viewport, colorScheme) {
   const ctx = await browser.newContext({ viewport, colorScheme, deviceScaleFactor: 1 });
+  await routeTestFonts(ctx); // fonts from the local cache: no network dependency
   const p = await ctx.newPage();
   await p.goto('file://' + path.join(dir, page), { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
@@ -52,5 +54,6 @@ for (const page of PAGES) for (const viewport of VIEWPORTS) for (const scheme of
   else console.log(`✓ ${label}: identical (${a.width}×${a.height})`);
 }
 await browser.close();
+if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing from tools/test-fonts/cache — run \`pnpm fetch:test-fonts\``); process.exit(1); }
 if (failures) { console.error(`${failures} visual parity failure(s)`); process.exit(1); }
 console.log('visual parity ok');

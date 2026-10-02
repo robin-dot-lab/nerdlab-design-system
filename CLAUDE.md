@@ -16,10 +16,11 @@ Documentation lives in the Obsidian vault, project **Nerdlab Design System** (`N
 - `pnpm --filter @nerdlab/tokens test` — parity check: generated CSS vars must equal the reference stylesheet's.
 - `pnpm storybook` — dev server on :6006 · `pnpm --filter @nerdlab/react test` — vitest (jsdom)
 - `pnpm --filter @nerdlab/dashboard test` — e2e on the built app: axe + console + overflow (light/dark × 1280/390) and user journeys (filters, sort across pages, pagination, search, table twin, keyboard chart, CSV export, theme, mobile menu). `SHOTS=<dir>` saves screenshots.
-- `pnpm --filter @nerdlab/docs test` — axe audit of every story (light/dark × 1280/390) on the static build; needs local Chrome + network, ~4 min
-- `pnpm --filter @nerdlab/css-pop test` — visual parity: showcase + dashboard screenshots (1440/375, light/dark) must be pixel-identical with the original stylesheet. Uses the installed Chrome via Playwright `channel: "chrome"` (override with `CHROME_CHANNEL`).
+- `pnpm --filter @nerdlab/docs test` — axe audit of every story (light/dark × 1280/390) on the static build; needs local Chrome (no network), ~3 min
+- `pnpm --filter @nerdlab/css-pop test` — visual parity: showcase + dashboard screenshots (1440/375, light/dark) must be pixel-identical with the original stylesheet. Uses the installed Chrome via Playwright `channel: "chrome"` (override with `CHROME_CHANNEL`); fonts come from the local test cache.
 
 ## Gotchas
+- Browser tests never hit the network for fonts: `tools/test-fonts/route.mjs` serves Google Fonts from `tools/test-fonts/cache/` (OFL fonts, committed). If `fonts.css` changes or Google bumps a font version, a test fails naming the missing URL: run `pnpm fetch:test-fonts` and commit the cache.
 - Colours never cross the React boundary as values: `ToggleChip swatch` takes a token name (`chart-1`…) mapped to `.nl-swatch--*`; `Meter` is a native `<meter>` (the browser draws the width).
 - The dashboard type-checks against `packages/react/dist`: after changing the library, rebuild it (`pnpm build` does, via turbo) or the app sees the old API.
 - Layout variants are CSS modifier classes (`.nl-gap-*`, `.nl-grid-auto--*`, `.nl-split--*`, `.nl-cluster--*`, `.nl-stack--*` in `utilities/layout-modifiers.css`); React primitives map props to them. Never set `--stack-gap` & co. inline from React.

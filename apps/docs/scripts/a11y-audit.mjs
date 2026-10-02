@@ -7,6 +7,7 @@ import http from 'node:http';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import pw from 'playwright-core';
+import { missingFonts, routeTestFonts } from '../../../tools/test-fonts/route.mjs';
 
 const require = createRequire(import.meta.url);
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -35,6 +36,7 @@ for (const vp of VIEWPORTS) for (const theme of THEMES) {
   const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height } });
   // iframe.html declares no favicon: the browser's automatic /favicon.ico request is not a story error.
   await context.route('**/favicon.ico', (route) => route.fulfill({ status: 204 }));
+  await routeTestFonts(context); // fonts from the local cache: no network dependency
   for (const story of stories) {
     const page = await context.newPage();
     const errors = [];
@@ -61,6 +63,7 @@ for (const vp of VIEWPORTS) for (const theme of THEMES) {
 }
 await browser.close();
 server.close();
+if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing from tools/test-fonts/cache — run \`pnpm fetch:test-fonts\``); process.exit(1); }
 console.log(`${stories.length} stories × ${THEMES.length} themes × ${VIEWPORTS.length} viewports`);
 if (failures) { console.error(`${failures} failing render(s)`); process.exit(1); }
 console.log('a11y audit ok');

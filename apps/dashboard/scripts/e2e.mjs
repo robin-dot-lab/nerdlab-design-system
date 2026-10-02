@@ -7,6 +7,7 @@ import http from 'node:http';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import pw from 'playwright-core';
+import { missingFonts, routeTestFonts } from '../../../tools/test-fonts/route.mjs';
 
 const require = createRequire(import.meta.url);
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -33,6 +34,7 @@ const check = (ok, label) => { if (ok) console.log(`✓ ${label}`); else { failu
 async function open(viewport, theme) {
   const context = await browser.newContext({ viewport, colorScheme: theme, acceptDownloads: true });
   await context.addInitScript((t) => localStorage.setItem('nl-dashboard-theme', t), theme);
+  await routeTestFonts(context); // fonts from the local cache: no network dependency
   const page = await context.newPage();
   const errors = [];
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
@@ -140,5 +142,6 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
 
 await browser.close();
 server.close();
+if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing from tools/test-fonts/cache — run \`pnpm fetch:test-fonts\``); process.exit(1); }
 if (failures.length) { console.error(`${failures.length} failing check(s)`); process.exit(1); }
 console.log('dashboard e2e ok');
