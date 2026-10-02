@@ -1,0 +1,104 @@
+{
+  "color": {
+    "background": {
+      "$value": "#15111C",
+      "$type": "color"
+    },
+    "background-grid": {
+      "$value": "#1E1828",
+      "$type": "color"
+    },
+    "grid-line": {
+      "$value": "#2E2640",
+      "$type": "color"
+    },
+    "surface": {
+      "$value": "#231C2E",
+      "$type": "color"
+    },
+    "surface-elevated": {
+      "$value": "#2C2439",
+      "$type": "color"
+    },
+    "surface-sunken": {
+      "$value": "#1A1522",
+      "$type": "color"
+    },
+    "line": {
+      "$value": "{cream}",
+      "$type": "color"
+    },
+    "border-subtle": {
+      "$value": "#3D3450",
+      "$type": "color"
+    },
+    "text-primary": {
+      "$value": "#FBF3E8",
+      "$type": "color"
+    },
+    "text-secondary": {
+      "$value": "#B9AEC8",
+      "$type": "color"
+    },
+    "primary-soft": {
+      "$value": "#4A2340",
+      "$type": "color"
+    },
+    "secondary-soft": {
+      "$value": "#1D3343",
+      "$type": "color"
+    }
+  },
+  "shadow": {
+    "soft": {
+      "$value": "0 12px 32px -12px rgba(0, 0, 0, 0.6)",
+      "$type": "shadow"
+    }
+  },
+  "chart": {
+    "1": {
+      "$value": "#8A63FF",
+      "$type": "color"
+    },
+    "2": {
+      "$value": "#E04A92",
+      "$type": "color"
+    },
+    "3": {
+      "$value": "#3F9AD6",
+      "$type": "color"
+    },
+    "4": {
+      "$value": "#D9632F",
+      "$type": "color"
+    },
+    "seq-1": {
+      "$value": "#9E2A63",
+      "$type": "color"
+    },
+    "seq-2": {
+      "$value": "#C23A7A",
+      "$type": "color"
+    },
+    "seq-3": {
+      "$value": "#E2508F",
+      "$type": "color"
+    },
+    "seq-4": {
+      "$value": "#F27DB2",
+      "$type": "color"
+    },
+    "seq-5": {
+      "$value": "#F9B3D3",
+      "$type": "color"
+    },
+    "grid": {
+      "$value": "#362D45",
+      "$type": "color"
+    },
+    "muted": {
+      "$value": "#5A4E6B",
+      "$type": "color"
+    }
+  }
+}

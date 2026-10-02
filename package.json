@@ -1,0 +1,17 @@
+{
+  "name": "nerdlab",
+  "private": true,
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "storybook": "pnpm --filter @nerdlab/docs storybook"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.6"
+  }
+}
