@@ -79,4 +79,15 @@ describe('DataTable', () => {
     expect(screen.getByRole('table').className).toBe('nl-table');
     expect(container.firstElementChild!.className).toBe('nl-table-wrap');
   });
+  it('controlled sort: does not reorder rows, reports changes, reflects the prop in aria-sort', async () => {
+    const calls: unknown[] = [];
+    render(<DataTable caption="C" columns={columns} rows={rows} rowKey={(r) => r.id} sort={{ key: 'amount', direction: 'descending' }} onSortChange={(s) => calls.push(s)} />);
+    const header = screen.getByRole('columnheader', { name: 'Montant' });
+    expect(header.getAttribute('aria-sort')).toBe('descending');
+    const order = () => screen.getAllByRole('row').slice(1).map((r) => within(r).getAllByRole('cell')[0]!.textContent);
+    expect(order()).toEqual(['NL-2', 'NL-1', 'NL-3']);
+    await userEvent.click(within(header).getByRole('button'));
+    expect(calls).toEqual([{ key: 'amount', direction: 'ascending' }]);
+    expect(order()).toEqual(['NL-2', 'NL-1', 'NL-3']);
+  });
 });

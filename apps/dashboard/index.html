@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nerdlab Events — Dashboard</title>
+  <link rel="icon" href="data:,">
+  <!-- Theme set before first paint (no flash); App keeps it in sync afterwards. -->
+  <script>
+    try { var t = localStorage.getItem('nl-dashboard-theme'); document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

@@ -32,20 +32,32 @@ export interface DataTableProps<T> {
   framed?: boolean;
   /** Shown in a single full-width row when `rows` is empty. */
   empty?: ReactNode;
-  defaultSort?: { key: string; direction: SortDirection };
+  /** Initial sort when uncontrolled. */
+  defaultSort?: DataTableSort;
+  /**
+   * Controlled sort. When set, the table does NOT reorder `rows`: the caller sorts (and paginates)
+   * them, e.g. server-side or before slicing a page. `null` means unsorted.
+   */
+  sort?: DataTableSort | null;
+  onSortChange?: (sort: DataTableSort) => void;
   className?: string;
 }
+
+export interface DataTableSort { key: string; direction: SortDirection }
 
 const field = (row: unknown, key: string) => (row as Record<string, unknown>)[key];
 const labelOf = <T,>(c: DataTableColumn<T>) => c.label ?? (typeof c.header === 'string' ? c.header : c.key);
 
 export function DataTable<T>({
   columns, rows, rowKey, caption, hideCaption = false, stack = true, framed = true,
-  empty = 'Aucune donnée.', defaultSort, className,
+  empty = 'Aucune donnée.', defaultSort, sort: sortProp, onSortChange, className,
 }: DataTableProps<T>) {
-  const [sort, setSort] = useState(defaultSort);
+  const [innerSort, setInnerSort] = useState(defaultSort);
+  const controlled = sortProp !== undefined;
+  const sort = controlled ? (sortProp ?? undefined) : innerSort;
 
   const sorted = useMemo(() => {
+    if (controlled) return rows;
     const col = sort && columns.find((c) => c.key === sort.key);
     if (!sort || !col) return rows;
     const value = col.sortValue ?? ((r: T) => field(r, col.key) as string | number);
@@ -54,10 +66,13 @@ export function DataTable<T>({
       const va = value(a), vb = value(b);
       return (va > vb ? 1 : va < vb ? -1 : 0) * dir;
     });
-  }, [rows, columns, sort]);
+  }, [rows, columns, sort, controlled]);
 
-  const toggle = (key: string) =>
-    setSort((s) => ({ key, direction: s?.key === key && s.direction === 'ascending' ? 'descending' : 'ascending' }));
+  const toggle = (key: string) => {
+    const next: DataTableSort = { key, direction: sort?.key === key && sort.direction === 'ascending' ? 'descending' : 'ascending' };
+    if (!controlled) setInnerSort(next);
+    onSortChange?.(next);
+  };
 
   return (
     <div className={cn('nl-table-wrap', framed && 'nl-table-wrap--framed', className)}>

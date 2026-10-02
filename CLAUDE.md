@@ -7,16 +7,19 @@ Documentation lives in the Obsidian vault, project **Nerdlab Design System** (`N
 - `packages/tokens` — DTCG token sources (`src/<theme>/*.tokens.json`) → Style Dictionary → `dist/<theme>/tokens.{css,js,d.ts,json}`.
 - `packages/css-pop` — Pop skin split one file per component (`src/components/*.css`), assembled by `scripts/build.mjs` into `dist/pop.css` with layers `nl.tokens < nl.base < nl.components < nl.utilities`. Fonts are NOT in pop.css: `dist/fonts.css` is opt-in.
 - `packages/react` — `@nerdlab/react`, React 19 only, built with plain `tsc` (one ESM file per module, so `"use client"` survives on `field` and `tabs` only). No style values allowed in its sources (`no-style-values.test.ts`).
+- `apps/dashboard` — integration test: the Nerdlab Events dashboard rebuilt in React with Vite, consuming `@nerdlab/*` through their **dist/** (no alias). Charts and library gaps (StatTile, Meter, Pagination, SegmentedControl, ToggleChip, Delta, Toast) are app-local for now, marked `LIBRARY GAP`.
 - `apps/docs` — Storybook 10 (`@nerdlab/docs`). Stories import `@nerdlab/react` **sources** through a Vite alias (`.storybook/main.ts`), so no rebuild is needed while editing components. Telemetry disabled.
 
 ## Commands
 - `pnpm install` · `pnpm build` (turbo) · `pnpm test`
 - `pnpm --filter @nerdlab/tokens test` — parity check: generated CSS vars must equal the reference stylesheet's.
 - `pnpm storybook` — dev server on :6006 · `pnpm --filter @nerdlab/react test` — vitest (jsdom)
+- `pnpm --filter @nerdlab/dashboard test` — e2e on the built app: axe + console + overflow (light/dark × 1280/390) and user journeys (filters, sort across pages, pagination, search, table twin, keyboard chart, CSV export, theme, mobile menu). `SHOTS=<dir>` saves screenshots.
 - `pnpm --filter @nerdlab/docs test` — axe audit of every story (light/dark × 1280/390) on the static build; needs local Chrome + network, ~4 min
 - `pnpm --filter @nerdlab/css-pop test` — visual parity: showcase + dashboard screenshots (1440/375, light/dark) must be pixel-identical with the original stylesheet. Uses the installed Chrome via Playwright `channel: "chrome"` (override with `CHROME_CHANNEL`).
 
 ## Gotchas
+- The dashboard type-checks against `packages/react/dist`: after changing the library, rebuild it (`pnpm build` does, via turbo) or the app sees the old API.
 - Layout variants are CSS modifier classes (`.nl-gap-*`, `.nl-grid-auto--*`, `.nl-split--*`, `.nl-cluster--*`, `.nl-stack--*` in `utilities/layout-modifiers.css`); React primitives map props to them. Never set `--stack-gap` & co. inline from React.
 - `DataTable` writes `data-label` on every cell (stacked mode). Hand-written tables using `.nl-table--stack` must do it themselves.
 - `'use client'` must be the first line of any React module using state/effects/context/React Aria components, and only those (`use-client.test.ts`). Do not put breakpoints or any style value in React code: e.g. `MobileNav` closes when the skin hides its toggle (ResizeObserver), it never reads a media query.

@@ -9,6 +9,6 @@ export { Accordion, AccordionItem, type AccordionProps, type AccordionItemProps 
 export { Tooltip, TooltipTrigger, type TooltipProps, type TooltipTriggerProps } from './tooltip/tooltip.js';
 export { MobileNav, type MobileNavProps } from './nav/mobile-nav.js';
 export { Container, Section, Stack, Cluster, Grid, Split, VisuallyHidden, type Gap, type StackProps, type ClusterProps, type GridProps, type SplitProps } from './layout/layout.js';
-export { DataTable, type DataTableProps, type DataTableColumn, type SortDirection } from './data-table/data-table.js';
+export { DataTable, type DataTableProps, type DataTableColumn, type DataTableSort, type SortDirection } from './data-table/data-table.js';
 export { Focusable } from 'react-aria-components';
 export { cn } from './lib/cn.js';
