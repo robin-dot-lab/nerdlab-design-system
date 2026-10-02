@@ -1,0 +1,33 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Nerdlab Pop — librairie React
+
+La librairie est une **couche fine au-dessus du CSS** : chaque composant pose des classes `nl-*`, tout le visuel vient de la feuille de peau. Changer de peau, c'est changer de feuille.
+
+## Installer
+
+```tsx
+// Rendu complet, polices Google incluses
+import '@nerdlab/css-pop/fonts.css';
+import '@nerdlab/css-pop/pop.css';
+
+// Ou sans appel à Google : n'importer que pop.css et déclarer soi-même
+// Bricolage Grotesque, Outfit, Space Mono et Silkscreen.
+import '@nerdlab/css-pop/pop.css';
+
+import { Button } from '@nerdlab/react';
+```
+
+## Thème sombre
+
+Poser `data-theme="dark"` sur `<html>`. Le sélecteur **Thème** de la barre d'outils fait exactement cela.
+
+## Surcharger un style
+
+Toute la peau vit dans les layers `nl.*` : n'importe quelle règle CSS de l'application, **non layée**, l'emporte, quelle que soit sa spécificité.
+
+## Composants client et serveur
+
+`Button`, `Badge`, `Card` et `Window` n'ont ni état ni effet : ils fonctionnent comme server components. `Field`, `Input` et `Tabs` portent `"use client"`.

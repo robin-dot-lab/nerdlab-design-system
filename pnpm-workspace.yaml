@@ -1,3 +1,8 @@
 packages:
   - packages/*
   - apps/*
+
+# pnpm 11 blocks dependency build scripts by default. esbuild's postinstall only
+# validates its native binary, which it also finds through its platform package.
+allowBuilds:
+  esbuild: false
