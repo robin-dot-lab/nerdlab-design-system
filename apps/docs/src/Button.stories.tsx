@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button } from '@nerdlab/react';
+import { Button } from '@robin-dot-lab/react';
 
 const meta = {
-  title: 'Composants/Button',
+  title: 'Components/Button',
   component: Button,
   args: { children: 'Subscribe', variant: 'primary', size: 'md', shape: 'pill', disabled: false },
   argTypes: {
@@ -43,7 +43,7 @@ export const Sizes: Story = {
   ),
 };
 
-/** `asChild` : un lien garde sa sémantique (`<a>`) et prend l'apparence d'un bouton. */
+/** `asChild`: a link keeps its semantics (`<a>`) and takes on the look of a button. */
 export const AsLink: Story = {
-  render: () => <Button asChild variant="accent"><a href="#docs">Lire la doc</a></Button>,
+  render: () => <Button asChild variant="accent"><a href="#docs">Read the docs</a></Button>,
 };

@@ -1,22 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Tab, TabList, TabPanel, Tabs } from '@nerdlab/react';
+import { Tab, TabList, TabPanel, Tabs } from '@robin-dot-lab/react';
 
-const meta = { title: 'Composants/Tabs', component: Tabs } satisfies Meta<typeof Tabs>;
+const meta = { title: 'Components/Tabs', component: Tabs } satisfies Meta<typeof Tabs>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Clavier : flèches gauche/droite pour changer d'onglet, Tab pour entrer dans le panneau (React Aria). */
+/** Keyboard: left/right arrows switch tabs, Tab moves into the panel (React Aria). */
 export const Default: Story = {
   render: () => (
     <Tabs defaultSelectedKey="30">
-      <TabList aria-label="Période">
-        <Tab id="7">7 j</Tab>
-        <Tab id="30">30 j</Tab>
-        <Tab id="90">90 j</Tab>
+      <TabList aria-label="Period">
+        <Tab id="7">7 d</Tab>
+        <Tab id="30">30 d</Tab>
+        <Tab id="90">90 d</Tab>
       </TabList>
-      <TabPanel id="7" style={{ paddingTop: 16 }}>Les 7 derniers jours.</TabPanel>
-      <TabPanel id="30" style={{ paddingTop: 16 }}>Les 30 derniers jours.</TabPanel>
-      <TabPanel id="90" style={{ paddingTop: 16 }}>Les 90 derniers jours.</TabPanel>
+      <TabPanel id="7" style={{ paddingTop: 16 }}>The last 7 days.</TabPanel>
+      <TabPanel id="30" style={{ paddingTop: 16 }}>The last 30 days.</TabPanel>
+      <TabPanel id="90" style={{ paddingTop: 16 }}>The last 90 days.</TabPanel>
     </Tabs>
   ),
 };
@@ -24,14 +24,14 @@ export const Default: Story = {
 export const WithDisabled: Story = {
   render: () => (
     <Tabs disabledKeys={['jams']}>
-      <TabList aria-label="Catégories">
-        <Tab id="tout">Tout</Tab>
-        <Tab id="ateliers">Ateliers</Tab>
+      <TabList aria-label="Categories">
+        <Tab id="all">All</Tab>
+        <Tab id="workshops">Workshops</Tab>
         <Tab id="talks">Talks</Tab>
         <Tab id="jams">Jams</Tab>
       </TabList>
-      <TabPanel id="tout">Tous les événements.</TabPanel>
-      <TabPanel id="ateliers">Ateliers.</TabPanel>
+      <TabPanel id="all">All events.</TabPanel>
+      <TabPanel id="workshops">Workshops.</TabPanel>
       <TabPanel id="talks">Talks.</TabPanel>
       <TabPanel id="jams">Jams.</TabPanel>
     </Tabs>

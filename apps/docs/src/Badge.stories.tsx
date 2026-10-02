@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Badge } from '@nerdlab/react';
+import { Badge } from '@robin-dot-lab/react';
 
 const meta = {
-  title: 'Composants/Badge',
+  title: 'Components/Badge',
   component: Badge,
   args: { children: 'New', variant: 'accent' },
   argTypes: { variant: { control: 'select', options: ['accent', 'primary', 'secondary', 'mint', 'lavender', 'tomato', 'ink'] } },

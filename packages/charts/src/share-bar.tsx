@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { readableOn, textWidth } from './lib/contrast.js';
 import { useChartTooltip } from './lib/tooltip.js';
+import { DEFAULT_LOCALE, isFrench, percent } from './lib/locale.js';
 import { slotColor, type Slot } from './lib/types.js';
 import { useWidth } from './lib/use-width.js';
 
@@ -15,13 +16,15 @@ export interface ShareBarProps {
   formatValue?: (v: number) => string;
   emptyLabel?: string;
   width?: number;
+  /** Number format of the percentages; French by default. */
+  locale?: string;
 }
 
 /**
  * 100% stacked bar with 2px surface gaps. A share is printed inside its segment only if it fits AND
  * one of the skin's ink / cream tokens reaches 4.5:1 on the fill; otherwise the list below carries it.
  */
-export function ShareBar({ items, title, formatValue = String, emptyLabel = 'Aucune donnée.', width }: ShareBarProps) {
+export function ShareBar({ items, title, formatValue = String, locale = DEFAULT_LOCALE, emptyLabel = isFrench(locale) ? 'Aucune donnée.' : 'No data.', width }: ShareBarProps) {
   const [ref, W] = useWidth<HTMLDivElement>(width);
   const tip = useChartTooltip();
   // Label colours depend on the active theme's tokens: re-read them when <html data-theme> changes.
@@ -35,7 +38,7 @@ export function ShareBar({ items, title, formatValue = String, emptyLabel = 'Auc
   }, []);
   const total = items.reduce((a, i) => a + i.value, 0);
   if (!total) return <p className="nl-chart-empty">{emptyLabel}</p>;
-  const pct = new Intl.NumberFormat('fr-FR', { style: 'percent', maximumFractionDigits: 1 });
+  const pct = percent(locale);
   const font = typeof document === 'undefined' ? undefined : `700 12px ${getComputedStyle(document.body).fontFamily}`;
   return (
     <>

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Checkbox, Switch } from '@nerdlab/react';
+import { Checkbox, Switch } from '@robin-dot-lab/react';
 
 const meta = {
-  title: 'Composants/Switch et Checkbox',
+  title: 'Components/Switch and Checkbox',
   component: Switch,
   subcomponents: { Checkbox },
   args: { children: 'Notifications', defaultChecked: true, disabled: false },
@@ -10,18 +10,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** `<input type="checkbox" role="switch">` natif : fonctionne sans JavaScript et dans un `<form>`. */
+/** Native `<input type="checkbox" role="switch">`: works without JavaScript and inside a `<form>`. */
 export const SwitchPlayground: Story = {};
 
 export const States: Story = {
   render: () => (
     <div className="nl-stack" style={{ ['--stack-gap' as string]: '12px' }}>
       <Switch defaultChecked>Notifications</Switch>
-      <Switch>Mode zen</Switch>
-      <Switch disabled>Indisponible</Switch>
-      <Checkbox defaultChecked>Recevoir la newsletter rétro</Checkbox>
-      <Checkbox>Accepter les cookies au chocolat</Checkbox>
-      <Checkbox disabled>Option verrouillée</Checkbox>
+      <Switch>Zen mode</Switch>
+      <Switch disabled>Unavailable</Switch>
+      <Checkbox defaultChecked>Get the retro newsletter</Checkbox>
+      <Checkbox>Accept chocolate cookies</Checkbox>
+      <Checkbox disabled>Locked option</Checkbox>
     </div>
   ),
 };

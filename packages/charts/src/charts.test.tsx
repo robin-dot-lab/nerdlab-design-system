@@ -8,6 +8,18 @@ const series = [
   { id: 'b', name: 'Code', slot: 3 as const, values: [5, 15, 10, 40] },
 ];
 
+describe('locale', () => {
+  it('BarList speaks French by default and English for another locale', () => {
+    const items = [{ id: 'x', label: 'K-pop', value: 994, slot: 2 as const }, { id: 'y', label: 'Shader', value: 6, slot: 3 as const }];
+    const { rerender } = render(<BarList title="Top" unit="tickets" items={items} />);
+    expect(screen.getAllByRole('listitem')[0]!.getAttribute('aria-label')).toBe('K-pop : 994 tickets');
+    rerender(<BarList title="Top" unit="tickets" items={items} locale="en-GB" />);
+    expect(screen.getAllByRole('listitem')[0]!.getAttribute('aria-label')).toBe('K-pop: 994 tickets');
+    rerender(<BarList title="Top" items={[]} locale="en-GB" />);
+    expect(screen.getByText('No data.')).toBeTruthy();
+  });
+});
+
 describe('LineChart', () => {
   it('one 2px path per series, colour from the slot token, end labels, one Y axis', () => {
     const { container } = render(<LineChart width={800} title="Revenu" series={series} xLabels={['1', '2', '3', '4']} />);

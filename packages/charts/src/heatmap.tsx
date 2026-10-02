@@ -1,6 +1,7 @@
 'use client';
 
 import { useChartTooltip } from './lib/tooltip.js';
+import { colon, DEFAULT_LOCALE } from './lib/locale.js';
 import { seqColor } from './lib/types.js';
 
 export interface HeatmapProps {
@@ -17,10 +18,12 @@ export interface HeatmapProps {
   formatValue?: (v: number) => string;
   /** Number of sequential steps (the skin provides 5). */
   bins?: number;
+  /** Punctuation of the cell labels; French by default. */
+  locale?: string;
 }
 
 /** Single-hue sequential scale in equal-width bins, 2px surface gaps, scale legend. */
-export function Heatmap({ rowLabels, colLabels, values, title, unit, cornerLabel, formatValue = String, bins = 5 }: HeatmapProps) {
+export function Heatmap({ rowLabels, colLabels, values, title, unit, cornerLabel, formatValue = String, bins = 5, locale = DEFAULT_LOCALE }: HeatmapProps) {
   const tip = useChartTooltip();
   const flat = values.flat(), min = Math.min(...flat), max = Math.max(...flat);
   const bin = (v: number) => Math.min(bins - 1, Math.floor((v - min) / ((max - min) / bins || 1)));
@@ -40,7 +43,7 @@ export function Heatmap({ rowLabels, colLabels, values, title, unit, cornerLabel
               const color = seqColor(bin(v) + 1);
               return (
                 <div key={c} role="gridcell" tabIndex={0} className="nl-heat__cell" style={{ background: color }}
-                  aria-label={`${rowLabels[r]} ${colLabels[c]} : ${formatValue(v)} ${unit}`}
+                  aria-label={`${rowLabels[r]} ${colLabels[c]}${colon(locale)}${formatValue(v)} ${unit}`}
                   {...tip.markProps(() => ({ title: `${rowLabels[r]} · ${colLabels[c]}`, rows: [{ key: 'rect', color, value: formatValue(v), name: unit }] }))} />
               );
             })}

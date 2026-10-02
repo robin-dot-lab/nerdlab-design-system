@@ -1,5 +1,5 @@
 {
-  "name": "@nerdlab/charts",
+  "name": "@robin-dot-lab/charts",
   "version": "0.1.0",
   "description": "Nerdlab charts: geometry in React/SVG, colours from the skin's chart tokens",
   "keywords": [
@@ -42,7 +42,7 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@nerdlab/react": "workspace:*"
+    "@robin-dot-lab/react": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.3",
@@ -55,5 +55,9 @@
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   }
 }

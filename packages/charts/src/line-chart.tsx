@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useChartTooltip } from './lib/tooltip.js';
+import { DEFAULT_LOCALE, isFrench } from './lib/locale.js';
 import { slotColor, type Slot } from './lib/types.js';
 import { useWidth } from './lib/use-width.js';
 
@@ -23,6 +24,8 @@ export interface LineChartProps {
   totalLabel?: string | false;
   emptyLabel?: string;
   width?: number;
+  /** Number format of the default ticks and language of the keyboard hint; French by default. */
+  locale?: string;
 }
 
 function niceTicks(max: number, count = 4) {
@@ -32,12 +35,12 @@ function niceTicks(max: number, count = 4) {
   const ticks: number[] = []; for (let v = 0; v <= top + 1e-9; v += step) ticks.push(v);
   return { ticks, top };
 }
-const defaultTick = (t: number) => (t >= 1000 ? `${(t / 1000).toLocaleString('fr-FR')} k` : String(t));
+const tickFor = (locale: string) => (t: number) => (t >= 1000 ? `${(t / 1000).toLocaleString(locale)}${isFrench(locale) ? ' k' : 'k'}` : String(t));
 const MIN_LABEL_GAP = 56;
 
 /** 2px lines on one Y axis, end labels with leader lines, crosshair tooltip; ←/→ move it when focused. */
 export function LineChart({
-  series, xLabels, title, formatValue = String, formatCompact, formatTick = defaultTick,
+  series, xLabels, title, formatValue = String, formatCompact, locale = DEFAULT_LOCALE, formatTick = tickFor(locale),
   pointTitle, totalLabel = 'Total', emptyLabel = 'Aucune série sélectionnée.', width,
 }: LineChartProps) {
   const [ref, W] = useWidth<HTMLDivElement>(width);
@@ -72,7 +75,9 @@ export function LineChart({
     <div ref={ref} className="nl-chart">
       {W > 0 && (
         <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} tabIndex={0} role="img"
-          aria-label={`${title}, ${series.length} séries. Flèches gauche et droite pour parcourir les points.`}
+          aria-label={isFrench(locale)
+            ? `${title}, ${series.length} séries. Flèches gauche et droite pour parcourir les points.`
+            : `${title}, ${series.length} series. Left and right arrows move through the points.`}
           onFocus={() => at(cur ?? n - 1)} onBlur={clear}
           onKeyDown={(e) => {
             if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); at((cur ?? n - 1) + (e.key === 'ArrowRight' ? 1 : -1)); }

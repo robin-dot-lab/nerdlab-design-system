@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { MobileNav } from '@nerdlab/react';
+import { MobileNav } from '@robin-dot-lab/react';
 
 const meta = {
-  title: 'Composants/MobileNav',
+  title: 'Components/MobileNav',
   component: MobileNav,
   args: { label: 'Menu', showLabel: false, children: null },
   // The skin hides the toggle from 1024px up: show the story on a phone-sized viewport.
@@ -14,14 +14,14 @@ type Story = StoryObj<typeof meta>;
 
 const links = (
   <>
-    <a href="#couleurs">Couleurs <span>01</span></a>
-    <a href="#typo">Typographie <span>02</span></a>
-    <a href="#composants">Composants <span>03</span></a>
+    <a href="#colours">Colours <span>01</span></a>
+    <a href="#typography">Typography <span>02</span></a>
+    <a href="#components">Components <span>03</span></a>
     <a href="#dashboard">Dashboard <span>→</span></a>
   </>
 );
 
-/** Bouton (aria-expanded) + panneau. Échap ferme et rend le focus au bouton ; cliquer un lien ferme. */
+/** Button (aria-expanded) + panel. Escape closes and returns focus to the button; clicking a link closes. */
 export const Default: Story = {
   render: (args) => (
     <header style={{ ['--nav-offset' as string]: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, paddingInline: 16, borderBottom: 'var(--border)' }}>
@@ -33,7 +33,7 @@ export const Default: Story = {
 
 export const WithVisibleLabel: Story = { ...Default, args: { showLabel: true } };
 
-/** Panneau ouvert (audité tel quel par le test d'accessibilité). Au-delà de 1024px la peau masque le bouton : rien à ouvrir. */
+/** Open panel (audited as is by the accessibility test). Above 1024px the skin hides the button: nothing to open. */
 export const Opened: Story = {
   ...Default,
   play: async ({ canvas, userEvent }) => {

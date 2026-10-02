@@ -89,6 +89,10 @@ describe('Callout', () => {
     expect(el.querySelector('.nl-callout__title')!.textContent).toBe('Attention : Données partielles');
     expect(el.querySelector('.nl-callout__icon')!.getAttribute('aria-hidden')).toBe('true');
   });
+  it('lang="en" says the tone in English, with English punctuation', () => {
+    const { container } = render(<Callout tone="warning" lang="en" title="Partial data">x</Callout>);
+    expect(container.querySelector('.nl-callout__title')!.textContent).toBe('Warning: Partial data');
+  });
   it('without a title the tone word leads the body; toneLabel translates it', () => {
     const { container } = render(<Callout tone="error" toneLabel="Error">Payment failed.</Callout>);
     expect(container.querySelector('.nl-callout__body')!.textContent).toBe('Error : Payment failed.');

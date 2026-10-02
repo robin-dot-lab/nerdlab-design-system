@@ -43,12 +43,12 @@ const story = (id, theme = 'light') => `${base}/apps/docs/storybook-static/ifram
 await shot(`${base}/tools/readme-assets/banner.html`, 'banner.png', { width: 1280, height: 600, scale: 2 });
 await shot(`${base}/apps/dashboard/dist/`, 'dashboard-light.png', { width: 1440, height: 1000 });
 await shot(`${base}/apps/dashboard/dist/`, 'dashboard-dark.png', { width: 1440, height: 1000, theme: 'dark' });
-await shot(story('composants-fenêtres-et-menus--confirm'), 'dialog.png', { width: 720, height: 460 });
-await shot(story('composants-fenêtres-et-menus--menu-open', 'dark'), 'menu.png', { width: 720, height: 460 });
-await shot(story('composants-affichage--callouts'), 'callouts.png', { width: 720, height: 460 });
-await shot(story('composants-décor--stickers-and-bursts'), 'decor.png', { width: 720, height: 200 });
-await shot(story('graphes-tous--line'), 'chart.png', { width: 720, height: 460, theme: 'light' });
-await shot(story('composants-formulaires--full-form', 'dark'), 'form.png', { width: 720, height: 460 });
+await shot(story('components-overlays--confirm'), 'dialog.png', { width: 720, height: 460 });
+await shot(story('components-overlays--menu-open', 'dark'), 'menu.png', { width: 720, height: 460 });
+await shot(story('components-display--callouts'), 'callouts.png', { width: 720, height: 460 });
+await shot(story('components-decor--stickers-and-bursts'), 'decor.png', { width: 720, height: 200 });
+await shot(story('charts-all--line'), 'chart.png', { width: 720, height: 460, theme: 'light' });
+await shot(story('components-forms--full-form', 'dark'), 'form.png', { width: 720, height: 460 });
 
 await browser.close();
 server.close();

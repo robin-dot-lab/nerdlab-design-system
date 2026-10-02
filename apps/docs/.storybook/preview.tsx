@@ -1,12 +1,12 @@
 import type { Preview } from '@storybook/react-vite';
-import '@nerdlab/css-candy/fonts.css';
-import '@nerdlab/css-candy/candy.css';
+import '@robin-dot-lab/css-candy/fonts.css';
+import '@robin-dot-lab/css-candy/candy.css';
 
 const preview: Preview = {
   globalTypes: {
     theme: {
-      description: 'Thème du design system',
-      toolbar: { title: 'Thème', icon: 'mirror', items: [{ value: 'light', title: 'Clair' }, { value: 'dark', title: 'Sombre' }], dynamicTitle: true },
+      description: 'Design system theme',
+      toolbar: { title: 'Theme', icon: 'mirror', items: [{ value: 'light', title: 'Light' }, { value: 'dark', title: 'Dark' }], dynamicTitle: true },
     },
   },
   initialGlobals: { theme: 'light' },

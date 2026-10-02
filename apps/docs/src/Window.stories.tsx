@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, Window } from '@nerdlab/react';
+import { Button, Window } from '@robin-dot-lab/react';
 
 const meta = {
-  title: 'Composants/Window',
+  title: 'Components/Window',
   component: Window,
   subcomponents: { 'Window.Bar': Window.Bar, 'Window.Body': Window.Body },
 } satisfies Meta<typeof Window>;
@@ -13,7 +13,7 @@ export const Default: Story = {
   render: () => (
     <Window style={{ maxWidth: 380 }}>
       <Window.Bar>NERDLAB.EXE</Window.Bar>
-      <Window.Body>Le composant signature de la peau Candy : une fenêtre d'OS rétro.</Window.Body>
+      <Window.Body>The signature component of the Candy skin: a retro OS window.</Window.Body>
     </Window>
   ),
 };
@@ -35,7 +35,7 @@ export const WithoutControls: Story = {
   render: () => (
     <Window style={{ maxWidth: 380 }}>
       <Window.Bar color="primary" controls={false}>TICKET.EXE</Window.Bar>
-      <Window.Body><Button variant="primary">Réserver</Button></Window.Body>
+      <Window.Body><Button variant="primary">Book</Button></Window.Body>
     </Window>
   ),
 };

@@ -2,32 +2,47 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Introduction" />
 
-# Nerdlab Candy — librairie React
+# Nerdlab Candy — React library
 
-La librairie est une **couche fine au-dessus du CSS** : chaque composant pose des classes `nl-*`, tout le visuel vient de la feuille de peau. Changer de peau, c'est changer de feuille.
+The library is a **thin layer on top of CSS**: each component sets `nl-*` classes, and all the visuals come from the skin stylesheet. Switching skins means switching stylesheets.
 
-## Installer
+## Install from GitHub Packages
 
-```tsx
-// Rendu complet, polices Google incluses
-import '@nerdlab/css-candy/fonts.css';
-import '@nerdlab/css-candy/candy.css';
+The packages are published to GitHub Packages under the `@robin-dot-lab` scope. Add this to your project's `.npmrc`, with a GitHub token that has the `read:packages` scope in `GITHUB_TOKEN`:
 
-// Ou sans appel à Google : n'importer que candy.css et déclarer soi-même
-// Bricolage Grotesque, Outfit, Space Mono et Silkscreen.
-import '@nerdlab/css-candy/candy.css';
-
-import { Button } from '@nerdlab/react';
+```ini
+@robin-dot-lab:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-## Thème sombre
+Then install the library and the skin:
 
-Poser `data-theme="dark"` sur `<html>`. Le sélecteur **Thème** de la barre d'outils fait exactement cela.
+```sh
+pnpm add @robin-dot-lab/react @robin-dot-lab/css-candy
+```
 
-## Surcharger un style
+## Usage
 
-Toute la peau vit dans les layers `nl.*` : n'importe quelle règle CSS de l'application, **non layée**, l'emporte, quelle que soit sa spécificité.
+```tsx
+// Full rendering, Google Fonts included
+import '@robin-dot-lab/css-candy/fonts.css';
+import '@robin-dot-lab/css-candy/candy.css';
 
-## Composants client et serveur
+// Or with no call to Google: import only candy.css and declare
+// Bricolage Grotesque, Outfit, Space Mono and Silkscreen yourself.
+import '@robin-dot-lab/css-candy/candy.css';
 
-`Button`, `Badge`, `Card` et `Window` n'ont ni état ni effet : ils fonctionnent comme server components. `Field`, `Input` et `Tabs` portent `"use client"`.
+import { Button } from '@robin-dot-lab/react';
+```
+
+## Dark theme
+
+Set `data-theme="dark"` on `<html>`. The **Theme** switcher in the toolbar does exactly that.
+
+## Overriding a style
+
+The whole skin lives in the `nl.*` cascade layers: any **unlayered** CSS rule from the application wins, whatever its specificity.
+
+## Client and server components
+
+`Button`, `Badge`, `Card` and `Window` have no state and no effects: they work as server components. `Field`, `Input` and `Tabs` carry `"use client"`.

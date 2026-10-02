@@ -13,8 +13,8 @@ const config: StorybookConfig = {
       ...cfg.resolve,
       alias: {
         ...(cfg.resolve?.alias as Record<string, string>),
-        '@nerdlab/react': fileURLToPath(new URL('../../../packages/react/src/index.ts', import.meta.url)),
-        '@nerdlab/charts': fileURLToPath(new URL('../../../packages/charts/src/index.ts', import.meta.url)),
+        '@robin-dot-lab/react': fileURLToPath(new URL('../../../packages/react/src/index.ts', import.meta.url)),
+        '@robin-dot-lab/charts': fileURLToPath(new URL('../../../packages/charts/src/index.ts', import.meta.url)),
       },
     },
   }),

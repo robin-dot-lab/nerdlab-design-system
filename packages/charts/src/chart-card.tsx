@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, DataTable, type DataTableColumn } from '@nerdlab/react';
+import { Button, Card, DataTable, type DataTableColumn } from '@robin-dot-lab/react';
 import { useState, type ReactNode } from 'react';
 import { slotColor, type Slot } from './lib/types.js';
 

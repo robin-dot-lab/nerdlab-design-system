@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Bubble, Burst, Divider, Pill, Ribbon, Sticker, StickerSmall } from '@nerdlab/react';
+import { Bubble, Burst, Divider, Pill, Ribbon, Sticker, StickerSmall } from '@robin-dot-lab/react';
 
 const meta = {
-  title: 'Composants/Décor',
+  title: 'Components/Decor',
   component: Sticker,
   subcomponents: { Pill, Burst, Bubble, Ribbon, Divider },
 } satisfies Meta<typeof Sticker>;
@@ -21,11 +21,11 @@ export const Pills: Story = {
   ),
 };
 
-/** Deux ou trois mots maximum. Une étoile sans texte est décorative (masquée aux lecteurs d'écran). */
+/** Two or three words at most. A star without text is decorative (hidden from screen readers). */
 export const StickersAndBursts: Story = {
   render: () => (
     <div className="nl-cluster nl-gap-8" style={{ padding: 16 }}>
-      <Sticker>25<StickerSmall>places</StickerSmall></Sticker>
+      <Sticker>25<StickerSmall>spots</StickerSmall></Sticker>
       <Sticker tone="accent" tilt="right" size="lg">Free entry</Sticker>
       <Sticker tone="mint" tilt="none">Sold out</Sticker>
       <Burst>NEW</Burst>
@@ -36,18 +36,18 @@ export const StickersAndBursts: Story = {
   ),
 };
 
-/** Bandeau défilant : lu une fois par les lecteurs d'écran, bouton pause (WCAG 2.2.2), immobile si les animations sont réduites. */
+/** Scrolling band: read once by screen readers, with a pause button (WCAG 2.2.2), still when motion is reduced. */
 export const RibbonBand: Story = {
   parameters: { layout: 'fullscreen' },
-  render: () => <Ribbon items={['Stay nerdy', 'Pixel art', 'Workshops', 'Lyon 04.27']} />,
+  render: () => <Ribbon items={['Stay nerdy', 'Pixel art', 'Workshops', 'Lyon 04.27']} pauseLabel="Pause scrolling" playLabel="Resume scrolling" />,
 };
 
 export const Dividers: Story = {
   render: () => (
     <div style={{ maxWidth: 420 }}>
-      <p>Billet standard</p>
+      <p>Standard ticket</p>
       <Divider />
-      <p>Billet VIP</p>
+      <p>VIP ticket</p>
     </div>
   ),
 };
