@@ -1,0 +1,529 @@
+{
+  "meta": {
+    "name": "Nerdlab Pop",
+    "description": "Retro-pop neo-brutalism: Y2K OS windows, ink outlines, hard offset shadows, pastel paper and candy accents.",
+    "version": "1.0.0",
+    "created": "2026-10-02",
+    "personality": "A zine-meets-desktop aesthetic: everything looks like a sticker or a 2000s OS window pasted on grid paper. Thick ink outlines and hard offset shadows give a tactile, printed feel, while candy pink, sky blue, butter yellow and lavender keep it joyful. Decorations (starbursts, sparkles, pixel bits) are part of the system, not an afterthought.",
+    "references": [
+      "references/WERE NEW.jpg — OS window cards, grid paper, pill CTAs, starbursts",
+      "references/GOCHISO.jpg — Asian pop posters, thick outlines, stickers, info tables",
+      "references/Make money..jpg — chunky condensed headlines, bento grids, dark tiles",
+      "references/2015.3.1 SUn.jpg.jpeg — pixel art, earthy secondary palette, pixel type"
+    ]
+  },
+  "colors": {
+    "ink": {
+      "value": "#1B1525",
+      "usage": "Universal outline, hard shadow and main text color. The backbone of the system."
+    },
+    "primary": {
+      "value": "#FF4FA3",
+      "usage": "Main brand / CTA / key interactive elements. Always paired with ink text + ink outline."
+    },
+    "primary-hover": {
+      "value": "#FF2E8E",
+      "usage": "Hover state for primary"
+    },
+    "primary-soft": {
+      "value": "#FFD3E8",
+      "usage": "Tinted primary backgrounds, selected rows, highlight marker"
+    },
+    "secondary": {
+      "value": "#6BB3E0",
+      "usage": "Supporting actions, secondary buttons, sky panels"
+    },
+    "secondary-hover": {
+      "value": "#4FA0D6",
+      "usage": "Hover state for secondary"
+    },
+    "secondary-soft": {
+      "value": "#D6ECF8",
+      "usage": "Info panels, chat bubbles"
+    },
+    "accent": {
+      "value": "#FFE14D",
+      "usage": "Highlights, starbursts, badges, 'new' stickers, title bars"
+    },
+    "accent-hover": {
+      "value": "#FFD60A",
+      "usage": "Hover state for accent"
+    },
+    "tomato": {
+      "value": "#FF6B35",
+      "usage": "Secondary accent: hearts, urgent stickers, search bars, price tags"
+    },
+    "lavender": {
+      "value": "#C9A7F5",
+      "usage": "Calm feature panels, workshop/learning contexts"
+    },
+    "violet": {
+      "value": "#7B4DFF",
+      "usage": "Bento hero tile, focus ring, links on dark backgrounds"
+    },
+    "mint": {
+      "value": "#9BE3A6",
+      "usage": "Positive panels, tags"
+    },
+    "forest": {
+      "value": "#1E5A3C",
+      "usage": "Deep green tile backgrounds (with mint/cream text)"
+    },
+    "background": {
+      "value": "#FBF3E8",
+      "usage": "Page background (cream paper)"
+    },
+    "background-grid": {
+      "value": "#F6DDD3",
+      "usage": "Blush grid-paper hero sections"
+    },
+    "grid-line": {
+      "value": "#E4BFB2",
+      "usage": "Grid paper lines (24px cell)"
+    },
+    "surface": {
+      "value": "#FFFDF8",
+      "usage": "Card / window body background"
+    },
+    "surface-elevated": {
+      "value": "#FFFFFF",
+      "usage": "Modal / dropdown / popover background"
+    },
+    "surface-sunken": {
+      "value": "#F1E7DA",
+      "usage": "Wells, code blocks, disabled inputs"
+    },
+    "border": {
+      "value": "#1B1525",
+      "usage": "Dividers, input borders, card outlines (always ink, never grey)"
+    },
+    "border-subtle": {
+      "value": "#D9CBBB",
+      "usage": "Inner separators inside a component only"
+    },
+    "text-primary": {
+      "value": "#1B1525",
+      "usage": "Main body text"
+    },
+    "text-secondary": {
+      "value": "#5B5266",
+      "usage": "Captions, labels, placeholders"
+    },
+    "text-on-primary": {
+      "value": "#1B1525",
+      "usage": "Text on primary/secondary/accent backgrounds (ink — not white)"
+    },
+    "text-on-dark": {
+      "value": "#FBF3E8",
+      "usage": "Text on ink / forest / violet tiles"
+    },
+    "success": {
+      "value": "#2DBE6C",
+      "usage": "Positive states (with ink text)"
+    },
+    "warning": {
+      "value": "#FFB020",
+      "usage": "Caution states (with ink text)"
+    },
+    "error": {
+      "value": "#FF4D3D",
+      "usage": "Error states, destructive actions (with ink text)"
+    },
+    "info": {
+      "value": "#6BB3E0",
+      "usage": "Informational states (with ink text)"
+    },
+    "pixel": {
+      "moss": {
+        "value": "#7C9A5A",
+        "usage": "Pixel mode: nature, success"
+      },
+      "bark": {
+        "value": "#5C4A3B",
+        "usage": "Pixel mode: text, outlines (replaces ink)"
+      },
+      "pumpkin": {
+        "value": "#E3812B",
+        "usage": "Pixel mode: CTA"
+      },
+      "sand": {
+        "value": "#E9E1D2",
+        "usage": "Pixel mode: background"
+      },
+      "leaf": {
+        "value": "#C9D77A",
+        "usage": "Pixel mode: highlights"
+      }
+    },
+    "chart": {
+      "usage": "Data viz only. Validated with dataviz validate_palette.js (CVD ΔE ≥ 8, normal-vision ≥ 15). Assign in this fixed order; color follows the entity; text never wears these colors.",
+      "categorical-light": {
+        "value": [
+          "#7B4DFF",
+          "#FF4FA3",
+          "#2E9BD6",
+          "#FF6B35"
+        ],
+        "surface": "#FFFDF8"
+      },
+      "categorical-dark": {
+        "value": [
+          "#8A63FF",
+          "#E04A92",
+          "#3F9AD6",
+          "#D9632F"
+        ],
+        "surface": "#231C2E"
+      },
+      "sequential-light": {
+        "value": [
+          "#F592C0",
+          "#F5639F",
+          "#D9347F",
+          "#A81A5E",
+          "#6E0F3D"
+        ],
+        "usage": "Magnitude: light → dark (heatmaps)"
+      },
+      "sequential-dark": {
+        "value": [
+          "#9E2A63",
+          "#C23A7A",
+          "#E2508F",
+          "#F27DB2",
+          "#F9B3D3"
+        ],
+        "usage": "Magnitude: dark → light on dark surface"
+      },
+      "grid": {
+        "light": "#E8DCCD",
+        "dark": "#362D45",
+        "usage": "1px solid gridlines, never dashed"
+      },
+      "muted": {
+        "light": "#CBBFB0",
+        "dark": "#5A4E6B",
+        "usage": "De-emphasis: sparkline history, 'Other'"
+      },
+      "rules": "Data marks have NO ink outline (2px surface gap instead); bars ≤ 24px thick with 4px rounded data-end; lines 2px; markers ≥ 8px with 2px surface ring; status colors (success/warning/error) reserved for states, always with icon + label."
+    }
+  },
+  "typography": {
+    "font-display": {
+      "family": "Bricolage Grotesque",
+      "fallback": "'Arial Black', system-ui, sans-serif",
+      "source": "https://fonts.google.com/specimen/Bricolage+Grotesque",
+      "usage": "Headlines, weight 800, condensed width (wdth 75), tight tracking -0.03em"
+    },
+    "font-body": {
+      "family": "Outfit",
+      "fallback": "system-ui, sans-serif",
+      "source": "https://fonts.google.com/specimen/Outfit",
+      "usage": "Body, UI labels, pills"
+    },
+    "font-mono": {
+      "family": "Space Mono",
+      "fallback": "ui-monospace, monospace",
+      "source": "https://fonts.google.com/specimen/Space+Mono",
+      "usage": "Eyebrows, metadata, dates, URLs, code — uppercase + letter-spacing 0.08em"
+    },
+    "font-pixel": {
+      "family": "Silkscreen",
+      "fallback": "monospace",
+      "source": "https://fonts.google.com/specimen/Silkscreen",
+      "usage": "Window title bars, game-like counters, pixel mode only. Never for paragraphs."
+    },
+    "scale": {
+      "xs": {
+        "size": "0.75rem",
+        "lineHeight": "1rem",
+        "usage": "Fine print, badges, mono eyebrows"
+      },
+      "sm": {
+        "size": "0.875rem",
+        "lineHeight": "1.25rem",
+        "usage": "Captions, labels, pills"
+      },
+      "base": {
+        "size": "1rem",
+        "lineHeight": "1.5rem",
+        "usage": "Body text"
+      },
+      "lg": {
+        "size": "clamp(1.0625rem, 1.0417rem + 0.1042vw, 1.125rem)",
+        "lineHeight": "1.75rem",
+        "usage": "Lead text, card titles",
+        "fluid": "320px → 1280px"
+      },
+      "xl": {
+        "size": "clamp(1.25rem, 1.2083rem + 0.2083vw, 1.375rem)",
+        "lineHeight": "1.75rem",
+        "usage": "Section sub-headers",
+        "fluid": "320px → 1280px"
+      },
+      "2xl": {
+        "size": "clamp(1.5rem, 1.4167rem + 0.4167vw, 1.75rem)",
+        "lineHeight": "2rem",
+        "usage": "Card display titles",
+        "fluid": "320px → 1280px"
+      },
+      "3xl": {
+        "size": "clamp(2rem, 1.8333rem + 0.8333vw, 2.5rem)",
+        "lineHeight": "2.5rem",
+        "usage": "Section titles",
+        "fluid": "320px → 1280px"
+      },
+      "4xl": {
+        "size": "clamp(2.5rem, 2.1667rem + 1.6667vw, 3.5rem)",
+        "lineHeight": "3.25rem",
+        "usage": "Page headers",
+        "fluid": "320px → 1280px"
+      },
+      "5xl": {
+        "size": "clamp(3.25rem, 2.6667rem + 2.9167vw, 5rem)",
+        "lineHeight": "4.5rem",
+        "usage": "Hero titles",
+        "fluid": "320px → 1280px"
+      },
+      "6xl": {
+        "size": "clamp(4rem, 2.8333rem + 5.8333vw, 7.5rem)",
+        "lineHeight": "6.5rem",
+        "usage": "Poster display (one per page max)",
+        "fluid": "320px → 1280px"
+      }
+    },
+    "weights": {
+      "normal": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700,
+      "black": 800
+    },
+    "tracking": {
+      "display": "-0.03em",
+      "normal": "0",
+      "mono": "0.08em"
+    }
+  },
+  "spacing": {
+    "base-unit": "4px",
+    "scale": {
+      "0": "0",
+      "1": "0.25rem",
+      "2": "0.5rem",
+      "3": "0.75rem",
+      "4": "1rem",
+      "5": "1.25rem",
+      "6": "1.5rem",
+      "8": "2rem",
+      "10": "2.5rem",
+      "12": "3rem",
+      "16": "4rem",
+      "20": "5rem"
+    },
+    "grid-paper-cell": "24px"
+  },
+  "borders": {
+    "radius": {
+      "none": "0",
+      "sm": "6px",
+      "md": "12px",
+      "lg": "20px",
+      "xl": "28px",
+      "full": "9999px"
+    },
+    "width": {
+      "default": "2px",
+      "thick": "3px",
+      "hairline": "1px"
+    }
+  },
+  "shadows": {
+    "sm": {
+      "value": "2px 2px 0 0 #1B1525",
+      "usage": "Hard offset — badges, small pills, inputs"
+    },
+    "md": {
+      "value": "4px 4px 0 0 #1B1525",
+      "usage": "Hard offset — buttons, cards, windows"
+    },
+    "lg": {
+      "value": "8px 8px 0 0 #1B1525",
+      "usage": "Hard offset — modals, hero windows, poster cards"
+    },
+    "soft": {
+      "value": "0 12px 32px -12px rgba(27,21,37,0.35)",
+      "usage": "Bento tiles only (photographic, no outline)"
+    },
+    "glow": {
+      "value": "0 0 0 4px #FFD3E8",
+      "usage": "Focus halo around primary elements"
+    }
+  },
+  "effects": {
+    "backdrop-blur": null,
+    "glass-opacity": null,
+    "press-offset": "translate(2px, 2px) — on :active, reduce shadow by the same amount",
+    "hover-lift": "translate(-2px, -2px) — on :hover, grow shadow by the same amount",
+    "transition-default": "transform 0.12s ease, box-shadow 0.12s ease, background-color 0.2s ease",
+    "transition-slow": "all 0.4s cubic-bezier(.2,.8,.2,1)",
+    "grid-paper": "linear-gradient grid, 24px cells, grid-line color"
+  },
+  "components": {
+    "button": {
+      "primary": {
+        "bg": "primary",
+        "text": "text-on-primary",
+        "radius": "full",
+        "border": "width.default solid ink",
+        "shadow": "md",
+        "padding": "spacing.3 spacing.6",
+        "font": "font-body semibold"
+      },
+      "secondary": {
+        "bg": "secondary",
+        "text": "text-on-primary",
+        "radius": "full",
+        "border": "width.default solid ink",
+        "shadow": "md"
+      },
+      "accent": {
+        "bg": "accent",
+        "text": "text-on-primary",
+        "radius": "full",
+        "border": "width.default solid ink",
+        "shadow": "md"
+      },
+      "outline": {
+        "bg": "surface",
+        "text": "ink",
+        "radius": "full",
+        "border": "width.default solid ink",
+        "shadow": "none"
+      },
+      "ghost": {
+        "bg": "transparent",
+        "text": "ink",
+        "radius": "full",
+        "border": "none"
+      },
+      "pixel": {
+        "bg": "pixel.pumpkin",
+        "text": "surface",
+        "radius": "none",
+        "border": "stepped pixel border (box-shadow)",
+        "font": "font-pixel"
+      }
+    },
+    "window": {
+      "bg": "surface",
+      "radius": "md",
+      "border": "width.default solid ink",
+      "shadow": "md",
+      "titlebar": {
+        "bg": "accent | secondary | primary | lavender",
+        "height": "spacing.8",
+        "font": "font-pixel xs",
+        "controls": "_ □ × in ink"
+      }
+    },
+    "card": {
+      "bg": "surface",
+      "radius": "lg",
+      "shadow": "md",
+      "padding": "spacing.6",
+      "border": "width.default solid ink"
+    },
+    "bento-tile": {
+      "bg": "any palette color or photo",
+      "radius": "xl",
+      "shadow": "soft",
+      "padding": "spacing.6",
+      "border": "none",
+      "footer": "label sm + arrow →"
+    },
+    "input": {
+      "bg": "surface",
+      "border": "width.default solid ink",
+      "radius": "md",
+      "text": "text-primary",
+      "placeholder": "text-secondary",
+      "shadow": "sm",
+      "focus-ring": "glow + border violet"
+    },
+    "pill": {
+      "bg": "surface",
+      "border": "width.default solid ink",
+      "radius": "full",
+      "padding": "spacing.2 spacing.4",
+      "font": "font-body medium sm uppercase"
+    },
+    "badge": {
+      "bg": "accent | primary | mint | lavender",
+      "border": "width.default solid ink",
+      "radius": "sm",
+      "shadow": "sm",
+      "font": "font-mono xs uppercase"
+    },
+    "sticker": {
+      "bg": "any accent",
+      "border": "width.thick solid ink",
+      "radius": "full",
+      "rotation": "-6deg to 6deg",
+      "shadow": "md"
+    },
+    "starburst": {
+      "fill": "accent | primary",
+      "stroke": "ink",
+      "stroke-width": "2",
+      "points": 12
+    }
+  },
+  "responsive": {
+    "strategy": "Mobile-first. Base styles target small screens; enhance with min-width media queries for page layout and container queries for components.",
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px",
+      "2xl": "1536px",
+      "note": "Content-driven; CSS custom properties can't be used in @media, so these values are the contract."
+    },
+    "fluid-spacing": {
+      "space-fluid-xs": "clamp(0.5rem, 0.4167rem + 0.4167vw, 0.75rem)",
+      "space-fluid-sm": "clamp(0.75rem, 0.5833rem + 0.8333vw, 1.25rem)",
+      "space-fluid-md": "clamp(1rem, 0.8333rem + 0.8333vw, 1.5rem)",
+      "space-fluid-lg": "clamp(1.5rem, 1.1667rem + 1.6667vw, 2.5rem)",
+      "space-fluid-xl": "clamp(2rem, 1.3333rem + 3.3333vw, 4rem)",
+      "space-gutter": "clamp(1rem, 0.5rem + 2.5vw, 2.5rem)",
+      "section-y": "clamp(3rem, 2.3333rem + 3.3333vw, 5rem)",
+      "usage": "Fluid tokens for layout (gutters, section rhythm, grid gaps). Component internals keep the fixed 4px scale."
+    },
+    "touch-target": {
+      "value": "44px",
+      "usage": "Min height/width of interactive elements on (pointer: coarse)"
+    },
+    "containers": {
+      "auto": ".nl-card, .nl-window, .nl-bento, .nl-cq, .nl-table-wrap are inline-size containers",
+      "examples": [
+        "KPI numbers: font-size clamp(1.75rem, 15cqi, 2.5rem)",
+        ".nl-info stacks below 22rem",
+        ".nl-table--stack turns rows into cards below 40rem",
+        "Dashboard grids query .main (container 'main'), not the viewport"
+      ]
+    },
+    "primitives": [
+      ".nl-container",
+      ".nl-section",
+      ".nl-stack",
+      ".nl-cluster",
+      ".nl-grid-auto (--grid-min)",
+      ".nl-split (--split, lg+)",
+      ".nl-full-height (100dvh)",
+      ".nl-scroll-x"
+    ],
+    "navigation": ".nl-nav-toggle + .nl-nav-panel (below lg); toggled with aria-expanded / data-open, closes on Escape, link click, and when crossing lg",
+    "viewport-units": "Use dvh/svh with a vh fallback, never bare 100vh",
+    "logical-properties": "margin/padding/border use inline/block (margin-inline-start, border-block-end…)"
+  }
+}

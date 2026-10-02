@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nerdlab Ultramarine</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+  /* Showcase-only layout */
+  html { scroll-behavior: smooth; }
+  .wrap { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--space-gutter); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .center { text-align: center; }
+
+  /* Top nav (spread links + centered crest) */
+  /* mobile-first: crest + MENU; full spread nav from lg */
+  .topnav { position: relative; display: flex; align-items: center; justify-content: space-between; padding: var(--space-4) 0; }
+  .topnav__side { display: none; }
+  .topnav .nl-nav-panel[data-open="true"] { position: absolute; inset-block-start: 100%; inset-inline: calc(var(--space-gutter) * -1); }
+  @media (min-width: 1024px) {
+    .topnav { display: grid; grid-template-columns: 1fr auto 1fr; padding: var(--space-6) 0 var(--space-4); }
+    .topnav__side { display: flex; justify-content: space-around; gap: var(--space-4); }
+  }
+  .topnav a { color: var(--color-text-primary); text-decoration: none; }
+  .topnav a.nl-eyebrow:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .crest { width: 44px; height: 52px; display: grid; place-items: center; border: var(--border); outline: 1px solid var(--color-line); outline-offset: 2px; font-family: var(--font-display); font-weight: 300; font-size: 20px; line-height: .9; text-align: center; }
+
+  .chrome { max-width: 520px; margin: 0 auto; }
+  .chrome .nl-window__bar { background: var(--color-surface); border-block-end: 0; }
+  .theme-switch { display: inline-flex; gap: 3px; }
+  .theme-switch button { width: 16px; height: 16px; padding: 0; display: grid; place-items: center; border: 1px solid currentColor; background: transparent; color: inherit; font-size: 9px; cursor: pointer; }
+  .theme-switch button[aria-pressed="true"] { background: var(--color-text-primary); color: var(--color-background); }
+
+  /* Hero */
+  .hero { padding-block: var(--space-fluid-xl) var(--section-y); }
+  .hero__title { font-size: clamp(4rem, 15vw, var(--text-6xl)); margin: var(--space-4) 0 var(--space-6); }
+  .hero__lead { max-width: 30rem; margin: 0 auto var(--space-3); font-size: var(--text-sm); }
+  .hero__ctas { display: flex; justify-content: center; gap: var(--space-2); margin-block-start: var(--space-6); flex-wrap: wrap; }
+
+  /* Blue band */
+  .band { margin-inline: var(--space-fluid-sm); }
+  .band__art { height: clamp(260px, 38vw, 520px); }
+  .band__title { font-size: clamp(3.5rem, 11vw, var(--text-5xl)); text-align: center; padding: var(--space-8) var(--space-4) var(--space-12); }
+  .row { display: grid; gap: var(--space-8); align-items: center; padding: var(--space-8) 0; }
+  @media (min-width: 1024px) { .row { grid-template-columns: 1fr 1.6fr; } .row--flip { grid-template-columns: 1.6fr 1fr; } .row--flip .row__text { order: 2; } }
+  .row__text { padding: 0 var(--space-6); display: grid; gap: var(--space-3); max-width: 26rem; }
+  @media (min-width: 1024px) { .row__text { padding: 0 var(--space-6) 0 var(--space-16); } .row--flip .row__text { padding: 0 var(--space-16) 0 var(--space-6); } }
+  .row__text h3 { font-size: var(--text-2xl); line-height: 1.05; }
+  .row__text p { margin: 0; font-size: var(--text-sm); }
+  .row__art { height: 260px; }
+
+  /* Sections */
+  section.block { padding-block: var(--section-y); }
+  .sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-4); padding-block-end: var(--space-6); margin-block-end: var(--space-10); border-block-end: var(--border); }
+  .sec-head h2 { font-size: clamp(3rem, 7vw, var(--text-3xl)); }
+  .sec-head h2 sup { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 400; vertical-align: top; margin-inline-start: 6px; letter-spacing: var(--tracking-mono); }
+  .sec-head p { max-width: 26rem; margin: 0; font-size: var(--text-sm); color: var(--color-text-secondary); }
+  h3.sub { display: flex; align-items: center; gap: var(--space-3); margin: var(--space-12) 0 var(--space-4); }
+  h3.sub::after { content: ""; flex: 1; border-block-start: var(--border-soft); }
+
+  /* Colors */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr)); gap: 0; border-block-start: var(--border-soft); border-inline-start: var(--border-soft); }
+  .swatch { all: unset; cursor: pointer; display: grid; border-inline-end: var(--border-soft); border-block-end: var(--border-soft); background: var(--color-surface); }
+  .swatch:focus-visible { outline: 2px solid var(--color-violet); outline-offset: -2px; }
+  .swatch__chip { height: 96px; }
+  .swatch__meta { padding: var(--space-3); display: grid; gap: 2px; font-size: var(--text-sm); }
+  .swatch__meta code { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); }
+  .swatch:hover .swatch__meta { background: var(--color-primary-soft); }
+
+  /* Type */
+  .type-grid { display: grid; gap: 0; border-block-start: var(--border-soft); }
+  .type-row { display: grid; gap: var(--space-4); padding: var(--space-6) 0; border-block-end: var(--border-soft); align-items: baseline; }
+  @media (min-width: 768px) { .type-row { grid-template-columns: 220px 1fr; } }
+  .type-row > * { min-width: 0; overflow-wrap: anywhere; }
+
+  /* Spacing */
+  .tri { display: grid; gap: var(--space-6); }
+  @media (min-width: 1024px) { .tri { grid-template-columns: repeat(3, 1fr); } }
+  .tri > * { min-width: 0; }
+  .space-row { display: grid; grid-template-columns: 64px 44px minmax(0, 1fr); gap: var(--space-3); align-items: center; padding: 3px 0; font-family: var(--font-mono); font-size: var(--text-xs); }
+  .space-bar { height: 10px; background: var(--color-primary); }
+
+  /* Components */
+  .comp-grid { display: grid; gap: var(--space-6); }
+  @media (min-width: 1024px) { .comp-grid { grid-template-columns: repeat(2, 1fr); } }
+  .comp-grid > *, .stack > * { min-width: 0; }
+  .hrow { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+  .stack { display: grid; gap: var(--space-4); }
+
+  /* Features */
+  .features { display: grid; gap: var(--space-12) var(--space-6); grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); }
+  .feature-art { aspect-ratio: 1; }
+
+  /* Install hero (inverted) */
+  .install { padding-block: var(--section-y); }
+  .install__grid { display: grid; gap: var(--space-10); align-items: center; }
+  @media (min-width: 1024px) { .install__grid { grid-template-columns: 1fr 1fr; } }
+  .install__grid > * { min-width: 0; }
+  .install h2 { font-size: clamp(3.5rem, 8vw, var(--text-4xl)); }
+  .cmd { border: 1px solid var(--color-border-subtle); background: rgba(0, 0, 0, .18); }
+  .cmd .nl-tabs { border: 0; border-block-end: 1px solid var(--color-border-subtle); display: flex; }
+  .cmd .nl-tab { flex: 1; border-inline-end-color: var(--color-border-subtle); }
+  .cmd__line { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .cmd__line code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; }
+  .install__art { aspect-ratio: 1; border: 1px solid var(--color-border-subtle); }
+  .stage { position: relative; margin-block-start: var(--space-16); height: clamp(320px, 42vw, 540px); }
+  .stage .nl-terminal { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(520px, 88%); }
+  .os-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); margin-block-start: var(--space-6); }
+  .os { position: relative; aspect-ratio: 1.3; display: grid; place-items: center; text-align: center; }
+  .os canvas { position: absolute; inset: 0; opacity: .45; }
+  .os > div { background: #0000F2; padding: var(--space-4) var(--space-6); }
+  .os > div { position: relative; display: grid; gap: var(--space-3); justify-items: center; }
+
+  footer { padding: var(--space-20) 0 var(--space-10); }
+  footer .nl-display { font-size: clamp(4rem, 16vw, var(--text-6xl)); }
+
+  .copied { position: fixed; bottom: var(--space-6); left: 50%; transform: translateX(-50%) translateY(160%); transition: var(--transition-slow); z-index: 100; }
+  .copied.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<div class="wrap">
+  <nav class="topnav" aria-label="Sections">
+    <div class="topnav__side"><a class="nl-eyebrow" href="#colors">Couleurs</a><a class="nl-eyebrow" href="#type">Typo</a><a class="nl-eyebrow" href="#components">Composants</a></div>
+    <a class="crest" href="#top" aria-label="Accueil">NL<br>LAB</a>
+    <div class="topnav__side"><a class="nl-eyebrow" href="#features">Features</a><a class="nl-eyebrow" href="#faq">FAQ</a><a class="nl-eyebrow" href="dashboard-preview.html">Dashboard ↗</a></div>
+    <button class="nl-nav-toggle" data-nav-toggle aria-controls="mobileNav" aria-expanded="false"><span class="nl-nav-toggle__icon" aria-hidden="true"></span>Menu</button>
+    <div class="nl-nav-panel" id="mobileNav">
+      <a href="#colors">Couleurs <span>01</span></a><a href="#type">Typographie <span>02</span></a><a href="#space">Espace <span>03</span></a><a href="#components">Composants <span>04</span></a><a href="#features">Features <span>05</span></a><a href="#faq">FAQ <span>06</span></a><a href="dashboard-preview.html">Dashboard <span>↗</span></a>
+    </div>
+  </nav>
+  <div class="nl-window chrome">
+    <div class="nl-window__bar">
+      <span class="nl-muted">Ultramarine · <span style="opacity:.7">Design system v2</span></span>
+      <span style="display:flex;align-items:center;gap:var(--space-2)">Toggle
+        <span class="theme-switch"><button id="tLight" aria-label="Thème clair" aria-pressed="true">☀</button><button id="tDark" aria-label="Thème sombre" aria-pressed="false">☾</button></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero center" id="top">
+  <div class="wrap">
+    <span class="nl-eyebrow">Open lab <span aria-hidden="true">•</span> One ink system</span>
+    <h1 class="nl-display hero__title">Nerdlab</h1>
+    <p class="hero__lead">Un design system monochrome : un seul bleu outremer sur papier froid, des titres ultra-condensés, des filets d'un pixel et des images tramées.</p>
+    <p class="hero__lead">Pour des interfaces qui ressemblent à une publication de labo, pas à un template.</p>
+    <div class="hero__ctas"><a class="nl-btn" href="#colors">Lire la spec</a><a class="nl-btn nl-btn--primary" href="dashboard-preview.html">Voir le dashboard</a></div>
+  </div>
+</header>
+
+<!-- ============ BLUE BAND ============ -->
+<section class="band nl-invert" aria-label="Manifeste">
+  <div class="nl-dither band__art" data-scene="rays" data-seed="3"></div>
+  <h2 class="nl-display band__title">One ink, all signal</h2>
+  <div class="wrap" style="padding-block-end:var(--space-12)">
+    <div class="row">
+      <div class="row__text"><span class="nl-eyebrow">Couleur</span><h3 class="nl-headline">Un seul bleu, partout</h3><p>Texte, filets, boutons, images : tout est imprimé dans la même encre. L'emphase se fait par inversion, jamais par une nouvelle couleur.</p></div>
+      <div class="nl-dither row__art nl-glitch-edge" data-scene="waves" data-seed="9"></div>
+    </div>
+    <div class="row row--flip">
+      <div class="row__text"><span class="nl-eyebrow">Typographie</span><h3 class="nl-headline">Fin, haut, condensé</h3><p>Des titres en Antonio 200 qui crient par la taille et non par la graisse ; des étiquettes mono minuscules qui annotent.</p></div>
+      <div class="nl-dither row__art" data-scene="orb" data-seed="4"></div>
+    </div>
+    <div class="row">
+      <div class="row__text"><span class="nl-eyebrow">Image</span><h3 class="nl-headline">Tramé en 1-bit</h3><p>Aucune photo en couleur. Les visuels passent par un dithering ordonné Bayer 4×4 en trois tons d'outremer.</p></div>
+      <div class="nl-dither row__art" data-scene="stairs" data-seed="2"></div>
+    </div>
+  </div>
+</section>
+
+<div class="nl-ribbon" style="margin-block-start:var(--space-12)" aria-hidden="true"><div class="nl-ribbon__track" id="ribbon"></div></div>
+
+<main>
+<!-- ============ COLORS ============ -->
+<section class="block" id="colors">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="nl-headline">Couleurs<sup>01</sup></h2><p>Monochrome par principe. Le bleu porte le texte (8,2:1 sur papier). Les couleurs « glitch » ne servent qu'en liseré d'image et dans les graphes. Clique pour copier.</p></div>
+    <h3 class="sub nl-eyebrow">Encre &amp; papier</h3>
+    <div class="swatches" data-swatches="base"></div>
+    <h3 class="sub nl-eyebrow">Accents rares &amp; statuts</h3>
+    <div class="swatches" data-swatches="extra"></div>
+    <h3 class="sub nl-eyebrow">Data viz (validée CVD)</h3>
+    <div class="swatches" data-swatches="chart"></div>
+  </div>
+</section>
+
+<!-- ============ TYPE ============ -->
+<section class="block" id="type" style="padding-block-start:0">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="nl-headline">Typographie<sup>02</sup></h2><p>Antonio (substitut de Rules Gothic Condensed), Geist pour le texte, Geist Mono pour les métadonnées.</p></div>
+    <div class="type-grid">
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Display · Antonio 200 · 6xl</span><span class="nl-display" style="font-size:clamp(4rem,12vw,var(--text-6xl))">Signal</span></div>
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Display · 200 · 4xl</span><span class="nl-display" style="font-size:clamp(3rem,8vw,var(--text-4xl))">The lab's own system</span></div>
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Section · Antonio 300 · 3xl</span><span class="nl-headline" style="font-size:var(--text-3xl)">Desktop App</span></div>
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Card title · 300 · xl</span><span class="nl-headline" style="font-size:var(--text-xl)">Persistent Memory</span></div>
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Lead · Geist 400 · lg</span><span style="font-size:var(--text-lg)">We build tools that make every great idea easier to ship.</span></div>
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Body · Geist 400 · base</span><span>Le texte courant reste compact et sobre : 15px, interligne 24px, toujours en bleu. Les liens sont soulignés au survol.</span></div>
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Meta · Geist Mono 500 · xs</span><span class="nl-eyebrow">Open source • MIT license • batch 2026</span></div>
+      <div class="type-row"><span class="nl-eyebrow nl-muted">Mono · sm</span><span style="font-family:var(--font-mono);font-size:var(--text-sm)">curl -fsSL https://nerdlab.dev/install.sh | bash</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPACE ============ -->
+<section class="block nl-grid-paper" id="space">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="nl-headline">Espace &amp; forme<sup>03</sup></h2><p>Base 4px. Coins carrés partout. Pas d'ombre : la hiérarchie vient des filets et de l'inversion.</p></div>
+    <div class="tri">
+      <div class="nl-window"><div class="nl-window__bar"><span>Spacing</span><span class="nl-window__controls"><span>×</span></span></div><div class="nl-window__body" id="spacing"></div></div>
+      <div class="nl-window"><div class="nl-window__bar"><span>Lines</span><span class="nl-window__controls"><span>×</span></span></div>
+        <div class="nl-window__body stack">
+          <div><span class="nl-eyebrow nl-muted">Structure · 1px ultramarine</span><hr class="nl-rule" style="margin-block-start:8px"></div>
+          <div><span class="nl-eyebrow nl-muted">Séparateur · 1px subtle</span><hr class="nl-rule" style="margin-block-start:8px;border-color:var(--color-border-subtle)"></div>
+          <div><span class="nl-eyebrow nl-muted">Pointillé · 1px dashed</span><hr class="nl-divider-dashed" style="margin:8px 0 0"></div>
+          <div><span class="nl-eyebrow nl-muted">Radius · 0 / 2px / terminal 8px</span><div class="hrow" style="margin-block-start:8px"><span style="width:40px;height:40px;border:var(--border)"></span><span style="width:40px;height:40px;border:var(--border);border-radius:2px"></span><span style="width:40px;height:40px;border:var(--border);border-radius:8px"></span></div></div>
+        </div>
+      </div>
+      <div class="nl-window"><div class="nl-window__bar nl-window__bar--primary"><span>Elevation</span><span class="nl-window__controls"><span>×</span></span></div>
+        <div class="nl-window__body stack">
+          <div class="nl-card" style="padding:var(--space-3)"><span class="nl-eyebrow">0 · flat + hairline</span></div>
+          <div class="nl-invert" style="padding:var(--space-3)"><span class="nl-eyebrow">1 · inversion</span></div>
+          <div class="nl-card" style="padding:var(--space-3);box-shadow:var(--shadow-lg)"><span class="nl-eyebrow">2 · flottant (terminal, modal)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPONENTS ============ -->
+<section class="block" id="components">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="nl-headline">Composants<sup>04</sup></h2><p>Petits, carrés, en mono majuscule. Même API <code>nl-*</code> que Nerdlab Pop.</p></div>
+
+    <h3 class="sub nl-eyebrow">Boutons</h3>
+    <div class="hrow">
+      <button class="nl-btn">Read mission</button>
+      <button class="nl-btn nl-btn--primary">The lab's own AI</button>
+      <button class="nl-btn nl-btn--outline">Outline</button>
+      <button class="nl-btn nl-btn--ghost">View docs ↗</button>
+      <button class="nl-btn nl-btn--primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.3.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.8-4.2zM13.9 5.1c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>Download for macOS</button>
+      <button class="nl-btn" disabled>Disabled</button>
+    </div>
+    <div class="hrow" style="margin-block-start:var(--space-4)">
+      <button class="nl-btn nl-btn--primary nl-btn--sm">Small</button>
+      <button class="nl-btn nl-btn--primary nl-btn--lg">Large CTA</button>
+      <button class="nl-btn nl-btn--outline nl-btn--square" aria-label="Copier">⧉</button>
+      <button class="nl-btn nl-btn--pixel">Dashed</button>
+      <span class="nl-invert" style="padding:var(--space-3);display:inline-flex;gap:var(--space-2)"><button class="nl-btn nl-btn--invert">Invert CTA</button><button class="nl-btn">Secondary</button></span>
+    </div>
+
+    <div class="comp-grid" style="margin-block-start:var(--space-10)">
+      <div class="nl-window">
+        <div class="nl-window__bar"><span>Sign_up</span><span class="nl-window__controls"><span>_</span><span>□</span><span>×</span></span></div>
+        <form class="nl-window__body stack" onsubmit="event.preventDefault();toast('Inscription envoyée')">
+          <div class="nl-field"><label class="nl-label" for="f1">Nom</label><input class="nl-input" id="f1" placeholder="Ada Lovelace"></div>
+          <div class="nl-field"><label class="nl-label" for="f2">Email</label><input class="nl-input nl-input--error" id="f2" value="ada@nerdlab" aria-invalid="true"><span class="nl-help nl-help--error">Domaine manquant.</span></div>
+          <div class="nl-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="7"/><path d="M15 15l6 6"/></svg><input placeholder="Search docs" aria-label="Rechercher"><span class="nl-eyebrow nl-muted">⌘K</span></div>
+          <label class="hrow" style="gap:var(--space-2);font-size:var(--text-sm)"><input type="checkbox" class="nl-check" checked> Recevoir les release notes</label>
+          <div><button class="nl-btn nl-btn--primary">Rejoindre</button></div>
+        </form>
+      </div>
+
+      <div class="stack" style="gap:var(--space-6)">
+        <div class="nl-card stack">
+          <span class="nl-eyebrow nl-muted">Tags &amp; badges</span>
+          <div class="hrow" style="gap:var(--space-2)"><span class="nl-pill nl-pill--filled">Mentoring</span><span class="nl-pill">Free coffee</span><span class="nl-pill">3 hours learning</span></div>
+          <div class="hrow" style="gap:var(--space-2)"><span class="nl-badge">New</span><span class="nl-badge nl-badge--secondary">Beta</span><span class="nl-badge nl-badge--tomato">v2.0</span><span class="nl-badge nl-badge--success">✓ Live</span><span class="nl-badge nl-badge--warning">◷ Pending</span><span class="nl-badge nl-badge--error">! Down</span></div>
+        </div>
+        <div class="nl-card stack">
+          <span class="nl-eyebrow nl-muted">Contrôles</span>
+          <div class="nl-tabs" role="tablist" id="demoTabs"><button class="nl-tab" role="tab" aria-selected="true">macOS</button><button class="nl-tab" role="tab" aria-selected="false">Linux</button><button class="nl-tab" role="tab" aria-selected="false">Windows</button></div>
+          <div class="hrow" style="font-size:var(--text-sm)"><input type="checkbox" class="nl-toggle" checked aria-label="Sync"> Sync <input type="checkbox" class="nl-toggle" aria-label="Zen" style="margin-inline-start:var(--space-4)"> Zen mode</div>
+          <div class="nl-progress"><span style="width:62%"></span></div>
+          <div class="nl-progress nl-progress--pixel"><span style="width:40%"></span></div>
+        </div>
+      </div>
+
+      <div class="nl-terminal" style="align-self:start">
+        <div class="nl-terminal__bar">Terminal — zsh</div>
+        <div class="nl-terminal__body"><span class="nl-terminal__prompt">~ %</span> nerdlab init<br><span style="opacity:.6">✓ tokens loaded (ultramarine)<br>✓ 42 components ready</span><br><span class="nl-terminal__prompt">~ %</span> <span id="typed"></span><span class="nl-caret"></span></div>
+      </div>
+
+      <div class="stack">
+        <dl class="nl-info"><dt>Place</dt><dd>Nerdlab 378 — Lyon</dd><dt>Date</dt><dd>24.04.2026 · 11h–19h</dd><dt>Access</dt><dd>Certificate &amp; class access</dd></dl>
+        <div class="nl-toast"><span class="nl-toast__icon">✓</span><div><b>Agent déployé</b><div class="nl-help">Disponible sur 4 plateformes.</div></div></div>
+        <div class="hrow" style="gap:var(--space-6)"><span class="nl-stamp">Open<br>source<br>✦</span><span class="nl-sparkle" style="width:32px"></span><span class="nl-sparkle" style="width:16px"></span><span class="nl-bubble">Hello</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="block" id="features" style="background:var(--color-surface-sunken)">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="nl-headline">Features<sup>05</sup></h2><p>Grille numérotée : label mono, titre condensé, texte court, image tramée carrée.</p></div>
+    <div class="features" id="features-grid"></div>
+  </div>
+</section>
+
+<!-- ============ INSTALL (inverted) ============ -->
+<section class="nl-invert install">
+  <div class="wrap">
+    <div class="install__grid">
+      <div class="stack" style="gap:var(--space-6)">
+        <h2 class="nl-display">The system that grows with you</h2>
+        <div class="hrow" style="gap:var(--space-2)"><button class="nl-btn nl-btn--invert">Download tokens</button><button class="nl-btn">Deploy to the cloud</button></div>
+        <div class="stack" style="gap:var(--space-2)">
+          <span class="nl-eyebrow nl-muted">Install via terminal</span>
+          <div class="cmd">
+            <div class="nl-tabs" role="tablist" id="osTabs"><button class="nl-tab" role="tab" aria-selected="true" data-cmd="curl -fsSL https://nerdlab.dev/install.sh | bash">macOS</button><button class="nl-tab" role="tab" aria-selected="false" data-cmd="curl -fsSL https://nerdlab.dev/install.sh | sh">Linux</button><button class="nl-tab" role="tab" aria-selected="false" data-cmd="iwr https://nerdlab.dev/install.ps1 | iex">Windows</button></div>
+            <div class="cmd__line"><code id="cmd">curl -fsSL https://nerdlab.dev/install.sh | bash</code><button class="nl-btn nl-btn--square nl-btn--sm" id="copyCmd" aria-label="Copier la commande">⧉</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="nl-dither install__art" data-scene="tunnel" data-seed="5"></div>
+    </div>
+
+    <div class="nl-dither stage" data-scene="noise" data-seed="12">
+      <div class="nl-terminal"><div class="nl-terminal__bar">Terminal — zsh</div><div class="nl-terminal__body"><span class="nl-terminal__prompt">~ %</span> nerdlab desktop<span class="nl-caret"></span></div></div>
+    </div>
+
+    <div class="center" style="margin-block-start:var(--space-16)">
+      <h2 class="nl-headline" style="font-size:clamp(2.5rem,6vw,var(--text-3xl))">Desktop App</h2>
+      <p class="nl-muted" style="font-size:var(--text-sm)">Disponible sur tous les ordinateurs.</p>
+    </div>
+    <div class="os-grid">
+      <div class="nl-dither os" data-scene="orb" data-seed="21"><div><span class="nl-eyebrow nl-muted">macOS 12+</span><span class="nl-headline" style="font-size:var(--text-2xl)">Mac OS</span><button class="nl-btn nl-btn--invert nl-btn--sm">Download app</button></div></div>
+      <div class="nl-dither os" data-scene="waves" data-seed="22"><div><span class="nl-eyebrow nl-muted">Windows 10/11</span><span class="nl-headline" style="font-size:var(--text-2xl)">Windows</span><button class="nl-btn nl-btn--invert nl-btn--sm">Download app</button></div></div>
+      <div class="nl-dither os" data-scene="rays" data-seed="23"><div><span class="nl-eyebrow nl-muted">Any distro</span><span class="nl-headline" style="font-size:var(--text-2xl)">Linux</span><button class="nl-btn nl-btn--invert nl-btn--sm">Install via terminal</button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="block" id="faq">
+  <div class="wrap">
+    <div class="sec-head" style="border-block-end:0;margin-block-end:var(--space-4)"><h2 class="nl-headline">FAQs<sup>06</sup></h2><a class="nl-btn nl-btn--ghost" href="design-system.md">View docs</a></div>
+    <div class="nl-accordion">
+      <details open><summary>Pourquoi un seul bleu ?</summary><div>Parce que la contrainte crée l'identité. L'emphase se fait par la taille (titres géants), par l'inversion (bandeaux bleus) et par la trame des images, pas par une palette.</div></details>
+      <details><summary>Quelles polices remplacent les originales ?</summary><div>Rules Gothic Condensed → Antonio, Rules → Geist, Aeonik Fono → Geist Mono. Toutes gratuites sur Google Fonts.</div></details>
+      <details><summary>Et les graphes, en monochrome ?</summary><div>Les données ont besoin de teintes distinctes : 4 couleurs catégorielles validées (outremer, magenta, cyan, ambre) et une rampe séquentielle bleue. Voir le dashboard.</div></details>
+      <details><summary>Le dark mode ?</summary><div>Un bleu nuit (#07071F) avec des surfaces #0E0E33. Le bleu plein reste réservé aux sections inversées, dans les deux thèmes.</div></details>
+      <details><summary>Est-ce compatible avec Nerdlab Pop ?</summary><div>Oui : mêmes classes nl-*, mêmes noms de variables. Remplacer la feuille de style suffit à changer de peau.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="nl-invert">
+  <div class="wrap stack" style="gap:var(--space-10)">
+    <div class="nl-display">Nerdlab</div>
+    <div class="hrow" style="justify-content:space-between">
+      <span class="nl-eyebrow nl-muted">design-tokens.json · design-system.css · design-system.md</span>
+      <span class="nl-eyebrow nl-muted">Ultramarine v2.0.0 — 2026</span>
+    </div>
+  </div>
+</footer>
+
+<div class="nl-toast copied" id="copied" role="status" aria-live="polite"><span class="nl-toast__icon">✓</span><b id="copiedText">Copié</b></div>
+
+<script>
+/* ---------- Theme ---------- */
+const root = document.documentElement;
+function setTheme(dark) {
+  root.dataset.theme = dark ? 'dark' : 'light';
+  document.getElementById('tLight').setAttribute('aria-pressed', !dark);
+  document.getElementById('tDark').setAttribute('aria-pressed', dark);
+  try { localStorage.setItem('nlu-theme', dark ? 'dark' : 'light'); } catch (e) {}
+}
+let saved = null; try { saved = localStorage.getItem('nlu-theme'); } catch (e) {}
+setTheme(saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
+document.getElementById('tLight').onclick = () => setTheme(false);
+document.getElementById('tDark').onclick = () => setTheme(true);
+
+/* ---------- Toast ---------- */
+const toastEl = document.getElementById('copied'); let tt;
+function toast(msg) { document.getElementById('copiedText').textContent = msg; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 1600); }
+
+/* ---------- Ribbon ---------- */
+const words = ['Open source', '✦', 'MIT license', '✦', 'One ink', '✦', 'Hairline grid', '✦', 'Dithered imagery', '✦', 'Square corners', '✦'];
+document.getElementById('ribbon').innerHTML = [...words, ...words, ...words].map(w => `<span>${w}</span>`).join('');
+
+/* =====================================================================
+   Dither generator — ordered Bayer 4×4, 3 tones of ultramarine.
+   Scenes are procedural (no external images).
+   ===================================================================== */
+const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v + .5) / 16);
+const TONES = [[0, 0, 242], [110, 116, 255], [255, 255, 255]];
+function rng(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function valueNoise(seed) {
+  const r = rng(seed), P = Array.from({ length: 256 }, r);
+  const at = (x, y) => P[((x * 73856093) ^ (y * 19349663)) & 255];
+  const s = t => t * t * (3 - 2 * t);
+  return (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = s(x - xi), yf = s(y - yi);
+    const a = at(xi, yi), b = at(xi + 1, yi), c = at(xi, yi + 1), d = at(xi + 1, yi + 1);
+    return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf; };
+}
+const SCENES = {
+  rays(u, v, n, r, k) { const dx = (u - .5) * k, dy = v - .55, a = Math.atan2(dy, dx), d = Math.hypot(dx, dy * 1.2);
+    const ray = Math.pow(Math.abs(Math.sin(a * 36 + r)), 18) * Math.max(0, 1 - d * 1.3);
+    const ring = Math.exp(-Math.pow((d - .22) * 40, 2)) * .9 + Math.exp(-Math.pow((d - .34) * 60, 2)) * .5;
+    return Math.min(1, ray * .9 + ring + Math.max(0, .55 - d * 2.2) + n(u * 8, v * 8) * .12); },
+  orb(u, v, n, r, k) { const dx = (u - .55) * k, dy = v - .5, d = Math.hypot(dx, dy) / .34;
+    if (d > 1) return .08 + .1 * n(u * 30, v * 30) + (Math.abs(Math.sin(v * 90)) > .97 ? .3 : 0);
+    const z = Math.sqrt(1 - d * d), lx = -.5, ly = -.6, lz = .62;
+    return Math.max(0, (dx / .34 * lx + dy / .34 * ly + z * lz)) * .95 + .05; },
+  waves(u, v, n) { return .5 + .5 * Math.sin(u * 26 + Math.sin(v * 9 + n(u * 3, v * 3) * 4) * 2.4) * (0.4 + v * .6) - (1 - v) * .2; },
+  stairs(u, v) { const h = .38; if (v < h) return (1 - v / h) * .55 + (Math.abs(u - .5) < .02 ? .5 : 0);
+    const t = (v - h) / (1 - h), x = (u - .5) / (t + .05); const step = Math.floor(Math.log(t + .02) * 9);
+    return Math.abs(x) < 1.6 ? (step % 2 ? .85 : .45) * (1 - Math.abs(x) / 2) : .12 + t * .1; },
+  tunnel(u, v, n, r, k) { const dx = (u - .5) * k, dy = v - .5, d = Math.max(Math.abs(dx), Math.abs(dy)), z = 1 / (d + .02);
+    return (Math.floor(z * 1.1) % 2 ? .9 : .2) * Math.min(1, d * 3.2) + (d < .05 ? 1 : 0) + n(u * 20, v * 20) * .08; },
+  noise(u, v, n) { let f = 0, a = .5, s = 3; for (let i = 0; i < 5; i++) { f += n(u * s, v * s * 1.4) * a; a *= .5; s *= 2.1; }
+    const lily = Math.max(0, 1 - Math.hypot((u * 5) % 1 - .5, (v * 4 + Math.floor(u * 5) * .37) % 1 - .5) * 3.2) * .5;
+    return Math.min(1, f * .85 + lily * (v > .3 ? 1 : 0)); },
+};
+function renderDither(el) {
+  const W = el.clientWidth, H = el.clientHeight; if (!W || !H) return;
+  const cell = W < 400 ? 2 : 3, w = Math.ceil(W / cell), h = Math.ceil(H / cell);
+  let c = el.querySelector('canvas'); if (!c) { c = document.createElement('canvas'); c.setAttribute('aria-hidden', 'true'); el.prepend(c); }
+  if (c.width === w && c.height === h) return;
+  c.width = w; c.height = h; if (!el.classList.contains('os') && !el.classList.contains('stage')) c.style.height = '100%';
+  const ctx = c.getContext('2d'), img = ctx.createImageData(w, h), seed = +el.dataset.seed || 1;
+  const n = valueNoise(seed), r = rng(seed)() * 10, scene = SCENES[el.dataset.scene] || SCENES.noise;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const lum = Math.max(0, Math.min(1, scene(x / w, y / h, n, r, w / h))) * 2;   // 0..2 → 3 tones
+    const lo = Math.floor(lum), frac = lum - lo, t = BAYER[(y & 3) * 4 + (x & 3)];
+    const tone = TONES[Math.min(2, lo + (frac > t ? 1 : 0))], i = (y * w + x) * 4;
+    img.data[i] = tone[0]; img.data[i + 1] = tone[1]; img.data[i + 2] = tone[2]; img.data[i + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+function renderAllDither() { document.querySelectorAll('.nl-dither').forEach(renderDither); }
+
+/* ---------- Features ---------- */
+const FEATS = [
+  ['Connect', 'Lives everywhere', 'Telegram, Discord, Slack, mail, CLI : un seul agent, une seule mémoire, toutes les surfaces.', 'rays'],
+  ['Remember', 'Persistent memory', 'Il apprend vos projets, génère ses propres skills et n’oublie jamais comment il a résolu un problème.', 'orb'],
+  ['Schedule', 'Focused automation', 'Rapports, sauvegardes et briefings planifiés en langage naturel, exécutés sans surveillance.', 'tunnel'],
+  ['Delegate', 'Tasks multiplied', 'Des sous-agents isolés, chacun avec son terminal et sa conversation, pour des pipelines sans coût de contexte.', 'waves'],
+  ['Search', 'Browse the web', 'Recherche, navigation automatisée, vision, génération d’images et raisonnement multi-modèles.', 'noise'],
+  ['Experiment', 'Isolated sandboxing', 'Cinq backends — local, Docker, SSH, cloud — avec durcissement des conteneurs.', 'stairs'],
+];
+document.getElementById('features-grid').innerHTML = FEATS.map(([k, t, d, s], i) => `
+  <article class="nl-feature">
+    <span class="nl-eyebrow">#${i + 1} ${k}</span>
+    <h3 class="nl-feature__title">${t}</h3>
+    <p>${d}</p>
+    <div class="nl-dither feature-art" data-scene="${s}" data-seed="${31 + i}" style="margin-block-start:var(--space-3)"></div>
+  </article>`).join('');
+
+/* ---------- Swatches ---------- */
+const SW = {
+  base: [['ultramarine', '#0000F2', 1], ['primary-hover', '#0000C4', 1], ['primary-soft', '#E3E4FF'], ['background', '#F2F2F2'], ['surface', '#FFFFFF'], ['secondary', '#E4E4EC'], ['border-subtle', '#C9CBF2'], ['text-secondary', '#5050C8', 1], ['night bg', '#07071F', 1], ['night surface', '#0E0E33', 1]],
+  extra: [['glitch-magenta', '#D61F8C', 1], ['glitch-cyan', '#0090D0', 1], ['success', '#087A4D', 1], ['warning', '#9E5C00', 1], ['error', '#C8202F', 1], ['terminal', '#0B0B12', 1]],
+  chart: [['chart-1', '#0000F2', 1], ['chart-2', '#D61F8C', 1], ['chart-3', '#0090D0', 1], ['chart-4', '#D97A00', 1], ['seq-1', '#A6ACFF'], ['seq-3', '#4A52FF', 1], ['seq-5', '#0000A8', 1]],
+};
+document.querySelectorAll('[data-swatches]').forEach(el => {
+  el.innerHTML = SW[el.dataset.swatches].map(([n, hex]) => `<button class="swatch" data-hex="${hex}"><div class="swatch__chip" style="background:${hex}"></div><div class="swatch__meta"><span>${n}</span><code>${hex}</code></div></button>`).join('');
+});
+document.addEventListener('click', e => { const s = e.target.closest('.swatch'); if (!s) return; navigator.clipboard?.writeText(s.dataset.hex).catch(() => {}); toast(s.dataset.hex + ' copié'); });
+
+/* ---------- Spacing ---------- */
+document.getElementById('spacing').innerHTML = [[1, 4], [2, 8], [3, 12], [4, 16], [6, 24], [8, 32], [10, 40], [12, 48], [16, 64], [20, 80], [32, 128]]
+  .map(([k, px]) => `<div class="space-row"><span>space-${k}</span><span class="nl-muted">${px}</span><div class="space-bar" style="width:${Math.min(px * 1.6, 200)}px;max-width:100%"></div></div>`).join('');
+
+/* ---------- Tabs ---------- */
+document.querySelectorAll('.nl-tabs').forEach(t => t.addEventListener('click', e => {
+  const b = e.target.closest('.nl-tab'); if (!b) return;
+  t.querySelectorAll('.nl-tab').forEach(x => x.setAttribute('aria-selected', x === b));
+  if (b.dataset.cmd) document.getElementById('cmd').textContent = b.dataset.cmd;
+}));
+document.getElementById('copyCmd').onclick = () => { navigator.clipboard?.writeText(document.getElementById('cmd').textContent).catch(() => {}); toast('Commande copiée'); };
+
+/* ---------- Typing ---------- */
+const phrase = 'nerdlab theme --ink ultramarine'; let ti = 0;
+(function type() { const el = document.getElementById('typed'); el.textContent = phrase.slice(0, ti); ti = ti > phrase.length + 12 ? 0 : ti + 1; setTimeout(type, ti === 0 ? 600 : 90); })();
+
+let rz; new ResizeObserver(() => { clearTimeout(rz); rz = setTimeout(renderAllDither, 150); }).observe(document.body);
+renderAllDither();
+
+/* ---------- Adaptive nav (mobile menu) ---------- */
+document.querySelectorAll('[data-nav-toggle]').forEach(btn => {
+  const panel = document.getElementById(btn.getAttribute('aria-controls'));
+  const set = open => { btn.setAttribute('aria-expanded', open); panel.dataset.open = open; };
+  btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+  panel.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { set(false); btn.focus(); } });
+  matchMedia('(min-width: 1024px)').addEventListener('change', e => { if (e.matches) set(false); });
+});
+</script>
+</body>
+</html>

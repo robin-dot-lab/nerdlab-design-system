@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nerdlab Pop — Design System</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+  /* Showcase-only layout. Everything visual comes from design-system.css tokens. */
+  html { scroll-behavior: smooth; }
+  :root { --nav-offset: 66px; }
+  .wrap { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--space-gutter); }
+
+  /* Nav */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--color-background);
+    border-block-end: var(--border);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); height: 64px; }
+  .logo { display: flex; align-items: center; gap: var(--space-2); text-decoration: none; color: var(--color-text-primary); }
+  .logo__mark {
+    width: 36px; height: 36px; display: grid; place-items: center;
+    border: var(--border); border-radius: var(--radius-sm); background: var(--color-primary);
+    box-shadow: var(--shadow-sm); font-family: var(--font-pixel); color: var(--ink); font-size: 18px;
+  }
+  .logo__name { font-family: var(--font-display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: var(--text-xl); text-transform: uppercase; letter-spacing: -0.02em; }
+  .nav__links { display: none; gap: var(--space-1); }
+  @media (min-width: 1024px) { .nav__links { display: flex; } }
+  .nav__links a { text-decoration: none; color: var(--color-text-primary); font-size: var(--text-sm); font-weight: 600; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); text-transform: uppercase; }
+  .nav__links a:hover { background: var(--color-accent); color: var(--ink); }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; border-block-end: var(--border); }
+  .hero .wrap { display: grid; gap: var(--space-fluid-xl); padding-block-start: var(--space-fluid-xl); padding-block-end: var(--section-y); align-items: center; }
+  @media (min-width: 1024px) { .hero .wrap { grid-template-columns: 1.25fr 1fr; } }
+  .hero__title { font-size: clamp(3.5rem, 11vw, var(--text-6xl)); }
+  .hero__title .pink { color: var(--color-primary); -webkit-text-stroke: var(--border-width) var(--color-line); paint-order: stroke fill; }
+  .hero__lead { font-size: var(--text-lg); line-height: var(--leading-lg); max-width: 34rem; margin: var(--space-6) 0 var(--space-8); }
+  .hero__ctas { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+  .hero__art { position: relative; min-height: 380px; }
+  .hero__art .nl-window { position: absolute; }
+  .deco { position: absolute; pointer-events: none; }
+
+  /* Section headings */
+  section.block { padding-block: var(--section-y); border-block-end: var(--border); }
+  .sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-4); margin-block-end: var(--space-10); }
+  .sec-head h2 { font-size: clamp(2.25rem, 6vw, var(--text-4xl)); }
+  .sec-num {
+    display: inline-grid; place-items: center; min-width: 44px; height: 44px; padding: 0 var(--space-2);
+    border: var(--border); border-radius: var(--radius-full); background: var(--color-accent); color: var(--ink);
+    box-shadow: var(--shadow-sm); font-family: var(--font-pixel); margin-block-end: var(--space-3);
+  }
+  .sec-head p { max-width: 28rem; margin: 0; color: var(--color-text-secondary); }
+  h3.sub { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-mono); text-transform: uppercase; margin: var(--space-10) 0 var(--space-4); display: flex; align-items: center; gap: var(--space-3); }
+  h3.sub::after { content: ""; flex: 1; border-block-start: var(--border-width) dashed var(--color-border-subtle); }
+
+  /* Colors */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(140px, 100%), 1fr)); gap: var(--space-fluid-sm); }
+  .swatch { border: var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--color-surface); box-shadow: var(--shadow-md); cursor: pointer; transition: var(--transition-default); text-align: start; padding: 0; font: inherit; color: inherit; }
+  .swatch:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--color-line); }
+  .swatch__chip { height: 96px; border-block-end: var(--border); display: flex; align-items: end; padding: var(--space-2); font-family: var(--font-display); font-weight: 800; font-size: var(--text-2xl); }
+  .swatch__meta { padding: var(--space-3); display: grid; gap: 2px; }
+  .swatch__meta b { font-size: var(--text-sm); }
+  .swatch__meta code { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); }
+  .pixel-swatches { display: flex; flex-wrap: wrap; gap: 0; border: 4px solid var(--pixel-bark); width: fit-content; }
+  .pixel-swatches div { width: 88px; height: 64px; display: flex; align-items: end; padding: 4px; font-family: var(--font-pixel); font-size: 10px; }
+
+  /* Type */
+  .type-grid { display: grid; gap: var(--space-5); }
+  @media (min-width: 768px) { .type-grid { grid-template-columns: repeat(2, 1fr); } }
+  .specimen { display: grid; gap: var(--space-3); }
+  .specimen__big { font-size: clamp(2.75rem, 9vw, var(--text-5xl)); line-height: 1; }
+  .type-grid > *, .comp-grid > *, .tri > *, .bento > *, .pixel-grid > *, .hero .wrap > *, .app__body > * { min-width: 0; }
+  .specimen .nl-pixel, .specimen__big { overflow-wrap: anywhere; }
+  .scale-row { display: grid; grid-template-columns: 90px 1fr; align-items: baseline; gap: var(--space-4); padding: var(--space-3) 0; border-block-end: var(--border-width) dashed var(--color-border-subtle); overflow: hidden; }
+  .scale-row span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Spacing */
+  .space-row { display: grid; grid-template-columns: 70px 44px minmax(0, 1fr); align-items: center; gap: var(--space-3); padding: var(--space-2) 0; font-family: var(--font-mono); font-size: var(--text-xs); }
+  .space-bar { height: 20px; background: var(--color-primary); border: var(--border); border-radius: 4px; }
+  .tri { display: grid; gap: var(--space-6); }
+  @media (min-width: 1024px) { .tri { grid-template-columns: 1.2fr 1fr 1fr; } }
+  .radius-demo { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+  .radius-demo div { aspect-ratio: 1; border: var(--border); background: var(--color-lavender); display: grid; place-items: end start; padding: var(--space-2); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink); }
+  .shadow-demo { display: grid; gap: var(--space-6); }
+  .shadow-demo div { padding: var(--space-4); border: var(--border); border-radius: var(--radius-md); background: var(--color-surface); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  /* Components */
+  .comp-grid { display: grid; gap: var(--space-6); }
+  @media (min-width: 1024px) { .comp-grid { grid-template-columns: repeat(2, 1fr); } }
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+  .stack { display: grid; gap: var(--space-4); }
+  .stack > * { min-width: 0; }
+
+  /* Bento */
+  .bento { display: grid; gap: var(--space-4); grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .bento { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .bento { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; } .b-wide { grid-column: span 2; } .b-tall { grid-row: span 2; } }
+  .nl-bento h4 { margin: 0; }
+
+  /* Mini app */
+  .app { container: app / inline-size; border: var(--border-heavy); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); background: var(--color-background); }
+  .app__bar { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) var(--space-5); border-block-end: var(--border); background: var(--color-surface); gap: var(--space-4); flex-wrap: wrap; }
+  .app__body { display: grid; }
+  @container app (min-width: 60rem) { .app__body { grid-template-columns: 220px 1fr 340px; } }
+  .app__side { padding: var(--space-5); border-block-end: var(--border); display: grid; gap: var(--space-2); align-content: start; background: var(--color-surface); }
+  @container app (min-width: 60rem) { .app__side { border-block-end: 0; border-inline-end: var(--border); } }
+  .side-link { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); border: var(--border-width) solid transparent; font-weight: 600; cursor: pointer; background: none; font: inherit; font-weight: 600; color: inherit; text-align: start; }
+  .side-link[aria-current="true"] { background: var(--color-primary-soft); border-color: var(--color-line); }
+  .side-link .dot { width: 12px; height: 12px; border: var(--border); border-radius: 3px; }
+  .app__main { padding: var(--space-6); display: grid; gap: var(--space-6); align-content: start; }
+  .events { display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); }
+  .event { border: var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--color-surface); box-shadow: var(--shadow-md); display: flex; flex-direction: column; transition: var(--transition-default); cursor: pointer; }
+  .event:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--color-line); }
+  .event.is-selected { outline: var(--border-thick) solid var(--color-violet); outline-offset: 3px; }
+  .event__poster { height: 150px; border-block-end: var(--border); position: relative; overflow: hidden; display: grid; place-items: center; padding: var(--space-3); text-align: center; color: var(--ink); }
+  .event__poster .nl-display { font-size: var(--text-2xl); }
+  .event__body { padding: var(--space-4); display: grid; gap: var(--space-2); }
+  .event__body h4 { margin: 0; font-size: var(--text-lg); }
+  .event__foot { display: flex; justify-content: space-between; align-items: center; margin-block-start: var(--space-2); }
+  .app__aside { padding: var(--space-6); border-block-start: var(--border); background: var(--grid-paper); }
+  @container app (min-width: 60rem) { .app__aside { border-block-start: 0; border-inline-start: var(--border); } }
+  .price { font-family: var(--font-display); font-weight: 800; font-size: var(--text-3xl); font-variation-settings: "wdth" 75; }
+  .qty { display: inline-flex; align-items: center; border: var(--border); border-radius: var(--radius-full); overflow: hidden; background: var(--color-surface); }
+  .qty button { width: 36px; height: 36px; border: 0; background: transparent; font: inherit; font-weight: 800; cursor: pointer; color: inherit; }
+  .qty button:hover { background: var(--color-accent); color: var(--ink); }
+  .qty span { min-width: 32px; text-align: center; font-family: var(--font-mono); font-weight: 700; }
+
+  /* Pixel */
+  .pixel-zone { background: var(--pixel-sand); color: var(--pixel-bark); --color-line: var(--pixel-bark); }
+  .pixel-zone .sec-head p { color: var(--pixel-bark); }
+  .pixel-zone .sec-num { background: var(--pixel-leaf); }
+  .pixel-panel { border: 4px solid var(--pixel-bark); background: #F4EEE3; padding: var(--space-6); position: relative; }
+  .pixel-panel::before { content: ""; position: absolute; inset: 4px; border: 2px dashed rgba(92,74,59,.25); pointer-events: none; }
+  .pixel-grid { display: grid; gap: var(--space-6); }
+  @media (min-width: 1024px) { .pixel-grid { grid-template-columns: 1fr 1fr; } }
+  .sprite { display: grid; width: fit-content; }
+  .sprite i { width: 10px; height: 10px; display: block; }
+  .pixel-title { font-family: var(--font-pixel); font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1; margin: 0; }
+
+  /* Footer */
+  footer { background: var(--ink); color: var(--cream); padding: var(--space-16) 0 var(--space-10); }
+  footer .nl-display { font-size: clamp(3rem, 10vw, var(--text-6xl)); color: var(--color-accent); }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .copied { position: fixed; bottom: var(--space-6); left: 50%; transform: translateX(-50%) translateY(140%); transition: var(--transition-slow); z-index: 100; }
+  .copied.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ================= SVG sprite ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sparkle" viewBox="0 0 40 40"><path d="M20 2 C22 14 26 18 38 20 C26 22 22 26 20 38 C18 26 14 22 2 20 C14 18 18 14 20 2Z" fill="currentColor" stroke="#1B1525" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="burst" viewBox="0 0 100 100"><path d="M50 3 L58 22 L76 10 L75 32 L96 30 L84 48 L99 60 L78 66 L86 86 L64 80 L58 99 L45 82 L28 96 L26 74 L4 74 L17 56 L2 42 L23 36 L16 15 L37 22Z" fill="currentColor" stroke="#1B1525" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <symbol id="heart" viewBox="0 0 100 90"><path d="M50 84 C20 64 4 48 4 28 C4 14 15 4 28 4 C38 4 46 10 50 18 C54 10 62 4 72 4 C85 4 96 14 96 28 C96 48 80 64 50 84Z" fill="currentColor" stroke="#1B1525" stroke-width="4" stroke-linejoin="round"/><circle cx="36" cy="36" r="4" fill="#1B1525"/><circle cx="64" cy="36" r="4" fill="#1B1525"/><path d="M40 48 Q50 58 60 48" fill="none" stroke="#1B1525" stroke-width="4" stroke-linecap="round"/><ellipse cx="26" cy="46" rx="6" ry="3.5" fill="#FF4FA3" opacity=".7"/><ellipse cx="74" cy="46" rx="6" ry="3.5" fill="#FF4FA3" opacity=".7"/></symbol>
+    <symbol id="computer" viewBox="0 0 120 110"><rect x="10" y="4" width="100" height="72" rx="8" fill="#F1E7DA" stroke="#1B1525" stroke-width="4"/><rect x="22" y="14" width="76" height="52" rx="4" fill="#6BB3E0" stroke="#1B1525" stroke-width="4"/><circle cx="48" cy="36" r="3.5" fill="#1B1525"/><circle cx="72" cy="36" r="3.5" fill="#1B1525"/><path d="M50 46 Q60 54 70 46" fill="none" stroke="#1B1525" stroke-width="3.5" stroke-linecap="round"/><rect x="4" y="80" width="112" height="24" rx="6" fill="#F1E7DA" stroke="#1B1525" stroke-width="4"/><rect x="62" y="88" width="40" height="7" rx="3" fill="#1B1525"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="folder" viewBox="0 0 60 48"><path d="M3 8 Q3 4 7 4 H22 L27 10 H53 Q57 10 57 14 V41 Q57 45 53 45 H7 Q3 45 3 41Z" fill="#FFE14D" stroke="#1B1525" stroke-width="3" stroke-linejoin="round"/><path d="M3 18 H57" stroke="#1B1525" stroke-width="3"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="logo__mark">N</span><span class="logo__name">Nerdlab Pop</span></a>
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#colors">Couleurs</a><a href="#type">Typo</a><a href="#space">Espace</a><a href="#components">Composants</a><a href="#bento">Bento</a><a href="#app">App</a><a href="#pixel">Pixel</a><a href="dashboard-preview.html" style="background:var(--color-primary);color:var(--ink);border:var(--border)">Dashboard →</a>
+    </nav>
+    <div class="row" style="gap:var(--space-3)">
+      <span class="nl-eyebrow nl-muted" id="themeLabel">Day</span>
+      <input type="checkbox" class="nl-toggle" id="themeToggle" aria-label="Mode sombre">
+      <button class="nl-nav-toggle" data-nav-toggle aria-controls="mobileNav" aria-expanded="false"><span class="nl-nav-toggle__icon" aria-hidden="true"></span><span class="sr-only">Menu</span></button>
+    </div>
+  </div>
+  <nav class="nl-nav-panel" id="mobileNav" aria-label="Sections (mobile)">
+    <a href="#colors">Couleurs <span>01</span></a><a href="#type">Typographie <span>02</span></a><a href="#space">Espace <span>03</span></a><a href="#components">Composants <span>04</span></a><a href="#bento">Bento <span>05</span></a><a href="#app">Mini-app <span>06</span></a><a href="#pixel">Pixel <span>07</span></a><a href="dashboard-preview.html">Dashboard <span>→</span></a>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero nl-grid-paper" id="top">
+  <div class="wrap">
+    <div>
+      <div class="row" style="margin-block-end:var(--space-6)">
+        <span class="nl-badge nl-badge--ink">v1.0.0</span>
+        <span class="nl-eyebrow">Design system · retro-pop · 2026</span>
+      </div>
+      <h1 class="nl-display hero__title">Nerd<span class="pink">lab</span><br>Pop<span style="color:var(--color-primary)">.</span></h1>
+      <p class="hero__lead">Un néo-brutalisme <span class="nl-mark">rétro-pop</span> : fenêtres d'OS Y2K, contours encre, ombres dures, papier pastel et accents bonbon. Fait pour que tes interfaces ressemblent à des affiches — pas à des templates.</p>
+      <div class="hero__ctas">
+        <a class="nl-btn nl-btn--primary nl-btn--lg" href="#components">Explorer <svg width="20" height="20"><use href="#arrow"/></svg></a>
+        <a class="nl-btn nl-btn--lg" href="#app">Voir l'app démo</a>
+      </div>
+    </div>
+
+    <div class="hero__art" aria-hidden="true">
+      <div class="nl-bubble deco" style="top:0;left:4%;z-index:3;font-size:var(--text-xl)">Hello!</div>
+      <svg class="deco nl-spin-slow" style="top:-12px;right:4%;width:96px;height:96px;color:var(--color-accent)"><use href="#burst"/></svg>
+
+      <div class="nl-window" style="top:56px;left:0;width:min(78%,340px);z-index:2">
+        <div class="nl-window__bar"><span>NERDLAB.EXE</span><span class="nl-window__controls"><span>_</span><span>□</span><span>×</span></span></div>
+        <div class="nl-window__body" style="display:grid;place-items:center;background:var(--color-surface-sunken)">
+          <svg width="150" height="138"><use href="#computer"/></svg>
+        </div>
+      </div>
+
+      <div class="nl-window" style="bottom:0;right:0;width:min(72%,290px);z-index:3">
+        <div class="nl-window__bar nl-window__bar--secondary"><span>Loading…</span><span class="nl-window__controls"><span>×</span></span></div>
+        <div class="nl-window__body stack" style="gap:var(--space-3)">
+          <div class="nl-headline" style="font-size:var(--text-2xl)">Make it pop.</div>
+          <div class="nl-progress"><span style="width:72%"></span></div>
+          <div class="nl-eyebrow nl-muted">72% · tokens chargés</div>
+        </div>
+      </div>
+
+      <svg class="deco nl-wobble" style="bottom:60px;left:-6px;width:110px;height:100px;color:var(--color-tomato);z-index:4"><use href="#heart"/></svg>
+      <svg class="deco" style="top:46%;right:-4px;width:34px;height:34px;color:var(--color-primary)"><use href="#sparkle"/></svg>
+      <svg class="deco" style="top:22%;left:72%;width:22px;height:22px;color:var(--cream)"><use href="#sparkle"/></svg>
+      <svg class="deco" style="bottom:4px;left:30%;width:62px;height:50px;z-index:4"><use href="#folder"/></svg>
+    </div>
+  </div>
+</section>
+
+<div class="nl-ribbon" aria-hidden="true">
+  <div class="nl-ribbon__track" id="ribbon"></div>
+</div>
+
+<main>
+<!-- ================= COLORS ================= -->
+<section class="block" id="colors">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="sec-num">01</span><h2 class="nl-display">Couleurs</h2></div>
+      <p>Papier crème, encre violette-noire et six couleurs bonbon. Texte <b>ink</b> sur toutes les couleurs vives. Clique un swatch pour copier son hex.</p>
+    </div>
+    <h3 class="sub">Fondations</h3>
+    <div class="swatches" data-swatches="base"></div>
+    <h3 class="sub">Bonbons</h3>
+    <div class="swatches" data-swatches="candy"></div>
+    <h3 class="sub">Sémantique</h3>
+    <div class="swatches" data-swatches="semantic"></div>
+    <h3 class="sub">Sous-palette pixel</h3>
+    <div class="pixel-swatches" id="pixelSwatches"></div>
+  </div>
+</section>
+
+<!-- ================= TYPE ================= -->
+<section class="block" id="type">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="sec-num">02</span><h2 class="nl-display">Typo&shy;graphie</h2></div>
+      <p>Un grotesque condensé ultra-gras pour crier, une géométrique ronde pour parler, du mono pour les métadonnées et du pixel pour jouer.</p>
+    </div>
+
+    <div class="type-grid">
+      <div class="nl-card specimen">
+        <span class="nl-eyebrow nl-muted">Display · Bricolage Grotesque 800 · wdth 75</span>
+        <div class="nl-display specimen__big">Apt. 40 Million</div>
+        <div class="nl-headline" style="font-size:var(--text-3xl)">Make money. Without a cut.</div>
+      </div>
+      <div class="nl-card specimen">
+        <span class="nl-eyebrow nl-muted">Body · Outfit 400 → 700</span>
+        <div style="font-size:var(--text-3xl);font-weight:600;line-height:1.1">Let's join us — Graphic Design Workshop</div>
+        <p style="margin:0">We make every great person, every great idea and every great company shine. Le corps de texte reste calme pour laisser les titres faire le show.</p>
+      </div>
+      <div class="nl-card specimen" style="background:var(--color-secondary-soft)">
+        <span class="nl-eyebrow nl-muted">Mono · Space Mono</span>
+        <div style="font-family:var(--font-mono);font-size:var(--text-2xl);font-weight:700">2015.3.1 SUN</div>
+        <div class="nl-eyebrow">youtube.com/kidsport · batch 2026 · register now</div>
+      </div>
+      <div class="nl-card specimen" style="background:var(--color-mint)">
+        <span class="nl-eyebrow" style="color:var(--ink)">Pixel · Silkscreen</span>
+        <div class="nl-pixel" style="font-size:var(--text-3xl);color:var(--ink)">Pixel Art Park</div>
+        <div class="nl-pixel" style="font-size:var(--text-sm);color:var(--ink)">HP 72/100 · LVL 3 · ★★★☆</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Échelle</h3>
+    <div id="scale"></div>
+
+    <h3 class="sub">Effets de titre</h3>
+    <div class="row" style="gap:var(--space-10)">
+      <span class="nl-display nl-outline-text" style="font-size:var(--text-4xl)">Outline</span>
+      <span class="nl-display nl-pop-text" style="font-size:var(--text-4xl);color:var(--color-accent);-webkit-text-stroke:2px var(--color-line);paint-order:stroke fill">Pop!</span>
+      <span class="nl-headline" style="font-size:var(--text-4xl)"><span class="nl-mark">Marker</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPACE / RADIUS / SHADOW ================= -->
+<section class="block nl-grid-paper" id="space">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="sec-num">03</span><h2 class="nl-display">Espace, formes, ombres</h2></div>
+      <p>Base 4px, papier à cellules de 24px. Des ombres dures et décalées — jamais floues, sauf pour les tuiles bento.</p>
+    </div>
+    <div class="tri">
+      <div class="nl-window">
+        <div class="nl-window__bar nl-window__bar--primary"><span>SPACING.CFG</span><span class="nl-window__controls"><span>×</span></span></div>
+        <div class="nl-window__body" id="spacing"></div>
+      </div>
+      <div class="nl-window">
+        <div class="nl-window__bar nl-window__bar--lavender"><span>RADIUS.CFG</span><span class="nl-window__controls"><span>×</span></span></div>
+        <div class="nl-window__body radius-demo">
+          <div style="border-radius:var(--radius-none)">none</div>
+          <div style="border-radius:var(--radius-sm)">sm 6</div>
+          <div style="border-radius:var(--radius-md)">md 12</div>
+          <div style="border-radius:var(--radius-lg)">lg 20</div>
+          <div style="border-radius:var(--radius-xl)">xl 28</div>
+          <div style="border-radius:var(--radius-full);place-items:center">full</div>
+        </div>
+      </div>
+      <div class="nl-window">
+        <div class="nl-window__bar nl-window__bar--mint"><span>SHADOW.CFG</span><span class="nl-window__controls"><span>×</span></span></div>
+        <div class="nl-window__body shadow-demo">
+          <div style="box-shadow:var(--shadow-sm)">shadow-sm · 2px</div>
+          <div style="box-shadow:var(--shadow-md)">shadow-md · 4px</div>
+          <div style="box-shadow:var(--shadow-lg)">shadow-lg · 8px</div>
+          <div style="box-shadow:var(--shadow-soft);border:0;border-radius:var(--radius-xl)">shadow-soft · bento</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMPONENTS ================= -->
+<section class="block" id="components">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="sec-num">04</span><h2 class="nl-display">Composants</h2></div>
+      <p>Tout est tactile : survole un bouton, il se soulève ; clique, il s'enfonce.</p>
+    </div>
+
+    <h3 class="sub">Boutons</h3>
+    <div class="row">
+      <button class="nl-btn nl-btn--primary">Subscribe</button>
+      <button class="nl-btn nl-btn--secondary">Scan QR-code</button>
+      <button class="nl-btn nl-btn--accent">Mentoring</button>
+      <button class="nl-btn nl-btn--tomato">₩100</button>
+      <button class="nl-btn">Default</button>
+      <button class="nl-btn nl-btn--outline">Outline</button>
+      <button class="nl-btn nl-btn--ghost">Ghost</button>
+      <button class="nl-btn" disabled>Disabled</button>
+    </div>
+    <div class="row" style="margin-block-start:var(--space-5)">
+      <button class="nl-btn nl-btn--primary nl-btn--sm">Small</button>
+      <button class="nl-btn nl-btn--secondary nl-btn--square">Square <svg width="18" height="18"><use href="#arrow"/></svg></button>
+      <button class="nl-btn nl-btn--accent nl-btn--lg">Large CTA</button>
+      <button class="nl-btn nl-btn--pixel">Press start</button>
+    </div>
+
+    <div class="comp-grid" style="margin-block-start:var(--space-10)">
+      <!-- Form window -->
+      <div class="nl-window" style="box-shadow:var(--shadow-lg)">
+        <div class="nl-window__bar"><span>SIGN_UP.EXE</span><span class="nl-window__controls"><span>_</span><span>□</span><span>×</span></span></div>
+        <form class="nl-window__body stack" onsubmit="event.preventDefault();toast('Inscription envoyée ✦')">
+          <div class="nl-field">
+            <label class="nl-label" for="f-name">Nom</label>
+            <input class="nl-input" id="f-name" placeholder="Ada Lovelace">
+          </div>
+          <div class="nl-field">
+            <label class="nl-label" for="f-mail">Email</label>
+            <input class="nl-input nl-input--error" id="f-mail" value="ada@nerdlab" aria-invalid="true">
+            <span class="nl-help nl-help--error">Oups — il manque le domaine.</span>
+          </div>
+          <div class="nl-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="10" cy="10" r="7"/><path d="M15 15l6 6" stroke-linecap="round"/></svg>
+            <input placeholder="Rechercher un atelier" aria-label="Rechercher">
+            <button class="nl-btn nl-btn--sm" type="button" style="box-shadow:none">Go</button>
+          </div>
+          <label class="row" style="gap:var(--space-3)"><input type="checkbox" class="nl-check" checked> Je veux la newsletter rétro</label>
+          <button class="nl-btn nl-btn--primary" style="justify-self:start">Rejoindre</button>
+        </form>
+      </div>
+
+      <div class="stack" style="gap:var(--space-6)">
+        <div class="nl-card stack">
+          <span class="nl-eyebrow nl-muted">Badges</span>
+          <div class="row" style="gap:var(--space-3)">
+            <span class="nl-badge">New</span>
+            <span class="nl-badge nl-badge--primary">Hot</span>
+            <span class="nl-badge nl-badge--secondary">Beta</span>
+            <span class="nl-badge nl-badge--mint">Live</span>
+            <span class="nl-badge nl-badge--lavender">Batch 26</span>
+            <span class="nl-badge nl-badge--tomato">Sold out</span>
+            <span class="nl-badge nl-badge--ink">v1.0</span>
+          </div>
+          <span class="nl-eyebrow nl-muted" style="margin-block-start:var(--space-2)">Pills</span>
+          <div class="row" style="gap:var(--space-3)">
+            <span class="nl-pill nl-pill--filled">Mentoring with Drew</span>
+            <span class="nl-pill">Free coffee</span>
+            <span class="nl-pill">3 hours learning</span>
+            <span class="nl-pill">Certificate</span>
+          </div>
+        </div>
+
+        <div class="nl-card stack">
+          <span class="nl-eyebrow nl-muted">Contrôles</span>
+          <div class="nl-tabs" role="tablist" id="demoTabs">
+            <button class="nl-tab" role="tab" aria-selected="true">Tout</button>
+            <button class="nl-tab" role="tab" aria-selected="false">Ateliers</button>
+            <button class="nl-tab" role="tab" aria-selected="false">Talks</button>
+            <button class="nl-tab" role="tab" aria-selected="false">Jams</button>
+          </div>
+          <div class="row"><input type="checkbox" class="nl-toggle" checked aria-label="Notifications"> Notifications <input type="checkbox" class="nl-toggle" aria-label="Mode zen" style="margin-inline-start:var(--space-4)"> Mode zen</div>
+          <div class="nl-progress"><span style="width:45%"></span></div>
+        </div>
+      </div>
+
+      <div class="nl-card stack" style="background:var(--color-secondary-soft)">
+        <span class="nl-eyebrow nl-muted">Info table · affiche</span>
+        <dl class="nl-info">
+          <dt>Place</dt><dd><b>Nerdlab 378</b> — 12 rue des Pixels, Lyon</dd>
+          <dt>Date</dt><dd><span class="nl-badge" style="box-shadow:none">04.27</span> ~ <span class="nl-badge nl-badge--primary" style="box-shadow:none">05.01</span> · 11h–19h</dd>
+          <dt>Gift</dt><dd>Stickers, tote bag, carte postale holographique</dd>
+        </dl>
+      </div>
+
+      <div class="stack" style="align-content:start">
+        <div class="nl-toast"><span class="nl-toast__icon">✓</span><div><b>Billet réservé !</b><div class="nl-help">On t'a envoyé le QR-code par mail.</div></div></div>
+        <div class="nl-toast"><span class="nl-toast__icon" style="background:var(--color-error)">!</span><div><b>Plus que 3 places</b><div class="nl-help">Dépêche-toi, ça part vite.</div></div></div>
+        <div class="row" style="gap:var(--space-8);padding:var(--space-4) var(--space-2)">
+          <span class="nl-sticker">25<br><small style="font-size:12px">soles</small></span>
+          <span class="nl-sticker" style="background:var(--color-accent);transform:rotate(6deg);width:110px;height:110px;font-size:var(--text-xl)">Free<br>entry</span>
+          <span class="nl-burst" style="display:grid;place-items:center;font-family:var(--font-display);font-weight:800;color:var(--ink)">NEW</span>
+          <span class="nl-bubble">OK!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BENTO ================= -->
+<section class="block" id="bento" style="background:var(--color-surface-sunken)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="sec-num">05</span><h2 class="nl-display">Bento</h2></div>
+      <p>La variante « produit » : tuiles sans contour, ombre douce, radius 28. Pour landing pages et écrans d'accueil.</p>
+    </div>
+    <div class="bento">
+      <div class="nl-bento b-wide b-tall" style="background:var(--color-surface-elevated)">
+        <div>
+          <span class="nl-badge">Fluz-like</span>
+          <h4 class="nl-headline" style="font-size:clamp(2.5rem,6vw,4.5rem);margin-block-start:var(--space-6)">Make money.<br>Without a cut.</h4>
+        </div>
+        <p class="nl-muted" style="max-width:26rem;margin:0">Le headline condensé en casse normale avec point final — la variante « confiance » de la typo display.</p>
+        <svg style="position:absolute;right:24px;top:24px;width:70px;height:70px;color:var(--color-mint)"><use href="#sparkle"/></svg>
+        <svg style="position:absolute;right:90px;top:100px;width:36px;height:36px;color:var(--color-accent)"><use href="#sparkle"/></svg>
+      </div>
+      <div class="nl-bento" style="background:var(--ink);color:var(--cream)">
+        <h4 style="font-size:var(--text-xl);font-weight:500">Помогу с делами</h4>
+        <div class="nl-bento__foot"><span style="opacity:.7">Rappels</span><svg width="20" height="20"><use href="#arrow"/></svg></div>
+      </div>
+      <div class="nl-bento" style="background:var(--color-primary-soft)">
+        <h4 class="nl-display" style="font-size:var(--text-4xl);color:var(--color-primary);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill">hey</h4>
+        <div class="nl-bento__foot"><b>Live typing</b><svg width="20" height="20"><use href="#arrow"/></svg></div>
+      </div>
+      <div class="nl-bento" style="background:var(--color-forest);color:var(--color-mint)">
+        <h4 class="nl-display" style="font-size:var(--text-3xl)">Green<br>Garden</h4>
+        <div class="nl-bento__foot"><span>Groceries</span><svg width="20" height="20"><use href="#arrow"/></svg></div>
+      </div>
+      <div class="nl-bento" style="background:var(--color-violet);color:var(--cream)">
+        <h4 style="font-size:var(--text-xl);font-weight:500">Pilotons ensemble ta maison connectée</h4>
+        <div class="nl-bento__foot"><span>Smart home</span><svg width="20" height="20"><use href="#arrow"/></svg></div>
+      </div>
+      <div class="nl-bento b-wide" style="background:var(--color-secondary)">
+        <div class="row" style="justify-content:space-between;align-items:start;color:var(--ink)">
+          <h4 class="nl-display" style="font-size:var(--text-3xl)">Video<br>templates</h4>
+          <svg width="80" height="72" class="nl-wobble" style="color:var(--color-tomato)"><use href="#heart"/></svg>
+        </div>
+        <div class="nl-bento__foot" style="color:var(--ink)"><b>120+ modèles rétro</b><span class="nl-btn nl-btn--sm">Voir</span></div>
+      </div>
+      <div class="nl-bento b-wide" style="background:var(--color-accent);color:var(--ink)">
+        <span class="nl-eyebrow">Stat</span>
+        <div><div class="nl-display" style="font-size:var(--text-5xl)">40M</div><div class="nl-eyebrow">Youtube views</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MINI APP ================= -->
+<section class="block nl-grid-paper" id="app">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="sec-num">06</span><h2 class="nl-display">Mini-app</h2></div>
+      <p>« Nerdlab Events » — une billetterie d'ateliers construite uniquement avec les tokens et les classes du système. Interactive.</p>
+    </div>
+
+    <div class="app">
+      <div class="app__bar">
+        <a class="logo" href="#app"><span class="logo__mark" style="background:var(--color-accent)">✦</span><span class="logo__name">Nerdlab Events</span></a>
+        <div class="nl-search" style="flex:1;max-width:360px;box-shadow:var(--shadow-sm)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="10" cy="10" r="7"/><path d="M15 15l6 6" stroke-linecap="round"/></svg>
+          <input id="appSearch" placeholder="Chercher un event" aria-label="Chercher un event">
+        </div>
+        <div class="row" style="gap:var(--space-3)">
+          <span class="nl-badge nl-badge--mint">● Online</span>
+          <span class="logo__mark" style="background:var(--color-lavender);border-radius:var(--radius-full)">R</span>
+        </div>
+      </div>
+
+      <div class="app__body">
+        <aside class="app__side" id="appSide">
+          <span class="nl-eyebrow nl-muted" style="margin-block-end:var(--space-2)">Catégories</span>
+          <button class="side-link" data-cat="all" aria-current="true"><span class="dot" style="background:var(--color-accent)"></span>Tout</button>
+          <button class="side-link" data-cat="design"><span class="dot" style="background:var(--color-lavender)"></span>Design</button>
+          <button class="side-link" data-cat="code"><span class="dot" style="background:var(--color-secondary)"></span>Code</button>
+          <button class="side-link" data-cat="music"><span class="dot" style="background:var(--color-primary)"></span>Musique</button>
+          <button class="side-link" data-cat="food"><span class="dot" style="background:var(--color-tomato)"></span>Food</button>
+          <hr class="nl-divider-dashed">
+          <div class="nl-card" style="padding:var(--space-4);background:var(--color-accent);color:var(--ink);box-shadow:var(--shadow-sm)">
+            <div class="nl-pixel" style="font-size:var(--text-xs)">XP 340/500</div>
+            <div class="nl-progress nl-progress--pixel" style="margin-block-start:var(--space-2)"><span style="width:68%"></span></div>
+          </div>
+        </aside>
+
+        <div class="app__main">
+          <div class="row" style="justify-content:space-between">
+            <div>
+              <span class="nl-eyebrow nl-muted">Cette semaine</span>
+              <h3 class="nl-display" style="font-size:var(--text-3xl);margin:0">Upcoming</h3>
+            </div>
+            <div class="nl-tabs" role="tablist" id="appTabs">
+              <button class="nl-tab" role="tab" aria-selected="true">Grille</button>
+              <button class="nl-tab" role="tab" aria-selected="false">Liste</button>
+            </div>
+          </div>
+          <div class="events" id="events"></div>
+        </div>
+
+        <div class="app__aside">
+          <div class="nl-window" style="box-shadow:var(--shadow-lg)">
+            <div class="nl-window__bar nl-window__bar--primary"><span>TICKET.EXE</span><span class="nl-window__controls"><span>_</span><span>×</span></span></div>
+            <div class="nl-window__body stack" id="ticket"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PIXEL ================= -->
+<section class="block pixel-zone" id="pixel">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="sec-num">07</span><h2 class="nl-display" style="color:var(--pixel-bark)">Mode pixel</h2></div>
+      <p>Pour la gamification, les états de chargement et les easter eggs. La palette terreuse remplace l'encre ; les angles sont toujours droits.</p>
+    </div>
+    <div class="pixel-grid">
+      <div class="pixel-panel stack" style="gap:var(--space-6)">
+        <span class="nl-pixel" style="font-size:var(--text-sm);text-decoration:underline">2026.10.2 FRI</span>
+        <h3 class="pixel-title">Pixel<br>Art Park</h3>
+        <div class="stack" style="gap:var(--space-2)">
+          <span class="nl-pixel" style="font-size:var(--text-xs)">Loading world… 60%</span>
+          <div class="nl-progress nl-progress--pixel"><span style="width:60%"></span></div>
+        </div>
+        <div class="row"><button class="nl-btn nl-btn--pixel">Play</button><button class="nl-btn nl-btn--pixel" style="background:var(--pixel-moss)">Options</button></div>
+      </div>
+      <div class="pixel-panel" style="display:grid;place-items:center;gap:var(--space-6);background:linear-gradient(var(--pixel-sand) 70%, var(--pixel-moss) 70%)">
+        <div class="row" style="gap:var(--space-8);align-items:end">
+          <div class="sprite" id="spriteTree"></div>
+          <div class="sprite" id="spriteHeart"></div>
+          <div class="sprite" id="spriteBalloon"></div>
+        </div>
+        <span class="nl-pixel" style="background:var(--pixel-bark);color:var(--pixel-sand);padding:var(--space-2) var(--space-4)">Artist · Nerdlab crew</span>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap stack" style="gap:var(--space-8)">
+    <div class="nl-display">Stay nerdy.</div>
+    <div class="row" style="justify-content:space-between;gap:var(--space-6)">
+      <span class="nl-eyebrow" style="opacity:.8">design-tokens.json · design-system.css · design-system.md</span>
+      <span class="nl-eyebrow" style="opacity:.8">Nerdlab Pop v1.0.0 — 2026</span>
+    </div>
+  </div>
+</footer>
+
+<div class="nl-toast copied" id="copied" role="status" aria-live="polite"><span class="nl-toast__icon">✓</span><b id="copiedText">Copié</b></div>
+
+<script>
+  /* ---------- Theme ---------- */
+  const root = document.documentElement, tgl = document.getElementById('themeToggle'), tLabel = document.getElementById('themeLabel');
+  const setTheme = d => { root.dataset.theme = d ? 'dark' : 'light'; tgl.checked = d; tLabel.textContent = d ? 'Night' : 'Day'; try { localStorage.setItem('nlp-theme', d ? 'dark' : 'light'); } catch (e) {} };
+  let saved = null; try { saved = localStorage.getItem('nlp-theme'); } catch (e) {}
+  setTheme(saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
+  tgl.addEventListener('change', () => setTheme(tgl.checked));
+
+  /* ---------- Toast ---------- */
+  const toastEl = document.getElementById('copied'); let tt;
+  function toast(msg) { document.getElementById('copiedText').textContent = msg; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 1800); }
+
+  /* ---------- Ribbon ---------- */
+  const words = ['Subscribe', '✦', 'Join our channel', '★', 'Make it pop', '✦', 'Stay nerdy', '♥', 'Scan QR-code', '★'];
+  document.getElementById('ribbon').innerHTML = [...words, ...words, ...words, ...words].map(w => `<span>${w}</span>`).join('');
+
+  /* ---------- Swatches ---------- */
+  const SW = {
+    base: [['ink', 'var(--ink)', '#1B1525', 1], ['background', 'var(--color-background)', '#FBF3E8'], ['background-grid', 'var(--color-background-grid)', '#F6DDD3'], ['surface', 'var(--color-surface)', '#FFFDF8'], ['surface-sunken', 'var(--color-surface-sunken)', '#F1E7DA'], ['text-secondary', 'var(--color-text-secondary)', '#5B5266', 1]],
+    candy: [['primary', 'var(--color-primary)', '#FF4FA3'], ['secondary', 'var(--color-secondary)', '#6BB3E0'], ['accent', 'var(--color-accent)', '#FFE14D'], ['tomato', 'var(--color-tomato)', '#FF6B35'], ['lavender', 'var(--color-lavender)', '#C9A7F5'], ['mint', 'var(--color-mint)', '#9BE3A6'], ['violet', 'var(--color-violet)', '#7B4DFF', 1], ['forest', 'var(--color-forest)', '#1E5A3C', 1], ['primary-soft', '#FFD3E8', '#FFD3E8'], ['secondary-soft', '#D6ECF8', '#D6ECF8']],
+    semantic: [['success', 'var(--color-success)', '#2DBE6C'], ['warning', 'var(--color-warning)', '#FFB020'], ['error', 'var(--color-error)', '#FF4D3D'], ['info', 'var(--color-info)', '#6BB3E0']]
+  };
+  document.querySelectorAll('[data-swatches]').forEach(el => {
+    el.innerHTML = SW[el.dataset.swatches].map(([n, v, hex, dark]) =>
+      `<button class="swatch" data-hex="${hex}"><div class="swatch__chip" style="background:${v};color:${dark ? 'var(--cream)' : 'var(--ink)'}">Aa</div><div class="swatch__meta"><b>${n}</b><code>${hex}</code></div></button>`).join('');
+  });
+  document.addEventListener('click', e => {
+    const s = e.target.closest('.swatch'); if (!s) return;
+    navigator.clipboard?.writeText(s.dataset.hex).catch(() => {}); toast(`${s.dataset.hex} copié`);
+  });
+  document.getElementById('pixelSwatches').innerHTML = [['moss', '#7C9A5A', 1], ['bark', '#5C4A3B', 1], ['pumpkin', '#E3812B', 1], ['sand', '#E9E1D2'], ['leaf', '#C9D77A']]
+    .map(([n, h, d]) => `<div style="background:${h};color:${d ? '#E9E1D2' : '#5C4A3B'}">${n}<br>${h}</div>`).join('');
+
+  /* ---------- Type scale ---------- */
+  const scale = [['6xl', 'var(--text-6xl)', 'display'], ['5xl', 'var(--text-5xl)', 'display'], ['4xl', 'var(--text-4xl)', 'display'], ['3xl', 'var(--text-3xl)', 'display'], ['2xl', 'var(--text-2xl)', 'headline'], ['xl', 'var(--text-xl)', 'body'], ['lg', 'var(--text-lg)', 'body'], ['base', 'var(--text-base)', 'body'], ['sm', 'var(--text-sm)', 'body'], ['xs', 'var(--text-xs)', 'mono']];
+  document.getElementById('scale').innerHTML = scale.map(([n, v, k]) => {
+    const cls = k === 'display' ? 'nl-display' : k === 'headline' ? 'nl-headline' : k === 'mono' ? 'nl-eyebrow' : '';
+    return `<div class="scale-row"><span class="nl-eyebrow nl-muted">${n}</span><span class="${cls}" style="font-size:${v};line-height:1.1">${k === 'display' ? 'Join our channel' : 'We make every great idea shine'}</span></div>`;
+  }).join('');
+
+  /* ---------- Spacing ---------- */
+  const sp = [[1, 4], [2, 8], [3, 12], [4, 16], [5, 20], [6, 24], [8, 32], [10, 40], [12, 48], [16, 64], [20, 80]];
+  document.getElementById('spacing').innerHTML = sp.map(([k, px]) => `<div class="space-row"><span>space-${k}</span><span class="nl-muted">${px}px</span><div class="space-bar" style="width:${px * 2.2}px;max-width:100%"></div></div>`).join('');
+
+  /* ---------- Tabs ---------- */
+  document.querySelectorAll('.nl-tabs').forEach(t => t.addEventListener('click', e => {
+    const b = e.target.closest('.nl-tab'); if (!b) return;
+    t.querySelectorAll('.nl-tab').forEach(x => x.setAttribute('aria-selected', x === b));
+  }));
+
+  /* ---------- Mini app ---------- */
+  const EVENTS = [
+    { id: 1, cat: 'design', title: 'Graphic Design Workshop', date: '24 OCT', price: 35, bg: 'var(--color-lavender)', poster: 'Graphic<br>Design', badge: ['Batch 26', 'lavender'], seats: 12 },
+    { id: 2, cat: 'music', title: 'K-pop Listening Party', date: '26 OCT', price: 18, bg: 'var(--color-primary)', poster: 'Apt.<br>40M', badge: ['Hot', 'primary'], seats: 3 },
+    { id: 3, cat: 'code', title: 'Pixel Shader Jam', date: '29 OCT', price: 0, bg: 'var(--color-secondary)', poster: 'Shader<br>Jam', badge: ['Free', 'mint'], seats: 40 },
+    { id: 4, cat: 'food', title: 'Gochisō Ramen Night', date: '02 NOV', price: 25, bg: 'var(--color-accent)', poster: 'Gochisō', badge: ['New', ''], seats: 8 },
+    { id: 5, cat: 'design', title: 'Risograph Zine Lab', date: '05 NOV', price: 42, bg: 'var(--color-tomato)', poster: 'Zine<br>Lab', badge: ['Beta', 'secondary'], seats: 6 },
+    { id: 6, cat: 'code', title: 'Y2K Web Revival', date: '09 NOV', price: 15, bg: 'var(--color-mint)', poster: 'Y2K<br>Web', badge: ['Live', 'mint'], seats: 22 }
+  ];
+  let state = { cat: 'all', q: '', sel: 2, qty: 1 };
+  const evEl = document.getElementById('events'), ticketEl = document.getElementById('ticket');
+  const fmt = p => p === 0 ? 'Free' : `${p}€`;
+
+  function renderEvents() {
+    const list = EVENTS.filter(e => (state.cat === 'all' || e.cat === state.cat) && e.title.toLowerCase().includes(state.q));
+    evEl.innerHTML = list.length ? list.map(e => `
+      <article class="event ${e.id === state.sel ? 'is-selected' : ''}" data-id="${e.id}" tabindex="0">
+        <div class="event__poster" style="background:${e.bg}">
+          <span class="nl-display">${e.poster}</span>
+          <svg style="position:absolute;top:8px;right:8px;width:24px;height:24px;color:var(--cream)"><use href="#sparkle"/></svg>
+        </div>
+        <div class="event__body">
+          <div class="row" style="gap:var(--space-2);justify-content:space-between"><span class="nl-eyebrow nl-muted">${e.date}</span><span class="nl-badge ${e.badge[1] ? 'nl-badge--' + e.badge[1] : ''}">${e.badge[0]}</span></div>
+          <h4>${e.title}</h4>
+          <div class="event__foot"><b style="font-family:var(--font-mono)">${fmt(e.price)}</b><span class="nl-help">${e.seats} places</span></div>
+        </div>
+      </article>`).join('') : `<div class="nl-card" style="grid-column:1/-1;text-align:center"><span class="nl-bubble">Rien ici…</span><p class="nl-muted">Essaie une autre recherche.</p></div>`;
+  }
+  function renderTicket() {
+    const e = EVENTS.find(x => x.id === state.sel);
+    ticketEl.innerHTML = `
+      <span class="nl-eyebrow nl-muted">Ton billet</span>
+      <h4 class="nl-headline" style="font-size:var(--text-2xl)">${e.title}</h4>
+      <dl class="nl-info"><dt>Date</dt><dd>${e.date} · 19h</dd><dt>Lieu</dt><dd>Nerdlab 378</dd></dl>
+      <div class="row" style="justify-content:space-between">
+        <div class="qty"><button data-q="-1" aria-label="Moins">−</button><span>${state.qty}</span><button data-q="1" aria-label="Plus">+</button></div>
+        <span class="price">${fmt(e.price * state.qty)}</span>
+      </div>
+      ${e.seats <= 5 ? '<span class="nl-badge nl-badge--tomato" style="justify-self:start">Plus que ' + e.seats + ' places</span>' : ''}
+      <hr class="nl-divider-dashed" style="margin:0">
+      <button class="nl-btn nl-btn--primary" id="buy">Réserver <svg width="18" height="18"><use href="#arrow"/></svg></button>`;
+  }
+  evEl.addEventListener('click', ev => { const c = ev.target.closest('.event'); if (!c) return; state.sel = +c.dataset.id; state.qty = 1; renderEvents(); renderTicket(); });
+  evEl.addEventListener('keydown', ev => { if (ev.key === 'Enter') ev.target.closest('.event')?.click(); });
+  ticketEl.addEventListener('click', ev => {
+    const q = ev.target.closest('[data-q]');
+    if (q) { state.qty = Math.min(9, Math.max(1, state.qty + +q.dataset.q)); renderTicket(); }
+    if (ev.target.closest('#buy')) toast('Billet réservé ✦ à bientôt !');
+  });
+  document.getElementById('appSide').addEventListener('click', ev => {
+    const b = ev.target.closest('.side-link'); if (!b) return;
+    document.querySelectorAll('.side-link').forEach(x => x.setAttribute('aria-current', x === b));
+    state.cat = b.dataset.cat; renderEvents();
+  });
+  document.getElementById('appSearch').addEventListener('input', ev => { state.q = ev.target.value.toLowerCase().trim(); renderEvents(); });
+  renderEvents(); renderTicket();
+
+  /* ---------- Pixel sprites ---------- */
+  function sprite(id, rows, pal) {
+    const el = document.getElementById(id);
+    el.style.gridTemplateColumns = `repeat(${rows[0].length}, 10px)`;
+    el.innerHTML = rows.join('').split('').map(c => `<i style="background:${pal[c] || 'transparent'}"></i>`).join('');
+  }
+  sprite('spriteTree', [
+    '....g....', '...ggg...', '...gog...', '..ggggg..', '..gglgg..', '.ggggogg.', '.ggggggg.', 'ggglggggg', 'gggggoggg', '....b....', '....b....', '...bbb...'
+  ], { g: '#7C9A5A', l: '#C9D77A', o: '#E3812B', b: '#5C4A3B' });
+  sprite('spriteHeart', [
+    '.bb...bb.', 'bppb.bppb', 'bpwpppppb', 'bpppppppb', '.bpppppb.', '..bpppb..', '...bpb...', '....b....'
+  ], { b: '#5C4A3B', p: '#FF4FA3', w: '#FFFDF8' });
+  sprite('spriteBalloon', [
+    '..bbb..', '.boooo.', 'boowoob', 'boooooo', 'boooooo', '.boooo.', '..bbb..', '...b...', '...b...', '..b....', '...b...'
+  ], { b: '#5C4A3B', o: '#E3812B', w: '#F4EEE3' });
+
+/* ---------- Adaptive nav (mobile menu) ---------- */
+document.querySelectorAll('[data-nav-toggle]').forEach(btn => {
+  const panel = document.getElementById(btn.getAttribute('aria-controls'));
+  const set = open => { btn.setAttribute('aria-expanded', open); panel.dataset.open = open; };
+  btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+  panel.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { set(false); btn.focus(); } });
+  matchMedia('(min-width: 1024px)').addEventListener('change', e => { if (e.matches) set(false); });
+});
+</script>
+</body>
+</html>
