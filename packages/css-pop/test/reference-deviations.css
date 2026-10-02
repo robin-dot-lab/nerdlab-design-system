@@ -1,0 +1,12 @@
+/* Intentional differences from design-system-nerdlab-pop/design-system.css.
+   Appended (unlayered) to the reference stylesheet by scripts/visual-parity.mjs, so the
+   reference renders as the package is meant to. Every block names its decision note. */
+
+/* ADR-007 — error text readable on light surfaces (was #FF4D3D on cream, 2.99:1) */
+:root { --color-error-text: #C8281B; }
+.dark, [data-theme="dark"] { --color-error-text: #FF4D3D; }
+.nl-input--error { border-color: var(--color-error-text); }
+.nl-help--error { color: var(--color-error-text); }
+
+/* ADR-007 — pixel button: ink text on pumpkin (was cream, 2.56:1) */
+.nl-btn--pixel { color: var(--ink); }

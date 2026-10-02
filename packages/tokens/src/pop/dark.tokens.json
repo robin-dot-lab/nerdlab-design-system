@@ -47,6 +47,10 @@
     "secondary-soft": {
       "$value": "#1D3343",
       "$type": "color"
+    },
+    "error-text": {
+      "$value": "#FF4D3D",
+      "$type": "color"
     }
   },
   "shadow": {

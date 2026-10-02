@@ -1,0 +1,8 @@
+{
+  "$comment": "Intentional differences from the reference stylesheet. Every entry needs a decision note. Anything not listed here must match the reference exactly.",
+  "pop": {
+    "root": { "color-error-text": "#C8281B" },
+    "dark": { "color-error-text": "#FF4D3D" },
+    "why": "ADR-007: accessible error text (reference #FF4D3D on cream is 2.99:1)"
+  }
+}

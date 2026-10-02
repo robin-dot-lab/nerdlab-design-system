@@ -17,7 +17,9 @@ const FREEZE = '<style>*,*::before,*::after{animation:none!important;transition:
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'nl-parity-'));
 const refOut = path.join(tmp, 'ref'), newOut = path.join(tmp, 'new');
 fs.mkdirSync(refOut); fs.mkdirSync(newOut);
-fs.copyFileSync(path.join(REF_DIR, 'design-system.css'), path.join(refOut, 'design-system.css'));
+// Reference = original stylesheet + declared intentional deviations (test/reference-deviations.css).
+fs.writeFileSync(path.join(refOut, 'design-system.css'),
+  fs.readFileSync(path.join(REF_DIR, 'design-system.css'), 'utf8') + '\n' + fs.readFileSync('test/reference-deviations.css', 'utf8'));
 fs.copyFileSync('dist/pop.css', path.join(newOut, 'pop.css'));
 fs.copyFileSync('dist/fonts.css', path.join(newOut, 'fonts.css'));
 for (const page of PAGES) {

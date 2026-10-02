@@ -16,6 +16,7 @@ Documentation lives in the Obsidian vault, project **Nerdlab Design System** (`N
 - `pnpm --filter @nerdlab/css-pop test` — visual parity: showcase + dashboard screenshots (1440/375, light/dark) must be pixel-identical with the original stylesheet. Uses the installed Chrome via Playwright `channel: "chrome"` (override with `CHROME_CHANNEL`).
 
 ## Gotchas
+- Parity tests compare against the original static stylesheet **plus declared deviations**: `packages/tokens/scripts/parity-deviations.json` and `packages/css-pop/test/reference-deviations.css`. An intentional visual change goes in both places with a decision note; never edit `design-system-nerdlab-pop/` to make a test pass.
 - pnpm 11 blocks dependency build scripts: `allowBuilds` in `pnpm-workspace.yaml` (esbuild is set to `false`, it works without its postinstall). A new dependency with a build script makes `pnpm install`/`pnpm run` fail until it is listed there.
 - A new CSS file in `packages/css-pop/src` must be added to `src/manifest.json` (order = cascade order); the build fails otherwise.
 - Git: repo-local config uses robin.meyssonnier@outlook.com with `commit.gpgsign=false` (global config would try to sign with a key that does not exist for this identity).

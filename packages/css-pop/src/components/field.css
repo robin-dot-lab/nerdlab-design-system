@@ -24,9 +24,9 @@
   border-color: var(--color-violet);
   box-shadow: var(--shadow-glow), var(--shadow-sm);
 }
-.nl-input--error { border-color: var(--color-error); }
+.nl-input--error { border-color: var(--color-error-text); }
 .nl-help { font-size: var(--text-xs); color: var(--color-text-secondary); }
-.nl-help--error { color: var(--color-error); font-weight: var(--weight-semibold); }
+.nl-help--error { color: var(--color-error-text); font-weight: var(--weight-semibold); }
 @media (pointer: coarse) {
   .nl-input { min-height: var(--touch-target); }
   /* ≥16px text in fields prevents iOS auto-zoom on focus */

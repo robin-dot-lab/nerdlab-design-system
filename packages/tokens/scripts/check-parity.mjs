@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 
 const REFERENCE = { pop: '../../design-system-nerdlab-pop/design-system.css' };
+const DEVIATIONS = JSON.parse(fs.readFileSync(new URL('./parity-deviations.json', import.meta.url), 'utf8'));
 
 const block = (css, start) => {
   const i = css.indexOf(start); if (i < 0) throw new Error(`block not found: ${start}`);
@@ -19,6 +20,8 @@ for (const [theme, ref] of Object.entries(REFERENCE)) {
   const outCss = fs.readFileSync(`dist/${theme}/tokens.css`, 'utf8');
   for (const [label, refStart, outStart] of [['root', ':root {', ':root {'], ['dark', '.dark,\n[data-theme="dark"] {', '.dark,\n[data-theme="dark"] {']]) {
     const a = decls(block(refCss, refStart)), b = decls(block(outCss, outStart));
+    // Declared, intentional deviations are applied to the reference before comparing.
+    for (const [n, v] of Object.entries(DEVIATIONS[theme]?.[label] ?? {})) a.set(n, v);
     for (const [n, v] of a) if (b.get(n) !== v) { failures++; console.error(`✗ ${theme}/${label} --${n}: expected "${v}", got "${b.get(n)}"`); }
     for (const n of b.keys()) if (!a.has(n)) { failures++; console.error(`✗ ${theme}/${label} --${n}: not in reference`); }
     console.log(`${theme}/${label}: ${a.size} reference vars checked`);
