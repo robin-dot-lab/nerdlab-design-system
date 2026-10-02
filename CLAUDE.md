@@ -17,6 +17,8 @@ Documentation lives in the Obsidian vault, project **Nerdlab Design System** (`N
 - `pnpm --filter @nerdlab/css-pop test` — visual parity: showcase + dashboard screenshots (1440/375, light/dark) must be pixel-identical with the original stylesheet. Uses the installed Chrome via Playwright `channel: "chrome"` (override with `CHROME_CHANNEL`).
 
 ## Gotchas
+- Layout variants are CSS modifier classes (`.nl-gap-*`, `.nl-grid-auto--*`, `.nl-split--*`, `.nl-cluster--*`, `.nl-stack--*` in `utilities/layout-modifiers.css`); React primitives map props to them. Never set `--stack-gap` & co. inline from React.
+- `DataTable` writes `data-label` on every cell (stacked mode). Hand-written tables using `.nl-table--stack` must do it themselves.
 - `'use client'` must be the first line of any React module using state/effects/context/React Aria components, and only those (`use-client.test.ts`). Do not put breakpoints or any style value in React code: e.g. `MobileNav` closes when the skin hides its toggle (ResizeObserver), it never reads a media query.
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.
 - Parity tests compare against the original static stylesheet **plus declared deviations**: `packages/tokens/scripts/parity-deviations.json` and `packages/css-pop/test/reference-deviations.css`. An intentional visual change goes in both places with a decision note; never edit `design-system-nerdlab-pop/` to make a test pass.

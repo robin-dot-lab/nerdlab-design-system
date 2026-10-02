@@ -9,7 +9,7 @@
 .nl-grid-auto { display: grid; gap: var(--grid-gap, var(--space-fluid-md)); grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 16rem), 100%), 1fr)); }
 .nl-grid-auto > * { min-width: 0; }
 /* Two-pane split: stacked on mobile, side by side from lg */
-.nl-split { display: grid; gap: var(--space-fluid-lg); }
+.nl-split { display: grid; gap: var(--split-gap, var(--space-fluid-lg)); }
 .nl-split > * { min-width: 0; }
 @media (min-width: 1024px) { .nl-split { grid-template-columns: var(--split, 1fr 1fr); } }
 .nl-full-height { min-height: 100vh; min-height: 100dvh; }

@@ -1,0 +1,36 @@
+/* Layout modifiers (new in the package): variants of the layout primitives as classes,
+   so neither React nor plain HTML has to set custom properties inline. */
+/* Gap: one class drives stack, cluster, grid-auto and split */
+.nl-gap-0 { --stack-gap: 0; --cluster-gap: 0; --grid-gap: 0; --split-gap: 0; }
+.nl-gap-1 { --stack-gap: var(--space-1); --cluster-gap: var(--space-1); --grid-gap: var(--space-1); --split-gap: var(--space-1); }
+.nl-gap-2 { --stack-gap: var(--space-2); --cluster-gap: var(--space-2); --grid-gap: var(--space-2); --split-gap: var(--space-2); }
+.nl-gap-3 { --stack-gap: var(--space-3); --cluster-gap: var(--space-3); --grid-gap: var(--space-3); --split-gap: var(--space-3); }
+.nl-gap-4 { --stack-gap: var(--space-4); --cluster-gap: var(--space-4); --grid-gap: var(--space-4); --split-gap: var(--space-4); }
+.nl-gap-6 { --stack-gap: var(--space-6); --cluster-gap: var(--space-6); --grid-gap: var(--space-6); --split-gap: var(--space-6); }
+.nl-gap-8 { --stack-gap: var(--space-8); --cluster-gap: var(--space-8); --grid-gap: var(--space-8); --split-gap: var(--space-8); }
+.nl-gap-12 { --stack-gap: var(--space-12); --cluster-gap: var(--space-12); --grid-gap: var(--space-12); --split-gap: var(--space-12); }
+.nl-gap-fluid-sm { --stack-gap: var(--space-fluid-sm); --cluster-gap: var(--space-fluid-sm); --grid-gap: var(--space-fluid-sm); --split-gap: var(--space-fluid-sm); }
+.nl-gap-fluid-md { --stack-gap: var(--space-fluid-md); --cluster-gap: var(--space-fluid-md); --grid-gap: var(--space-fluid-md); --split-gap: var(--space-fluid-md); }
+.nl-gap-fluid-lg { --stack-gap: var(--space-fluid-lg); --cluster-gap: var(--space-fluid-lg); --grid-gap: var(--space-fluid-lg); --split-gap: var(--space-fluid-lg); }
+.nl-gap-fluid-xl { --stack-gap: var(--space-fluid-xl); --cluster-gap: var(--space-fluid-xl); --grid-gap: var(--space-fluid-xl); --split-gap: var(--space-fluid-xl); }
+
+/* Grid-auto: minimum column width (default 16rem) */
+.nl-grid-auto--xs { --grid-min: 10rem; }
+.nl-grid-auto--sm { --grid-min: 13rem; }
+.nl-grid-auto--lg { --grid-min: 22rem; }
+.nl-grid-auto--xl { --grid-min: 28rem; }
+
+/* Split: column ratio from lg (default 1fr 1fr) */
+.nl-split--1-2 { --split: 1fr 2fr; }
+.nl-split--2-1 { --split: 2fr 1fr; }
+.nl-split--sidebar { --split: minmax(14rem, 18rem) minmax(0, 1fr); }
+.nl-split--sidebar-end { --split: minmax(0, 1fr) minmax(14rem, 18rem); }
+
+/* Cluster: main-axis distribution (default start) */
+.nl-cluster--center { justify-content: center; }
+.nl-cluster--end { justify-content: flex-end; }
+.nl-cluster--between { justify-content: space-between; }
+
+/* Stack: cross-axis alignment (default stretch) */
+.nl-stack--start { justify-items: start; }
+.nl-stack--center { justify-items: center; }

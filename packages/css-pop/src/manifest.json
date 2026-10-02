@@ -26,12 +26,15 @@
     "components/nav.css",
     "components/choice.css",
     "components/accordion.css",
-    "components/tooltip.css"
+    "components/tooltip.css",
+    "components/data-table.css"
   ],
   "utilities": [
     "utilities/typography.css",
     "utilities/surfaces.css",
     "utilities/motion.css",
-    "utilities/layout.css"
+    "utilities/layout.css",
+    "utilities/layout-modifiers.css",
+    "utilities/a11y.css"
   ]
 }
