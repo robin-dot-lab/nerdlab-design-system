@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import StyleDictionary from 'style-dictionary';
 
-const THEMES = ['pop'];
+const THEMES = ['candy'];
 const DARK_SELECTOR = '.dark,\n[data-theme="dark"]';
 
 StyleDictionary.registerTransform({

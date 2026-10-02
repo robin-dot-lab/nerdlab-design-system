@@ -1,7 +1,7 @@
 {
   "fetchedWith": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
   "sources": [
-    "packages/css-pop/src/fonts.css"
+    "packages/css-candy/src/fonts.css"
   ],
   "entries": {
     "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Silkscreen:wght@400;700&display=swap": {

@@ -1,14 +1,14 @@
 {
-  "name": "@nerdlab/css-pop",
+  "name": "@nerdlab/css-candy",
   "version": "0.1.0",
-  "description": "Nerdlab Pop skin: tokens + nl-* component classes in cascade layers",
+  "description": "Nerdlab Candy skin: tokens + nl-* component classes in cascade layers",
   "type": "module",
   "files": [
     "dist",
     "src"
   ],
   "exports": {
-    "./pop.css": "./dist/pop.css",
+    "./candy.css": "./dist/candy.css",
     "./fonts.css": "./dist/fonts.css"
   },
   "sideEffects": [

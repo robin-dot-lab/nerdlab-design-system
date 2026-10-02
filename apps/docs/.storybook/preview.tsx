@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
-import '@nerdlab/css-pop/fonts.css';
-import '@nerdlab/css-pop/pop.css';
+import '@nerdlab/css-candy/fonts.css';
+import '@nerdlab/css-candy/candy.css';
 
 const preview: Preview = {
   globalTypes: {

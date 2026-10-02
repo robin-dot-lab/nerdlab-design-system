@@ -1,4 +1,4 @@
-/* Data table (new in the package; ported from the Pop dashboard's page-local .tbl styles).
+/* Data table (new in the package; ported from the Candy dashboard's page-local .tbl styles).
    Works with .nl-table-wrap / .nl-table--stack from table.css. */
 .nl-table-wrap--framed { border: var(--border); border-radius: var(--radius-md); background: var(--color-surface); }
 .nl-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }

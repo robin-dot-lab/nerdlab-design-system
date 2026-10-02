@@ -1,6 +1,6 @@
 # Nerdlab UI kit — instructions for agents
 
-Design system and React library for Nerdlab: one CSS skin (Pop) with `nl-*` classes, a thin React layer, a charts package, Storybook, and an integration dashboard. This file is for any coding agent (Claude, Cursor, Copilot, Codex…). It says **how** to work here; the **why** lives in the Obsidian vault.
+Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` classes, a thin React layer, a charts package, Storybook, and an integration dashboard. This file is for any coding agent (Claude, Cursor, Copilot, Codex…). It says **how** to work here; the **why** lives in the Obsidian vault.
 
 ## Documentation
 
@@ -12,13 +12,13 @@ Design system and React library for Nerdlab: one CSS skin (Pop) with `nl-*` clas
 
 | Path | What it owns |
 |---|---|
-| `packages/tokens` | Visual values. DTCG sources `src/pop/*.tokens.json` → Style Dictionary → CSS vars, JS, JSON |
-| `packages/css-pop` | The look. One file per component in `src/components/`, assembled by `src/manifest.json` into cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` |
+| `packages/tokens` | Visual values. DTCG sources `src/candy/*.tokens.json` → Style Dictionary → CSS vars, JS, JSON |
+| `packages/css-candy` | The look. One file per component in `src/components/`, assembled by `src/manifest.json` into cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` |
 | `packages/react` | `@nerdlab/react`: typed components that only set `nl-*` classes (React 19, built file by file with `tsc`) |
 | `packages/charts` | `@nerdlab/charts`: geometry in JS, colours only from skin tokens |
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
-| `design-system-nerdlab-pop/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Pop is the only skin (the Ultramarine variant was dropped) |
+| `design-system-nerdlab-candy/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Candy is the only skin (the Ultramarine variant was dropped). Candy was called **Pop** until 2026-10-02: the static files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it |
 | `tools/` | `new-component` generator, `test-fonts` offline font cache |
 
 ## Commands
@@ -35,26 +35,26 @@ Design system and React library for Nerdlab: one CSS skin (Pop) with `nl-*` clas
 3. **`'use client'`** is the first line of a module iff it uses state, effects, refs, context or React Aria components [`use-client.test.ts`, `guards.test.ts`].
 4. **Every exported component has a story and a test, and every `nl-*` class it uses exists in the skin** [`packages/react/src/kit-integrity.test.ts`].
 5. **Every skin file is in `manifest.json`**; new files go **at the end** so they cannot change the cascade of existing rules [build + kit integrity].
-6. **The skin must render identically to the reference** except for declared deviations [`packages/css-pop/scripts/visual-parity.mjs`, `packages/tokens/scripts/check-parity.mjs`]. An intentional visual change goes in `packages/tokens/scripts/parity-deviations.json` **and** `packages/css-pop/test/reference-deviations.css`, with a decision note in the vault.
+6. **The skin must render identically to the reference** except for declared deviations [`packages/css-candy/scripts/visual-parity.mjs`, `packages/tokens/scripts/check-parity.mjs`]. An intentional visual change goes in `packages/tokens/scripts/parity-deviations.json` **and** `packages/css-candy/test/reference-deviations.css`, with a decision note in the vault.
 7. **Accessibility**: no axe violation and no console error in any story, light/dark, 1280/390 px [`apps/docs/scripts/a11y-audit.mjs`], nor in the dashboard [`apps/dashboard/scripts/e2e.mjs`]. Text on candy colours is ink; contrast ≥ 4.5:1.
 8. **Prefer native elements** when they cover keyboard, screen reader and forms (`<input>`, `<details>`, `<meter>`, `<button aria-pressed>`); React Aria only where the platform falls short (tabs, tooltip).
 
 ## Adding or changing a component
 
-1. `pnpm new:component <Name>` (or edit the existing files: `packages/css-pop/src/components/<name>.css`, `packages/react/src/<name>/`).
+1. `pnpm new:component <Name>` (or edit the existing files: `packages/css-candy/src/components/<name>.css`, `packages/react/src/<name>/`).
 2. Style it in the skin with tokens only. Add variants as `cva` maps to `nl-*` classes.
 3. Write real tests (behaviour, ARIA) and a story per meaningful state.
 4. If the dashboard should use it, use it there (it is the integration test).
 5. `pnpm test` must be green.
-6. Update the vault: the component table in `Librairie React Nerdlab` (or `Package de graphes Nerdlab`), the created-files list in `Package CSS de la peau Pop`, and an ADR if the change is a decision someone could reverse. Every note carries `source_rev` = the commit it describes.
+6. Update the vault: the component table in `Librairie React Nerdlab` (or `Package de graphes Nerdlab`), the created-files list in `Package CSS de la peau Candy`, and an ADR if the change is a decision someone could reverse. Every note carries `source_rev` = the commit it describes.
 
-Tokens: edit `packages/tokens/src/pop/*.tokens.json` (never generated files). CSS variable name = token path joined by `-`; a `DEFAULT` leaf takes the group name (`border.DEFAULT` → `--border`).
+Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). CSS variable name = token path joined by `-`; a `DEFAULT` leaf takes the group name (`border.DEFAULT` → `--border`).
 
 ## Gotchas
 
 - `apps/dashboard` and the docs typecheck read `packages/*/dist`: after changing a package, rebuild it or they see the old API (`pnpm test` does it).
 - `storybook build` does not typecheck; `pnpm test` does.
-- `pop.css` loads no fonts: apps import `@nerdlab/css-pop/fonts.css` (Google Fonts) or self-host the same families.
+- `candy.css` loads no fonts: apps import `@nerdlab/css-candy/fonts.css` (Google Fonts) or self-host the same families.
 - Hand-written tables using `.nl-table--stack` must set `data-label` on every cell; `DataTable` does it for you.
 - `DataTable` sorts internally unless `sort` is passed; with pagination use controlled `sort` + `onSortChange`.
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.

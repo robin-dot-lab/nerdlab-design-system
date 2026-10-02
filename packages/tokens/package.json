@@ -8,12 +8,12 @@
     "src"
   ],
   "exports": {
-    "./pop.css": "./dist/pop/tokens.css",
-    "./pop": {
-      "types": "./dist/pop/tokens.d.ts",
-      "default": "./dist/pop/tokens.js"
+    "./candy.css": "./dist/candy/tokens.css",
+    "./candy": {
+      "types": "./dist/candy/tokens.d.ts",
+      "default": "./dist/candy/tokens.js"
     },
-    "./pop.json": "./dist/pop/tokens.json"
+    "./candy.json": "./dist/candy/tokens.json"
   },
   "sideEffects": [
     "*.css"

@@ -1,4 +1,4 @@
-// Seeded, deterministic data model — ported from design-system-nerdlab-pop/dashboard-preview.html.
+// Seeded, deterministic data model — ported from design-system-nerdlab-candy/dashboard-preview.html.
 // Category order is the fixed categorical slot order (--chart-1 … --chart-4): colour follows the entity.
 import { sum } from './format';
 

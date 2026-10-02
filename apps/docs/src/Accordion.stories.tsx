@@ -18,7 +18,7 @@ export const FAQ: Story = {
         Pour changer de peau en changeant de feuille de style, sans coût à l'exécution.
       </AccordionItem>
       <AccordionItem title="Les polices sont-elles incluses ?">
-        Non : <code>@nerdlab/css-pop/fonts.css</code> est facultatif, l'application choisit.
+        Non : <code>@nerdlab/css-candy/fonts.css</code> est facultatif, l'application choisit.
       </AccordionItem>
       <AccordionItem title="Le thème sombre ?">
         Poser <code>data-theme="dark"</code> sur <code>&lt;html&gt;</code>.

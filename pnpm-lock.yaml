@@ -20,9 +20,9 @@ importers:
       '@nerdlab/charts':
         specifier: workspace:*
         version: link:../../packages/charts
-      '@nerdlab/css-pop':
+      '@nerdlab/css-candy':
         specifier: workspace:*
-        version: link:../../packages/css-pop
+        version: link:../../packages/css-candy
       '@nerdlab/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -60,9 +60,9 @@ importers:
       '@nerdlab/charts':
         specifier: workspace:*
         version: link:../../packages/charts
-      '@nerdlab/css-pop':
+      '@nerdlab/css-candy':
         specifier: workspace:*
-        version: link:../../packages/css-pop
+        version: link:../../packages/css-candy
       '@nerdlab/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -141,7 +141,7 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3(@types/node@26.6.3)(jsdom@30.1.1)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.2))
 
-  packages/css-pop:
+  packages/css-candy:
     dependencies:
       '@nerdlab/tokens':
         specifier: workspace:*

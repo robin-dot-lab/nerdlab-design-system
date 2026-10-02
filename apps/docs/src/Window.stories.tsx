@@ -13,7 +13,7 @@ export const Default: Story = {
   render: () => (
     <Window style={{ maxWidth: 380 }}>
       <Window.Bar>NERDLAB.EXE</Window.Bar>
-      <Window.Body>Le composant signature de la peau Pop : une fenêtre d'OS rétro.</Window.Body>
+      <Window.Body>Le composant signature de la peau Candy : une fenêtre d'OS rétro.</Window.Body>
     </Window>
   ),
 };

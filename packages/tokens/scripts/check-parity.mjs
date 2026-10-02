@@ -2,7 +2,7 @@
 // (names and values) of the reference stylesheet the design system was born in.
 import fs from 'node:fs';
 
-const REFERENCE = { pop: '../../design-system-nerdlab-pop/design-system.css' };
+const REFERENCE = { candy: '../../design-system-nerdlab-candy/design-system.css' };
 const DEVIATIONS = JSON.parse(fs.readFileSync(new URL('./parity-deviations.json', import.meta.url), 'utf8'));
 
 const block = (css, start) => {

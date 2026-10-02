@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@nerdlab/charts": "workspace:*",
-    "@nerdlab/css-pop": "workspace:*",
+    "@nerdlab/css-candy": "workspace:*",
     "@nerdlab/react": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

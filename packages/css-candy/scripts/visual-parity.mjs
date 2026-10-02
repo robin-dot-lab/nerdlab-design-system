@@ -1,5 +1,5 @@
-// Visual parity: the Pop showcase and dashboard must render pixel-identical with the
-// original monolithic stylesheet and with the layered dist/pop.css (+ fonts.css).
+// Visual parity: the Candy showcase and dashboard must render pixel-identical with the
+// original monolithic stylesheet and with the layered dist/candy.css (+ fonts.css).
 // Uses the locally installed Chrome (Playwright channel "chrome"), no browser download.
 import fs from 'node:fs';
 import os from 'node:os';
@@ -9,7 +9,7 @@ import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import { missingFonts, routeTestFonts } from '../../../tools/test-fonts/route.mjs';
 
-const REF_DIR = path.resolve('../../design-system-nerdlab-pop');
+const REF_DIR = path.resolve('../../design-system-nerdlab-candy');
 const PAGES = ['design-system-preview.html', 'dashboard-preview.html'];
 const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 375, height: 812 }];
 const SCHEMES = ['light', 'dark'];
@@ -21,14 +21,14 @@ fs.mkdirSync(refOut); fs.mkdirSync(newOut);
 // Reference = original stylesheet + declared intentional deviations (test/reference-deviations.css).
 fs.writeFileSync(path.join(refOut, 'design-system.css'),
   fs.readFileSync(path.join(REF_DIR, 'design-system.css'), 'utf8') + '\n' + fs.readFileSync('test/reference-deviations.css', 'utf8'));
-fs.copyFileSync('dist/pop.css', path.join(newOut, 'pop.css'));
+fs.copyFileSync('dist/candy.css', path.join(newOut, 'candy.css'));
 fs.copyFileSync('dist/fonts.css', path.join(newOut, 'fonts.css'));
 for (const page of PAGES) {
   const html = fs.readFileSync(path.join(REF_DIR, page), 'utf8').replace('</head>', `${FREEZE}</head>`);
   const link = '<link rel="stylesheet" href="design-system.css">';
   if (!html.includes(link)) throw new Error(`${page}: stylesheet link not found`);
   fs.writeFileSync(path.join(refOut, page), html);
-  fs.writeFileSync(path.join(newOut, page), html.replace(link, '<link rel="stylesheet" href="fonts.css">\n<link rel="stylesheet" href="pop.css">'));
+  fs.writeFileSync(path.join(newOut, page), html.replace(link, '<link rel="stylesheet" href="fonts.css">\n<link rel="stylesheet" href="candy.css">'));
 }
 
 // Software raster, no partial raster: GPU tiling left a few stray pixels (6–17 per page) when the suite ran under load.

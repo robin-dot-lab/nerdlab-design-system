@@ -16,12 +16,12 @@ const kebab = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 const cls = `nl-${kebab}`;
 const p = (rel) => path.join(ROOT, rel);
 const files = {
-  css: `packages/css-pop/src/components/${kebab}.css`,
+  css: `packages/css-candy/src/components/${kebab}.css`,
   tsx: `packages/react/src/${kebab}/${kebab}.tsx`,
   test: `packages/react/src/${kebab}/${kebab}.test.tsx`,
   story: `apps/docs/src/${name}.stories.tsx`,
 };
-const index = 'packages/react/src/index.ts', manifest = 'packages/css-pop/src/manifest.json';
+const index = 'packages/react/src/index.ts', manifest = 'packages/css-candy/src/manifest.json';
 
 const indexCode = fs.readFileSync(p(index), 'utf8');
 if (new RegExp(`\\b${name}\\b`).test(indexCode)) fail(`${name} is already exported from ${index}`);
@@ -79,4 +79,4 @@ Next (see .claude/skills/nerdlab-ui-kit/SKILL.md or AGENTS.md):
   1. Style .${cls} in ${files.css} with tokens only; add 'use client' to the component only if it needs state/effects.
   2. Replace the TODOs, add variants (cva → nl-* classes) and real tests, enrich the story.
   3. pnpm test   (kit integrity, guards, a11y audit of the new story)
-  4. Update the Obsidian vault: "Librairie React Nerdlab" (component table) and "Package CSS de la peau Pop" (created files).`);
+  4. Update the Obsidian vault: "Librairie React Nerdlab" (component table) and "Package CSS de la peau Candy" (created files).`);

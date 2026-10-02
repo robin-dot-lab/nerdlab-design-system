@@ -28,7 +28,7 @@ describe('every exported component is documented and tested', () => {
 
 // Every nl-* class written by the React layers must exist in the skin (static names exactly,
 // template-literal prefixes such as `nl-meter--${level}` as a prefix of at least one selector).
-const skinCss = walk('packages/css-pop/src', /\.css$/).map(read).join('\n');
+const skinCss = walk('packages/css-candy/src', /\.css$/).map(read).join('\n');
 const selectors = new Set([...skinCss.matchAll(/\.(nl-[a-z0-9_-]+)/g)].map((m) => m[1]!));
 const sources = [...walk('packages/react/src', /\.tsx?$/), ...walk('packages/charts/src', /\.tsx?$/)].filter((f) => !/\.test\.tsx?$/.test(f));
 const classUses = sources.flatMap((file) => {
@@ -45,13 +45,13 @@ describe('every class used by React exists in the skin', () => {
   it('finds class uses at all (guards the scanner itself)', () => expect(unique.length).toBeGreaterThan(40));
   it.each(unique.map((u) => [u.prefix ? `${u.name}*` : u.name, u] as const))('%s', (_label, u) => {
     const ok = u.prefix ? [...selectors].some((s) => s.startsWith(u.name)) : selectors.has(u.name);
-    expect(ok, `${u.file} uses "${u.name}${u.prefix ? '…' : ''}" but no selector in packages/css-pop/src defines it`).toBe(true);
+    expect(ok, `${u.file} uses "${u.name}${u.prefix ? '…' : ''}" but no selector in packages/css-candy/src defines it`).toBe(true);
   });
 });
 
 describe('every skin file is assembled', () => {
-  const manifest = JSON.parse(read('packages/css-pop/src/manifest.json')) as Record<string, string[]>;
+  const manifest = JSON.parse(read('packages/css-candy/src/manifest.json')) as Record<string, string[]>;
   const listed = new Set(Object.values(manifest).flat());
-  const onDisk = walk('packages/css-pop/src', /\.css$/).map((f) => path.relative('packages/css-pop/src', f)).filter((f) => f !== 'fonts.css');
+  const onDisk = walk('packages/css-candy/src', /\.css$/).map((f) => path.relative('packages/css-candy/src', f)).filter((f) => f !== 'fonts.css');
   it.each(onDisk)('%s is listed in manifest.json', (f) => expect(listed.has(f)).toBe(true));
 });
