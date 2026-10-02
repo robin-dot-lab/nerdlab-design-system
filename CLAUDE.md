@@ -13,9 +13,12 @@ Documentation lives in the Obsidian vault, project **Nerdlab Design System** (`N
 - `pnpm install` · `pnpm build` (turbo) · `pnpm test`
 - `pnpm --filter @nerdlab/tokens test` — parity check: generated CSS vars must equal the reference stylesheet's.
 - `pnpm storybook` — dev server on :6006 · `pnpm --filter @nerdlab/react test` — vitest (jsdom)
+- `pnpm --filter @nerdlab/docs test` — axe audit of every story (light/dark × 1280/390) on the static build; needs local Chrome + network, ~4 min
 - `pnpm --filter @nerdlab/css-pop test` — visual parity: showcase + dashboard screenshots (1440/375, light/dark) must be pixel-identical with the original stylesheet. Uses the installed Chrome via Playwright `channel: "chrome"` (override with `CHROME_CHANNEL`).
 
 ## Gotchas
+- `'use client'` must be the first line of any React module using state/effects/context/React Aria components, and only those (`use-client.test.ts`). Do not put breakpoints or any style value in React code: e.g. `MobileNav` closes when the skin hides its toggle (ResizeObserver), it never reads a media query.
+- React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.
 - Parity tests compare against the original static stylesheet **plus declared deviations**: `packages/tokens/scripts/parity-deviations.json` and `packages/css-pop/test/reference-deviations.css`. An intentional visual change goes in both places with a decision note; never edit `design-system-nerdlab-pop/` to make a test pass.
 - pnpm 11 blocks dependency build scripts: `allowBuilds` in `pnpm-workspace.yaml` (esbuild is set to `false`, it works without its postinstall). A new dependency with a build script makes `pnpm install`/`pnpm run` fail until it is listed there.
 - A new CSS file in `packages/css-pop/src` must be added to `src/manifest.json` (order = cascade order); the build fails otherwise.
