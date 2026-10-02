@@ -1,7 +1,8 @@
 // Accessibility audit of every story in the static Storybook build.
 // Each story is rendered in the installed Chrome (Playwright channel "chrome"), in light and dark
-// themes, at desktop and phone widths; axe-core runs on #storybook-root. Any violation or console
-// error fails the run. Run after `storybook build` (turbo: test depends on build).
+// themes, at desktop and phone widths; axe-core runs on #storybook-root and on the overlays React Aria
+// portals to <body>. Any violation or console error fails the run. Run after `storybook build`
+// (turbo: test depends on build). STORY_FILTER=<substring> audits only the matching story ids.
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
@@ -28,7 +29,7 @@ await new Promise((r) => server.listen(0, r));
 const base = `http://localhost:${server.address().port}`;
 
 const index = JSON.parse(fs.readFileSync(path.join(ROOT, 'index.json'), 'utf8'));
-const stories = Object.values(index.entries).filter((e) => e.type === 'story');
+const stories = Object.values(index.entries).filter((e) => e.type === 'story' && e.id.includes(process.env.STORY_FILTER ?? ''));
 const browser = await pw.chromium.launch({ channel: process.env.CHROME_CHANNEL ?? 'chrome' });
 let failures = 0;
 
@@ -48,7 +49,10 @@ for (const vp of VIEWPORTS) for (const theme of THEMES) {
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(250); // play functions and enter transitions
     await page.addScriptTag({ content: AXE });
-    const violations = await page.evaluate(async () => (await window.axe.run('#storybook-root')).violations
+    // The story root, plus overlays React Aria portals to <body> (dialogs, popovers, menus).
+    const violations = await page.evaluate(async () => (await window.axe.run({
+      include: [...document.body.children].filter((el) => el.id === 'storybook-root' || el.matches('.nl-dialog-overlay, .nl-popover, :has(.nl-dialog-overlay, .nl-popover)')),
+    })).violations
       .map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`));
     const label = `${vp.name} ${theme} ${story.id}`;
     if (violations.length || errors.length) {

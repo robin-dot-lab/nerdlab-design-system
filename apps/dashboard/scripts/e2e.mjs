@@ -97,8 +97,11 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   await page.keyboard.press('Escape');
 
   const download = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Exporter CSV' }).click();
+  await page.getByRole('button', { name: 'Exporter' }).click();
+  check(await page.getByRole('menu', { name: 'Exporter' }).isVisible(), 'export menu opens, named by its button');
+  await page.getByRole('menuitem', { name: 'Commandes filtrées (CSV)' }).click();
   check((await download).suggestedFilename() === 'nerdlab-orders-90j.csv', 'CSV export downloads the filtered orders');
+  check(await page.getByRole('menu').waitFor({ state: 'detached', timeout: 2000 }).then(() => true, () => false), 'export menu closes after the action');
   check(await page.getByRole('status').textContent().then((t) => t.includes('commandes exportées')), 'export announces a status message');
 
   await page.getByRole('switch', { name: 'Thème sombre' }).click();

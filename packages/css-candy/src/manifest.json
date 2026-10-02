@@ -35,7 +35,14 @@
     "components/segmented.css",
     "components/chip.css",
     "components/toast-region.css",
-    "components/charts.css"
+    "components/charts.css",
+    "components/progress-native.css",
+    "components/bento-tones.css",
+    "components/sticker-variants.css",
+    "components/ribbon-pause.css",
+    "components/callout.css",
+    "components/form-controls.css",
+    "components/overlays.css"
   ],
   "utilities": [
     "utilities/typography.css",

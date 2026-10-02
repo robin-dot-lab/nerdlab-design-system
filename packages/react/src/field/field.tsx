@@ -34,22 +34,76 @@ export function Field({ label, help, error, id, className, children, ...props }:
   );
 }
 
+/** id, aria-describedby and invalid state of a control, merged with the enclosing <Field> if any. */
+function useFieldControl(id: string | undefined, invalid: boolean | undefined, describedBy: string | undefined) {
+  const field = useContext(FieldContext);
+  const isInvalid = invalid ?? field?.invalid ?? false;
+  return {
+    id: id ?? field?.id,
+    isInvalid,
+    describedBy: [describedBy, field?.describedBy].filter(Boolean).join(' ') || undefined,
+  };
+}
+
 export interface InputProps extends ComponentProps<'input'> {
   /** Error styling + aria-invalid. Set automatically inside a `<Field error>`. */
   invalid?: boolean;
 }
 
 export function Input({ className, invalid, id, ...props }: InputProps) {
-  const field = useContext(FieldContext);
-  const isInvalid = invalid ?? field?.invalid ?? false;
-  const describedBy = [props['aria-describedby'], field?.describedBy].filter(Boolean).join(' ') || undefined;
+  const c = useFieldControl(id, invalid, props['aria-describedby']);
   return (
     <input
-      id={id ?? field?.id}
-      className={cn('nl-input', isInvalid && 'nl-input--error', className)}
-      aria-invalid={isInvalid || undefined}
+      id={c.id}
+      className={cn('nl-input', c.isInvalid && 'nl-input--error', className)}
+      aria-invalid={c.isInvalid || undefined}
       {...props}
-      aria-describedby={describedBy}
+      aria-describedby={c.describedBy}
     />
+  );
+}
+
+export interface TextareaProps extends ComponentProps<'textarea'> {
+  /** Error styling + aria-invalid. Set automatically inside a `<Field error>`. */
+  invalid?: boolean;
+}
+
+/** Multi-line text, resizable vertically. Wire it to a label with `<Field>`. */
+export function Textarea({ className, invalid, id, ...props }: TextareaProps) {
+  const c = useFieldControl(id, invalid, props['aria-describedby']);
+  return (
+    <textarea
+      id={c.id}
+      className={cn('nl-input', c.isInvalid && 'nl-input--error', className)}
+      aria-invalid={c.isInvalid || undefined}
+      {...props}
+      aria-describedby={c.describedBy}
+    />
+  );
+}
+
+export interface SelectProps extends ComponentProps<'select'> {
+  /** Error styling + aria-invalid. Set automatically inside a `<Field error>`. */
+  invalid?: boolean;
+  /** Class for the wrapper that draws the chevron. `className` goes to the <select>. */
+  wrapperClassName?: string;
+}
+
+/**
+ * Native <select> with the input look and a drawn chevron: the platform picker on phones, typeahead
+ * and form submission for free. Pass <option> children; wire it to a label with `<Field>`.
+ */
+export function Select({ className, wrapperClassName, invalid, id, ...props }: SelectProps) {
+  const c = useFieldControl(id, invalid, props['aria-describedby']);
+  return (
+    <span className={cn('nl-select', wrapperClassName)}>
+      <select
+        id={c.id}
+        className={cn('nl-input', c.isInvalid && 'nl-input--error', className)}
+        aria-invalid={c.isInvalid || undefined}
+        {...props}
+        aria-describedby={c.describedBy}
+      />
+    </span>
   );
 }

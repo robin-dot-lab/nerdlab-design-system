@@ -1,0 +1,10 @@
+/* Bento tones (new in the package): the reference set tile backgrounds inline; here they are classes.
+   Candy colours carry ink text, the ink tile carries cream text, in both themes. */
+.nl-bento--elevated { background: var(--color-surface-elevated); }
+.nl-bento--ink { background: var(--ink); color: var(--cream); }
+.nl-bento--primary { background: var(--color-primary); color: var(--ink); }
+.nl-bento--secondary { background: var(--color-secondary); color: var(--ink); }
+.nl-bento--accent { background: var(--color-accent); color: var(--ink); }
+.nl-bento--mint { background: var(--color-mint); color: var(--ink); }
+.nl-bento--lavender { background: var(--color-lavender); color: var(--ink); }
+.nl-bento__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-black); font-size: var(--text-2xl); line-height: var(--leading-2xl); }

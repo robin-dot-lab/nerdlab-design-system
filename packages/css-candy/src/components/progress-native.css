@@ -1,0 +1,28 @@
+/* Progress on the native <progress> element (new in the package). Same look as the reference
+   .nl-progress > span, but the browser draws the fill and exposes value/max to assistive tech.
+   Without a value the bar is indeterminate: stripes scroll, or stand still under reduced motion. */
+progress.nl-progress { appearance: none; display: block; width: 100%; color: inherit; }
+progress.nl-progress::-webkit-progress-bar { background: transparent; border-radius: var(--radius-full); }
+progress.nl-progress::-webkit-progress-value {
+  border: var(--border-width) solid var(--ink); border-radius: var(--radius-full);
+  background: repeating-linear-gradient(-45deg, var(--color-primary) 0 8px, var(--color-primary-hover) 8px 16px);
+}
+progress.nl-progress::-moz-progress-bar {
+  border: var(--border-width) solid var(--ink); border-radius: var(--radius-full);
+  background: repeating-linear-gradient(-45deg, var(--color-primary) 0 8px, var(--color-primary-hover) 8px 16px);
+}
+progress.nl-progress--pixel::-webkit-progress-bar { border-radius: 0; }
+progress.nl-progress--pixel::-webkit-progress-value { border: 0; border-radius: 0; background: repeating-linear-gradient(90deg, var(--pixel-moss) 0 10px, transparent 10px 12px); }
+progress.nl-progress--pixel::-moz-progress-bar { border: 0; border-radius: 0; background: repeating-linear-gradient(90deg, var(--pixel-moss) 0 10px, transparent 10px 12px); }
+progress.nl-progress:indeterminate {
+  background: repeating-linear-gradient(-45deg, var(--color-primary-soft) 0 8px, var(--color-surface) 8px 16px);
+  background-clip: content-box;
+  animation: nl-progress-scroll 0.8s linear infinite;
+}
+progress.nl-progress:indeterminate::-webkit-progress-bar { background: transparent; }
+progress.nl-progress:indeterminate::-webkit-progress-value { border: 0; background: transparent; }
+progress.nl-progress:indeterminate::-moz-progress-bar { background: transparent; border: 0; }
+@keyframes nl-progress-scroll { to { background-position: 22.63px 0; /* one stripe period at 45°: 16px × √2 */ } }
+@media (prefers-reduced-motion: reduce) {
+  progress.nl-progress:indeterminate { animation: none; }
+}

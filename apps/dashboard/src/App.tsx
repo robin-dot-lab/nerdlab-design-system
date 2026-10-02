@@ -1,5 +1,5 @@
 import {
-  Badge, Button, Cluster, DataTable, Delta, Meter, MobileNav, Pagination, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
+  Badge, Button, Cluster, DataTable, Delta, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
   type DataTableColumn, type DataTableSort,
 } from '@nerdlab/react';
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
@@ -63,11 +63,12 @@ export function App() {
   ];
 
   const toggleCat = (id: CatId, on: boolean) => setFilters((f) => ({ ...f, cats: on ? CATS.filter((c) => c.id === id || f.cats.includes(c.id)).map((c) => c.id) : f.cats.filter((c) => c !== id) }));
-  const exportCsv = () => {
-    const csv = ['id;client;event;categorie;billets;montant;statut;date', ...orders.map((o) => [o.id, o.client, o.event, catById[o.cat].name, o.qty, o.amount, STATUS[o.status].label, o.date.toISOString()].join(';'))].join('\n');
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = `nerdlab-orders-${shown.range}j.csv`; a.click(); URL.revokeObjectURL(a.href);
-    setToast(`${orders.length} commandes exportées`);
+  const exportCsv = (list: readonly Order[], file: string) => {
+    const csv = ['id;client;event;categorie;billets;montant;statut;date', ...list.map((o) => [o.id, o.client, o.event, catById[o.cat].name, o.qty, o.amount, STATUS[o.status].label, o.date.toISOString()].join(';'))].join('\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = file; a.click(); URL.revokeObjectURL(a.href);
+    setToast(`${list.length} commandes exportées`);
   };
+  const onExport = (key: unknown) => key === 'all' ? exportCsv(ORDERS, 'nerdlab-orders-tout.csv') : exportCsv(orders, `nerdlab-orders-${shown.range}j.csv`);
   const themeSwitch = <Switch checked={theme === 'dark'} onChange={(e) => setTheme(e.currentTarget.checked ? 'dark' : 'light')}>Thème sombre</Switch>;
 
   return (
@@ -85,7 +86,13 @@ export function App() {
         <main className="main" id="top">
           <header className="top">
             <div><span className="nl-eyebrow nl-muted">Nerdlab Events · Analytics</span><h1 className="nl-display">Dashboard<span className="dot">.</span></h1></div>
-            <Cluster gap={3}><span className="top__theme">{themeSwitch}</span><Button variant="primary" onClick={exportCsv}>Exporter CSV</Button></Cluster>
+            <Cluster gap={3}><span className="top__theme">{themeSwitch}</span><MenuTrigger>
+              <Button variant="primary">Exporter <span aria-hidden="true">▾</span></Button>
+              <Menu onAction={onExport} placement="bottom end">
+                <MenuItem id="filtered">Commandes filtrées (CSV)</MenuItem>
+                <MenuItem id="all">Toutes les commandes (CSV)</MenuItem>
+              </Menu>
+            </MenuTrigger></Cluster>
           </header>
 
           <section className="filters" aria-label="Filtres">
