@@ -11,8 +11,11 @@ const NEEDS_CLIENT = /\b(?:useState|useEffect|useLayoutEffect|useReducer|useRef|
 
 it.each(files)('%s has no raw colour', (file) => {
   const code = fs.readFileSync(path.join(SRC, file), 'utf8').replace(/\/\/.*$|\/\*[\s\S]*?\*\//gm, '');
-  // contrast.ts parses hex values read from tokens at runtime; it may mention the hex *pattern*, not a colour.
-  const scanned = file === path.join('lib', 'contrast.ts') ? code.replace(/\/\^#\?\(\[0-9a-f\]\{6\}\)\$\/i/, '') : code;
+  // contrast.ts converts colours read from tokens at runtime: it may mention a hex *pattern* and a
+  // transparent sentinel, never a colour of its own.
+  const scanned = file === path.join('lib', 'contrast.ts')
+    ? code.replace(/\/\^#\(\[0-9a-f\]\{6\}\)\$\/i/, '').replace(/'rgba\(0, 0, 0, 0\)'/, '')
+    : code;
   expect(scanned).not.toMatch(RAW_COLOUR);
 });
 

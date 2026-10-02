@@ -108,7 +108,22 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   await context.close();
 }
 
-// 3. Mobile menu
+// 3. ADR-011: share-bar labels must not depend on the token's colour format
+{
+  const { context, page, errors } = await open({ width: 1280, height: 900 }, 'light');
+  const segment = () => page.getByRole('img', { name: /^Musique / });
+  const before = (await segment().textContent()).trim();
+  await page.addStyleTag({ content: ':root { --chart-2: oklch(0.68 0.24 355); }' });
+  const sw = page.getByRole('switch', { name: 'Thème sombre' });
+  await sw.click(); await sw.click(); // re-render the charts under the new token
+  await page.waitForTimeout(500);
+  const after = (await segment().textContent()).trim();
+  check(before !== '' && after === before, `share bar: label kept when --chart-2 is oklch() (before "${before}", after "${after}")`);
+  check(errors.length === 0, 'oklch token: no console error');
+  await context.close();
+}
+
+// 4. Mobile menu
 {
   const { context, page, errors } = await open({ width: 390, height: 844 }, 'light');
   const toggle = page.getByRole('button', { name: 'Menu' });
