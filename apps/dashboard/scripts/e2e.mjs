@@ -39,7 +39,7 @@ async function open(viewport, theme) {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForSelector('.kpi__value');
+  await page.waitForSelector('.nl-stat__value');
   return { context, page, errors };
 }
 async function axe(page) {

@@ -7,7 +7,7 @@ Documentation lives in the Obsidian vault, project **Nerdlab Design System** (`N
 - `packages/tokens` — DTCG token sources (`src/<theme>/*.tokens.json`) → Style Dictionary → `dist/<theme>/tokens.{css,js,d.ts,json}`.
 - `packages/css-pop` — Pop skin split one file per component (`src/components/*.css`), assembled by `scripts/build.mjs` into `dist/pop.css` with layers `nl.tokens < nl.base < nl.components < nl.utilities`. Fonts are NOT in pop.css: `dist/fonts.css` is opt-in.
 - `packages/react` — `@nerdlab/react`, React 19 only, built with plain `tsc` (one ESM file per module, so `"use client"` survives on `field` and `tabs` only). No style values allowed in its sources (`no-style-values.test.ts`).
-- `apps/dashboard` — integration test: the Nerdlab Events dashboard rebuilt in React with Vite, consuming `@nerdlab/*` through their **dist/** (no alias). Charts and library gaps (StatTile, Meter, Pagination, SegmentedControl, ToggleChip, Delta, Toast) are app-local for now, marked `LIBRARY GAP`.
+- `apps/dashboard` — integration test: the Nerdlab Events dashboard rebuilt in React with Vite, consuming `@nerdlab/*` through their **dist/** (no alias). Charts are app-local for now (`src/charts`, to be extracted); every other UI piece comes from the library.
 - `apps/docs` — Storybook 10 (`@nerdlab/docs`). Stories import `@nerdlab/react` **sources** through a Vite alias (`.storybook/main.ts`), so no rebuild is needed while editing components. Telemetry disabled.
 
 ## Commands
@@ -19,6 +19,7 @@ Documentation lives in the Obsidian vault, project **Nerdlab Design System** (`N
 - `pnpm --filter @nerdlab/css-pop test` — visual parity: showcase + dashboard screenshots (1440/375, light/dark) must be pixel-identical with the original stylesheet. Uses the installed Chrome via Playwright `channel: "chrome"` (override with `CHROME_CHANNEL`).
 
 ## Gotchas
+- Colours never cross the React boundary as values: `ToggleChip swatch` takes a token name (`chart-1`…) mapped to `.nl-swatch--*`; `Meter` is a native `<meter>` (the browser draws the width).
 - The dashboard type-checks against `packages/react/dist`: after changing the library, rebuild it (`pnpm build` does, via turbo) or the app sees the old API.
 - Layout variants are CSS modifier classes (`.nl-gap-*`, `.nl-grid-auto--*`, `.nl-split--*`, `.nl-cluster--*`, `.nl-stack--*` in `utilities/layout-modifiers.css`); React primitives map props to them. Never set `--stack-gap` & co. inline from React.
 - `DataTable` writes `data-label` on every cell (stacked mode). Hand-written tables using `.nl-table--stack` must do it themselves.

@@ -27,7 +27,14 @@
     "components/choice.css",
     "components/accordion.css",
     "components/tooltip.css",
-    "components/data-table.css"
+    "components/data-table.css",
+    "components/stat-tile.css",
+    "components/delta.css",
+    "components/meter.css",
+    "components/pagination.css",
+    "components/segmented.css",
+    "components/chip.css",
+    "components/toast-region.css"
   ],
   "utilities": [
     "utilities/typography.css",

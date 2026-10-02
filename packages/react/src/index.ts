@@ -10,5 +10,13 @@ export { Tooltip, TooltipTrigger, type TooltipProps, type TooltipTriggerProps } 
 export { MobileNav, type MobileNavProps } from './nav/mobile-nav.js';
 export { Container, Section, Stack, Cluster, Grid, Split, VisuallyHidden, type Gap, type StackProps, type ClusterProps, type GridProps, type SplitProps } from './layout/layout.js';
 export { DataTable, type DataTableProps, type DataTableColumn, type DataTableSort, type SortDirection } from './data-table/data-table.js';
+export { StatTile, type StatTileProps } from './stat/stat-tile.js';
+export { Delta, type DeltaProps } from './delta/delta.js';
+export { Meter, meterLevel, type MeterProps, type MeterLevel } from './meter/meter.js';
+export { Pagination, type PaginationProps } from './pagination/pagination.js';
+export { SegmentedControl, type SegmentedControlProps } from './segmented/segmented-control.js';
+export { ToggleChip, type ToggleChipProps, type SwatchToken } from './chip/toggle-chip.js';
+export { Toast, type ToastProps } from './toast/toast.js';
+export { Search, type SearchProps } from './search/search.js';
 export { Focusable } from 'react-aria-components';
 export { cn } from './lib/cn.js';

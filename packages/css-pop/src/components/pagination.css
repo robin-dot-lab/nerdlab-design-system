@@ -1,0 +1,2 @@
+/* Pagination (new in the package). Buttons come from button.css; the current page uses .nl-btn--accent. */
+.nl-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }

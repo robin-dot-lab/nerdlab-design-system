@@ -1,0 +1,3 @@
+/* Segmented control (new in the package): a single choice without panels, on .nl-tabs / .nl-tab,
+   with aria-pressed instead of aria-selected (these are toggle buttons, not tabs). */
+.nl-segmented .nl-tab[aria-pressed="true"] { background: var(--color-accent); border-color: var(--ink); color: var(--ink); }

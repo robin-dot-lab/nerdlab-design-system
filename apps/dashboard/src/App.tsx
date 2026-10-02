@@ -1,4 +1,7 @@
-import { Badge, Button, Cluster, DataTable, MobileNav, Split, Stack, Switch, type DataTableColumn, type DataTableSort } from '@nerdlab/react';
+import {
+  Badge, Button, Cluster, DataTable, Delta, Meter, MobileNav, Pagination, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
+  type DataTableColumn, type DataTableSort,
+} from '@nerdlab/react';
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { BarList } from './charts/BarList';
 import { ChartCard, Legend } from './charts/ChartCard';
@@ -13,13 +16,6 @@ import {
 } from './data';
 import { dShort, eur, eurCompact, int, pct, sum } from './format';
 import { useTheme } from './hooks';
-import { Delta } from './ui/Delta';
-import { Meter } from './ui/Meter';
-import { Pagination } from './ui/Pagination';
-import { SegmentedControl } from './ui/SegmentedControl';
-import { StatTile } from './ui/StatTile';
-import { Toast } from './ui/Toast';
-import { ToggleChip } from './ui/ToggleChip';
 
 const NAV = ['Vue d’ensemble', 'Événements', 'Billets', 'Audience', 'Réglages'];
 const PER_PAGE = 8;
@@ -102,24 +98,24 @@ export function App() {
             <SegmentedControl label="Période" value={filters.range} onChange={(range) => setFilters((f) => ({ ...f, range }))}
               options={[{ value: 7, label: '7 j' }, { value: 30, label: '30 j' }, { value: 90, label: '90 j' }]} />
             <Cluster gap={2} role="group" aria-label="Catégories">
-              {CATS.map((c) => <ToggleChip key={c.id} pressed={filters.cats.includes(c.id)} onChange={(on) => toggleCat(c.id, on)} swatch={catColor(c.id)}>{c.name}</ToggleChip>)}
+              {CATS.map((c) => <ToggleChip key={c.id} pressed={filters.cats.includes(c.id)} onPressedChange={(on) => toggleCat(c.id, on)} swatch={`chart-${c.slot}`}>{c.name}</ToggleChip>)}
             </Cluster>
             <span className="nl-eyebrow nl-muted filters__meta">Données au 02.10.2026</span>
           </section>
 
           <div className={stale ? 'scope is-stale' : 'scope'}>
             <section className="kpis" aria-label="Indicateurs clés">
-              <StatTile hero title="REVENUE.EXE" color="primary" label="Revenu billetterie" value={eur.format(cur.revenue)} delta={<><Delta current={cur.revenue} previous={prev.revenue} /><span className="vs">{vs}</span></>}>
+              <StatTile hero title="REVENUE.EXE" barColor="primary" label="Revenu billetterie" value={eur.format(cur.revenue)} meta={<><Delta current={cur.revenue} previous={prev.revenue} /><span>{vs}</span></>}>
                 <Sparkline values={bucket(daily(shown, 'revenue'))} />
               </StatTile>
-              <StatTile title="TICKETS" label="Billets vendus" value={int.format(cur.tickets)} delta={<><Delta current={cur.tickets} previous={prev.tickets} /><span className="vs">{vs}</span></>}>
+              <StatTile title="TICKETS" label="Billets vendus" value={int.format(cur.tickets)} meta={<><Delta current={cur.tickets} previous={prev.tickets} /><span>{vs}</span></>}>
                 <Sparkline values={bucket(daily(shown, 'tickets'))} />
               </StatTile>
-              <StatTile title="FILL_RATE" color="secondary" label="Taux de remplissage" value={pct(cur.fill)} delta={<><Delta current={cur.fill} previous={prev.fill} /><span className="vs">{vs}</span></>}>
+              <StatTile title="FILL_RATE" barColor="secondary" label="Taux de remplissage" value={pct(cur.fill)} meta={<><Delta current={cur.fill} previous={prev.fill} /><span>{vs}</span></>}>
                 <Meter value={cur.fill} label="Taux de remplissage" />
                 <span className="nl-help">{cur.fill >= 0.7 ? 'Objectif 70 % atteint ✓' : cur.fill >= 0.5 ? 'Sous l’objectif de 70 %' : 'Salle à moitié vide !'}</span>
               </StatTile>
-              <StatTile title="BASKET" color="lavender" label="Panier moyen" value={eur.format(cur.basket)} delta={<><Delta current={cur.basket} previous={prev.basket} /><span className="vs">{vs}</span></>}>
+              <StatTile title="BASKET" barColor="lavender" label="Panier moyen" value={eur.format(cur.basket)} meta={<><Delta current={cur.basket} previous={prev.basket} /><span>{vs}</span></>}>
                 <Sparkline values={bucket(daily(shown, 'revenue')).map((v, i) => v / (bucket(daily(shown, 'tickets'))[i] / 1.85 || 1))} />
               </StatTile>
             </section>
@@ -161,25 +157,21 @@ export function App() {
             <section className="orders nl-card" aria-labelledby="orders-title">
               <Split ratio="2-1" gap={4} className="orders__head">
                 <div><h2 id="orders-title">Dernières commandes</h2><p>{int.format(orders.length)} commandes · {eur.format(sum(orders.map((o) => o.amount)))}</p></div>
-                {/* LIBRARY GAP: no Search component; uses the skin's .nl-search markup directly */}
-                <label className="nl-search">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><circle cx="10" cy="10" r="7" /><path d="M15 15l6 6" strokeLinecap="round" /></svg>
-                  <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Client, event, n°" aria-label="Rechercher une commande" />
-                </label>
+                <Search label="Rechercher une commande" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Client, event, n°" />
               </Split>
               <DataTable caption="Dernières commandes" hideCaption columns={orderColumns} rows={pageRows} rowKey={(o) => o.id}
                 sort={sort} onSortChange={setSort} empty="Aucune commande ne correspond." />
               <Stack className="orders__foot">
                 <Cluster justify="between" gap={3}>
                   <span className="nl-muted">{orders.length ? `${(page - 1) * PER_PAGE + 1}–${Math.min(page * PER_PAGE, orders.length)} sur ${orders.length}` : ''}</span>
-                  <Pagination page={page} pages={pages} onChange={setPage} label="Pages des commandes" />
+                  <Pagination page={page} pages={pages} onPageChange={setPage} label="Pages des commandes" />
                 </Cluster>
               </Stack>
             </section>
           </div>
         </main>
       </div>
-      <Toast message={toast} onDone={clearToast} />
+      <Toast message={toast} onDismiss={clearToast} />
     </ChartTipProvider>
   );
 }
