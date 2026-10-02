@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Badge, Button, Card, Cluster, Container, Grid, Split, Stack, Window } from '@nerdlab/react';
+import { Badge, Button, Card, Cluster, Container, Grid, Section, Split, Stack, VisuallyHidden, Window } from '@nerdlab/react';
 
 const meta = {
   title: 'Mise en page/Primitives',
@@ -83,6 +83,27 @@ export const AsList: Story = {
           <li>Tokens</li><li>Peau CSS</li><li>Composants</li>
         </ul>
       </Stack>
+    </Container>
+  ),
+};
+
+/** `Section` donne le rythme vertical entre deux blocs de page (`--section-y`, fluide). */
+export const Sections: Story = {
+  render: () => (
+    <Container>
+      <Section aria-labelledby="s1"><h2 id="s1" className="nl-headline">Première section</h2><p>Le rythme vertical vient de la peau.</p></Section>
+      <Section aria-labelledby="s2" style={{ borderBlockStart: 'var(--border)' }}><h2 id="s2" className="nl-headline">Seconde section</h2><p>Même espacement, quel que soit l'écran.</p></Section>
+    </Container>
+  ),
+};
+
+/** `VisuallyHidden` : texte lu par les lecteurs d'écran, invisible à l'écran (ici, le nom du bouton icône). */
+export const VisuallyHiddenText: Story = {
+  render: () => (
+    <Container>
+      <div style={{ paddingBlock: 24 }}>
+        <Button shape="square" size="sm">✕<VisuallyHidden>Fermer le panneau</VisuallyHidden></Button>
+      </div>
     </Container>
   ),
 };
