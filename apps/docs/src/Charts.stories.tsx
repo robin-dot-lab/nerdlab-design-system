@@ -11,7 +11,8 @@ const SERIES: LineSeries[] = [
   { id: 'code', name: 'Code', slot: 3, values: wave(1100, 2.1) },
   { id: 'food', name: 'Food', slot: 4, values: wave(900, 3.4) },
 ];
-const DAYS = Array.from({ length: 14 }, (_, i) => `${String(i + 19).padStart(2, '0')} sept`);
+// Real calendar days from 19 September (the earlier `${i + 19} sept` ran past the end of the month).
+const DAYS = Array.from({ length: 14 }, (_, i) => new Date(Date.UTC(2026, 8, 19 + i)).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', timeZone: 'UTC' }).replace('.', ''));
 
 const meta = { title: 'Graphes/Tous', component: LineChart, parameters: { layout: 'padded' } } satisfies Meta<typeof LineChart>;
 export default meta;

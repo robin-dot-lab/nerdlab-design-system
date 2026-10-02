@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../packages/css-candy/dist/fonts.css">
+<link rel="stylesheet" href="../../packages/css-candy/dist/candy.css">
+<style>
+  /* README banner, composed only from the kit's classes and tokens. */
+  body { margin: 0; }
+  .banner { position: relative; width: 1280px; height: 600px; overflow: hidden; background: var(--grid-paper); border-block-end: var(--border-heavy); }
+  .banner .nl-ribbon { position: absolute; inset-inline: 0; inset-block-start: 0; }
+  .hero { position: absolute; inset-inline-start: 72px; inset-block-start: 132px; display: grid; gap: var(--space-5); max-width: 640px; }
+  .hero .nl-display { margin: 0; font-size: 132px; line-height: 0.86; }
+  .hero p { margin: 0; font-size: var(--text-xl); line-height: var(--leading-xl); max-width: 30rem; }
+  .win { position: absolute; inset-inline-end: 80px; inset-block-start: 150px; width: 380px; transform: rotate(2deg); }
+  .win .nl-window__body { display: grid; gap: var(--space-4); }
+  .bar { height: 14px; border: var(--border); border-radius: var(--radius-full); background: var(--color-surface); overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 72%; background: repeating-linear-gradient(-45deg, var(--color-primary) 0 8px, var(--color-primary-hover) 8px 16px); }
+  .s1 { position: absolute; inset-inline-end: 420px; inset-block-start: 400px; }
+  .s2 { position: absolute; inset-inline-end: 60px; inset-block-start: 430px; }
+  .b1 { position: absolute; inset-inline-end: 452px; inset-block-start: 118px; }
+  .bub { position: absolute; inset-inline-end: 96px; inset-block-start: 66px; font-size: var(--text-xl); }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="nl-ribbon" aria-hidden="true"><div class="nl-ribbon__track"><span>Design tokens</span><span>CSS cascade layers</span><span>React 19</span><span>React Aria</span><span>Charts</span><span>Storybook</span><span>Stay nerdy</span><span>Design tokens</span><span>CSS cascade layers</span><span>React 19</span><span>React Aria</span><span>Charts</span><span>Storybook</span><span>Stay nerdy</span></div></div>
+  <div class="hero">
+    <span class="nl-eyebrow">Nerdlab · Design system</span>
+    <h1 class="nl-display">Nerdlab<br><span class="nl-pop-text" style="color: var(--color-primary)">Candy.</span></h1>
+    <p>Candy colours on a neo-brutalist frame. A CSS skin, a thin React layer, charts, and an integration dashboard.</p>
+    <div class="nl-cluster"><span class="nl-btn nl-btn--primary nl-btn--lg">Get started</span><span class="nl-btn nl-btn--lg">Storybook</span></div>
+  </div>
+  <div class="nl-window win">
+    <div class="nl-window__bar nl-window__bar--secondary"><span>NERDLAB.EXE</span><span class="nl-window__controls"><span>_</span><span>□</span><span>×</span></span></div>
+    <div class="nl-window__body">
+      <div class="nl-cluster"><span class="nl-badge">Tokens</span><span class="nl-badge nl-badge--primary">CSS</span><span class="nl-badge nl-badge--mint">React</span><span class="nl-badge nl-badge--lavender">Charts</span></div>
+      <div class="bar"><i></i></div>
+      <div class="nl-cluster"><span class="nl-pill nl-pill--filled">a11y audited</span><span class="nl-pill">pixel tested</span></div>
+    </div>
+  </div>
+  <span class="nl-sticker s1"><span>MIT<small class="nl-sticker__small">licence</small></span></span>
+  <span class="nl-sticker nl-sticker--accent nl-sticker--tilt-right nl-sticker--lg s2"><span>RSC<small class="nl-sticker__small">ready</small></span></span>
+  <span class="nl-burst nl-burst--label nl-burst--mint b1">NEW</span>
+  <span class="nl-bubble bub">Hello!</span>
+</div>
+</body>
+</html>

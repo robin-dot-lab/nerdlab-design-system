@@ -6,7 +6,8 @@
     "storybook": "storybook dev -p 6006",
     "build": "storybook build -o storybook-static --quiet",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "node scripts/a11y-audit.mjs"
+    "test": "node scripts/a11y-audit.mjs && node scripts/visual.mjs && node scripts/cross-browser.mjs",
+    "visual:update": "UPDATE=1 node scripts/visual.mjs"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.6.1",
@@ -15,7 +16,9 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "axe-core": "^4.13.0",
+    "pixelmatch": "^7.2.0",
     "playwright-core": "^1.63.0",
+    "pngjs": "^7.0.0",
     "storybook": "^10.6.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.2"

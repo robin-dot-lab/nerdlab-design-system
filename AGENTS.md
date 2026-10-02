@@ -19,14 +19,20 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `design-system-nerdlab-candy/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Candy is the only skin (the Ultramarine variant was dropped). Candy was called **Pop** until 2026-10-02: the static files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it |
-| `tools/` | `new-component` generator, `test-fonts` offline font cache |
+| `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images) |
+| `.github/workflows/` | CI (`pnpm test`), Pages (Storybook + dashboard), Release (version PR, no publish), visual baselines (Linux) |
 
 ## Commands
 
-- `pnpm install` · `pnpm build` · `pnpm test` (builds, typechecks, then tests every package, ~4 min, no network needed) · `pnpm typecheck`
+- `pnpm install` · `pnpm build` · `pnpm test` (builds, typechecks, then tests every package, ~13 min, no network needed; `STORY_FILTER` to iterate faster) · `pnpm typecheck`
+- `pnpm changeset` — describe a change to a published package (`@nerdlab/tokens`, `css-candy`, `react`, `charts`) for the changelog. Nothing is published: the registry is not chosen
 - `pnpm storybook` (:6006, reads sources) · `pnpm --filter @nerdlab/dashboard dev` (:5173, reads `dist/`: run `pnpm build` first)
 - `pnpm new:component <PascalName> [--element span]` — scaffold a component everywhere it must exist
 - `pnpm fetch:test-fonts` — refresh the offline font cache when a test reports a missing font URL
+- `pnpm --filter @nerdlab/docs visual:update` — rewrite the story screenshots of your platform after an intended visual change (CI's Linux set: the *Update visual baselines* workflow)
+- `STORY_FILTER=<id fragment>` — limits the Storybook audit, visual and cross-browser scripts to matching stories
+- `node tools/readme-assets/capture.mjs` — regenerate the README images (after `pnpm build`)
+- Firefox and WebKit for the cross-browser tests: `node node_modules/playwright-core/cli.js install firefox webkit`
 
 ## Rules (each one is enforced; the guard is in brackets)
 
@@ -36,8 +42,9 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 4. **Every exported component has a story and a test, and every `nl-*` class it uses exists in the skin** [`packages/react/src/kit-integrity.test.ts`].
 5. **Every skin file is in `manifest.json`**; new files go **at the end** so they cannot change the cascade of existing rules [build + kit integrity].
 6. **The skin must render identically to the reference** except for declared deviations [`packages/css-candy/scripts/visual-parity.mjs`, `packages/tokens/scripts/check-parity.mjs`]. An intentional visual change goes in `packages/tokens/scripts/parity-deviations.json` **and** `packages/css-candy/test/reference-deviations.css`, with a decision note in the vault.
-7. **Accessibility**: no axe violation and no console error in any story, light/dark, 1280/390 px [`apps/docs/scripts/a11y-audit.mjs`], nor in the dashboard [`apps/dashboard/scripts/e2e.mjs`]. Text on candy colours is ink; contrast ≥ 4.5:1.
-8. **Prefer native elements** when they cover keyboard, screen reader and forms (`<input>`, `<details>`, `<meter>`, `<button aria-pressed>`); React Aria only where the platform falls short (tabs, tooltip).
+7. **Accessibility**: no axe violation and no console error in any story, light/dark, 1280/390 px, overlays included [`apps/docs/scripts/a11y-audit.mjs`], nor in the dashboard [`apps/dashboard/scripts/e2e.mjs`]; same in Firefox and WebKit [`apps/docs/scripts/cross-browser.mjs`, e2e]. Text on candy colours is ink; contrast ≥ 4.5:1.
+8. **Prefer native elements** when they cover keyboard, screen reader and forms (`<input>`, `<details>`, `<meter>`, `<button aria-pressed>`); React Aria only where the platform falls short (tabs, tooltip, dialog, popover, menu); their triggers wrap our `Button` in `Pressable` themselves.
+9. **Every story looks like its committed screenshot** (desktop light, phone dark), per platform [`apps/docs/scripts/visual.mjs`, baselines in `apps/docs/test/visual/<platform>/`]. An intended change updates the baselines in the same commit.
 
 ## Adding or changing a component
 
@@ -45,8 +52,9 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 2. Style it in the skin with tokens only. Add variants as `cva` maps to `nl-*` classes.
 3. Write real tests (behaviour, ARIA) and a story per meaningful state.
 4. If the dashboard should use it, use it there (it is the integration test).
-5. `pnpm test` must be green.
-6. Update the vault: the component table in `Librairie React Nerdlab` (or `Package de graphes Nerdlab`), the created-files list in `Package CSS de la peau Candy`, and an ADR if the change is a decision someone could reverse. Every note carries `source_rev` = the commit it describes.
+5. `pnpm test` must be green; a new story needs `visual:update`.
+6. `pnpm changeset` for the packages it touches.
+7. Update the vault: the component table in `Librairie React Nerdlab` (or `Package de graphes Nerdlab`), the created-files list in `Package CSS de la peau Candy`, and an ADR if the change is a decision someone could reverse. Every note carries `source_rev` = the commit it describes.
 
 Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). CSS variable name = token path joined by `-`; a `DEFAULT` leaf takes the group name (`border.DEFAULT` → `--border`).
 

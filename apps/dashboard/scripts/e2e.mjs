@@ -1,6 +1,7 @@
 // Integration test of the dashboard built against the packages' dist/ files.
 // Serves dist/, drives the installed Chrome, and checks: no console error, no axe violation
-// (light/dark × 1280/390 px), and real user journeys through the library components.
+// (light/dark × 1280/390 px), real user journeys through the library components, and a clean
+// render in Firefox and WebKit.
 // SHOTS=<dir> also writes screenshots for manual review.
 import fs from 'node:fs';
 import http from 'node:http';
@@ -31,8 +32,8 @@ const browser = await pw.chromium.launch({ channel: process.env.CHROME_CHANNEL ?
 const failures = [];
 const check = (ok, label) => { if (ok) console.log(`✓ ${label}`); else { failures.push(label); console.error(`✗ ${label}`); } };
 
-async function open(viewport, theme) {
-  const context = await browser.newContext({ viewport, colorScheme: theme, acceptDownloads: true });
+async function open(viewport, theme, engine = browser) {
+  const context = await engine.newContext({ viewport, colorScheme: theme, acceptDownloads: true });
   await context.addInitScript((t) => localStorage.setItem('nl-dashboard-theme', t), theme);
   await routeTestFonts(context); // fonts from the local cache: no network dependency
   const page = await context.newPage();
@@ -186,6 +187,22 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   check(await page.getByText('Aucune catégorie sélectionnée').isVisible(), 'warning callout when every category is off');
   check(errors.length === 0, `step-9 journeys: no console error${errors.length ? ' → ' + errors.join(' | ').slice(0, 300) : ''}`);
   await context.close();
+}
+
+// 6. Firefox and WebKit (Safari's engine): the page renders cleanly at both widths, in both themes
+for (const name of ['firefox', 'webkit']) {
+  const engine = await pw[name].launch();
+  for (const [w, h, theme] of [[1280, 900, 'light'], [390, 844, 'dark']]) {
+    const { context, page, errors } = await open({ width: w, height: h }, theme, engine);
+    await page.waitForTimeout(300);
+    const v = await axe(page);
+    check(v.length === 0, `${name} ${w}px ${theme}: axe clean${v.length ? ' → ' + v.join(' | ') : ''}`);
+    check(errors.length === 0, `${name} ${w}px ${theme}: no console error${errors.length ? ' → ' + errors.join(' | ').slice(0, 300) : ''}`);
+    check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${name} ${w}px ${theme}: no horizontal overflow`);
+    if (shots) await page.screenshot({ path: `${shots}/dashboard-${name}-${w}-${theme}.png`, fullPage: true });
+    await context.close();
+  }
+  await engine.close();
 }
 
 await browser.close();

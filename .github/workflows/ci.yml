@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build, typecheck, test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Google Chrome is preinstalled on ubuntu-latest (Playwright channel "chrome");
+      # Firefox and WebKit come from Playwright, with their system dependencies.
+      - run: node node_modules/playwright-core/cli.js install --with-deps firefox webkit
+      # Unit tests, kit integrity, token and pixel parity, Storybook a11y audit,
+      # visual regression of every story, cross-browser smoke, dashboard e2e.
+      - run: pnpm test
+      - name: Upload visual diffs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diffs
+          path: apps/docs/test/visual/__diff__/
+          if-no-files-found: ignore

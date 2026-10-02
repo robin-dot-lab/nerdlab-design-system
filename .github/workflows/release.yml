@@ -1,0 +1,31 @@
+name: Release
+
+# Opens (or updates) a "Version Packages" pull request from the pending changesets:
+# versions and CHANGELOG.md entries. Nothing is published: the registry is not chosen yet.
+# To publish later, add `publish: pnpm changeset publish` below, a publishConfig to each
+# package, the registry token as a secret, and set "access" in .changeset/config.json.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: changesets/action@v1
+        with:
+          version: pnpm version-packages
+          title: Version Packages
+          commit: 'chore: version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

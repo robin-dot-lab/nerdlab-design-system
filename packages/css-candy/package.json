@@ -2,6 +2,24 @@
   "name": "@nerdlab/css-candy",
   "version": "0.1.0",
   "description": "Nerdlab Candy skin: tokens + nl-* component classes in cascade layers",
+  "keywords": [
+    "nerdlab",
+    "design-system",
+    "css",
+    "cascade-layers",
+    "neo-brutalism"
+  ],
+  "license": "MIT",
+  "author": "Nerdlab",
+  "homepage": "https://robin-dot-lab.github.io/nerdlab-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robin-dot-lab/nerdlab-design-system.git",
+    "directory": "packages/css-candy"
+  },
+  "bugs": {
+    "url": "https://github.com/robin-dot-lab/nerdlab-design-system/issues"
+  },
   "type": "module",
   "files": [
     "dist",

@@ -2,6 +2,25 @@
   "name": "@nerdlab/charts",
   "version": "0.1.0",
   "description": "Nerdlab charts: geometry in React/SVG, colours from the skin's chart tokens",
+  "keywords": [
+    "nerdlab",
+    "design-system",
+    "react",
+    "charts",
+    "svg",
+    "dataviz"
+  ],
+  "license": "MIT",
+  "author": "Nerdlab",
+  "homepage": "https://robin-dot-lab.github.io/nerdlab-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robin-dot-lab/nerdlab-design-system.git",
+    "directory": "packages/charts"
+  },
+  "bugs": {
+    "url": "https://github.com/robin-dot-lab/nerdlab-design-system/issues"
+  },
   "type": "module",
   "files": [
     "dist"

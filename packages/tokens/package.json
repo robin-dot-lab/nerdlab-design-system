@@ -2,6 +2,24 @@
   "name": "@nerdlab/tokens",
   "version": "0.1.0",
   "description": "Nerdlab design tokens (DTCG source) compiled by Style Dictionary",
+  "keywords": [
+    "nerdlab",
+    "design-system",
+    "design-tokens",
+    "dtcg",
+    "style-dictionary"
+  ],
+  "license": "MIT",
+  "author": "Nerdlab",
+  "homepage": "https://robin-dot-lab.github.io/nerdlab-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robin-dot-lab/nerdlab-design-system.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": {
+    "url": "https://github.com/robin-dot-lab/nerdlab-design-system/issues"
+  },
   "type": "module",
   "files": [
     "dist",

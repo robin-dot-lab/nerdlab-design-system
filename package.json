@@ -11,10 +11,14 @@
     "typecheck": "turbo run typecheck",
     "storybook": "pnpm --filter @nerdlab/docs storybook",
     "fetch:test-fonts": "node tools/test-fonts/fetch.mjs",
-    "new:component": "node tools/new-component/new-component.mjs"
+    "new:component": "node tools/new-component/new-component.mjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "playwright-core": "^1.63.0",
     "turbo": "^2.11.6"
-  }
+  },
+  "license": "MIT"
 }
