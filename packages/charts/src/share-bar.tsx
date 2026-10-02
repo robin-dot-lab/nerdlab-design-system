@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { readableOn, textWidth } from './lib/contrast.js';
 import { useChartTooltip } from './lib/tooltip.js';
+import { useFontsVersion } from './lib/use-fonts-version.js';
 import { DEFAULT_LOCALE, isFrench, percent } from './lib/locale.js';
 import { slotColor, type Slot } from './lib/types.js';
 import { useWidth } from './lib/use-width.js';
@@ -27,6 +28,8 @@ export interface ShareBarProps {
 export function ShareBar({ items, title, formatValue = String, locale = DEFAULT_LOCALE, emptyLabel = isFrench(locale) ? 'Aucune donnée.' : 'No data.', width }: ShareBarProps) {
   const [ref, W] = useWidth<HTMLDivElement>(width);
   const tip = useChartTooltip();
+  // Label widths are measured on a canvas: measure again once the skin's fonts have loaded.
+  const fontsVersion = useFontsVersion();
   // Label colours depend on the active theme's tokens: re-read them when <html data-theme> changes.
   const [theme, setTheme] = useState('');
   useEffect(() => {
@@ -42,7 +45,7 @@ export function ShareBar({ items, title, formatValue = String, locale = DEFAULT_
   const font = typeof document === 'undefined' ? undefined : `700 12px ${getComputedStyle(document.body).fontFamily}`;
   return (
     <>
-      <div ref={ref} className="nl-share" data-theme-seen={theme}>
+      <div ref={ref} className="nl-share" data-theme-seen={theme} data-fonts-seen={fontsVersion}>
         {W > 0 && items.map((it) => {
           const share = it.value / total, label = pct.format(share), fill = slotColor(it.slot);
           const text = readableOn(fill);

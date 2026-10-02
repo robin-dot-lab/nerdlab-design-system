@@ -8,6 +8,23 @@ const series = [
   { id: 'b', name: 'Code', slot: 3 as const, values: [5, 15, 10, 40] },
 ];
 
+describe('ShareBar measures its labels again when fonts load', () => {
+  it('re-renders on document.fonts "loadingdone"', async () => {
+    const fonts = Object.assign(new EventTarget(), { ready: Promise.resolve() });
+    Object.defineProperty(document, 'fonts', { value: fonts, configurable: true });
+    try {
+      const { container } = render(<ShareBar title="Part" width={400} items={[{ id: 'a', label: 'A', value: 1, slot: 1 }]} />);
+      const bar = () => container.querySelector('.nl-share')!.getAttribute('data-fonts-seen');
+      await act(async () => { await fonts.ready; });
+      const before = Number(bar());
+      act(() => { fonts.dispatchEvent(new Event('loadingdone')); });
+      expect(Number(bar())).toBe(before + 1);
+    } finally {
+      Reflect.deleteProperty(document, 'fonts');
+    }
+  });
+});
+
 describe('locale', () => {
   it('BarList speaks French by default and English for another locale', () => {
     const items = [{ id: 'x', label: 'K-pop', value: 994, slot: 2 as const }, { id: 'y', label: 'Shader', value: 6, slot: 3 as const }];
