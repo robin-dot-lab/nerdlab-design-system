@@ -1,5 +1,5 @@
 /* Accordion: native <details>/<summary> (new in the package, not in the reference sheet).
-   Same DOM as the Ultramarine skin: .nl-accordion > details > summary + div */
+   DOM: .nl-accordion > details > summary + div */
 .nl-accordion { display: grid; gap: var(--space-3); }
 .nl-accordion details {
   background: var(--color-surface);

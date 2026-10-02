@@ -18,7 +18,7 @@ Design system and React library for Nerdlab: one CSS skin (Pop) with `nl-*` clas
 | `packages/charts` | `@nerdlab/charts`: geometry in JS, colours only from skin tokens |
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
-| `design-system-nerdlab-pop/`, `design-system-nous/` | Original static systems: visual reference and parity oracle. Never edit them to make a test pass. Ultramarine is on hold |
+| `design-system-nerdlab-pop/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Pop is the only skin (the Ultramarine variant was dropped) |
 | `tools/` | `new-component` generator, `test-fonts` offline font cache |
 
 ## Commands

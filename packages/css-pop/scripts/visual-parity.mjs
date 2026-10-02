@@ -31,7 +31,11 @@ for (const page of PAGES) {
   fs.writeFileSync(path.join(newOut, page), html.replace(link, '<link rel="stylesheet" href="fonts.css">\n<link rel="stylesheet" href="pop.css">'));
 }
 
-const browser = await chromium.launch({ channel: process.env.CHROME_CHANNEL ?? 'chrome' });
+// Software raster, no partial raster: GPU tiling left a few stray pixels (6–17 per page) when the suite ran under load.
+const browser = await chromium.launch({
+  channel: process.env.CHROME_CHANNEL ?? 'chrome',
+  args: ['--disable-gpu', '--disable-partial-raster', '--force-color-profile=srgb'],
+});
 let failures = 0;
 async function shot(dir, page, viewport, colorScheme) {
   const ctx = await browser.newContext({ viewport, colorScheme, deviceScaleFactor: 1 });
