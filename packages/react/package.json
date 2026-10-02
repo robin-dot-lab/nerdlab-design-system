@@ -1,5 +1,5 @@
 {
-  "name": "@nerdlab/react",
+  "name": "@robin-dot-lab/react",
   "version": "0.1.0",
   "description": "Nerdlab React components: thin typed layer over the nl-* classes (skin-agnostic)",
   "keywords": [
@@ -57,5 +57,9 @@
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   }
 }

@@ -2,7 +2,7 @@
 import {
   Badge, Bento, Burst, Button, Callout, Cluster, Dialog, DialogActions, DialogTrigger, Divider, Field, InfoList, Input,
   Pill, Popover, Progress, Radio, RadioGroup, Select, Sticker, StickerSmall, Textarea,
-} from '@nerdlab/react';
+} from '@robin-dot-lab/react';
 import type { FormEvent } from 'react';
 import { catById, CATS, STATUS, type Order } from './data';
 import { eur, int } from './format';

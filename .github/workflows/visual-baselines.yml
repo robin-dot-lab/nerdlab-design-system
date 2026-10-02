@@ -20,8 +20,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @nerdlab/docs... build
-      - run: pnpm --filter @nerdlab/docs visual:update
+      - run: pnpm --filter @robin-dot-lab/docs... build
+      - run: pnpm --filter @robin-dot-lab/docs visual:update
       - name: Commit the Linux baselines
         run: |
           git config user.name "github-actions[bot]"

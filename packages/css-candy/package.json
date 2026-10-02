@@ -1,5 +1,5 @@
 {
-  "name": "@nerdlab/css-candy",
+  "name": "@robin-dot-lab/css-candy",
   "version": "0.1.0",
   "description": "Nerdlab Candy skin: tokens + nl-* component classes in cascade layers",
   "keywords": [
@@ -37,11 +37,15 @@
     "test": "node scripts/visual-parity.mjs"
   },
   "dependencies": {
-    "@nerdlab/tokens": "workspace:*"
+    "@robin-dot-lab/tokens": "workspace:*"
   },
   "devDependencies": {
     "pixelmatch": "^7.2.0",
     "playwright-core": "^1.63.0",
     "pngjs": "^7.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   }
 }

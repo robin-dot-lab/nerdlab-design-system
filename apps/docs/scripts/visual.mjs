@@ -2,7 +2,7 @@
 // compared with the committed baseline of the current platform, apps/docs/test/visual/<platform>/.
 // Font rasterisation differs between macOS and Linux, hence one baseline set per platform.
 //   node scripts/visual.mjs            compare (fails on any changed pixel)
-//   UPDATE=1 node scripts/visual.mjs   write the baselines (pnpm --filter @nerdlab/docs visual:update)
+//   UPDATE=1 node scripts/visual.mjs   write the baselines (pnpm --filter @robin-dot-lab/docs visual:update)
 // A missing baseline fails locally; on CI it is reported and skipped until the Linux set is refreshed
 // by the "Update visual baselines" workflow. Diffs land in test/visual/__diff__/ (git-ignored).
 import fs from 'node:fs';
@@ -74,8 +74,8 @@ if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing
 if (UPDATE) { console.log(`${written} baseline(s) written to ${path.relative(process.cwd(), DIR)}`); process.exit(0); }
 console.log(`${stories.length} stories × ${VARIANTS.length} variants on ${os.platform()}`);
 if (missing) {
-  const hint = `${missing} story screenshot(s) have no ${os.platform()} baseline: run \`pnpm --filter @nerdlab/docs visual:update\`${process.env.CI ? ' (on Linux: the "Update visual baselines" workflow)' : ''}`;
+  const hint = `${missing} story screenshot(s) have no ${os.platform()} baseline: run \`pnpm --filter @robin-dot-lab/docs visual:update\`${process.env.CI ? ' (on Linux: the "Update visual baselines" workflow)' : ''}`;
   if (process.env.CI) console.warn(`warning: ${hint}`); else { console.error(hint); process.exit(1); }
 }
-if (failures) { console.error(`${failures} visual change(s): if intended, run \`pnpm --filter @nerdlab/docs visual:update\` and commit the baselines; diffs in test/visual/__diff__/`); process.exit(1); }
+if (failures) { console.error(`${failures} visual change(s): if intended, run \`pnpm --filter @robin-dot-lab/docs visual:update\` and commit the baselines; diffs in test/visual/__diff__/`); process.exit(1); }
 console.log('visual regression ok');

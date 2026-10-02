@@ -1,4 +1,4 @@
-// Scaffolds a @nerdlab/react component wired into every place the kit requires, so the result passes
+// Scaffolds a @robin-dot-lab/react component wired into every place the kit requires, so the result passes
 // the kit-integrity, no-style-values and use-client guards from the first run.
 //   pnpm new:component <PascalName> [--element span]
 // Creates: skin CSS (appended to the manifest), React component, test, story, export.
@@ -54,7 +54,7 @@ describe('${name}', () => {
 });
 `);
 fs.writeFileSync(p(files.story), `import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ${name} } from '@nerdlab/react';
+import { ${name} } from '@robin-dot-lab/react';
 
 const meta = { title: 'Composants/${name}', component: ${name} } satisfies Meta<typeof ${name}>;
 export default meta;

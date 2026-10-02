@@ -8,7 +8,7 @@ const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 
 /** Starts a static server on a free port; returns its base URL and a close function. */
 export async function serveStorybook() {
-  if (!fs.existsSync(path.join(ROOT, 'index.json'))) throw new Error('storybook-static/ missing: run `pnpm --filter @nerdlab/docs build` first');
+  if (!fs.existsSync(path.join(ROOT, 'index.json'))) throw new Error('storybook-static/ missing: run `pnpm --filter @robin-dot-lab/docs build` first');
   const server = http.createServer((req, res) => {
     const file = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
     if (!file.startsWith(ROOT) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404).end(); return; }

@@ -8,6 +8,7 @@
   <a href="https://robin-dot-lab.github.io/nerdlab-design-system/dashboard/"><img alt="Dashboard demo" src="https://img.shields.io/badge/dashboard-demo-6BB3E0"></a>
   <img alt="React 19" src="https://img.shields.io/badge/React-19-1B1525?logo=react">
   <img alt="WCAG AA" src="https://img.shields.io/badge/a11y-axe%20clean-9BE3A6">
+  <a href="https://github.com/robin-dot-lab/nerdlab-design-system/packages"><img alt="GitHub Packages" src="https://img.shields.io/badge/GitHub%20Packages-%40robin--dot--lab-7B4DFF?logo=github"></a>
   <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-FFE14D"></a>
 </p>
 
@@ -69,13 +70,24 @@
 
 | Package | What it is | |
 |---|---|---|
-| [`@nerdlab/tokens`](packages/tokens) | Design tokens in [DTCG](https://www.designtokens.org/) format, compiled by Style Dictionary to CSS variables, JS and JSON | `candy.css` · `candy` · `candy.json` |
-| [`@nerdlab/css-candy`](packages/css-candy) | The Candy skin: every `nl-*` class, in cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` | `candy.css` · `fonts.css` |
-| [`@nerdlab/react`](packages/react) | 50+ typed React 19 components that only set classes | `import { Button } from '@nerdlab/react'` |
-| [`@nerdlab/charts`](packages/charts) | Line, bars, heatmap, share bar, sparkline, chart card with legend and table twin | `import { LineChart } from '@nerdlab/charts'` |
+| [`@robin-dot-lab/tokens`](packages/tokens) | Design tokens in [DTCG](https://www.designtokens.org/) format, compiled by Style Dictionary to CSS variables, JS and JSON | `candy.css` · `candy` · `candy.json` |
+| [`@robin-dot-lab/css-candy`](packages/css-candy) | The Candy skin: every `nl-*` class, in cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` | `candy.css` · `fonts.css` |
+| [`@robin-dot-lab/react`](packages/react) | 50+ typed React 19 components that only set classes | `import { Button } from '@robin-dot-lab/react'` |
+| [`@robin-dot-lab/charts`](packages/charts) | Line, bars, heatmap, share bar, sparkline, chart card with legend and table twin | `import { LineChart } from '@robin-dot-lab/charts'` |
 
-> [!NOTE]
-> The packages are **ready to publish but not published yet**: versions and changelogs are handled by [Changesets](.changeset/README.md), the registry is still to be chosen. Until then, use them from this workspace.
+Published on **GitHub Packages**. Add the registry for the scope once, with a GitHub token that has `read:packages`:
+
+```ini
+# .npmrc
+@robin-dot-lab:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+```bash
+pnpm add @robin-dot-lab/css-candy @robin-dot-lab/react      # + @robin-dot-lab/charts for charts
+```
+
+Versions and changelogs are handled by [Changesets](.changeset/README.md).
 
 ## Quick start
 
@@ -85,7 +97,7 @@ cd nerdlab-design-system
 pnpm install
 pnpm build
 pnpm storybook                         # http://localhost:6006
-pnpm --filter @nerdlab/dashboard dev   # http://localhost:5173
+pnpm --filter @robin-dot-lab/dashboard dev   # http://localhost:5173
 ```
 
 Requires Node 22+ and pnpm 11 (`corepack enable`).
@@ -94,11 +106,11 @@ Requires Node 22+ and pnpm 11 (`corepack enable`).
 
 ```tsx
 // 1. The skin, once, at the root of the app (fonts are a separate, optional import)
-import '@nerdlab/css-candy/fonts.css';
-import '@nerdlab/css-candy/candy.css';
+import '@robin-dot-lab/css-candy/fonts.css';
+import '@robin-dot-lab/css-candy/candy.css';
 
 // 2. Components
-import { Button, Dialog, DialogActions, DialogTrigger, Window } from '@nerdlab/react';
+import { Button, Dialog, DialogActions, DialogTrigger, Window } from '@robin-dot-lab/react';
 
 export function Welcome() {
   return (
@@ -125,7 +137,7 @@ export function Welcome() {
 No React? The classes work on plain HTML:
 
 ```html
-<link rel="stylesheet" href="node_modules/@nerdlab/css-candy/dist/candy.css">
+<link rel="stylesheet" href="node_modules/@robin-dot-lab/css-candy/dist/candy.css">
 <button class="nl-btn nl-btn--primary">Join the party</button>
 <span class="nl-badge nl-badge--mint">New</span>
 ```
@@ -162,10 +174,10 @@ Every component has stories, props documentation and an accessibility audit in *
 
 ```mermaid
 flowchart LR
-  tokens["@nerdlab/tokens<br/>DTCG → CSS vars"] --> css["@nerdlab/css-candy<br/>nl-* classes in layers"]
+  tokens["@robin-dot-lab/tokens<br/>DTCG → CSS vars"] --> css["@robin-dot-lab/css-candy<br/>nl-* classes in layers"]
   css --> app["Your app"]
-  react["@nerdlab/react<br/>props → classes"] --> app
-  charts["@nerdlab/charts<br/>geometry + tokens"] --> app
+  react["@robin-dot-lab/react<br/>props → classes"] --> app
+  charts["@robin-dot-lab/charts<br/>geometry + tokens"] --> app
   react --> charts
   css -. "styles" .-> docs["Storybook"]
   react --> docs
@@ -201,7 +213,7 @@ pnpm test                         # must be green
 pnpm changeset                    # describe the change for the changelog
 ```
 
-The rules (and the test that enforces each of them) are in [`AGENTS.md`](AGENTS.md), written for humans and coding agents alike. An intended visual change? Update the screenshots with `pnpm --filter @nerdlab/docs visual:update` and commit them; CI keeps its own Linux set, refreshed by the *Update visual baselines* workflow.
+The rules (and the test that enforces each of them) are in [`AGENTS.md`](AGENTS.md), written for humans and coding agents alike. An intended visual change? Update the screenshots with `pnpm --filter @robin-dot-lab/docs visual:update` and commit them; CI keeps its own Linux set, refreshed by the *Update visual baselines* workflow.
 
 ## Licence
 

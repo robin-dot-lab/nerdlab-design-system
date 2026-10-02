@@ -1,5 +1,5 @@
 /* Charts (new in the package; moved from the integration dashboard). Geometry is computed by
-   @nerdlab/charts; everything else — type, spacing, keys, focus, tooltip — lives here. */
+   @robin-dot-lab/charts; everything else — type, spacing, keys, focus, tooltip — lives here. */
 .nl-chart { position: relative; width: 100%; }
 .nl-chart svg { display: block; overflow: visible; }
 .nl-chart svg:focus { outline: none; }

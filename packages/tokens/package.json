@@ -1,5 +1,5 @@
 {
-  "name": "@nerdlab/tokens",
+  "name": "@robin-dot-lab/tokens",
   "version": "0.1.0",
   "description": "Nerdlab design tokens (DTCG source) compiled by Style Dictionary",
   "keywords": [
@@ -42,5 +42,9 @@
   },
   "devDependencies": {
     "style-dictionary": "^5.5.5"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   }
 }

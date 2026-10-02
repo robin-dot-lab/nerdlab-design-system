@@ -9,11 +9,12 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "storybook": "pnpm --filter @nerdlab/docs storybook",
+    "storybook": "pnpm --filter @robin-dot-lab/docs storybook",
     "fetch:test-fonts": "node tools/test-fonts/fetch.mjs",
     "new:component": "node tools/new-component/new-component.mjs",
     "changeset": "changeset",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter=./packages/* && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",

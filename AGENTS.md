@@ -14,8 +14,8 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 |---|---|
 | `packages/tokens` | Visual values. DTCG sources `src/candy/*.tokens.json` → Style Dictionary → CSS vars, JS, JSON |
 | `packages/css-candy` | The look. One file per component in `src/components/`, assembled by `src/manifest.json` into cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` |
-| `packages/react` | `@nerdlab/react`: typed components that only set `nl-*` classes (React 19, built file by file with `tsc`) |
-| `packages/charts` | `@nerdlab/charts`: geometry in JS, colours only from skin tokens |
+| `packages/react` | `@robin-dot-lab/react`: typed components that only set `nl-*` classes (React 19, built file by file with `tsc`) |
+| `packages/charts` | `@robin-dot-lab/charts`: geometry in JS, colours only from skin tokens |
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `design-system-nerdlab-candy/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Candy is the only skin (the Ultramarine variant was dropped). Candy was called **Pop** until 2026-10-02: the static files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it |
@@ -25,11 +25,11 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 ## Commands
 
 - `pnpm install` · `pnpm build` · `pnpm test` (builds, typechecks, then tests every package, ~13 min, no network needed; `STORY_FILTER` to iterate faster) · `pnpm typecheck`
-- `pnpm changeset` — describe a change to a published package (`@nerdlab/tokens`, `css-candy`, `react`, `charts`) for the changelog. Nothing is published: the registry is not chosen
-- `pnpm storybook` (:6006, reads sources) · `pnpm --filter @nerdlab/dashboard dev` (:5173, reads `dist/`: run `pnpm build` first)
+- `pnpm changeset` — describe a change to a published package (`@robin-dot-lab/tokens`, `css-candy`, `react`, `charts`) for the changelog. Packages are published to GitHub Packages (`@robin-dot-lab`, `npm.pkg.github.com`) by the manual *Release* workflow
+- `pnpm storybook` (:6006, reads sources) · `pnpm --filter @robin-dot-lab/dashboard dev` (:5173, reads `dist/`: run `pnpm build` first)
 - `pnpm new:component <PascalName> [--element span]` — scaffold a component everywhere it must exist
 - `pnpm fetch:test-fonts` — refresh the offline font cache when a test reports a missing font URL
-- `pnpm --filter @nerdlab/docs visual:update` — rewrite the story screenshots of your platform after an intended visual change (CI's Linux set: the *Update visual baselines* workflow)
+- `pnpm --filter @robin-dot-lab/docs visual:update` — rewrite the story screenshots of your platform after an intended visual change (CI's Linux set: the *Update visual baselines* workflow)
 - `STORY_FILTER=<id fragment>` — limits the Storybook audit, visual and cross-browser scripts to matching stories
 - `node tools/readme-assets/capture.mjs` — regenerate the README images (after `pnpm build`)
 - Firefox and WebKit for the cross-browser tests: `node node_modules/playwright-core/cli.js install firefox webkit`
@@ -62,7 +62,7 @@ Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). 
 
 - `apps/dashboard` and the docs typecheck read `packages/*/dist`: after changing a package, rebuild it or they see the old API (`pnpm test` does it).
 - `storybook build` does not typecheck; `pnpm test` does.
-- `candy.css` loads no fonts: apps import `@nerdlab/css-candy/fonts.css` (Google Fonts) or self-host the same families.
+- `candy.css` loads no fonts: apps import `@robin-dot-lab/css-candy/fonts.css` (Google Fonts) or self-host the same families.
 - Hand-written tables using `.nl-table--stack` must set `data-label` on every cell; `DataTable` does it for you.
 - `DataTable` sorts internally unless `sort` is passed; with pagination use controlled `sort` + `onSortChange`.
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.

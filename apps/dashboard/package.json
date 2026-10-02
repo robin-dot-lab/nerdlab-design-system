@@ -1,5 +1,5 @@
 {
-  "name": "@nerdlab/dashboard",
+  "name": "@robin-dot-lab/dashboard",
   "private": true,
   "type": "module",
   "description": "Integration test: the Nerdlab Events dashboard rebuilt with the published packages (dist), not their sources",
@@ -11,9 +11,9 @@
     "test": "node scripts/e2e.mjs"
   },
   "dependencies": {
-    "@nerdlab/charts": "workspace:*",
-    "@nerdlab/css-candy": "workspace:*",
-    "@nerdlab/react": "workspace:*",
+    "@robin-dot-lab/charts": "workspace:*",
+    "@robin-dot-lab/css-candy": "workspace:*",
+    "@robin-dot-lab/react": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

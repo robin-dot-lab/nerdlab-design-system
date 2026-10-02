@@ -1,5 +1,5 @@
 {
-  "name": "@nerdlab/docs",
+  "name": "@robin-dot-lab/docs",
   "private": true,
   "type": "module",
   "scripts": {
@@ -24,9 +24,9 @@
     "vite": "^8.3.2"
   },
   "dependencies": {
-    "@nerdlab/charts": "workspace:*",
-    "@nerdlab/css-candy": "workspace:*",
-    "@nerdlab/react": "workspace:*",
+    "@robin-dot-lab/charts": "workspace:*",
+    "@robin-dot-lab/css-candy": "workspace:*",
+    "@robin-dot-lab/react": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   }

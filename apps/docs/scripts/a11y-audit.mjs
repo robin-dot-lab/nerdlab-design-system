@@ -17,7 +17,7 @@ const THEMES = ['light', 'dark'];
 const VIEWPORTS = [{ name: 'desktop', width: 1280, height: 800 }, { name: 'phone', width: 390, height: 844 }];
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png' };
 
-if (!fs.existsSync(path.join(ROOT, 'index.json'))) throw new Error('storybook-static/ missing: run `pnpm --filter @nerdlab/docs build` first');
+if (!fs.existsSync(path.join(ROOT, 'index.json'))) throw new Error('storybook-static/ missing: run `pnpm --filter @robin-dot-lab/docs build` first');
 
 const server = http.createServer((req, res) => {
   const file = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));

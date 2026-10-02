@@ -1,5 +1,5 @@
-import '@nerdlab/css-candy/fonts.css';
-import '@nerdlab/css-candy/candy.css';
+import '@robin-dot-lab/css-candy/fonts.css';
+import '@robin-dot-lab/css-candy/candy.css';
 import './app.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';

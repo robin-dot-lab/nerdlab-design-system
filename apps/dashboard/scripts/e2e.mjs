@@ -14,7 +14,7 @@ const require = createRequire(import.meta.url);
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const ROOT = path.resolve('dist');
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
-if (!fs.existsSync(path.join(ROOT, 'index.html'))) throw new Error('dist/ missing: run `pnpm --filter @nerdlab/dashboard build` first');
+if (!fs.existsSync(path.join(ROOT, 'index.html'))) throw new Error('dist/ missing: run `pnpm --filter @robin-dot-lab/dashboard build` first');
 
 const server = http.createServer((req, res) => {
   let file = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));

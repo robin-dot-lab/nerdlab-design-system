@@ -38,7 +38,7 @@
 @container main (min-width: 34rem) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container main (min-width: 56rem) { .kpis { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
 
-/* Chart grids (charts themselves come from @nerdlab/charts; their styles from the skin) */
+/* Chart grids (charts themselves come from @robin-dot-lab/charts; their styles from the skin) */
 .grid-a, .grid-b { display: grid; gap: var(--space-fluid-sm); }
 .grid-a > *, .grid-b > * { min-width: 0; }
 @container main (min-width: 40rem) { .grid-b { grid-template-columns: 1fr 1fr; } .grid-b > :first-child { grid-column: 1 / -1; } }

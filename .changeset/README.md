@@ -1,11 +1,11 @@
 # Changesets
 
-Every pull request that changes a published package (`@nerdlab/tokens`, `@nerdlab/css-candy`, `@nerdlab/react`, `@nerdlab/charts`) adds a changeset:
+Every pull request that changes a published package (`@robin-dot-lab/tokens`, `@robin-dot-lab/css-candy`, `@robin-dot-lab/react`, `@robin-dot-lab/charts`) adds a changeset:
 
 ```bash
 pnpm changeset
 ```
 
-Pick the packages, the bump (patch / minor / major) and write one line for the changelog, from the consumer's point of view. `pnpm version-packages` turns the pending changesets into versions and `CHANGELOG.md` entries; the **Release** workflow does it in a pull request.
+Pick the packages, the bump (patch / minor / major) and write one line for the changelog, from the consumer's point of view. `pnpm version-packages` turns the pending changesets into versions and `CHANGELOG.md` entries.
 
-Nothing is published yet: the registry is not chosen. `"access": "restricted"` keeps an accidental `changeset publish` from going public.
+Packages are published to **GitHub Packages** (`npm.pkg.github.com`, scope `@robin-dot-lab`) by the **Release** workflow: run it once to open the version pull request, merge it, run it again to publish.
