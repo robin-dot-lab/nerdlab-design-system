@@ -6,3 +6,6 @@ storybook-static/
 .DS_Store
 coverage/
 apps/docs/test/visual/__diff__/
+
+# Moodboard of third-party posters: kept locally, not published
+references/
