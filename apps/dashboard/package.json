@@ -11,6 +11,7 @@
     "test": "node scripts/e2e.mjs"
   },
   "dependencies": {
+    "@nerdlab/charts": "workspace:*",
     "@nerdlab/css-pop": "workspace:*",
     "@nerdlab/react": "workspace:*",
     "react": "^19.3.0",

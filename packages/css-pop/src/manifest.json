@@ -34,7 +34,8 @@
     "components/pagination.css",
     "components/segmented.css",
     "components/chip.css",
-    "components/toast-region.css"
+    "components/toast-region.css",
+    "components/charts.css"
   ],
   "utilities": [
     "utilities/typography.css",

@@ -4,7 +4,8 @@ import { Cluster, SegmentedControl, ToggleChip, type SwatchToken } from '@nerdla
 
 const meta = { title: 'Composants/Filtres', component: SegmentedControl } satisfies Meta<typeof SegmentedControl>;
 export default meta;
-type Story = StoryObj<typeof meta>;
+// Render-only stories: the components have required props, so args are not typed here.
+type Story = StoryObj;
 
 /** Choix unique sans panneau : boutons `aria-pressed` dans un groupe. Pour des panneaux, utiliser Tabs. */
 export const Segmented: Story = {

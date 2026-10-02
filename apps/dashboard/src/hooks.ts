@@ -1,16 +1,4 @@
-import { useCallback, useEffect, useState, type RefObject } from 'react';
-
-/** Content-box width of an element, kept up to date with ResizeObserver. */
-export function useElementWidth(ref: RefObject<HTMLElement | null>) {
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const ro = new ResizeObserver(([entry]) => setWidth(Math.round(entry.contentRect.width)));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [ref]);
-  return width;
-}
+import { useCallback, useState } from 'react';
 
 export type Theme = 'light' | 'dark';
 const KEY = 'nl-dashboard-theme';

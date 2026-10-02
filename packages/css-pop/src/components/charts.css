@@ -1,0 +1,69 @@
+/* Charts (new in the package; moved from the integration dashboard). Geometry is computed by
+   @nerdlab/charts; everything else — type, spacing, keys, focus, tooltip — lives here. */
+.nl-chart { position: relative; width: 100%; }
+.nl-chart svg { display: block; overflow: visible; }
+.nl-chart svg:focus { outline: none; }
+.nl-chart svg:focus-visible { outline: var(--border-thick) solid var(--color-violet); outline-offset: 4px; }
+.nl-chart__axis { font-size: 12px; fill: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+.nl-chart__end-label { font-size: 12px; font-weight: var(--weight-semibold); fill: var(--color-text-primary); }
+.nl-chart__end-label tspan { font-weight: var(--weight-normal); fill: var(--color-text-secondary); }
+.nl-chart-empty { padding: var(--space-8); text-align: center; color: var(--color-text-secondary); }
+
+/* Legend and keys: identity comes from the mark beside the text, never from coloured text */
+.nl-legend { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-3); padding: 0; list-style: none; font-size: var(--text-sm); color: var(--color-text-secondary); }
+.nl-legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+.nl-key-line { display: inline-block; flex: none; width: 16px; height: 3px; border-radius: 2px; }
+.nl-key-rect { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 3px; }
+
+/* Chart card */
+.nl-chart-card__head { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: var(--space-3); margin-block-end: var(--space-4); }
+.nl-chart-card__title { margin: 0; font-size: var(--text-lg); line-height: 1.2; }
+.nl-chart-card__subtitle { margin: 2px 0 0; font-size: var(--text-sm); color: var(--color-text-secondary); }
+
+/* Bar list: ≤ 24px bars, 4px rounded data-end, value at the tip */
+.nl-bars { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.nl-bar-row { display: grid; grid-template-columns: minmax(90px, 38%) 1fr; align-items: center; gap: var(--space-3); padding: 6px var(--space-2); border-radius: var(--radius-sm); }
+.nl-bar-row:hover, .nl-bar-row:focus-visible { background: var(--color-surface-sunken); outline: none; }
+.nl-bar-row:focus-visible { box-shadow: inset 0 0 0 2px var(--color-violet); }
+.nl-bar-row__name { font-size: var(--text-sm); font-weight: var(--weight-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nl-bar-row__track { display: flex; align-items: center; gap: var(--space-2); min-width: 0; padding-inline-end: 64px; border-inline-start: 1px solid var(--chart-grid); }
+.nl-bar-row__bar { height: 20px; min-width: 2px; flex-shrink: 0; border-radius: 0 4px 4px 0; transition: flex-basis 0.4s; }
+.nl-bar-row__value { flex: none; font-size: var(--text-sm); font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+@media (pointer: coarse) { .nl-bar-row { min-height: var(--touch-target); } }
+
+/* Heatmap: single-hue sequential scale, 2px surface gaps */
+.nl-heat { display: grid; grid-template-columns: minmax(2.25rem, auto) repeat(var(--heat-cols, 7), 1fr); gap: 2px; font-size: var(--text-xs); color: var(--color-text-secondary); }
+.nl-heat__row { display: contents; }
+.nl-heat__cell { aspect-ratio: 1.5; max-height: 40px; min-height: 18px; border-radius: 4px; }
+.nl-heat__cell:hover, .nl-heat__cell:focus-visible { position: relative; z-index: 1; outline: 2px solid var(--color-text-primary); outline-offset: 1px; }
+.nl-heat__row-label { display: flex; align-items: center; font-variant-numeric: tabular-nums; }
+.nl-heat__col-label { text-align: center; font-variant-numeric: tabular-nums; }
+.nl-scale { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-block-start: var(--space-4); font-size: var(--text-xs); color: var(--color-text-secondary); }
+.nl-scale__steps { display: flex; gap: 2px; }
+.nl-scale__steps i { display: block; width: 28px; height: 10px; border-radius: 3px; }
+
+/* 100% stacked share bar + its legend/table list */
+.nl-share { display: flex; gap: 2px; height: 32px; }
+.nl-share__seg { display: grid; place-items: center; min-width: 0; font-size: var(--text-xs); font-weight: var(--weight-bold); }
+.nl-share__seg:first-child { border-radius: 4px 0 0 4px; }
+.nl-share__seg:last-child { border-radius: 0 4px 4px 0; }
+.nl-share-list { margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+.nl-share-list li { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: var(--space-3); padding: var(--space-2) 0; border-block-end: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+.nl-share-list li:last-child { border-block-end: 0; }
+.nl-share-list__num { text-align: end; font-variant-numeric: tabular-nums; }
+.nl-share-list__share { color: var(--color-text-secondary); }
+
+/* Sparkline */
+.nl-spark { margin-block-start: var(--space-2); }
+.nl-spark svg { display: block; }
+
+/* Chart tooltip: values lead, labels follow */
+.nl-chart-tip {
+  position: fixed; z-index: 100; pointer-events: none; min-width: 150px; padding: var(--space-3);
+  background: var(--color-surface-elevated); color: var(--color-text-primary);
+  border: var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-md); font-size: var(--text-sm);
+}
+.nl-chart-tip__title { margin-block-end: var(--space-2); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-mono); text-transform: uppercase; color: var(--color-text-secondary); }
+.nl-chart-tip__row { display: grid; grid-template-columns: 14px auto 1fr; align-items: center; gap: var(--space-2); padding: 2px 0; }
+.nl-chart-tip__row b { font-variant-numeric: tabular-nums; }
+.nl-chart-tip__row span { color: var(--color-text-secondary); }

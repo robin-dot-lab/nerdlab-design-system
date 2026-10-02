@@ -42,6 +42,7 @@ async function open(viewport, theme) {
   await page.waitForSelector('.nl-stat__value');
   return { context, page, errors };
 }
+const chartCard = (page) => page.locator('.nl-card').filter({ has: page.locator('.nl-chart-card__head') }).first();
 async function axe(page) {
   if (!(await page.evaluate(() => 'axe' in window))) await page.addScriptTag({ content: AXE });
   return page.evaluate(async () => (await window.axe.run(document)).violations.map((v) => `${v.id}: ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(', ')}`));
@@ -68,7 +69,7 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
 
   await page.getByRole('button', { name: 'Food' }).click();
   await page.waitForTimeout(300);
-  check(!(await page.locator('.legend').first().textContent()).includes('Food'), 'category toggle removes the series from the legend');
+  check(!(await page.locator('.nl-legend').first().textContent()).includes('Food'), 'category toggle removes the series from the legend');
 
   const amountHeader = page.getByRole('columnheader', { name: 'Montant' });
   await amountHeader.getByRole('button').click();
@@ -84,13 +85,13 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   const clients = await rows().evaluateAll((trs) => trs.map((tr) => tr.textContent));
   check(clients.length > 0 && clients.every((t) => t.includes('Ada')), 'search filters orders and resets to page 1');
 
-  await page.locator('.chart-card').first().getByRole('button', { name: 'Vue table' }).click();
-  check(await page.locator('.chart-card').first().locator('table').count() === 1, 'chart has a table-view twin');
-  await page.locator('.chart-card').first().getByRole('button', { name: 'Vue graphe' }).click();
+  await chartCard(page).getByRole('button', { name: 'Vue table' }).click();
+  check(await chartCard(page).locator('table').count() === 1, 'chart has a table-view twin');
+  await chartCard(page).getByRole('button', { name: 'Vue graphe' }).click();
 
-  await page.locator('.chart svg').first().focus();
+  await page.locator('.nl-chart svg').first().focus();
   await page.keyboard.press('ArrowLeft');
-  check(await page.locator('.chart-tip').isVisible(), 'line chart: keyboard focus + ArrowLeft shows the crosshair tooltip');
+  check(await page.locator('.nl-chart-tip').isVisible(), 'line chart: keyboard focus + ArrowLeft shows the crosshair tooltip');
   await page.keyboard.press('Escape');
 
   const download = page.waitForEvent('download');

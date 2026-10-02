@@ -8,7 +8,8 @@ const meta = {
   parameters: { layout: 'fullscreen' },
 } satisfies Meta<typeof StatTile>;
 export default meta;
-type Story = StoryObj<typeof meta>;
+// Render-only stories: the components have required props, so args are not typed here.
+type Story = StoryObj;
 
 /** La valeur suit la largeur de la tuile (unités de conteneur) : elle tient toujours, même à quatre par ligne. */
 export const KpiRow: Story = {

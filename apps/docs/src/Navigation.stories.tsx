@@ -4,7 +4,8 @@ import { Button, Pagination, Search, Stack, Toast } from '@nerdlab/react';
 
 const meta = { title: 'Composants/Pagination, Search et Toast', component: Pagination } satisfies Meta<typeof Pagination>;
 export default meta;
-type Story = StoryObj<typeof meta>;
+// Render-only stories: the components have required props, so args are not typed here.
+type Story = StoryObj;
 
 export const PaginationDemo: Story = {
   name: 'Pagination',

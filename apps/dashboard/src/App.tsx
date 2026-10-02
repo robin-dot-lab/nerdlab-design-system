@@ -3,13 +3,7 @@ import {
   type DataTableColumn, type DataTableSort,
 } from '@nerdlab/react';
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
-import { BarList } from './charts/BarList';
-import { ChartCard, Legend } from './charts/ChartCard';
-import { ChartTipProvider } from './charts/ChartTip';
-import { Heatmap } from './charts/Heatmap';
-import { LineChart } from './charts/LineChart';
-import { ShareBar } from './charts/ShareBar';
-import { Sparkline } from './charts/Sparkline';
+import { BarList, ChartCard, Heatmap, Legend, LineChart, ShareBar, Sparkline } from '@nerdlab/charts';
 import {
   activeCats, bucket, catById, catColor, CATS, daily, DAYS, DOW, heatGrid, lineData, ORDERS, SLOTS, slice, STATUS, topEvents, totals,
   type CatId, type Filters, type Order,
@@ -24,7 +18,7 @@ const orderColumns: DataTableColumn<Order>[] = [
   { key: 'id', header: 'N°', cell: (o) => <span className="mono">{o.id}</span> },
   { key: 'client', header: 'Client', sortable: true },
   { key: 'event', header: 'Événement', sortable: true },
-  { key: 'cat', header: 'Catégorie', sortable: true, cell: (o) => <span className="cat"><i className="key-rect" style={{ background: catColor(o.cat) }} aria-hidden="true" />{catById[o.cat].name}</span> },
+  { key: 'cat', header: 'Catégorie', sortable: true, cell: (o) => <span className="cat"><i className="nl-key-rect" style={{ background: catColor(o.cat) }} aria-hidden="true" />{catById[o.cat].name}</span> },
   { key: 'qty', header: 'Billets', align: 'end', sortable: true },
   { key: 'amount', header: 'Montant', align: 'end', sortable: true, cell: (o) => eur.format(o.amount) },
   { key: 'status', header: 'Statut', sortable: true, cell: (o) => <Badge variant={STATUS[o.status].variant}><span aria-hidden="true">{STATUS[o.status].icon}</span> {STATUS[o.status].label}</Badge> },
@@ -77,7 +71,7 @@ export function App() {
   const themeSwitch = <Switch checked={theme === 'dark'} onChange={(e) => setTheme(e.currentTarget.checked ? 'dark' : 'light')}>Thème sombre</Switch>;
 
   return (
-    <ChartTipProvider>
+    <>
       <div className="shell">
         <aside className="side">
           <a className="logo" href="#top"><span className="logo__mark" aria-hidden="true">N</span><span className="logo__name">Nerdlab Events</span></a>
@@ -122,25 +116,28 @@ export function App() {
 
             <div className="grid-a">
               <ChartCard title="Revenu par catégorie" subtitle={line.weekly ? 'Par semaine, en euros' : 'Par jour, en euros'}
-                legend={<Legend kind="line" items={line.series.map((s) => ({ name: s.name, color: catColor(s.id) }))} />}
+                legend={<Legend kind="line" items={line.series.map((s) => ({ label: s.name, slot: catById[s.id].slot }))} />}
                 table={{ columns: [{ key: 'date', header: 'Date' }, ...line.series.map((s) => ({ key: s.id, header: s.name, align: 'end' as const })), { key: 'total', header: 'Total', align: 'end' }],
                   rows: line.labels.map((d, i) => ({ date: dShort(d), ...Object.fromEntries(line.series.map((s) => [s.id, eur.format(s.values[i])])), total: eur.format(sum(line.series.map((s) => s.values[i]))) })) }}>
-                <LineChart labels={line.labels} series={line.series} weekly={line.weekly} />
+                <LineChart title="Revenu par catégorie" formatValue={eur.format} formatCompact={eurCompact}
+                  series={line.series.map((s) => ({ ...s, slot: catById[s.id].slot }))} xLabels={line.labels.map(dShort)}
+                  pointTitle={(i) => (line.weekly ? 'Semaine du ' : '') + line.labels[i].toLocaleDateString('fr-FR', { weekday: line.weekly ? undefined : 'short', day: 'numeric', month: 'long' })} />
               </ChartCard>
               <ChartCard title="Top événements" subtitle="Billets vendus sur la période"
-                legend={<Legend kind="rect" items={cats.map((c) => ({ name: c.name, color: catColor(c.id) }))} />}
+                legend={<Legend kind="rect" items={cats.map((c) => ({ label: c.name, slot: c.slot }))} />}
                 table={{ columns: [{ key: 'name', header: 'Événement' }, { key: 'cat', header: 'Catégorie' }, { key: 'tickets', header: 'Billets', align: 'end' }], rows: events.map((e) => ({ name: e.name, cat: catById[e.cat].name, tickets: int.format(e.tickets) })) }}>
-                <BarList rows={events} />
+                <BarList title="Top événements" unit="billets" shareLabel="du top 6" formatValue={(v) => int.format(v)}
+                  items={events.map((e) => ({ id: e.name, label: e.name, value: e.tickets, slot: catById[e.cat].slot, group: catById[e.cat].name }))} />
               </ChartCard>
             </div>
 
             <div className="grid-b">
               <ChartCard title="Affluence" subtitle="Check-ins par jour et créneau"
                 table={{ columns: [{ key: 'day', header: 'Jour' }, ...SLOTS.map((s) => ({ key: s, header: s, align: 'end' as const }))], rows: heat.map((r, d) => ({ day: DOW[d], ...Object.fromEntries(r.map((v, s) => [SLOTS[s], int.format(v)])) })) }}>
-                {cats.length ? <Heatmap grid={heat} /> : <p className="empty">Aucune donnée.</p>}
+                {cats.length ? <Heatmap title="Check-ins par jour et créneau" unit="check-ins" cornerLabel="Jour" rowLabels={DOW} colLabels={SLOTS} values={heat} formatValue={(v) => int.format(v)} /> : <p className="nl-chart-empty">Aucune donnée.</p>}
               </ChartCard>
               <ChartCard title="Répartition du revenu" subtitle="Part de chaque catégorie">
-                <ShareBar theme={theme} items={cats.map((c) => ({ c, v: sum(slice(shown, c.id)) }))} />
+                <ShareBar title="Part du revenu" formatValue={eur.format} items={cats.map((c) => ({ id: c.id, label: c.name, value: sum(slice(shown, c.id)), slot: c.slot }))} />
               </ChartCard>
               <ChartCard title="Objectifs" subtitle={`Sur ${shown.range} jours`}>
                 <ul className="goals">
@@ -172,6 +169,6 @@ export function App() {
         </main>
       </div>
       <Toast message={toast} onDismiss={clearToast} />
-    </ChartTipProvider>
+    </>
   );
 }
