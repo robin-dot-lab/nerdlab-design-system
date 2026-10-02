@@ -68,7 +68,7 @@ Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). 
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.
 - Tooltips need a React Aria trigger: wrap a plain element (even `<Button>`) in `<Focusable>`.
 - pnpm 11 blocks dependency install scripts: a new dependency with one must be listed in `allowBuilds` (`pnpm-workspace.yaml`).
-- Git identity is repo-local (outlook address, `commit.gpgsign=false`); do not change the global config.
+- Git identity is repo-local (`robin.dot.meyssonnier@gmail.com`, `commit.gpgsign=false`); do not change the global config. The remote is `github.com/robin-dot-lab/nerdlab-design-system` over HTTPS: push with `git -c credential.helper= -c credential.helper='!gh auth git-credential' push` (gh account `robin-dot-lab`), never with the global SSH key.
 
 <!-- BEGIN:turborepo-agent-rules -->
 
