@@ -1,5 +1,5 @@
 import {
-  Badge, Button, Cluster, DataTable, Delta, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
+  Badge, Bubble, Button, Callout, Cluster, DataTable, Delta, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Ribbon, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
   type DataTableColumn, type DataTableSort,
 } from '@nerdlab/react';
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
@@ -9,13 +9,14 @@ import {
   type CatId, type Filters, type Order,
 } from './data';
 import { dShort, eur, eurCompact, int, pct, sum } from './format';
+import { GoalsHelp, NewEventDialog, NextEvent, OrderDetails } from './extras';
 import { useTheme } from './hooks';
 
 const NAV = ['Vue d’ensemble', 'Événements', 'Billets', 'Audience', 'Réglages'];
 const PER_PAGE = 8;
 
 const orderColumns: DataTableColumn<Order>[] = [
-  { key: 'id', header: 'N°', cell: (o) => <span className="mono">{o.id}</span> },
+  { key: 'id', header: 'N°', cell: (o) => <OrderDetails order={o} /> },
   { key: 'client', header: 'Client', sortable: true },
   { key: 'event', header: 'Événement', sortable: true },
   { key: 'cat', header: 'Catégorie', sortable: true, cell: (o) => <span className="cat"><i className="nl-key-rect" style={{ background: catColor(o.cat) }} aria-hidden="true" />{catById[o.cat].name}</span> },
@@ -84,9 +85,10 @@ export function App() {
         </aside>
 
         <main className="main" id="top">
+          <Ribbon className="announce" items={['Figma Pixel Party · 27.04 · Lyon', 'Plus que 25 places', 'Pixel Shader Jam le 03.05', 'Stay nerdy']} aria-label="Annonces" role="region" />
           <header className="top">
             <div><span className="nl-eyebrow nl-muted">Nerdlab Events · Analytics</span><h1 className="nl-display">Dashboard<span className="dot">.</span></h1></div>
-            <Cluster gap={3}><span className="top__theme">{themeSwitch}</span><MenuTrigger>
+            <Cluster gap={3}><span className="top__theme">{themeSwitch}</span><NewEventDialog onCreate={(t) => setToast(`Brouillon « ${t} » créé`)} /><MenuTrigger>
               <Button variant="primary">Exporter <span aria-hidden="true">▾</span></Button>
               <Menu onAction={onExport} placement="bottom end">
                 <MenuItem id="filtered">Commandes filtrées (CSV)</MenuItem>
@@ -103,6 +105,9 @@ export function App() {
             </Cluster>
             <span className="nl-eyebrow nl-muted filters__meta">Données au 02.10.2026</span>
           </section>
+          {filters.cats.length === 0 && (
+            <Callout tone="warning" title="Aucune catégorie sélectionnée">Les graphes et la table sont vides : réactive au moins une catégorie.</Callout>
+          )}
 
           <div className={stale ? 'scope is-stale' : 'scope'}>
             <section className="kpis" aria-label="Indicateurs clés">
@@ -120,6 +125,8 @@ export function App() {
                 <Sparkline values={bucket(daily(shown, 'revenue')).map((v, i) => v / (bucket(daily(shown, 'tickets'))[i] / 1.85 || 1))} />
               </StatTile>
             </section>
+
+            <NextEvent />
 
             <div className="grid-a">
               <ChartCard title="Revenu par catégorie" subtitle={line.weekly ? 'Par semaine, en euros' : 'Par jour, en euros'}
@@ -147,6 +154,7 @@ export function App() {
                 <ShareBar title="Part du revenu" formatValue={eur.format} items={cats.map((c) => ({ id: c.id, label: c.name, value: sum(slice(shown, c.id)), slot: c.slot }))} />
               </ChartCard>
               <ChartCard title="Objectifs" subtitle={`Sur ${shown.range} jours`}>
+                <GoalsHelp />
                 <ul className="goals">
                   {goals.map((g) => { const p = Math.min(1, g.v / g.goal); return (
                     <li key={g.name}>
@@ -164,7 +172,7 @@ export function App() {
                 <Search label="Rechercher une commande" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Client, event, n°" />
               </Split>
               <DataTable caption="Dernières commandes" hideCaption columns={orderColumns} rows={pageRows} rowKey={(o) => o.id}
-                sort={sort} onSortChange={setSort} empty="Aucune commande ne correspond." />
+                sort={sort} onSortChange={setSort} empty={<><Bubble>Rien ici…</Bubble> Aucune commande ne correspond.</>} />
               <Stack className="orders__foot">
                 <Cluster justify="between" gap={3}>
                   <span className="nl-muted">{orders.length ? `${(page - 1) * PER_PAGE + 1}–${Math.min(page * PER_PAGE, orders.length)} sur ${orders.length}` : ''}</span>

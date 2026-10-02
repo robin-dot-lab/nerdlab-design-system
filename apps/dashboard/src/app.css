@@ -57,3 +57,17 @@
 .orders__head { align-items: end; }
 .mono { font-family: var(--font-mono); font-size: var(--text-xs); }
 .pager { display: flex; gap: var(--space-2); }
+
+/* Announcement ribbon: full bleed across the main column */
+.announce { margin-inline: calc(-1 * var(--space-gutter)); margin-block-start: calc(-1 * var(--space-fluid-md)); }
+
+/* Next event: three bento tiles */
+.next { display: grid; gap: var(--space-fluid-sm); }
+.next > * { min-width: 0; min-height: 0; }
+@container main (min-width: 40rem) { .next { grid-template-columns: 1fr 1fr; } .next__promo { grid-column: 1 / -1; } }
+@container main (min-width: 56rem) { .next { grid-template-columns: 1.3fr 1fr 1fr; } .next__promo { grid-column: auto; } }
+.next .nl-bento { gap: var(--space-4); }
+.next .nl-bento__title { font-size: var(--text-xl); }
+
+/* Order number: a small ghost button that opens the order details */
+.order-id { font-family: var(--font-mono); font-size: var(--text-xs); }

@@ -143,6 +143,51 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   await context.close();
 }
 
+// 5. Step-9 components in context: order details, new-event form, goals popover, ribbon pause
+{
+  const { context, page, errors } = await open({ width: 1280, height: 900 }, 'dark');
+  const firstId = page.locator('.order-id').first();
+  const id = (await firstId.textContent()).trim();
+  await firstId.focus();
+  await page.keyboard.press('Enter');
+  const details = page.getByRole('dialog', { name: `ORDER_${id}.TXT` });
+  check(await details.isVisible(), 'order number opens its details dialog from the keyboard');
+  check(await details.locator('dl.nl-info dt').count() === 7, 'order details list seven fields');
+  await page.waitForTimeout(300); // end of the enter animation, before measuring contrast
+  const v = await axe(page);
+  check(v.length === 0, `order dialog open (dark): axe clean${v.length ? ' → ' + v.join(' | ') : ''}`);
+  if (shots) await page.screenshot({ path: `${shots}/dashboard-order-dialog.png` });
+  await page.keyboard.press('Escape');
+  await details.waitFor({ state: 'detached' });
+  check(await page.evaluate(() => document.activeElement?.classList.contains('order-id')), 'Escape closes it and focus returns to the order number');
+
+  await page.getByRole('button', { name: 'Nouvel événement' }).click();
+  const form = page.getByRole('dialog', { name: 'NEW_EVENT.EXE' });
+  await form.getByRole('textbox', { name: 'Titre' }).fill('Synth Jam');
+  await form.getByRole('combobox', { name: 'Catégorie' }).selectOption('music');
+  await form.getByRole('radio', { name: 'En ligne' }).check();
+  await page.waitForTimeout(300);
+  const vf = await axe(page);
+  check(vf.length === 0, `new-event form open (dark): axe clean${vf.length ? ' → ' + vf.join(' | ') : ''}`);
+  if (shots) await page.screenshot({ path: `${shots}/dashboard-new-event.png` });
+  await form.getByRole('button', { name: 'Créer le brouillon' }).click();
+  await form.waitFor({ state: 'detached' });
+  check(await page.getByRole('status').textContent().then((t) => t.includes('Brouillon « Synth Jam » créé')), 'new-event form submits, closes and announces the draft');
+
+  await page.getByRole('button', { name: 'Comment sont-ils fixés ?' }).click();
+  check(await page.getByRole('dialog', { name: 'Objectifs' }).isVisible(), 'goals help opens as a named popover');
+  await page.keyboard.press('Escape');
+
+  const ribbon = page.locator('.nl-ribbon');
+  await ribbon.getByRole('button', { name: 'Mettre en pause le défilement' }).click();
+  check((await ribbon.getAttribute('class')).includes('nl-ribbon--paused'), 'announcement ribbon can be paused');
+
+  for (const c of ['Design', 'Musique', 'Code', 'Food']) await page.getByRole('button', { name: c }).click();
+  check(await page.getByText('Aucune catégorie sélectionnée').isVisible(), 'warning callout when every category is off');
+  check(errors.length === 0, `step-9 journeys: no console error${errors.length ? ' → ' + errors.join(' | ').slice(0, 300) : ''}`);
+  await context.close();
+}
+
 await browser.close();
 server.close();
 if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing from tools/test-fonts/cache — run \`pnpm fetch:test-fonts\``); process.exit(1); }
