@@ -1,6 +1,6 @@
 {
   "name": "@robin-dot-lab/tokens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Nerdlab design tokens (DTCG source) compiled by Style Dictionary",
   "keywords": [
     "nerdlab",
