@@ -51,8 +51,10 @@ jobs:
           for f in packages/*/package.json; do
             name=$(node -p "require('./$f').name"); version=$(node -p "require('./$f').version")
             tag="$name@$version"
+            # changeset publish may already have created the tag locally: create it only if missing, then push.
             if ! git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
-              git tag "$tag" && git push origin "$tag"
+              git rev-parse -q --verify "refs/tags/$tag" >/dev/null || git tag "$tag"
+              git push origin "refs/tags/$tag"
             fi
             if ! gh release view "$tag" >/dev/null 2>&1; then
               changelog="$(dirname "$f")/CHANGELOG.md"
