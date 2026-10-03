@@ -1,6 +1,6 @@
 {
   "name": "@robin-dot-lab/charts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Nerdlab charts: geometry in React/SVG, colours from the skin's chart tokens",
   "keywords": [
     "nerdlab",

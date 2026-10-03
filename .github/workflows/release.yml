@@ -30,7 +30,8 @@ jobs:
           echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: changesets/action@v1
+      - id: changesets
+        uses: changesets/action@v1
         with:
           version: pnpm version-packages
           publish: pnpm release
@@ -38,3 +39,28 @@ jobs:
           commit: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # changesets/action does not pick up the tags printed by changeset publish (CLI v3), so it
+      # neither pushes them nor creates releases: do both explicitly, idempotently.
+      - name: Tag and release published versions
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for f in packages/*/package.json; do
+            name=$(node -p "require('./$f').name"); version=$(node -p "require('./$f').version")
+            tag="$name@$version"
+            if ! git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
+              git tag "$tag" && git push origin "$tag"
+            fi
+            if ! gh release view "$tag" >/dev/null 2>&1; then
+              changelog="$(dirname "$f")/CHANGELOG.md"
+              if [ -f "$changelog" ]; then
+                notes=$(awk -v v="## $version" '$0==v{on=1;next} /^## /{on=0} on' "$changelog")
+              else
+                notes="First release of $name."
+              fi
+              gh release create "$tag" --title "$tag" --notes "${notes:-$name $version}"
+            fi
+          done
