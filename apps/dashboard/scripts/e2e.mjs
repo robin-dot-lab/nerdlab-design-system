@@ -176,6 +176,7 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   const venueField = form.getByRole('combobox', { name: 'Lieu' });
   await page.waitForFunction((el) => el.value !== 'Hal', await venueField.elementHandle(), { timeout: 2000 }).catch(() => {});
   const venue = await venueField.inputValue();
+  await page.getByRole('listbox').waitFor({ state: 'detached', timeout: 2000 }).catch(() => {}); // closing list: not part of the form's audit
   check(venue === 'La Halle aux Pixels', `venue combobox filters and picks an option (got "${venue}")`);
   check((await form.getByRole('group', { name: 'Date' }).textContent()).includes('16/05/2026'), 'date picker shows the French day/month/year order');
   await page.waitForTimeout(300);
