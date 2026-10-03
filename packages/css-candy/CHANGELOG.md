@@ -1,0 +1,13 @@
+# @robin-dot-lab/css-candy
+
+## 0.2.0
+
+### Minor Changes
+
+- 75904b7: New `--color-overlay` token for the scrim behind dialogs and drawers, much deeper in the dark theme where the old ink-based scrim was barely visible. Skin classes for icons, drawer, breadcrumb, avatar, skeleton, combobox and list box, date picker and calendar, table row selection, and the indeterminate checkbox.
+
+### Patch Changes
+
+- d6a72ef: Pictograms are now the icons of `@robin-dot-lab/icons` instead of text characters: pagination arrows, toast tick, delta arrows, ribbon play/pause, callout marks, dialog and drawer close, search magnifier. In the skin, the checkbox tick, the accordion +/− and the table sort arrows use the same drawings as CSS masks, so they still work without React.
+- Updated dependencies [75904b7]
+  - @robin-dot-lab/tokens@0.2.0
