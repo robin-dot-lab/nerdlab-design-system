@@ -4,7 +4,7 @@ name: CI
 #   packages   build, typecheck, unit tests, token and pixel parity, dashboard e2e (3 engines)
 #   storybook  one Storybook build, shared with the six shards below as an artifact
 #   shards     a11y audit (desktop / phone), visual regression (desktop-light / phone-dark),
-#              cross-browser smoke (firefox / webkit)
+#              cross-browser smoke (firefox / webkit), and the a11y audit of each extra palette
 on:
   push:
     branches: [main]
@@ -67,6 +67,13 @@ jobs:
           - { name: visual desktop-light, script: visual.mjs, env: VARIANT=desktop-light }
           - { name: visual phone-dark, script: visual.mjs, env: VARIANT=phone-dark }
           - { name: firefox, script: cross-browser.mjs, env: ENGINE=firefox, browser: firefox }
+          # Each extra palette: every story, light and dark, desktop width (Candy is covered above).
+          - { name: a11y palette sorbet, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=sorbet }
+          - { name: a11y palette ink, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=ink }
+          - { name: a11y palette terracotta, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=terracotta }
+          - { name: a11y palette slate, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=slate }
+          - { name: a11y palette moss, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=moss }
+          - { name: a11y palette mono-retro, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=mono-retro }
           - { name: webkit, script: cross-browser.mjs, env: ENGINE=webkit, browser: webkit }
     steps:
       - uses: actions/checkout@v4

@@ -143,6 +143,16 @@ No React? The classes work on plain HTML:
 <span class="nl-badge nl-badge--mint">New</span>
 ```
 
+### Palettes
+
+Seven colour palettes, each with a light and a dark theme, all contrast-checked: **Candy** (the default, candy colours), **Sorbet** (powdery pastels), **Ink** (sober black, white and brick), **Terracotta** (warm earth), **Slate** (navy and bright blue), **Moss** (greens and mustard) and **Mono Retro** (a phosphor-green terminal). Pick one with an attribute, on `<html>` or on any container:
+
+```html
+<html data-palette="sorbet" data-theme="dark">
+```
+
+The list is exported as `@robin-dot-lab/tokens/palettes.json` (`id`, `name`, `description`) to build a picker. Every palette passes the same checks: text 4.5:1 on every background and fill, lines and focus rings 3:1, chart colours distinct for colour-blind readers.
+
 ### Theme and overrides
 
 ```html

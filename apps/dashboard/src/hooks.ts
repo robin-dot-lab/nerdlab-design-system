@@ -12,3 +12,15 @@ export function useTheme() {
   }, []);
   return [theme, setTheme] as const;
 }
+
+const PALETTE_KEY = 'nl-dashboard-palette';
+/** The skin reads [data-palette] on <html>; index.html sets it before first paint. */
+export function usePalette() {
+  const [palette, setPaletteState] = useState(() => document.documentElement.dataset.palette ?? 'candy');
+  const setPalette = useCallback((p: string) => {
+    document.documentElement.dataset.palette = p;
+    try { localStorage.setItem(PALETTE_KEY, p); } catch { /* private mode: palette just isn't remembered */ }
+    setPaletteState(p);
+  }, []);
+  return [palette, setPalette] as const;
+}

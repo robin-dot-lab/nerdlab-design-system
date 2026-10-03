@@ -32,6 +32,9 @@ importers:
       '@robin-dot-lab/react':
         specifier: workspace:*
         version: link:../../packages/react
+      '@robin-dot-lab/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -75,6 +78,9 @@ importers:
       '@robin-dot-lab/react':
         specifier: workspace:*
         version: link:../../packages/react
+      '@robin-dot-lab/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
       react:
         specifier: ^19.3.0
         version: 19.3.0

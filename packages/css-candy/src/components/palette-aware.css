@@ -1,0 +1,4 @@
+/* Palette-aware fixes (new in the package): two colours the reference wrote as literals now derive
+   from tokens, so they follow the active palette. In Candy they render the same. */
+.nl-btn--tomato { --btn-bg-hover: color-mix(in oklab, var(--color-tomato) 88%, var(--ink)); }
+.nl-search input::placeholder { color: color-mix(in oklab, var(--ink) 65%, transparent); }

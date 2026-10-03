@@ -32,14 +32,15 @@
       "types": "./dist/candy/tokens.d.ts",
       "default": "./dist/candy/tokens.js"
     },
-    "./candy.json": "./dist/candy/tokens.json"
+    "./candy.json": "./dist/candy/tokens.json",
+    "./palettes.json": "./dist/candy/palettes.json"
   },
   "sideEffects": [
     "*.css"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node scripts/check-parity.mjs"
+    "test": "node scripts/check-parity.mjs && node scripts/check-contrast.mjs"
   },
   "devDependencies": {
     "style-dictionary": "^5.5.5"

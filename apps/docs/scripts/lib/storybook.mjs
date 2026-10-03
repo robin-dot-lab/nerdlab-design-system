@@ -25,7 +25,9 @@ export function listStories() {
   return Object.values(index.entries).filter((e) => e.type === 'story' && e.id.includes(process.env.STORY_FILTER ?? ''));
 }
 
-export const storyUrl = (base, id, theme) => `${base}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story&globals=theme:${theme}`;
+/** Story URL with the theme global, plus the palette one when PALETTE is set (default: Candy). */
+export const storyUrl = (base, id, theme, palette = process.env.PALETTE) =>
+  `${base}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story&globals=theme:${theme}${palette ? `;palette:${palette}` : ''}`;
 
 /** Waits until a story has rendered: React Aria collections put a hidden <template> first. */
 export async function waitForStory(page) {

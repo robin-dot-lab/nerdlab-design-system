@@ -32,6 +32,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 - `pnpm fetch:test-fonts` — refresh the offline font cache when a test reports a missing font URL
 - `pnpm --filter @robin-dot-lab/docs visual:update` — rewrite the story screenshots of your platform after an intended visual change (CI's Linux set: the *Update visual baselines* workflow)
 - `STORY_FILTER=<id fragment>` — limits the Storybook audit, visual and cross-browser scripts to matching stories
+- `PALETTE=<id> node scripts/a11y-audit.mjs` (in `apps/docs`) — audits every story in another palette (CI does it for all of them)
 - `node tools/readme-assets/capture.mjs` — regenerate the README images (after `pnpm build`)
 - Firefox and WebKit for the cross-browser tests: `node node_modules/playwright-core/cli.js install firefox webkit`
 
@@ -57,7 +58,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 6. `pnpm changeset` for the packages it touches.
 7. Update the vault: the component table in `Librairie React Nerdlab` (or `Package de graphes Nerdlab`), the created-files list in `Package CSS de la peau Candy`, and an ADR if the change is a decision someone could reverse. Every note carries `source_rev` = the commit it describes.
 
-Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). CSS variable name = token path joined by `-`; a `DEFAULT` leaf takes the group name (`border.DEFAULT` → `--border`).
+Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). **Palettes** live in `packages/tokens/src/candy/palettes/<id>.json`: `light` must redefine every literal colour token of `base.tokens.json` (pixel art excepted), `dark` every one `dark.tokens.json` overrides (the build refuses an incomplete palette), and `scripts/check-contrast.mjs` (tokens test) must pass for all of them. The skin never hard-codes a colour: a literal would not follow the palette. CSS variable name = token path joined by `-`; a `DEFAULT` leaf takes the group name (`border.DEFAULT` → `--border`).
 
 ## Gotchas
 

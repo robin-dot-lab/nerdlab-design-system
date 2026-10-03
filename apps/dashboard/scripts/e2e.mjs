@@ -225,6 +225,27 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   await context.close();
 }
 
+// 7. Every palette, light and dark: picked in the sidebar, remembered, and the whole page passes axe.
+{
+  const palettes = JSON.parse(fs.readFileSync(require.resolve('@robin-dot-lab/tokens/palettes.json'), 'utf8'));
+  for (const theme of ['light', 'dark']) {
+    const { context, page, errors } = await open({ width: 1280, height: 900 }, theme);
+    const picker = page.locator('.side__theme').getByRole('combobox', { name: 'Palette' });
+    for (const p of palettes) {
+      await picker.selectOption(p.id);
+      await page.waitForTimeout(400); // colour transitions
+      check(await page.evaluate(() => document.documentElement.dataset.palette) === p.id, `palette ${p.id} (${theme}): set on <html>`);
+      const v = await axe(page);
+      check(v.length === 0, `palette ${p.id} (${theme}): axe clean${v.length ? ' → ' + v.join(' | ') : ''}`);
+      if (shots) await page.screenshot({ path: `${shots}/dashboard-palette-${p.id}-${theme}.png` });
+    }
+    await page.reload({ waitUntil: 'networkidle' });
+    check(await page.evaluate(() => document.documentElement.dataset.palette) === palettes.at(-1).id, `palette remembered across reloads (${theme})`);
+    check(errors.length === 0, `palettes (${theme}): no console error${errors.length ? ' → ' + errors.join(' | ').slice(0, 300) : ''}`);
+    await context.close();
+  }
+}
+
 // 6. Firefox and WebKit (Safari's engine): the page renders cleanly at both widths, in both themes
 for (const name of ['firefox', 'webkit']) {
   const engine = await pw[name].launch();

@@ -1,5 +1,5 @@
 import {
-  Avatar, Badge, Breadcrumb, Bubble, Button, Callout, Cluster, DataTable, Delta, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Ribbon, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
+  Avatar, Badge, Breadcrumb, Bubble, Button, Callout, Cluster, DataTable, Delta, Field, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Ribbon, Search, SegmentedControl, Select, Split, Stack, StatTile, Switch, Toast, ToggleChip,
   type DataTableColumn, type DataTableSort,
 } from '@robin-dot-lab/react';
 import { ChevronDown } from '@robin-dot-lab/icons';
@@ -11,7 +11,8 @@ import {
 } from './data';
 import { dShort, eur, eurCompact, int, pct, sum } from './format';
 import { GoalsHelp, NewEventDialog, NextEvent, OrderDetails } from './extras';
-import { useTheme } from './hooks';
+import palettes from '@robin-dot-lab/tokens/palettes.json';
+import { usePalette, useTheme } from './hooks';
 
 const NAV = ['Vue d’ensemble', 'Événements', 'Billets', 'Audience', 'Réglages'];
 const PER_PAGE = 8;
@@ -30,6 +31,7 @@ const orderColumns: DataTableColumn<Order>[] = [
 
 export function App() {
   const [theme, setTheme] = useTheme();
+  const [palette, setPalette] = usePalette();
   const [filters, setFilters] = useState<Filters>({ range: 30, cats: CATS.map((c) => c.id) });
   const shown = useDeferredValue(filters); // previous render stays on screen while the new slice computes
   const stale = shown !== filters;
@@ -77,6 +79,13 @@ export function App() {
     : key === 'selection' ? exportCsv(ORDERS.filter((o) => selected.has(o.id)), 'nerdlab-orders-selection.csv')
     : exportCsv(orders, `nerdlab-orders-${shown.range}j.csv`);
   const themeSwitch = <Switch checked={theme === 'dark'} onChange={(e) => setTheme(e.currentTarget.checked ? 'dark' : 'light')}>Thème sombre</Switch>;
+  const paletteSelect = (id: string) => (
+    <Field label="Palette" id={id}>
+      <Select value={palette} onChange={(e) => setPalette(e.currentTarget.value)}>
+        {palettes.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+      </Select>
+    </Field>
+  );
 
   return (
     <>
@@ -86,7 +95,7 @@ export function App() {
           <nav aria-label="Navigation principale" className="side__nav">
             {NAV.map((n, i) => <a key={n} href="#top" aria-current={i === 0 ? 'page' : undefined}>{n}</a>)}
           </nav>
-          <div className="side__theme">{themeSwitch}</div>
+          <div className="side__theme">{paletteSelect('palette-side')}{themeSwitch}</div>
           <MobileNav className="side__mobile" label="Menu">{NAV.map((n) => <a key={n} href="#top">{n}</a>)}</MobileNav>
         </aside>
 
@@ -94,7 +103,7 @@ export function App() {
           <Ribbon className="announce" items={['Figma Pixel Party · 27.04 · Lyon', 'Plus que 25 places', 'Pixel Shader Jam le 03.05', 'Stay nerdy']} aria-label="Annonces" role="region" />
           <header className="top">
             <div><Breadcrumb items={[{ label: 'Nerdlab Events', href: '#top' }, { label: 'Analytics', href: '#top' }, { label: 'Vue d’ensemble' }]} /><h1 className="nl-display">Dashboard<span className="dot">.</span></h1></div>
-            <Cluster gap={3}><span className="top__theme">{themeSwitch}</span><NewEventDialog onCreate={(t) => setToast(`Brouillon « ${t} » créé`)} /><MenuTrigger>
+            <Cluster gap={3}><span className="top__theme">{paletteSelect('palette-top')}{themeSwitch}</span><NewEventDialog onCreate={(t) => setToast(`Brouillon « ${t} » créé`)} /><MenuTrigger>
               <Button variant="primary">Exporter <ChevronDown /></Button>
               <Menu onAction={onExport} placement="bottom end">
                 <MenuItem id="filtered">Commandes filtrées (CSV)</MenuItem>
