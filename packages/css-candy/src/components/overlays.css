@@ -4,7 +4,8 @@
   position: fixed; inset: 0; z-index: 110;
   display: grid; place-items: center;
   padding: var(--space-4);
-  background: color-mix(in oklab, var(--ink) 55%, transparent);
+  background: var(--color-overlay);
+  backdrop-filter: blur(2px);
   overflow-y: auto;
 }
 .nl-dialog-modal { width: min(100%, 34rem); outline: none; }

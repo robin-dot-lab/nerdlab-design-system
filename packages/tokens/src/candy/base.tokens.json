@@ -158,6 +158,11 @@
       "$type": "color",
       "$description": "Error text and error borders on light surfaces (5.06:1 on background). --color-error stays for fills."
     },
+    "overlay": {
+      "$value": "rgba(27, 21, 37, 0.55)",
+      "$type": "color",
+      "$description": "Scrim behind modal dialogs and drawers. Its own token because the dark theme needs a deeper one: ink at 55% vanishes on the dark page."
+    },
     "info": {
       "$value": "#6BB3E0",
       "$type": "color",

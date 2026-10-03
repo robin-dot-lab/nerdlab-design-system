@@ -10,3 +10,7 @@
 
 /* ADR-007 — pixel button: ink text on pumpkin (was cream, 2.56:1) */
 .nl-btn--pixel { color: var(--ink); }
+
+/* Modal scrim token (new in the package; the reference had no modal): deeper in the dark theme */
+:root { --color-overlay: rgba(27, 21, 37, 0.55); }
+.dark, [data-theme="dark"] { --color-overlay: rgba(4, 3, 8, 0.78); }

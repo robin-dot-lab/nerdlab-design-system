@@ -51,6 +51,10 @@
     "error-text": {
       "$value": "#FF4D3D",
       "$type": "color"
+    },
+    "overlay": {
+      "$value": "rgba(4, 3, 8, 0.78)",
+      "$type": "color"
     }
   },
   "shadow": {

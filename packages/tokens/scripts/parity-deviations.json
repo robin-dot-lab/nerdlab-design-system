@@ -1,8 +1,14 @@
 {
   "$comment": "Intentional differences from the reference stylesheet. Every entry needs a decision note. Anything not listed here must match the reference exactly.",
   "candy": {
-    "root": { "color-error-text": "#C8281B" },
-    "dark": { "color-error-text": "#FF4D3D" },
-    "why": "ADR-007: accessible error text (reference #FF4D3D on cream is 2.99:1)"
+    "root": {
+      "color-error-text": "#C8281B",
+      "color-overlay": "rgba(27, 21, 37, 0.55)"
+    },
+    "dark": {
+      "color-error-text": "#FF4D3D",
+      "color-overlay": "rgba(4, 3, 8, 0.78)"
+    },
+    "why": "ADR-007: accessible error text (reference #FF4D3D on cream is 2.99:1); color-overlay: modal scrim, new in the package, deeper in the dark theme (2026-10-03)"
   }
 }
