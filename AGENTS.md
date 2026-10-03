@@ -21,7 +21,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `design-system-nerdlab-candy/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Candy is the only skin (the Ultramarine variant was dropped). Candy was called **Pop** until 2026-10-02: the static files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it |
 | `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images) |
-| `.github/workflows/` | CI (`pnpm test` in 8 parallel jobs), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), visual baselines (Linux) |
+| `.github/workflows/` | CI (`pnpm test` in 14 parallel jobs, every palette audited), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), visual baselines (Linux) |
 
 ## Commands
 

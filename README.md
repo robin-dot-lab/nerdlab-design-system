@@ -216,7 +216,7 @@ The CSS is the source of truth; React never carries a colour, a length or a `sty
 | Cross-browser | Every story in Firefox and WebKit: renders, no console error, axe clean |
 | Dashboard end-to-end | 60+ checks: real journeys, keyboard, focus return, theme switch, three engines |
 
-CI runs the same checks on every push and pull request, spread over eight parallel jobs (under 5 minutes).
+CI runs the same checks on every push and pull request, spread over 14 parallel jobs (about 6 minutes), including an accessibility audit of every story in each palette.
 
 ## Contributing
 
