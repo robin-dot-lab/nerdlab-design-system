@@ -16,16 +16,17 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `packages/css-candy` | The look. One file per component in `src/components/`, assembled by `src/manifest.json` into cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` |
 | `packages/react` | `@robin-dot-lab/react`: typed components that only set `nl-*` classes (React 19, built file by file with `tsc`) |
 | `packages/charts` | `@robin-dot-lab/charts`: geometry in JS, colours only from skin tokens |
+| `packages/icons` | `@robin-dot-lab/icons`: inline SVG icons (`nl-icon`, sized by the skin, `currentColor`); decorative unless given a `title` |
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `design-system-nerdlab-candy/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Candy is the only skin (the Ultramarine variant was dropped). Candy was called **Pop** until 2026-10-02: the static files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it |
 | `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images) |
-| `.github/workflows/` | CI (`pnpm test`), Pages (Storybook + dashboard), Release (version PR, no publish), visual baselines (Linux) |
+| `.github/workflows/` | CI (`pnpm test` in 8 parallel jobs), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), visual baselines (Linux) |
 
 ## Commands
 
 - `pnpm install` · `pnpm build` · `pnpm test` (builds, typechecks, then tests every package, ~13 min, no network needed; `STORY_FILTER` to iterate faster) · `pnpm typecheck`
-- `pnpm changeset` — describe a change to a published package (`@robin-dot-lab/tokens`, `css-candy`, `react`, `charts`) for the changelog. Packages are published to GitHub Packages (`@robin-dot-lab`, `npm.pkg.github.com`) by the manual *Release* workflow
+- `pnpm changeset` — describe a change to a published package (`@robin-dot-lab/tokens`, `css-candy`, `react`, `charts`, `icons`) for the changelog. Packages are published to GitHub Packages (`@robin-dot-lab`, `npm.pkg.github.com`) by the manual *Release* workflow
 - `pnpm storybook` (:6006, reads sources) · `pnpm --filter @robin-dot-lab/dashboard dev` (:5173, reads `dist/`: run `pnpm build` first)
 - `pnpm new:component <PascalName> [--element span]` — scaffold a component everywhere it must exist
 - `pnpm fetch:test-fonts` — refresh the offline font cache when a test reports a missing font URL
@@ -66,7 +67,8 @@ Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). 
 - Hand-written tables using `.nl-table--stack` must set `data-label` on every cell; `DataTable` does it for you.
 - `DataTable` sorts internally unless `sort` is passed; with pagination use controlled `sort` + `onSortChange`.
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.
-- Tooltips need a React Aria trigger: wrap a plain element (even `<Button>`) in `<Focusable>`.
+- `TooltipTrigger`, `DialogTrigger` and `MenuTrigger` wrap their first child themselves (`Focusable` / `Pressable`): pass our `Button` directly.
+- React Aria sets `z-index: 100000` inline on popovers; do not fight it in the skin. After a `ComboBox` pick, the input value is committed as the list closes: in browser tests, wait for it.
 - pnpm 11 blocks dependency install scripts: a new dependency with one must be listed in `allowBuilds` (`pnpm-workspace.yaml`).
 - Git identity is repo-local (`robin.dot.meyssonnier@gmail.com`, `commit.gpgsign=false`); do not change the global config. The remote is `github.com/robin-dot-lab/nerdlab-design-system` over HTTPS: push with `git -c credential.helper= -c credential.helper='!gh auth git-credential' push` (gh account `robin-dot-lab`), never with the global SSH key.
 

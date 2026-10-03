@@ -72,8 +72,9 @@
 |---|---|---|
 | [`@robin-dot-lab/tokens`](packages/tokens) | Design tokens in [DTCG](https://www.designtokens.org/) format, compiled by Style Dictionary to CSS variables, JS and JSON | `candy.css` · `candy` · `candy.json` |
 | [`@robin-dot-lab/css-candy`](packages/css-candy) | The Candy skin: every `nl-*` class, in cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` | `candy.css` · `fonts.css` |
-| [`@robin-dot-lab/react`](packages/react) | 50+ typed React 19 components that only set classes | `import { Button } from '@robin-dot-lab/react'` |
+| [`@robin-dot-lab/react`](packages/react) | 60+ typed React 19 components that only set classes | `import { Button } from '@robin-dot-lab/react'` |
 | [`@robin-dot-lab/charts`](packages/charts) | Line, bars, heatmap, share bar, sparkline, chart card with legend and table twin | `import { LineChart } from '@robin-dot-lab/charts'` |
+| [`@robin-dot-lab/icons`](packages/icons) | 25 inline SVG icons, 2px strokes in `currentColor`, sized by the skin | `import { Calendar } from '@robin-dot-lab/icons'` |
 
 Published on **GitHub Packages**. Add the registry for the scope once, with a GitHub token that has `read:packages`:
 
@@ -84,7 +85,7 @@ Published on **GitHub Packages**. Add the registry for the scope once, with a Gi
 ```
 
 ```bash
-pnpm add @robin-dot-lab/css-candy @robin-dot-lab/react      # + @robin-dot-lab/charts for charts
+pnpm add @robin-dot-lab/css-candy @robin-dot-lab/react      # + @robin-dot-lab/charts, @robin-dot-lab/icons
 ```
 
 Versions and changelogs are handled by [Changesets](.changeset/README.md).
@@ -160,13 +161,15 @@ No React? The classes work on plain HTML:
 | Family | Components |
 |---|---|
 | **Actions** | `Button` (8 variants, `asChild`), `Menu` · `MenuTrigger` · `MenuItem`, `Pagination`, `SegmentedControl`, `ToggleChip` |
-| **Forms** | `Field`, `Input`, `Textarea`, `Select`, `RadioGroup` · `Radio`, `Checkbox`, `Switch`, `Search` |
-| **Overlays** | `Dialog` · `DialogTrigger`, `Popover`, `Tooltip` |
-| **Content** | `Window`, `Card`, `Bento`, `Callout`, `InfoList`, `Accordion`, `Tabs`, `DataTable` (sortable, stacks into cards on phones) |
-| **Indicators** | `StatTile`, `Delta`, `Meter`, `Progress`, `Badge`, `Toast` |
-| **Layout** | `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Split`, `VisuallyHidden`, `MobileNav` |
+| **Forms** | `Field`, `Input`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `RadioGroup` · `Radio`, `Checkbox`, `Switch`, `Search` |
+| **Overlays** | `Dialog` · `DialogTrigger`, `Drawer`, `Popover`, `Tooltip` |
+| **Content** | `Window`, `Card`, `Bento`, `Callout`, `InfoList`, `Accordion`, `Tabs`, `DataTable` (sortable, selectable, stacks into cards on phones) |
+| **Indicators** | `StatTile`, `Delta`, `Meter`, `Progress`, `Skeleton`, `Badge`, `Toast` |
+| **Navigation and people** | `Breadcrumb`, `MobileNav`, `Avatar`, `AvatarGroup` |
+| **Layout** | `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Split`, `VisuallyHidden` |
 | **Personality** | `Sticker`, `Burst`, `Bubble`, `Pill`, `Ribbon` (pausable marquee), `Divider` |
 | **Charts** | `LineChart`, `BarList`, `Heatmap`, `ShareBar`, `Sparkline`, `ChartCard`, `Legend` |
+| **Icons** | 25 icons: arrows and chevrons, check, close, plus, minus, search, menu, info, warning, error, success, calendar, user, filter, sort, play, pause… |
 
 Every component has stories, props documentation and an accessibility audit in **[Storybook](https://robin-dot-lab.github.io/nerdlab-design-system/)**.
 
@@ -186,7 +189,7 @@ flowchart LR
   charts --> dash
 ```
 
-The CSS is the source of truth; React never carries a colour, a length or a `style` prop. Interactive behaviour comes from the platform first (`<details>`, `<meter>`, `<select>`, radios), then React Aria (tabs, tooltip, dialog, popover, menu).
+The CSS is the source of truth; React never carries a colour, a length or a `style` prop. Interactive behaviour comes from the platform first (`<details>`, `<meter>`, `<select>`, radios), then React Aria (tabs, tooltip, dialog, drawer, popover, menu, combobox, date picker).
 
 ## Quality gates
 
@@ -201,7 +204,7 @@ The CSS is the source of truth; React never carries a colour, a length or a `sty
 | Accessibility audit | axe on every story, light and dark, 1280 and 390 px, including open dialogs and menus |
 | Visual regression | Every story compared with its committed screenshot (desktop light, phone dark) |
 | Cross-browser | Every story in Firefox and WebKit: renders, no console error, axe clean |
-| Dashboard end-to-end | 50+ checks: real journeys, keyboard, focus return, theme switch, three engines |
+| Dashboard end-to-end | 60+ checks: real journeys, keyboard, focus return, theme switch, three engines |
 
 CI runs the same checks on every push and pull request, spread over eight parallel jobs (under 5 minutes).
 

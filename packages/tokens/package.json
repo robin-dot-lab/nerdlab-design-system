@@ -23,7 +23,8 @@
   "type": "module",
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ],
   "exports": {
     "./candy.css": "./dist/candy/tokens.css",
