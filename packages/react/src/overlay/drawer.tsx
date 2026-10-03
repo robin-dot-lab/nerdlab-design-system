@@ -33,7 +33,7 @@ export function Drawer({ title, children, placement = 'end', isDismissable = tru
             <>
               <div className="nl-drawer__head">
                 <Heading slot="title" className="nl-drawer__title">{title}</Heading>
-                <button type="button" className="nl-dialog__close" aria-label={closeLabel} onClick={close}><Close /></button>
+                <button type="button" className="nl-dialog__close" aria-label={closeLabel} onClick={close}><Close size="sm" /></button>
               </div>
               <div className="nl-drawer__body">{typeof children === 'function' ? children({ close }) : children}</div>
             </>

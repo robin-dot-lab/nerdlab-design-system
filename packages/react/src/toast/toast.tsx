@@ -1,5 +1,6 @@
 'use client';
 
+import { Check } from '@robin-dot-lab/icons';
 import { useEffect, type ReactNode } from 'react';
 
 export interface ToastProps {
@@ -15,7 +16,7 @@ export interface ToastProps {
  * Transient status message in a polite live region. The region is always rendered so that
  * screen readers announce the message when it appears.
  */
-export function Toast({ message, onDismiss, duration = 2200, icon = '✓' }: ToastProps) {
+export function Toast({ message, onDismiss, duration = 2200, icon = <Check /> }: ToastProps) {
   useEffect(() => {
     if (message == null) return;
     const t = setTimeout(onDismiss, duration);

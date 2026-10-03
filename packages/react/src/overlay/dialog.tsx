@@ -1,5 +1,6 @@
 'use client';
 
+import { Close } from '@robin-dot-lab/icons';
 import type { VariantProps } from 'class-variance-authority';
 import type { ComponentProps, ReactNode } from 'react';
 import {
@@ -50,7 +51,7 @@ export function Dialog({ title, children, barColor, size = 'md', isDismissable =
               <div className={windowBarVariants({ color: barColor })}>
                 <Heading slot="title" className="nl-dialog__title">{title}</Heading>
                 <button type="button" className="nl-dialog__close" aria-label={closeLabel} onClick={close}>
-                  <span aria-hidden="true">×</span>
+                  <Close size="sm" />
                 </button>
               </div>
               <div className="nl-window__body nl-dialog__body">{typeof children === 'function' ? children({ close }) : children}</div>

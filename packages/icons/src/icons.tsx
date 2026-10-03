@@ -22,6 +22,24 @@ export const ChevronRight = createIcon('ChevronRight', <path d="M9 6l6 6-6 6" />
 
 export const ArrowLeft = createIcon('ArrowLeft', <path d="M19 12H5M11 6l-6 6 6 6" />);
 export const ArrowRight = createIcon('ArrowRight', <path d="M5 12h14M13 6l6 6-6 6" />);
+export const ArrowUp = createIcon('ArrowUp', <path d="M12 19V5M6 11l6-6 6 6" />);
+export const ArrowDown = createIcon('ArrowDown', <path d="M12 5v14M6 13l6 6 6-6" />);
+
+/** Bare marks for a coloured disc drawn by the skin (Callout): no circle of their own. */
+export const InfoMark = createIcon(
+  'InfoMark',
+  <>
+    <path d="M12 11v7" />
+    <circle cx="12" cy="6.5" r="0.6" fill="currentColor" />
+  </>,
+);
+export const ExclamationMark = createIcon(
+  'ExclamationMark',
+  <>
+    <path d="M12 5v8.5" />
+    <circle cx="12" cy="18.5" r="0.6" fill="currentColor" />
+  </>,
+);
 
 export const Plus = createIcon('Plus', <path d="M12 5v14M5 12h14" />);
 export const Minus = createIcon('Minus', <path d="M5 12h14" />);

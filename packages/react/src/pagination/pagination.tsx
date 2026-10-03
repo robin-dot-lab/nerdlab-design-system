@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight } from '@robin-dot-lab/icons';
 import { Button } from '../button/button.js';
 import { cn } from '../lib/cn.js';
 
@@ -23,11 +24,11 @@ export function Pagination({
   const numbers = Array.from({ length: size }, (_, i) => start + i);
   return (
     <nav aria-label={label} className={cn('nl-pagination', className)}>
-      <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => onPageChange(page - 1)} aria-label={labels.previous}>←</Button>
+      <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => onPageChange(page - 1)} aria-label={labels.previous}><ArrowLeft /></Button>
       {numbers.map((n) => (
         <Button key={n} size="sm" variant={n === page ? 'accent' : 'outline'} aria-current={n === page ? 'page' : undefined} aria-label={labels.page(n)} onClick={() => onPageChange(n)}>{n}</Button>
       ))}
-      <Button variant="outline" size="sm" disabled={page >= pages} onClick={() => onPageChange(page + 1)} aria-label={labels.next}>→</Button>
+      <Button variant="outline" size="sm" disabled={page >= pages} onClick={() => onPageChange(page + 1)} aria-label={labels.next}><ArrowRight /></Button>
     </nav>
   );
 }

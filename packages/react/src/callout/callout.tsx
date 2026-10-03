@@ -1,5 +1,6 @@
+import { Check, Close, ExclamationMark, InfoMark } from '@robin-dot-lab/icons';
 import { cva, type VariantProps } from 'class-variance-authority';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ComponentType, ReactNode } from 'react';
 import { cn } from '../lib/cn.js';
 
 export const calloutVariants = cva('nl-callout', {
@@ -10,7 +11,7 @@ export const calloutVariants = cva('nl-callout', {
 });
 
 type Tone = NonNullable<VariantProps<typeof calloutVariants>['tone']>;
-const ICON: Record<Tone, string> = { info: 'i', success: '✓', warning: '!', error: '×' };
+const ICON: Record<Tone, ComponentType> = { info: InfoMark, success: Check, warning: ExclamationMark, error: Close };
 const WORD: Record<'fr' | 'en', Record<Tone, string>> = {
   fr: { info: 'Information', success: 'Succès', warning: 'Attention', error: 'Erreur' },
   en: { info: 'Info', success: 'Success', warning: 'Warning', error: 'Error' },
@@ -30,10 +31,11 @@ export interface CalloutProps extends Omit<ComponentProps<'div'>, 'title'>, Vari
  */
 export function Callout({ tone, title, toneLabel, lang = 'fr', className, children, ...props }: CalloutProps) {
   const t: Tone = tone ?? 'info';
+  const Mark = ICON[t];
   const said = <span className="nl-visually-hidden">{toneLabel ?? WORD[lang][t]}{lang === 'fr' ? ' : ' : ': '}</span>;
   return (
     <div className={cn(calloutVariants({ tone }), className)} {...props}>
-      <span className="nl-callout__icon" aria-hidden="true">{ICON[t]}</span>
+      <span className="nl-callout__icon" aria-hidden="true"><Mark /></span>
       <div className="nl-callout__body">
         {title != null && <p className="nl-callout__title">{said}{title}</p>}
         {title == null && said}

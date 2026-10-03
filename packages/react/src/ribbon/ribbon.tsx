@@ -1,5 +1,6 @@
 'use client';
 
+import { Pause, Play } from '@robin-dot-lab/icons';
 import { useState, type ComponentProps } from 'react';
 import { cn } from '../lib/cn.js';
 
@@ -26,7 +27,7 @@ export function Ribbon({ items, pausable = true, pauseLabel = 'Mettre en pause l
       </div>
       {pausable && (
         <button type="button" className="nl-ribbon__pause" aria-label={paused ? playLabel : pauseLabel} onClick={() => setPaused((p) => !p)}>
-          <span aria-hidden="true">{paused ? '▶' : '❚❚'}</span>
+          {paused ? <Play /> : <Pause />}
         </button>
       )}
     </div>

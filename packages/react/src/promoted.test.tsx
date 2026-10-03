@@ -9,7 +9,8 @@ describe('Delta', () => {
     const { container } = render(<Delta current={110} previous={100} />);
     const el = container.firstElementChild!;
     expect(el.className).toBe('nl-delta nl-delta--good');
-    expect(el.textContent).toContain('▲ +10');
+    expect(el.textContent).toContain('+10');
+    expect(el.querySelector('svg.nl-icon')).toBeTruthy(); // arrow icon, hidden with its sign
     expect(screen.getByText(/Hausse de 10/).className).toBe('nl-visually-hidden');
     expect(el.hasAttribute('aria-label')).toBe(false);
   });
@@ -18,7 +19,7 @@ describe('Delta', () => {
     const [a, b] = Array.from(container.children);
     expect(a!.className).toContain('nl-delta--bad');
     expect(b!.className).toContain('nl-delta--bad');
-    expect(b!.textContent).toContain('▼ −10');
+    expect(b!.textContent).toContain('−10');
   });
 });
 
@@ -53,7 +54,8 @@ describe('Pagination', () => {
     const onPageChange = vi.fn();
     render(<Pagination page={5} pages={9} onPageChange={onPageChange} label="Commandes" />);
     expect(screen.getByRole('navigation', { name: 'Commandes' })).toBeTruthy();
-    expect(screen.getAllByRole('button').map((b) => b.textContent)).toEqual(['←', '4', '5', '6', '→']);
+    expect(screen.getAllByRole('button').map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Page précédente', 'Page 4', 'Page 5', 'Page 6', 'Page suivante']);
+    expect(screen.getByRole('button', { name: 'Page précédente' }).querySelector('svg.nl-icon')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Page 5' }).getAttribute('aria-current')).toBe('page');
     await userEvent.click(screen.getByRole('button', { name: 'Page suivante' }));
     expect(onPageChange).toHaveBeenCalledWith(6);

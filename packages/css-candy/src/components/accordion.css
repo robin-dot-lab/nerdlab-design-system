@@ -9,6 +9,7 @@
   overflow: hidden;
 }
 .nl-accordion summary {
+  position: relative;
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
   list-style: none; cursor: pointer;
@@ -21,7 +22,7 @@
 }
 .nl-accordion summary::-webkit-details-marker { display: none; }
 .nl-accordion summary::after {
-  content: "+"; flex: none;
+  content: ""; flex: none;
   display: grid; place-items: center;
   width: 28px; height: 28px;
   border: var(--border); border-radius: var(--radius-full);
@@ -29,7 +30,15 @@
   font-family: var(--font-mono); font-weight: var(--weight-bold); font-size: var(--text-base); line-height: 1;
 }
 .nl-accordion details[open] > summary { border-block-end: var(--border-width) dashed var(--color-line); }
-.nl-accordion details[open] > summary::after { content: "−"; background: var(--color-primary); }
+.nl-accordion details[open] > summary::after { background: var(--color-primary); }
+/* The +/− mark (an icon mask, see icon.css) sits centred on the 28px disc drawn by ::after. */
+.nl-accordion summary::before {
+  content: ""; position: absolute; inset-block-start: 50%; inset-inline-end: calc(var(--space-5) + 7px);
+  width: 14px; height: 14px; translate: 0 -50%;
+  background: var(--ink);
+  -webkit-mask: var(--nl-mask-plus) center / contain no-repeat; mask: var(--nl-mask-plus) center / contain no-repeat;
+}
+.nl-accordion details[open] > summary::before { -webkit-mask-image: var(--nl-mask-minus); mask-image: var(--nl-mask-minus); }
 .nl-accordion summary:hover { background: var(--color-primary-soft); }
 .nl-accordion details > :not(summary) { padding: var(--space-4) var(--space-5) var(--space-5); }
 @media (pointer: coarse) {

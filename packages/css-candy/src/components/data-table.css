@@ -15,9 +15,12 @@
 }
 .nl-table__sort { all: unset; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
 .nl-table__sort:focus-visible { outline: 2px solid var(--color-violet); outline-offset: 2px; }
-.nl-table th[aria-sort] .nl-table__sort::after { content: "↕"; opacity: 0.35; }
-.nl-table th[aria-sort="ascending"] .nl-table__sort::after { content: "↑"; opacity: 1; }
-.nl-table th[aria-sort="descending"] .nl-table__sort::after { content: "↓"; opacity: 1; }
+.nl-table th[aria-sort] .nl-table__sort::after {
+  content: ""; flex: none; width: 1.1em; height: 1.1em; background: currentColor; opacity: 0.35;
+  -webkit-mask: var(--nl-mask-sort) center / contain no-repeat; mask: var(--nl-mask-sort) center / contain no-repeat;
+}
+.nl-table th[aria-sort="ascending"] .nl-table__sort::after { -webkit-mask-image: var(--nl-mask-arrow-up); mask-image: var(--nl-mask-arrow-up); opacity: 1; }
+.nl-table th[aria-sort="descending"] .nl-table__sort::after { -webkit-mask-image: var(--nl-mask-arrow-down); mask-image: var(--nl-mask-arrow-down); opacity: 1; }
 .nl-table td { padding: var(--space-3) var(--space-4); border-block-end: 1px solid var(--color-border-subtle); white-space: nowrap; }
 .nl-table tbody tr:last-child td { border-block-end: 0; }
 .nl-table tbody tr:hover { background: var(--color-primary-soft); }

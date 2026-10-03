@@ -1,3 +1,4 @@
+import { ArrowDown, ArrowUp } from '@robin-dot-lab/icons';
 import type { ComponentProps } from 'react';
 import { cn } from '../lib/cn.js';
 
@@ -18,7 +19,7 @@ export function Delta({ current, previous, upIsGood = true, locale = 'fr-FR', la
   const fmt = new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 1 });
   return (
     <span className={cn('nl-delta', up === upIsGood ? 'nl-delta--good' : 'nl-delta--bad', className)} {...props}>
-      <span aria-hidden="true">{up ? '▲ +' : '▼ −'}{fmt.format(Math.abs(ratio))}</span>
+      <span aria-hidden="true">{up ? <ArrowUp size="sm" /> : <ArrowDown size="sm" />} {up ? '+' : '−'}{fmt.format(Math.abs(ratio))}</span>
       {/* aria-label is not allowed on a role-less span: the words go in hidden text instead */}
       <span className="nl-visually-hidden">{`${up ? labels.up : labels.down} ${fmt.format(Math.abs(ratio))}`}</span>
     </span>
