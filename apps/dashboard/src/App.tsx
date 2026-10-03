@@ -1,8 +1,9 @@
 import {
-  Badge, Bubble, Button, Callout, Cluster, DataTable, Delta, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Ribbon, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
+  Avatar, Badge, Breadcrumb, Bubble, Button, Callout, Cluster, DataTable, Delta, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Ribbon, Search, SegmentedControl, Split, Stack, StatTile, Switch, Toast, ToggleChip,
   type DataTableColumn, type DataTableSort,
 } from '@robin-dot-lab/react';
-import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { ChevronDown } from '@robin-dot-lab/icons';
+import { useCallback, useDeferredValue, useEffect, useMemo, useState, type Key } from 'react';
 import { BarList, ChartCard, Heatmap, Legend, LineChart, ShareBar, Sparkline } from '@robin-dot-lab/charts';
 import {
   activeCats, bucket, catById, catColor, CATS, daily, DAYS, DOW, heatGrid, lineData, ORDERS, SLOTS, slice, STATUS, topEvents, totals,
@@ -14,10 +15,11 @@ import { useTheme } from './hooks';
 
 const NAV = ['Vue d’ensemble', 'Événements', 'Billets', 'Audience', 'Réglages'];
 const PER_PAGE = 8;
+const AVATAR_TONES = ['lavender', 'mint', 'accent', 'secondary'] as const;
 
 const orderColumns: DataTableColumn<Order>[] = [
   { key: 'id', header: 'N°', cell: (o) => <OrderDetails order={o} /> },
-  { key: 'client', header: 'Client', sortable: true },
+  { key: 'client', header: 'Client', sortable: true, cell: (o) => <span className="client"><Avatar name={o.client} size="sm" tone={AVATAR_TONES[o.client.charCodeAt(0) % AVATAR_TONES.length]} />{o.client}</span> },
   { key: 'event', header: 'Événement', sortable: true },
   { key: 'cat', header: 'Catégorie', sortable: true, cell: (o) => <span className="cat"><i className="nl-key-rect" style={{ background: catColor(o.cat) }} aria-hidden="true" />{catById[o.cat].name}</span> },
   { key: 'qty', header: 'Billets', align: 'end', sortable: true },
@@ -34,6 +36,7 @@ export function App() {
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<DataTableSort>({ key: 'date', direction: 'descending' });
   const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState<Set<Key>>(new Set());
   const [toast, setToast] = useState<string | null>(null);
   const clearToast = useCallback(() => setToast(null), []);
   useEffect(() => setPage(1), [filters, query]);
@@ -69,7 +72,10 @@ export function App() {
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = file; a.click(); URL.revokeObjectURL(a.href);
     setToast(`${list.length} commandes exportées`);
   };
-  const onExport = (key: unknown) => key === 'all' ? exportCsv(ORDERS, 'nerdlab-orders-tout.csv') : exportCsv(orders, `nerdlab-orders-${shown.range}j.csv`);
+  const onExport = (key: unknown) =>
+    key === 'all' ? exportCsv(ORDERS, 'nerdlab-orders-tout.csv')
+    : key === 'selection' ? exportCsv(ORDERS.filter((o) => selected.has(o.id)), 'nerdlab-orders-selection.csv')
+    : exportCsv(orders, `nerdlab-orders-${shown.range}j.csv`);
   const themeSwitch = <Switch checked={theme === 'dark'} onChange={(e) => setTheme(e.currentTarget.checked ? 'dark' : 'light')}>Thème sombre</Switch>;
 
   return (
@@ -87,12 +93,13 @@ export function App() {
         <main className="main" id="top">
           <Ribbon className="announce" items={['Figma Pixel Party · 27.04 · Lyon', 'Plus que 25 places', 'Pixel Shader Jam le 03.05', 'Stay nerdy']} aria-label="Annonces" role="region" />
           <header className="top">
-            <div><span className="nl-eyebrow nl-muted">Nerdlab Events · Analytics</span><h1 className="nl-display">Dashboard<span className="dot">.</span></h1></div>
+            <div><Breadcrumb items={[{ label: 'Nerdlab Events', href: '#top' }, { label: 'Analytics', href: '#top' }, { label: 'Vue d’ensemble' }]} /><h1 className="nl-display">Dashboard<span className="dot">.</span></h1></div>
             <Cluster gap={3}><span className="top__theme">{themeSwitch}</span><NewEventDialog onCreate={(t) => setToast(`Brouillon « ${t} » créé`)} /><MenuTrigger>
-              <Button variant="primary">Exporter <span aria-hidden="true">▾</span></Button>
+              <Button variant="primary">Exporter <ChevronDown /></Button>
               <Menu onAction={onExport} placement="bottom end">
                 <MenuItem id="filtered">Commandes filtrées (CSV)</MenuItem>
                 <MenuItem id="all">Toutes les commandes (CSV)</MenuItem>
+                <MenuItem id="selection" isDisabled={selected.size === 0}>{`Sélection (${selected.size}) en CSV`}</MenuItem>
               </Menu>
             </MenuTrigger></Cluster>
           </header>
@@ -168,11 +175,12 @@ export function App() {
 
             <section className="orders nl-card" aria-labelledby="orders-title">
               <Split ratio="2-1" gap={4} className="orders__head">
-                <div><h2 id="orders-title">Dernières commandes</h2><p>{int.format(orders.length)} commandes · {eur.format(sum(orders.map((o) => o.amount)))}</p></div>
+                <div><h2 id="orders-title">Dernières commandes</h2><p>{int.format(orders.length)} commandes · {eur.format(sum(orders.map((o) => o.amount)))}{selected.size > 0 && ` · ${selected.size} sélectionnée${selected.size > 1 ? 's' : ''}`}</p></div>
                 <Search label="Rechercher une commande" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Client, event, n°" />
               </Split>
               <DataTable caption="Dernières commandes" hideCaption columns={orderColumns} rows={pageRows} rowKey={(o) => o.id}
-                sort={sort} onSortChange={setSort} empty={<><Bubble>Rien ici…</Bubble> Aucune commande ne correspond.</>} />
+                sort={sort} onSortChange={setSort} selectable selectedKeys={selected} onSelectionChange={setSelected}
+                selectionLabels={{ all: 'Sélectionner les commandes affichées', row: (o) => `Sélectionner la commande ${o.id}`, column: 'Sélection' }} empty={<><Bubble>Rien ici…</Bubble> Aucune commande ne correspond.</>} />
               <Stack className="orders__foot">
                 <Cluster justify="between" gap={3}>
                   <span className="nl-muted">{orders.length ? `${(page - 1) * PER_PAGE + 1}–${Math.min(page * PER_PAGE, orders.length)} sur ${orders.length}` : ''}</span>

@@ -167,6 +167,17 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   await form.getByRole('textbox', { name: 'Titre' }).fill('Synth Jam');
   await form.getByRole('combobox', { name: 'Catégorie' }).selectOption('music');
   await form.getByRole('radio', { name: 'En ligne' }).check();
+  await form.getByRole('combobox', { name: 'Lieu' }).fill('Hal');
+  const venueOption = page.getByRole('option', { name: 'La Halle aux Pixels' });
+  await venueOption.waitFor();
+  await page.waitForTimeout(200); // the list's enter transition
+  await venueOption.click();
+  // React Aria commits the option to the input as the list closes: wait for it rather than reading at once.
+  const venueField = form.getByRole('combobox', { name: 'Lieu' });
+  await page.waitForFunction((el) => el.value !== 'Hal', await venueField.elementHandle(), { timeout: 2000 }).catch(() => {});
+  const venue = await venueField.inputValue();
+  check(venue === 'La Halle aux Pixels', `venue combobox filters and picks an option (got "${venue}")`);
+  check((await form.getByRole('group', { name: 'Date' }).textContent()).includes('16/05/2026'), 'date picker shows the French day/month/year order');
   await page.waitForTimeout(300);
   const vf = await axe(page);
   check(vf.length === 0, `new-event form open (dark): axe clean${vf.length ? ' → ' + vf.join(' | ') : ''}`);
@@ -182,6 +193,30 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   const ribbon = page.locator('.nl-ribbon');
   await ribbon.getByRole('button', { name: 'Mettre en pause le défilement' }).click();
   check((await ribbon.getAttribute('class')).includes('nl-ribbon--paused'), 'announcement ribbon can be paused');
+
+  check(await page.getByRole('navigation', { name: 'Fil d’Ariane' }).getByRole('link').count() === 2, 'breadcrumb: two links, then the current page');
+
+  await page.getByRole('button', { name: 'Voir la checklist' }).click();
+  const drawer = page.getByRole('dialog', { name: 'Checklist · Pixel Party' });
+  check(await drawer.getByRole('checkbox').count() === 9, 'checklist drawer lists nine tasks');
+  await page.waitForTimeout(300);
+  const vd = await axe(page);
+  check(vd.length === 0, `checklist drawer open (dark): axe clean${vd.length ? ' → ' + vd.join(' | ') : ''}`);
+  if (shots) await page.screenshot({ path: `${shots}/dashboard-drawer.png` });
+  await page.keyboard.press('Escape');
+  await drawer.waitFor({ state: 'detached' });
+  const focusBack = await page.waitForFunction(() => document.activeElement?.textContent === 'Voir la checklist', null, { timeout: 2000 }).then(() => true, () => false);
+  check(focusBack, 'Escape closes the drawer, focus back on its button');
+
+  const firstTwo = page.getByRole('checkbox', { name: /^Sélectionner la commande / });
+  await firstTwo.nth(0).check(); await firstTwo.nth(1).check();
+  check(await page.getByRole('checkbox', { name: 'Sélectionner les commandes affichées' }).evaluate((el) => el.indeterminate), 'select-all is indeterminate with two rows selected');
+  const selDownload = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Exporter' }).click();
+  await page.getByRole('menuitem', { name: 'Sélection (2) en CSV' }).click();
+  const selFile = await selDownload;
+  const csv = fs.readFileSync(await selFile.path(), 'utf8').trim().split('\n');
+  check(selFile.suggestedFilename() === 'nerdlab-orders-selection.csv' && csv.length === 3, 'export of the selection: header + the two selected orders');
 
   for (const c of ['Design', 'Musique', 'Code', 'Food']) await page.getByRole('button', { name: c }).click();
   check(await page.getByText('Aucune catégorie sélectionnée').isVisible(), 'warning callout when every category is off');

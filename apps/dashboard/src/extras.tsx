@@ -1,7 +1,9 @@
 // Dashboard pieces built from the step-9 components: order details, new-event form, next-event tiles, goals help.
+import { Plus } from '@robin-dot-lab/icons';
 import {
-  Badge, Bento, Burst, Button, Callout, Cluster, Dialog, DialogActions, DialogTrigger, Divider, Field, InfoList, Input,
-  Pill, Popover, Progress, Radio, RadioGroup, Select, Sticker, StickerSmall, Textarea,
+  Avatar, AvatarGroup, Badge, Bento, Burst, Button, Callout, Checkbox, Cluster, ComboBox, ComboBoxItem, DatePicker, Dialog, DialogActions,
+  DialogTrigger, Divider, Drawer, DrawerFooter, Field, InfoList, Input, parseDate, Pill, Popover, Progress, Radio, RadioGroup, Select,
+  Skeleton, Stack, Sticker, StickerSmall, Textarea,
 } from '@robin-dot-lab/react';
 import type { FormEvent } from 'react';
 import { catById, CATS, STATUS, type Order } from './data';
@@ -33,11 +35,19 @@ export function OrderDetails({ order }: { order: Order }) {
   );
 }
 
+const VENUES = ['Nerdlab 378', 'La Halle aux Pixels', 'Le Sucre', 'Le Périscope', 'Halle Tony Garnier'];
+const ATTENDEES = ['Sacha D.', 'Léa M.', 'Noah K.', 'Yuki M.'];
+const TASKS = [
+  { label: 'Réserver la salle', done: true }, { label: 'Annoncer l’événement', done: true }, { label: 'Ouvrir la billetterie', done: true },
+  { label: 'Commander les stickers', done: true }, { label: 'Confirmer les intervenants', done: true }, { label: 'Préparer les tote bags', done: true },
+  { label: 'Tester le vidéoprojecteur', done: false }, { label: 'Briefer les bénévoles', done: false }, { label: 'Imprimer les badges', done: false },
+];
+
 /** Header button: a draft event form in a modal window. */
 export function NewEventDialog({ onCreate }: { onCreate: (title: string) => void }) {
   return (
     <DialogTrigger>
-      <Button>Nouvel événement</Button>
+      <Button><Plus /> Nouvel événement</Button>
       <Dialog title="NEW_EVENT.EXE" size="lg">
         {({ close }) => {
           const submit = (e: FormEvent<HTMLFormElement>) => {
@@ -49,6 +59,12 @@ export function NewEventDialog({ onCreate }: { onCreate: (title: string) => void
             <form className="nl-stack" onSubmit={submit}>
               <Callout title="Brouillon">L’événement reste invisible du public tant qu’il n’est pas publié.</Callout>
               <Field label="Titre"><Input name="title" required placeholder="Pixel Party" /></Field>
+              <div className="form-row">
+                <DatePicker label="Date" name="date" defaultValue={parseDate('2026-05-16')} isRequired />
+                <ComboBox label="Lieu" name="venue" placeholder="Tape pour chercher…" allowsCustomValue>
+                  {VENUES.map((v) => <ComboBoxItem key={v} id={v}>{v}</ComboBoxItem>)}
+                </ComboBox>
+              </div>
               <Field label="Catégorie">
                 <Select name="cat" defaultValue="design">{CATS.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</Select>
               </Field>
@@ -79,6 +95,12 @@ export function NextEvent() {
             <Cluster gap={3}><span className="nl-eyebrow">Prochain événement</span><Burst tone="primary">NEW</Burst></Cluster>
             <Bento.Title>Figma Pixel Party</Bento.Title>
             <Cluster gap={2}><Pill filled>Atelier</Pill><Pill>Goodies</Pill><Pill>Food truck</Pill></Cluster>
+            <Cluster gap={2}>
+              <AvatarGroup aria-label={`Derniers inscrits : ${ATTENDEES.join(', ')}`}>
+                {ATTENDEES.map((n, i) => <Avatar key={n} name={n} size="sm" tone={(['lavender', 'mint', 'primary', 'secondary'] as const)[i]} />)}
+              </AvatarGroup>
+              <span className="next__attendees">+ 21 inscrits</span>
+            </Cluster>
           </div>
           <Bento.Foot><span>Sam. 27 avril · Lyon</span><Sticker tone="primary" tilt="right">25<StickerSmall>places</StickerSmall></Sticker></Bento.Foot>
         </article>
@@ -98,10 +120,26 @@ export function NextEvent() {
           <Bento.Title>Préparation</Bento.Title>
           <div className="nl-stack nl-gap-2">
             <Progress value={done} max={tasks} label="Préparation de la Pixel Party" />
-            <span className="nl-help">{done} tâches sur {tasks}</span>
+            <Cluster justify="between" gap={2}>
+              <span className="nl-help">{done} tâches sur {tasks}</span>
+              <DialogTrigger>
+                <Button size="sm" variant="ghost">Voir la checklist</Button>
+                <Drawer title="Checklist · Pixel Party">
+                  {({ close }) => (
+                    <Stack gap={3}>
+                      {TASKS.map((t) => <Checkbox key={t.label} defaultChecked={t.done}>{t.label}</Checkbox>)}
+                      <DrawerFooter><Button variant="primary" onClick={close}>Fermer la checklist</Button></DrawerFooter>
+                    </Stack>
+                  )}
+                </Drawer>
+              </DialogTrigger>
+            </Cluster>
             <Divider />
             <span className="nl-help">Synchronisation de la billetterie…</span>
             <Progress label="Synchronisation de la billetterie" pixel />
+            <div aria-busy="true" aria-label="Dernières ventes (en cours de synchronisation)" role="region" className="sync">
+              <Skeleton lines={2} />
+            </div>
           </div>
         </article>
       </Bento>
