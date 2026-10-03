@@ -1,0 +1,22 @@
+/* Skeleton (new in the package): placeholder shapes while content loads. Decorative: the region
+   that loads carries aria-busy and the real content replaces it. The sheen is still under reduced motion. */
+.nl-skeleton {
+  position: relative; display: block; overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+}
+.nl-skeleton::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-surface) 70%, transparent), transparent);
+  transform: translateX(-100%);
+  animation: nl-skeleton-sheen 1.4s ease-in-out infinite;
+}
+@keyframes nl-skeleton-sheen { to { transform: translateX(100%); } }
+.nl-skeleton--text { height: 0.8em; margin-block: 0.35em; }
+.nl-skeleton--text:last-child:not(:first-child) { width: 60%; }
+.nl-skeleton--circle { width: var(--space-10); height: var(--space-10); border-radius: var(--radius-full); }
+.nl-skeleton--block { height: var(--space-20); border-radius: var(--radius-md); }
+.nl-skeleton-group { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .nl-skeleton::after { animation: none; transform: none; opacity: 0; }
+}

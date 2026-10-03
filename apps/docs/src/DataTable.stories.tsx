@@ -38,3 +38,11 @@ export const Stacked: Story = { globals: { viewport: { value: 'mobile2', isRotat
 export const Empty: Story = { args: { rows: [], empty: 'No orders match.' } };
 
 export const HiddenCaption: Story = { args: { hideCaption: true, framed: false } };
+
+/** A checkbox column: the header selects every visible row (indeterminate when some are). Keys survive pagination. */
+export const Selectable: Story = {
+  render: () => (
+    <DataTable caption="Latest orders" columns={columns} rows={ORDERS} rowKey={(o) => o.id} selectable defaultSelectedKeys={['NL-9206']}
+      selectionLabels={{ all: 'Select all visible rows', row: (o) => `Select order ${o.id}`, column: 'Selection' }} />
+  ),
+};

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, type Key, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type Key, type ReactNode } from 'react';
 import { cn } from '../lib/cn.js';
 
 export interface DataTableColumn<T> {
@@ -40,6 +40,14 @@ export interface DataTableProps<T> {
    */
   sort?: DataTableSort | null;
   onSortChange?: (sort: DataTableSort) => void;
+  /** Adds a checkbox column. Keys are those returned by `rowKey`; selection survives pagination. */
+  selectable?: boolean;
+  /** Controlled selection. */
+  selectedKeys?: ReadonlySet<Key>;
+  defaultSelectedKeys?: Iterable<Key>;
+  onSelectionChange?: (keys: Set<Key>) => void;
+  /** Accessible names of the checkboxes (French by default). */
+  selectionLabels?: { all: string; row: (row: T) => string; column: string };
   className?: string;
 }
 
@@ -50,8 +58,14 @@ const labelOf = <T,>(c: DataTableColumn<T>) => c.label ?? (typeof c.header === '
 
 export function DataTable<T>({
   columns, rows, rowKey, caption, hideCaption = false, stack = true, framed = true,
-  empty = 'Aucune donnée.', defaultSort, sort: sortProp, onSortChange, className,
+  empty = 'Aucune donnée.', defaultSort, sort: sortProp, onSortChange,
+  selectable = false, selectedKeys, defaultSelectedKeys, onSelectionChange,
+  selectionLabels = { all: 'Sélectionner toutes les lignes affichées', row: () => 'Sélectionner la ligne', column: 'Sélection' },
+  className,
 }: DataTableProps<T>) {
+  const [innerSelected, setInnerSelected] = useState<Set<Key>>(() => new Set(defaultSelectedKeys));
+  const selected = selectedKeys ?? innerSelected;
+  const setSelected = (next: Set<Key>) => { if (selectedKeys === undefined) setInnerSelected(next); onSelectionChange?.(next); };
   const [innerSort, setInnerSort] = useState(defaultSort);
   const controlled = sortProp !== undefined;
   const sort = controlled ? (sortProp ?? undefined) : innerSort;
@@ -74,12 +88,32 @@ export function DataTable<T>({
     onSortChange?.(next);
   };
 
+  const keys = sorted.map((row, i) => rowKey(row, i));
+  const selectedCount = keys.filter((k) => selected.has(k)).length;
+  const allState = selectedCount === 0 ? false : selectedCount === keys.length ? true : 'mixed';
+  const toggleAll = () => {
+    const next = new Set(selected);
+    for (const k of keys) { if (allState === true) next.delete(k); else next.add(k); }
+    setSelected(next);
+  };
+  const toggleRow = (k: Key) => {
+    const next = new Set(selected);
+    if (next.has(k)) next.delete(k); else next.add(k);
+    setSelected(next);
+  };
+  const span = columns.length + (selectable ? 1 : 0);
+
   return (
     <div className={cn('nl-table-wrap', framed && 'nl-table-wrap--framed', className)}>
       <table className={cn('nl-table', stack && 'nl-table--stack')}>
         <caption className={hideCaption ? 'nl-visually-hidden' : undefined}>{caption}</caption>
         <thead>
           <tr>
+            {selectable && (
+              <th scope="col" className="nl-table__select">
+                <SelectAll state={allState} disabled={keys.length === 0} label={selectionLabels.all} onChange={toggleAll} />
+              </th>
+            )}
             {columns.map((c) => (
               <th
                 key={c.key}
@@ -94,20 +128,35 @@ export function DataTable<T>({
         </thead>
         <tbody>
           {sorted.length === 0 ? (
-            <tr><td className="nl-table__empty" colSpan={columns.length}>{empty}</td></tr>
+            <tr><td className="nl-table__empty" colSpan={span}>{empty}</td></tr>
           ) : (
-            sorted.map((row, i) => (
-              <tr key={rowKey(row, i)}>
+            sorted.map((row, i) => {
+              const k = keys[i]!, isSelected = selectable && selected.has(k);
+              return (
+              <tr key={k} className={isSelected ? 'nl-table__row--selected' : undefined}>
+                {selectable && (
+                  <td className="nl-table__select" data-label={selectionLabels.column}>
+                    <input type="checkbox" className="nl-check" checked={isSelected} aria-label={selectionLabels.row(row)} onChange={() => toggleRow(k)} />
+                  </td>
+                )}
                 {columns.map((c) => (
                   <td key={c.key} data-label={labelOf(c)} className={c.align === 'end' ? 'nl-cell--end' : undefined}>
                     {c.cell ? c.cell(row) : String(field(row, c.key) ?? '')}
                   </td>
                 ))}
               </tr>
-            ))
+              );
+            })
           )}
         </tbody>
       </table>
     </div>
   );
+}
+
+/** Header checkbox: checked, unchecked or indeterminate (some visible rows selected). */
+function SelectAll({ state, disabled, label, onChange }: { state: boolean | 'mixed'; disabled: boolean; label: string; onChange: () => void }) {
+  const ref = useRef<HTMLInputElement>(null);
+  useEffect(() => { if (ref.current) ref.current.indeterminate = state === 'mixed'; }, [state]);
+  return <input ref={ref} type="checkbox" className="nl-check" checked={state === true} disabled={disabled} aria-label={label} onChange={onChange} />;
 }

@@ -29,5 +29,11 @@ export { Callout, calloutVariants, type CalloutProps } from './callout/callout.j
 export { Dialog, DialogTrigger, DialogActions, type DialogProps, type DialogTriggerProps, type DialogActionsProps } from './overlay/dialog.js';
 export { Popover, type PopoverProps } from './overlay/popover.js';
 export { Menu, MenuTrigger, MenuItem, MenuSeparator, type MenuProps, type MenuTriggerProps, type MenuItemProps } from './overlay/menu.js';
+export { Breadcrumb, type BreadcrumbProps, type BreadcrumbItem } from './breadcrumb/breadcrumb.js';
+export { Avatar, AvatarGroup, avatarVariants, type AvatarProps, type AvatarGroupProps } from './avatar/avatar.js';
+export { Skeleton, type SkeletonProps } from './skeleton/skeleton.js';
+export { Drawer, DrawerFooter, type DrawerProps, type DrawerFooterProps } from './overlay/drawer.js';
+export { ComboBox, ComboBoxItem, type ComboBoxProps, type ComboBoxItemProps } from './combobox/combobox.js';
+export { DatePicker, parseDate, today, getLocalTimeZone, CalendarDate, type DatePickerProps } from './date-picker/date-picker.js';
 export { Focusable } from 'react-aria-components';
 export { cn } from './lib/cn.js';

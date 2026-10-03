@@ -1,0 +1,41 @@
+/* Drawer (new in the package): a modal panel sliding from an edge. Same scrim and close button as
+   the dialog; React Aria sets [data-entering] / [data-exiting]. */
+.nl-drawer-overlay { position: fixed; inset: 0; z-index: 110; background: var(--color-overlay); backdrop-filter: blur(2px); }
+.nl-drawer {
+  position: fixed; inset-block: 0; inset-inline-end: 0;
+  display: flex; flex-direction: column;
+  width: min(100%, 26rem);
+  background: var(--color-surface); color: var(--color-text-primary);
+  border-inline-start: var(--border-heavy);
+  outline: none;
+}
+.nl-drawer--start { inset-inline-start: 0; inset-inline-end: auto; border-inline-start: 0; border-inline-end: var(--border-heavy); }
+.nl-drawer--bottom {
+  inset-inline: 0; inset-block-start: auto; width: auto; max-height: 85dvh;
+  border-inline-start: 0; border-block-start: var(--border-heavy);
+  border-start-start-radius: var(--radius-lg); border-start-end-radius: var(--radius-lg);
+}
+.nl-drawer__dialog { display: flex; flex-direction: column; min-height: 0; flex: 1; outline: none; }
+.nl-drawer__head {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-accent); color: var(--ink);
+  border-block-end: var(--border);
+}
+.nl-drawer--bottom .nl-drawer__head { border-start-start-radius: inherit; border-start-end-radius: inherit; }
+.nl-drawer__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-black); font-size: var(--text-xl); line-height: var(--leading-xl); }
+.nl-drawer__body { flex: 1; overflow-y: auto; padding: var(--space-5); }
+.nl-drawer__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-3); padding: var(--space-4) var(--space-5); border-block-start: var(--border); }
+.nl-drawer-overlay[data-entering] { animation: nl-overlay-in 0.15s ease-out; }
+.nl-drawer-overlay[data-exiting] { animation: nl-overlay-in 0.15s ease-in reverse; }
+.nl-drawer[data-entering] { animation: nl-drawer-in-end 0.2s ease-out; }
+.nl-drawer--start[data-entering] { animation-name: nl-drawer-in-start; }
+.nl-drawer--bottom[data-entering] { animation-name: nl-drawer-in-bottom; }
+@keyframes nl-drawer-in-end { from { transform: translateX(100%); } }
+@keyframes nl-drawer-in-start { from { transform: translateX(-100%); } }
+@keyframes nl-drawer-in-bottom { from { transform: translateY(100%); } }
+[dir="rtl"] .nl-drawer[data-entering] { animation-name: nl-drawer-in-start; }
+[dir="rtl"] .nl-drawer--start[data-entering] { animation-name: nl-drawer-in-end; }
+@media (prefers-reduced-motion: reduce) {
+  .nl-drawer-overlay[data-entering], .nl-drawer-overlay[data-exiting], .nl-drawer[data-entering] { animation: none; }
+}

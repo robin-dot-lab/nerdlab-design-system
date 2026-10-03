@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, Dialog, DialogActions, DialogTrigger, Field, Input, Menu, MenuItem, MenuSeparator, MenuTrigger, Popover } from '@robin-dot-lab/react';
+import { Button, Checkbox, Dialog, DialogActions, DialogTrigger, Drawer, DrawerFooter, Field, Input, Menu, MenuItem, MenuSeparator, MenuTrigger, Popover, Stack } from '@robin-dot-lab/react';
 
 const meta = {
   title: 'Components/Overlays',
   component: Dialog,
-  subcomponents: { DialogTrigger, Popover, Menu, MenuItem },
+  subcomponents: { DialogTrigger, Popover, Menu, MenuItem, Drawer, DrawerFooter },
   parameters: { layout: 'centered' },
 } satisfies Meta<typeof Dialog>;
 export default meta;
@@ -88,5 +88,36 @@ export const MenuOpen: Story = {
         </Menu>
       </MenuTrigger>
     </div>
+  ),
+};
+
+/** Drawer from the inline end: filters or details on any screen. Same focus and Escape rules as the dialog. */
+export const DrawerOpen: Story = {
+  render: () => (
+    <DialogTrigger defaultOpen>
+      <Button>Filters</Button>
+      <Drawer title="Filters" closeLabel="Close">
+        {({ close }) => (
+          <Stack>
+            <Checkbox defaultChecked>Design</Checkbox>
+            <Checkbox defaultChecked>Music</Checkbox>
+            <Checkbox>Code</Checkbox>
+            <DrawerFooter><Button onClick={close}>Reset</Button><Button variant="primary" onClick={close}>Apply</Button></DrawerFooter>
+          </Stack>
+        )}
+      </Drawer>
+    </DialogTrigger>
+  ),
+};
+
+/** Bottom sheet, the phone-friendly placement. */
+export const DrawerBottom: Story = {
+  render: () => (
+    <DialogTrigger defaultOpen>
+      <Button>Share</Button>
+      <Drawer title="Share this event" placement="bottom" closeLabel="Close">
+        <p>Copy the link or send it to a friend.</p>
+      </Drawer>
+    </DialogTrigger>
   ),
 };

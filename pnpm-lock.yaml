@@ -26,6 +26,9 @@ importers:
       '@robin-dot-lab/css-candy':
         specifier: workspace:*
         version: link:../../packages/css-candy
+      '@robin-dot-lab/icons':
+        specifier: workspace:*
+        version: link:../../packages/icons
       '@robin-dot-lab/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -66,6 +69,9 @@ importers:
       '@robin-dot-lab/css-candy':
         specifier: workspace:*
         version: link:../../packages/css-candy
+      '@robin-dot-lab/icons':
+        specifier: workspace:*
+        version: link:../../packages/icons
       '@robin-dot-lab/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -166,11 +172,47 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
 
+  packages/icons:
+    devDependencies:
+      '@testing-library/react':
+        specifier: ^16.3.3
+        version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@types/node':
+        specifier: ^26.6.3
+        version: 26.6.3
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      jsdom:
+        specifier: ^30.1.1
+        version: 30.1.1
+      react:
+        specifier: ^19.3.0
+        version: 19.3.0
+      react-dom:
+        specifier: ^19.3.0
+        version: 19.3.0(react@19.3.0)
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vitest:
+        specifier: ^5.0.3
+        version: 5.0.3(@types/node@26.6.3)(jsdom@30.1.1)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.2)(yaml@2.9.1))
+
   packages/react:
     dependencies:
+      '@internationalized/date':
+        specifier: ^3.12.4
+        version: 3.12.4
       '@radix-ui/react-slot':
         specifier: ^1.3.3
         version: 1.3.3(@types/react@19.3.0)(react@19.3.0)
+      '@robin-dot-lab/icons':
+        specifier: workspace:*
+        version: link:../icons
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1

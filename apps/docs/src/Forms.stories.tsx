@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, Field, Input, Radio, RadioGroup, Select, Textarea } from '@robin-dot-lab/react';
+import { Button, ComboBox, ComboBoxItem, DatePicker, Field, Input, parseDate, Radio, RadioGroup, Select, Textarea } from '@robin-dot-lab/react';
 
 const meta = {
   title: 'Components/Forms',
@@ -62,5 +62,39 @@ export const FullForm: Story = {
       <Field label="Comment"><Textarea /></Field>
       <div><Button type="submit" variant="primary">Sign up</Button></div>
     </form>
+  ),
+};
+
+const CITIES = ['Amsterdam', 'Barcelona', 'Berlin', 'Lille', 'Lisbon', 'London', 'Lyon', 'Paris', 'Prague'];
+
+/** A text field that filters its options: type « li » to keep Lille and Lisbon. Use Select when there is nothing to search. */
+export const ComboBoxField: Story = {
+  render: () => (
+    <div className="nl-stack" style={{ maxWidth: 360, paddingBlockEnd: 280 }}>
+      <ComboBox label="City" description="Where the event takes place." placeholder="Start typing…" emptyLabel="No matching city.">
+        {CITIES.map((c) => <ComboBoxItem key={c} id={c}>{c}</ComboBoxItem>)}
+      </ComboBox>
+      <ComboBox label="Venue" errorMessage="Pick a venue from the list." defaultInputValue="Atlantis">
+        {['Nerdlab 378', 'La Halle', 'Le Sucre'].map((v) => <ComboBoxItem key={v} id={v}>{v}</ComboBoxItem>)}
+      </ComboBox>
+    </div>
+  ),
+};
+
+/** Typed segment by segment (arrows change the focused one) or picked in the calendar. `locale` sets the order. */
+export const DatePickerField: Story = {
+  render: () => (
+    <div className="nl-stack" style={{ maxWidth: 360 }}>
+      <DatePicker label="Event date" locale="en-GB" defaultValue={parseDate('2026-04-27')} description="Day, month, year." />
+      <DatePicker label="US order" locale="en-US" defaultValue={parseDate('2026-04-27')} />
+    </div>
+  ),
+};
+
+export const DatePickerOpen: Story = {
+  render: () => (
+    <div style={{ maxWidth: 360, paddingBlockEnd: 380 }}>
+      <DatePicker label="Event date" locale="en-GB" defaultValue={parseDate('2026-04-27')} defaultOpen />
+    </div>
   ),
 };

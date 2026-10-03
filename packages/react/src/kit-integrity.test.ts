@@ -10,7 +10,8 @@ const walk = (dir: string, re: RegExp): string[] =>
   (fs.readdirSync(path.join(ROOT, dir), { recursive: true }) as string[]).filter((f) => re.test(f)).map((f) => path.join(dir, f));
 
 /** Value exports that are components (PascalCase), excluding re-exports of third-party primitives. */
-const THIRD_PARTY = new Set(['Focusable']);
+// Focusable (React Aria) and CalendarDate (@internationalized/date) are re-exports, not kit components.
+const THIRD_PARTY = new Set(['Focusable', 'CalendarDate']);
 const components = [...read('packages/react/src/index.ts').matchAll(/export \{([^}]+)\}/g)]
   .flatMap((m) => m[1]!.split(','))
   .map((s) => s.trim())
@@ -26,11 +27,11 @@ describe('every exported component is documented and tested', () => {
   it.each(components)('%s has a test', (name) => expect(used(tests, name), `no test renders <${name}>`).toBe(true));
 });
 
-// Every nl-* class written by the React layers must exist in the skin (static names exactly,
+// Every nl-* class written by the React layers (react, charts, icons) must exist in the skin (static names exactly,
 // template-literal prefixes such as `nl-meter--${level}` as a prefix of at least one selector).
 const skinCss = walk('packages/css-candy/src', /\.css$/).map(read).join('\n');
 const selectors = new Set([...skinCss.matchAll(/\.(nl-[a-z0-9_-]+)/g)].map((m) => m[1]!));
-const sources = [...walk('packages/react/src', /\.tsx?$/), ...walk('packages/charts/src', /\.tsx?$/)].filter((f) => !/\.test\.tsx?$/.test(f));
+const sources = [...walk('packages/react/src', /\.tsx?$/), ...walk('packages/charts/src', /\.tsx?$/), ...walk('packages/icons/src', /\.tsx?$/)].filter((f) => !/\.test\.tsx?$/.test(f));
 const classUses = sources.flatMap((file) => {
   const code = read(file);
   const statics = [...code.matchAll(/['"`\s](nl-[a-z0-9_-]*[a-z0-9])(?=['"`\s])/g)].map((m) => ({ file, name: m[1]!, prefix: false }));

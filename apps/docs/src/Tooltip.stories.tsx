@@ -10,11 +10,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Hover (after 500 ms) or keyboard focus. Escape closes. A non-React Aria element is wrapped in `<Focusable>`. */
+/** Hover (after 500 ms) or keyboard focus. Escape closes. The trigger is wrapped in `<Focusable>` for you. */
 export const Default: Story = {
   render: () => (
     <TooltipTrigger>
-      <Focusable><Button variant="primary">Export</Button></Focusable>
+      <Button variant="primary">Export</Button>
       <Tooltip>Downloads the filtered orders as CSV</Tooltip>
     </TooltipTrigger>
   ),
@@ -25,7 +25,7 @@ export const Placements: Story = {
     <div className="nl-cluster" style={{ padding: '64px 160px', gap: 160 }}>
       {(['top', 'bottom', 'start', 'end'] as const).map((placement) => (
         <TooltipTrigger key={placement} defaultOpen>
-          <Focusable><Button size="sm">{placement}</Button></Focusable>
+          <Button size="sm">{placement}</Button>
           <Tooltip placement={placement}>Placement {placement}</Tooltip>
         </TooltipTrigger>
       ))}

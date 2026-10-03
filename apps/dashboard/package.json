@@ -13,6 +13,7 @@
   "dependencies": {
     "@robin-dot-lab/charts": "workspace:*",
     "@robin-dot-lab/css-candy": "workspace:*",
+    "@robin-dot-lab/icons": "workspace:*",
     "@robin-dot-lab/react": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

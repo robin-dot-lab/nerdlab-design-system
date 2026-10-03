@@ -42,7 +42,15 @@
     "components/ribbon-pause.css",
     "components/callout.css",
     "components/form-controls.css",
-    "components/overlays.css"
+    "components/overlays.css",
+    "components/icon.css",
+    "components/drawer.css",
+    "components/breadcrumb.css",
+    "components/avatar.css",
+    "components/skeleton.css",
+    "components/combobox.css",
+    "components/date-picker.css",
+    "components/table-selection.css"
   ],
   "utilities": [
     "utilities/typography.css",

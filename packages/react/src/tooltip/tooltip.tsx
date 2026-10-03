@@ -1,7 +1,8 @@
 'use client';
 
+import { Children, isValidElement, type ReactElement } from 'react';
 import {
-  OverlayArrow, Tooltip as AriaTooltip, TooltipTrigger as AriaTooltipTrigger,
+  Focusable, OverlayArrow, Tooltip as AriaTooltip, TooltipTrigger as AriaTooltipTrigger,
   type TooltipProps as AriaTooltipProps, type TooltipTriggerComponentProps,
 } from 'react-aria-components';
 import { composeClass } from '../lib/compose-class.js';
@@ -9,11 +10,16 @@ import { composeClass } from '../lib/compose-class.js';
 export type TooltipTriggerProps = TooltipTriggerComponentProps;
 
 /**
- * Wraps a focusable trigger and a <Tooltip>. The trigger must be a React Aria component,
- * or a plain element wrapped in React Aria's <Focusable>. Shows on hover (after `delay`) and on keyboard focus.
+ * Wraps a focusable trigger and a <Tooltip>: `<TooltipTrigger><Button/><Tooltip/></TooltipTrigger>`.
+ * The trigger is wrapped in React Aria's <Focusable> for you (an explicit <Focusable> still works).
+ * Shows on hover (after `delay`) and on keyboard focus.
  */
-export function TooltipTrigger({ delay = 500, closeDelay = 200, ...props }: TooltipTriggerProps) {
-  return <AriaTooltipTrigger delay={delay} closeDelay={closeDelay} {...props} />;
+export function TooltipTrigger({ delay = 500, closeDelay = 200, children, ...props }: TooltipTriggerProps) {
+  const [trigger, ...rest] = Children.toArray(children);
+  const wrapped = isValidElement(trigger) && trigger.type !== Focusable
+    ? <Focusable key="trigger">{trigger as ReactElement<Record<string, unknown>, string>}</Focusable>
+    : trigger;
+  return <AriaTooltipTrigger delay={delay} closeDelay={closeDelay} {...props}>{wrapped}{rest}</AriaTooltipTrigger>;
 }
 
 export interface TooltipProps extends AriaTooltipProps {

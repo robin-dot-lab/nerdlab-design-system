@@ -1,0 +1,36 @@
+/* Date picker and calendar (new in the package). The field is an .nl-input made of editable
+   segments (day, month, year); the calendar opens in a .nl-popover. States come from React Aria. */
+.nl-date-field { position: relative; display: flex; align-items: center; padding-inline-end: calc(var(--space-8) + var(--space-2)); }
+.nl-date-field[data-focus-within] { border-color: var(--color-violet); box-shadow: var(--shadow-glow), var(--shadow-sm); }
+.nl-date-field[data-invalid] { border-color: var(--color-error-text); }
+.nl-date-input { display: flex; flex: 1; align-items: center; min-width: 0; }
+.nl-date-segment { padding: 0 2px; border-radius: var(--radius-sm); font-variant-numeric: tabular-nums; outline: none; caret-color: transparent; }
+.nl-date-segment[data-type="literal"] { padding: 0; }
+.nl-date-segment[data-placeholder] { color: var(--color-text-secondary); }
+.nl-date-segment[data-focused] { background: var(--color-accent); color: var(--ink); }
+.nl-calendar { display: grid; gap: var(--space-3); padding: var(--space-3); }
+.nl-calendar__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.nl-calendar__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-black); font-size: var(--text-base); text-transform: capitalize; }
+.nl-calendar__nav {
+  display: grid; place-items: center; width: var(--space-8); height: var(--space-8);
+  border: var(--border); border-radius: var(--radius-full);
+  background: var(--color-surface); color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm); cursor: pointer; outline: none;
+}
+.nl-calendar__nav[data-hovered] { background: var(--color-accent); color: var(--ink); }
+.nl-calendar__nav[data-focus-visible] { outline: 2px solid var(--color-violet); outline-offset: 2px; }
+.nl-calendar__grid { border-collapse: separate; border-spacing: 2px; }
+.nl-calendar__grid th { padding-block-end: var(--space-1); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: var(--weight-bold); color: var(--color-text-secondary); }
+.nl-calendar__cell {
+  display: grid; place-items: center; width: 2.25rem; height: 2.25rem;
+  border: var(--border-width) solid transparent; border-radius: var(--radius-full);
+  font-variant-numeric: tabular-nums; cursor: pointer; outline: none;
+}
+.nl-calendar__cell[data-outside-month] { visibility: hidden; }
+.nl-calendar__cell[data-hovered] { background: var(--color-surface-sunken); }
+.nl-calendar__cell[data-selected] { background: var(--color-primary); color: var(--ink); border-color: var(--ink); font-weight: var(--weight-bold); }
+.nl-calendar__cell[data-focus-visible] { outline: 2px solid var(--color-violet); outline-offset: 1px; }
+.nl-calendar__cell[data-disabled], .nl-calendar__cell[data-unavailable] { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
+@media (pointer: coarse) {
+  .nl-calendar__cell { width: var(--touch-target); height: var(--touch-target); }
+}
