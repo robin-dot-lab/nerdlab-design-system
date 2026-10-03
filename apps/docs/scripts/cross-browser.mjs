@@ -10,7 +10,9 @@ import { listStories, serveStorybook, storyUrl, waitForStory } from './lib/story
 const require = createRequire(import.meta.url);
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 // One theme per engine: engine bugs do not depend on the theme, and both themes stay covered.
-const ENGINES = [{ name: 'firefox', theme: 'light' }, { name: 'webkit', theme: 'dark' }];
+// ENGINE=firefox|webkit runs one engine only (CI shards the smoke test across machines).
+const ENGINES = [{ name: 'firefox', theme: 'light' }, { name: 'webkit', theme: 'dark' }]
+  .filter((e) => !process.env.ENGINE || e.name === process.env.ENGINE);
 const { base, close } = await serveStorybook();
 const stories = listStories();
 let failures = 0;
@@ -48,6 +50,6 @@ for (const { name: engine, theme } of ENGINES) {
 }
 close();
 if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing from tools/test-fonts/cache — run \`pnpm fetch:test-fonts\``); process.exit(1); }
-console.log(`${stories.length} stories × ${ENGINES.length} engines (Firefox light, WebKit dark)`);
+console.log(`${stories.length} stories × ${ENGINES.map((e) => `${e.name} ${e.theme}`).join(', ')}`);
 if (failures) { console.error(`${failures} failing render(s)`); process.exit(1); }
 console.log('cross-browser ok');

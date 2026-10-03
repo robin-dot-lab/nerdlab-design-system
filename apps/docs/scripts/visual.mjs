@@ -21,6 +21,8 @@ const VARIANTS = [
   { name: 'desktop-light', theme: 'light', viewport: { width: 1280, height: 800 } },
   { name: 'phone-dark', theme: 'dark', viewport: { width: 390, height: 844 } },
 ];
+// VARIANT=desktop-light|phone-dark runs one variant only (CI shards the comparison across machines).
+const ACTIVE = VARIANTS.filter((v) => !process.env.VARIANT || v.name === process.env.VARIANT);
 // Motion is frozen so a screenshot never catches an animation mid-way (marquee, stripes, enter transitions).
 const FREEZE = '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}';
 // Story ids keep the accents of their titles; file names stay ASCII.
@@ -36,7 +38,7 @@ const browser = await pw.chromium.launch({
 });
 let failures = 0, missing = 0, written = 0;
 
-for (const v of VARIANTS) {
+for (const v of ACTIVE) {
   const context = await browser.newContext({ viewport: v.viewport, deviceScaleFactor: 1 });
   await context.route('**/favicon.ico', (route) => route.fulfill({ status: 204 }));
   await routeTestFonts(context);
@@ -72,7 +74,7 @@ close();
 
 if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing from tools/test-fonts/cache — run \`pnpm fetch:test-fonts\``); process.exit(1); }
 if (UPDATE) { console.log(`${written} baseline(s) written to ${path.relative(process.cwd(), DIR)}`); process.exit(0); }
-console.log(`${stories.length} stories × ${VARIANTS.length} variants on ${os.platform()}`);
+console.log(`${stories.length} stories × ${ACTIVE.length} variant(s) on ${os.platform()}`);
 if (missing) {
   const hint = `${missing} story screenshot(s) have no ${os.platform()} baseline: run \`pnpm --filter @robin-dot-lab/docs visual:update\`${process.env.CI ? ' (on Linux: the "Update visual baselines" workflow)' : ''}`;
   if (process.env.CI) console.warn(`warning: ${hint}`); else { console.error(hint); process.exit(1); }

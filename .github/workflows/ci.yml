@@ -1,5 +1,10 @@
 name: CI
 
+# The same checks as `pnpm test`, spread over parallel machines:
+#   packages   build, typecheck, unit tests, token and pixel parity, dashboard e2e (3 engines)
+#   storybook  one Storybook build, shared with the six shards below as an artifact
+#   shards     a11y audit (desktop / phone), visual regression (desktop-light / phone-dark),
+#              cross-browser smoke (firefox / webkit)
 on:
   push:
     branches: [main]
@@ -11,10 +16,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    name: Build, typecheck, test
+  packages:
+    name: Packages, parity, dashboard
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -24,15 +29,66 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       # Google Chrome is preinstalled on ubuntu-latest (Playwright channel "chrome");
-      # Firefox and WebKit come from Playwright, with their system dependencies.
+      # Firefox and WebKit come from Playwright, for the dashboard e2e.
       - run: node node_modules/playwright-core/cli.js install --with-deps firefox webkit
-      # Unit tests, kit integrity, token and pixel parity, Storybook a11y audit,
-      # visual regression of every story, cross-browser smoke, dashboard e2e.
-      - run: pnpm test
+      - run: pnpm turbo run typecheck
+      - run: pnpm turbo run test --filter=!@robin-dot-lab/docs
+
+  storybook:
+    name: Build Storybook
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo run build --filter=@robin-dot-lab/docs...
+      - uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: apps/docs/storybook-static/
+          retention-days: 3
+
+  stories:
+    name: Stories — ${{ matrix.name }}
+    needs: storybook
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: a11y desktop, script: a11y-audit.mjs, env: VIEWPORT=desktop }
+          - { name: a11y phone, script: a11y-audit.mjs, env: VIEWPORT=phone }
+          - { name: visual desktop-light, script: visual.mjs, env: VARIANT=desktop-light }
+          - { name: visual phone-dark, script: visual.mjs, env: VARIANT=phone-dark }
+          - { name: firefox, script: cross-browser.mjs, env: ENGINE=firefox, browser: firefox }
+          - { name: webkit, script: cross-browser.mjs, env: ENGINE=webkit, browser: webkit }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - if: matrix.browser
+        run: node node_modules/playwright-core/cli.js install --with-deps ${{ matrix.browser }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: apps/docs/storybook-static/
+      - name: Run ${{ matrix.script }} (${{ matrix.env }})
+        working-directory: apps/docs
+        run: env ${{ matrix.env }} node scripts/${{ matrix.script }}
       - name: Upload visual diffs
-        if: failure()
+        if: failure() && matrix.script == 'visual.mjs'
         uses: actions/upload-artifact@v4
         with:
-          name: visual-diffs
+          name: visual-diffs-${{ strategy.job-index }}
           path: apps/docs/test/visual/__diff__/
           if-no-files-found: ignore
