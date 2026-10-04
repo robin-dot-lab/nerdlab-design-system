@@ -47,6 +47,8 @@ export { ExpiryIndicator, type ExpiryIndicatorProps, type ExpiryState } from './
 export { StatusDot, type StatusDotProps } from './status/status-dot.js';
 export { CodeBlock, type CodeBlockProps } from './code-block/code-block.js';
 export { Banner, type BannerProps } from './banner/banner.js';
+export { OTPInput, type OTPInputProps } from './otp/otp-input.js';
+export { Kbd, type KbdProps } from './kbd/kbd.js';
 // Passed through from React Aria and @internationalized/date (ADR-021): they follow those packages'
 // versions. `I18nProvider` sets the language and formats of every component; `useLocale` reads it.
 export { Focusable, I18nProvider, useLocale } from './lib/react-aria.js';

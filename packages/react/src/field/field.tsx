@@ -3,7 +3,7 @@
 import { createContext, useContext, useId, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../lib/cn.js';
 
-interface FieldContextValue { id: string; describedBy: string | undefined; invalid: boolean }
+interface FieldContextValue { id: string; labelId: string; describedBy: string | undefined; invalid: boolean }
 const FieldContext = createContext<FieldContextValue | null>(null);
 
 export interface FieldProps extends Omit<ComponentProps<'div'>, 'children'> {
@@ -25,8 +25,8 @@ export function Field({ label, help, error, id, className, children, ...props }:
   const messageId = message ? `${controlId}-message` : undefined;
   return (
     <div className={cn('nl-field', className)} {...props}>
-      <label className="nl-label" htmlFor={controlId}>{label}</label>
-      <FieldContext.Provider value={{ id: controlId, describedBy: messageId, invalid: Boolean(error) }}>
+      <label className="nl-label" id={`${controlId}-label`} htmlFor={controlId}>{label}</label>
+      <FieldContext.Provider value={{ id: controlId, labelId: `${controlId}-label`, describedBy: messageId, invalid: Boolean(error) }}>
         {children}
       </FieldContext.Provider>
       {message && <span id={messageId} className={cn('nl-help', error ? 'nl-help--error' : undefined)}>{message}</span>}
@@ -40,6 +40,8 @@ export function useFieldControl(id: string | undefined, invalid: boolean | undef
   const isInvalid = invalid ?? field?.invalid ?? false;
   return {
     id: id ?? field?.id,
+    /** The field label's id, for a control that is a group (a label only names labelable elements). */
+    labelId: field?.labelId,
     isInvalid,
     describedBy: [describedBy, field?.describedBy].filter(Boolean).join(' ') || undefined,
   };

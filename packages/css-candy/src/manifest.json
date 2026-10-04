@@ -62,6 +62,8 @@
     "components/status.css",
     "components/code-block.css",
     "components/banner.css",
+    "components/otp.css",
+    "components/kbd.css",
     "components/forced-colors.css"
   ],
   "utilities": [
