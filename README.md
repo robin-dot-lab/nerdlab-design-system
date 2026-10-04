@@ -75,7 +75,7 @@
 | [`@robin-dot-lab/react`](packages/react) | 80+ typed React 19 components that only set classes | `import { Button } from '@robin-dot-lab/react'` |
 | [`@robin-dot-lab/charts`](packages/charts) | Line, bars, heatmap, share bar, sparkline, chart card with legend and table twin | `import { LineChart } from '@robin-dot-lab/charts'` |
 | [`@robin-dot-lab/icons`](packages/icons) | 44 inline SVG icons, 2px strokes in `currentColor`, sized by the skin | `import { Calendar } from '@robin-dot-lab/icons'` |
-| [`@robin-dot-lab/mail`](packages/mail) | Mail screens: message list, sandboxed email viewer, attachments, disposable-address card (first version: `0.1.0-rc.0`) | `import { MessageList } from '@robin-dot-lab/mail'` |
+| [`@robin-dot-lab/mail`](packages/mail) | Mail screens: message list, sandboxed email viewer, attachments, disposable-address card | `import { MessageList } from '@robin-dot-lab/mail'` |
 
 Published on **GitHub Packages**. Two lines of configuration, in two places:
 
