@@ -33,9 +33,12 @@ class .nl-bento--primary
 class .nl-bento--secondary
 class .nl-breadcrumb
 class .nl-btn
+class .nl-btn__label
+class .nl-btn__spinner
 class .nl-btn--accent
 class .nl-btn--ghost
 class .nl-btn--lg
+class .nl-btn--loading
 class .nl-btn--outline
 class .nl-btn--pixel
 class .nl-btn--primary
@@ -84,6 +87,9 @@ class .nl-cluster--end
 class .nl-combobox
 class .nl-combobox__group
 class .nl-container
+class .nl-copy
+class .nl-copy--copied
+class .nl-copy--failed
 class .nl-copy-field
 class .nl-copy-field__input
 class .nl-cq
@@ -113,6 +119,11 @@ class .nl-drawer__title
 class .nl-drawer--bottom
 class .nl-drawer--start
 class .nl-drawer-overlay
+class .nl-empty
+class .nl-empty__action
+class .nl-empty__description
+class .nl-empty__icon
+class .nl-empty__title
 class .nl-eyebrow
 class .nl-field
 class .nl-field-button
@@ -215,6 +226,10 @@ class .nl-skeleton--text
 class .nl-skeleton-group
 class .nl-spark
 class .nl-spin-slow
+class .nl-spinner
+class .nl-spinner--lg
+class .nl-spinner--sm
+class .nl-spinner-wrap
 class .nl-split
 class .nl-split--1-2
 class .nl-split--2-1

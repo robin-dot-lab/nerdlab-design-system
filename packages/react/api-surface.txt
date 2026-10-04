@@ -18,6 +18,8 @@ type CheckboxProps
 type ClusterProps
 type ComboBoxItemProps
 type ComboBoxProps
+type CopyButtonProps
+type CopyFieldProps
 type DataTableColumn
 type DataTableProps
 type DataTableSort
@@ -29,6 +31,7 @@ type DialogTriggerProps
 type DividerProps
 type DrawerFooterProps
 type DrawerProps
+type EmptyStateProps
 type FieldProps
 type Gap
 type GridProps
@@ -56,6 +59,7 @@ type SegmentedControlProps
 type SelectProps
 type SkeletonProps
 type SortDirection
+type SpinnerProps
 type SplitProps
 type StackProps
 type StatTileProps
@@ -93,6 +97,8 @@ value Cluster
 value ComboBox
 value ComboBoxItem
 value Container
+value CopyButton
+value CopyField
 value DataTable
 value DatePicker
 value Delta
@@ -102,6 +108,7 @@ value DialogTrigger
 value Divider
 value Drawer
 value DrawerFooter
+value EmptyState
 value Field
 value Focusable
 value getLocalTimeZone
@@ -131,6 +138,7 @@ value Section
 value SegmentedControl
 value Select
 value Skeleton
+value Spinner
 value Split
 value Stack
 value StatTile

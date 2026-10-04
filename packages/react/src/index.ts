@@ -37,6 +37,9 @@ export { ComboBox, ComboBoxItem, type ComboBoxProps, type ComboBoxItemProps } fr
 export { DatePicker, type DatePickerProps } from './date-picker/date-picker.js';
 export { InputGroup, InputAddon, type InputGroupProps, type InputAddonProps } from './field/input-group.js';
 export { PasswordInput, type PasswordInputProps, type PasswordStrength } from './field/password-input.js';
+export { CopyButton, CopyField, type CopyButtonProps, type CopyFieldProps } from './copy/copy-button.js';
+export { EmptyState, type EmptyStateProps } from './empty-state/empty-state.js';
+export { Spinner, type SpinnerProps } from './spinner/spinner.js';
 // Passed through from React Aria and @internationalized/date (ADR-021): they follow those packages'
 // versions. `I18nProvider` sets the language and formats of every component; `useLocale` reads it.
 export { Focusable, I18nProvider, useLocale } from './lib/react-aria.js';

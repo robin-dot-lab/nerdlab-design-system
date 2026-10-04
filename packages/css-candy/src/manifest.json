@@ -52,7 +52,10 @@
     "components/date-picker.css",
     "components/table-selection.css",
     "components/palette-aware.css",
+    "components/spinner.css",
+    "components/empty-state.css",
     "components/input-group.css",
+    "components/copy.css",
     "components/forced-colors.css"
   ],
   "utilities": [

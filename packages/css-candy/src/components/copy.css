@@ -1,0 +1,6 @@
+/* CopyButton (new in the package): the copy icon turns into a check after a copy, or an error mark when
+   the clipboard refuses; the outcome is also announced in words (hidden live region). */
+.nl-copy { display: inline-flex; align-items: center; }
+.nl-copy--copied .nl-btn { color: var(--color-text-primary); background: var(--color-mint); }
+.nl-copy--copied .nl-btn .nl-icon, .nl-copy--failed .nl-btn .nl-icon { color: var(--ink); }
+.nl-copy--failed .nl-btn { background: var(--color-error); }
