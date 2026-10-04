@@ -8,12 +8,19 @@ The library is a **thin layer on top of CSS**: each component sets `nl-*` classe
 
 ## Install from GitHub Packages
 
-The packages are published to GitHub Packages under the `@robin-dot-lab` scope. Add this to your project's `.npmrc`, with a GitHub token that has the `read:packages` scope in `GITHUB_TOKEN`:
+The packages are published to GitHub Packages under the `@robin-dot-lab` scope. Two lines of configuration, in two places:
 
 ```ini
+# .npmrc in your project (commit it): where the scope lives
 @robin-dot-lab:registry=https://npm.pkg.github.com
+```
+
+```ini
+# ~/.npmrc, your user-level config (never commit it): a GitHub token with the read:packages scope
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
+
+pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@0.2.0`).
 
 Then install the library and the skin:
 

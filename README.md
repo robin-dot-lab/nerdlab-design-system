@@ -76,16 +76,23 @@
 | [`@robin-dot-lab/charts`](packages/charts) | Line, bars, heatmap, share bar, sparkline, chart card with legend and table twin | `import { LineChart } from '@robin-dot-lab/charts'` |
 | [`@robin-dot-lab/icons`](packages/icons) | 25 inline SVG icons, 2px strokes in `currentColor`, sized by the skin | `import { Calendar } from '@robin-dot-lab/icons'` |
 
-Published on **GitHub Packages**. Add the registry for the scope once, with a GitHub token that has `read:packages`:
+Published on **GitHub Packages**. Two lines of configuration, in two places:
 
 ```ini
-# .npmrc
+# .npmrc in your project (commit it): where the scope lives
 @robin-dot-lab:registry=https://npm.pkg.github.com
+```
+
+```ini
+# ~/.npmrc, your user-level config (never commit it): a GitHub token with the read:packages scope
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
+pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@0.2.0`).
+
 ```bash
 pnpm add @robin-dot-lab/css-candy @robin-dot-lab/react      # + @robin-dot-lab/charts, @robin-dot-lab/icons
+pnpm add @robin-dot-lab/tokens                             # only to list the palettes (palettes.json) in a picker
 ```
 
 Versions and changelogs are handled by [Changesets](.changeset/README.md).
@@ -151,7 +158,7 @@ Seven colour palettes, each with a light and a dark theme, all contrast-checked:
 <html data-palette="sorbet" data-theme="dark">
 ```
 
-The list is exported as `@robin-dot-lab/tokens/palettes.json` (`id`, `name`, `description`) to build a picker. Every palette passes the same checks: text 4.5:1 on every background and fill, lines and focus rings 3:1, chart colours distinct for colour-blind readers.
+The list is exported as `@robin-dot-lab/tokens/palettes.json` (`id`, `name`, `description`) to build a picker; add `@robin-dot-lab/tokens` to your dependencies to import it (with pnpm, a dependency of a dependency is not importable). Every palette passes the same checks: text 4.5:1 on every background and fill, lines and focus rings 3:1, chart colours distinct for colour-blind readers.
 
 ### Theme and overrides
 

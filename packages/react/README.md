@@ -4,12 +4,19 @@ React 19 components for the **Nerdlab Candy** design system. A thin, typed layer
 
 ## Install
 
-Published on GitHub Packages. Add an `.npmrc` next to your `package.json`, with a GitHub token that has the `read:packages` scope:
+Published on GitHub Packages. Two lines of configuration, in two places:
 
 ```ini
+# .npmrc in your project (commit it): where the scope lives
 @robin-dot-lab:registry=https://npm.pkg.github.com
+```
+
+```ini
+# ~/.npmrc, your user-level config (never commit it): a GitHub token with the read:packages scope
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
+
+pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@0.2.0`).
 
 ```sh
 pnpm add @robin-dot-lab/react @robin-dot-lab/css-candy
