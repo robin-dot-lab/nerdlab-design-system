@@ -35,6 +35,8 @@ export { Skeleton, type SkeletonProps } from './skeleton/skeleton.js';
 export { Drawer, DrawerFooter, type DrawerProps, type DrawerFooterProps } from './overlay/drawer.js';
 export { ComboBox, ComboBoxItem, type ComboBoxProps, type ComboBoxItemProps } from './combobox/combobox.js';
 export { DatePicker, type DatePickerProps } from './date-picker/date-picker.js';
+export { InputGroup, InputAddon, type InputGroupProps, type InputAddonProps } from './field/input-group.js';
+export { PasswordInput, type PasswordInputProps, type PasswordStrength } from './field/password-input.js';
 // Passed through from React Aria and @internationalized/date (ADR-021): they follow those packages'
 // versions. `I18nProvider` sets the language and formats of every component; `useLocale` reads it.
 export { Focusable, I18nProvider, useLocale } from './lib/react-aria.js';

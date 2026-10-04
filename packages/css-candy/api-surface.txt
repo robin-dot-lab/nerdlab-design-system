@@ -84,6 +84,8 @@ class .nl-cluster--end
 class .nl-combobox
 class .nl-combobox__group
 class .nl-container
+class .nl-copy-field
+class .nl-copy-field__input
 class .nl-cq
 class .nl-date-field
 class .nl-date-input
@@ -148,6 +150,9 @@ class .nl-icon--sm
 class .nl-info
 class .nl-input
 class .nl-input--error
+class .nl-input-group
+class .nl-input-group__addon
+class .nl-input-group__button
 class .nl-key-line
 class .nl-key-rect
 class .nl-label
@@ -169,6 +174,8 @@ class .nl-nav-toggle
 class .nl-nav-toggle__icon
 class .nl-outline-text
 class .nl-pagination
+class .nl-password
+class .nl-password__strength
 class .nl-pill
 class .nl-pill--filled
 class .nl-pixel

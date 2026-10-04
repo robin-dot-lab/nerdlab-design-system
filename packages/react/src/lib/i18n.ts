@@ -25,6 +25,9 @@ const en = {
   pauseScrolling: 'Pause scrolling',
   resumeScrolling: 'Resume scrolling',
   tone: { info: 'Info', success: 'Success', warning: 'Warning', error: 'Error' },
+  showPassword: 'Show password',
+  passwordStrength: 'Password strength',
+  strength: ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'] as readonly string[],
   /** Punctuation before a value: "Warning: " / « Attention : ». */
   colon: ': ',
 };
@@ -49,6 +52,9 @@ const fr: Messages = {
   pauseScrolling: 'Mettre en pause le défilement',
   resumeScrolling: 'Reprendre le défilement',
   tone: { info: 'Information', success: 'Succès', warning: 'Attention', error: 'Erreur' },
+  showPassword: 'Afficher le mot de passe',
+  passwordStrength: 'Robustesse du mot de passe',
+  strength: ['Très faible', 'Faible', 'Moyen', 'Bon', 'Robuste'],
   colon: ' : ',
 };
 

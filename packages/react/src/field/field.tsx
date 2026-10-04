@@ -35,7 +35,7 @@ export function Field({ label, help, error, id, className, children, ...props }:
 }
 
 /** id, aria-describedby and invalid state of a control, merged with the enclosing <Field> if any. */
-function useFieldControl(id: string | undefined, invalid: boolean | undefined, describedBy: string | undefined) {
+export function useFieldControl(id: string | undefined, invalid: boolean | undefined, describedBy: string | undefined) {
   const field = useContext(FieldContext);
   const isInvalid = invalid ?? field?.invalid ?? false;
   return {
@@ -43,6 +43,15 @@ function useFieldControl(id: string | undefined, invalid: boolean | undefined, d
     isInvalid,
     describedBy: [describedBy, field?.describedBy].filter(Boolean).join(' ') || undefined,
   };
+}
+
+/**
+ * Cuts the link to the enclosing <Field> for what it wraps: a second control next to the field's own
+ * (a domain <Select> in an InputGroup addon) must not take the field's id, label or error.
+ * Internal: not exported from the package index.
+ */
+export function FieldBoundary({ children }: { children: ReactNode }) {
+  return <FieldContext.Provider value={null}>{children}</FieldContext.Provider>;
 }
 
 export interface InputProps extends ComponentProps<'input'> {

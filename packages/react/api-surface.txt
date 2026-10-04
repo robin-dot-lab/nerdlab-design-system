@@ -34,6 +34,8 @@ type Gap
 type GridProps
 type InfoListItemProps
 type InfoListProps
+type InputAddonProps
+type InputGroupProps
 type InputProps
 type MenuItemProps
 type MenuProps
@@ -41,6 +43,8 @@ type MenuTriggerProps
 type MeterProps
 type MobileNavProps
 type PaginationProps
+type PasswordInputProps
+type PasswordStrength
 type PillProps
 type PopoverProps
 type ProgressProps
@@ -105,6 +109,8 @@ value Grid
 value I18nProvider
 value InfoList
 value Input
+value InputAddon
+value InputGroup
 value Menu
 value MenuItem
 value MenuSeparator
@@ -113,6 +119,7 @@ value Meter
 value MobileNav
 value Pagination
 value parseDate
+value PasswordInput
 value Pill
 value Popover
 value Progress

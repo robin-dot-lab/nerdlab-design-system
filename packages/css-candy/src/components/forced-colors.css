@@ -25,4 +25,8 @@
   .nl-pagination .nl-btn[aria-current="page"],
   .nl-calendar__cell[data-selected],
   .nl-listbox__item[data-selected], .nl-menu__item[data-focused] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
+
+  /* App and mail components: focus rings drawn with box-shadow, the spinner's strong quarter, pressed toggles, the current link. */
+  .nl-input-group:focus-within { outline: 2px solid Highlight; outline-offset: 1px; }
+  .nl-input-group__button[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
 }
