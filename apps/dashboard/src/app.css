@@ -1,27 +1,15 @@
 /* Dashboard app styles. Everything visual references the skin's tokens; this file only lays out
    the page and styles the app-local pieces (charts, KPI internals, library gaps). */
-.shell { display: grid; min-height: 100vh; min-height: 100dvh; }
-.shell > * { min-width: 0; }
-@media (min-width: 1024px) { .shell { grid-template-columns: 248px minmax(0, 1fr); } }
-
-/* Sidebar: sticky top bar on small screens, column from 1024px */
-.side { position: sticky; inset-block-start: 0; z-index: 20; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-gutter); background: var(--color-surface); border-block-end: var(--border); --nav-offset: 69px; }
-.side__nav, .side__theme { display: none; }
-.side__mobile { margin-inline-start: auto; }
-@media (min-width: 1024px) {
-  .side { flex-direction: column; align-items: stretch; height: 100vh; height: 100dvh; padding: var(--space-6) var(--space-5); border-block-end: 0; border-inline-end: var(--border); }
-  .side__nav { display: flex; flex-direction: column; gap: var(--space-1); margin-block-start: var(--space-6); }
-  .side__theme { display: grid; gap: var(--space-4); margin-block-start: auto; }
-}
-.side__nav a { padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); color: var(--color-text-primary); text-decoration: none; font-weight: var(--weight-semibold); }
-.side__nav a:hover { background: var(--color-surface-sunken); }
-.side__nav a[aria-current="page"] { background: var(--color-accent); color: var(--ink); box-shadow: var(--shadow-sm); outline: var(--border); }
+/* Frame: AppShell + Sidebar + Topbar from the library. The top bar only carries the logo and the
+   menu button, so the page hides it where the sidebar shows (the skin's large breakpoint). */
+@media (min-width: 1024px) { .mobile-bar { display: none; } }
+.side__theme { display: grid; gap: var(--space-4); }
+/* AppShell's <main> is already an inline-size container: the page names it for its own queries. */
+.main { container-name: main; }
 .logo { display: flex; align-items: center; gap: var(--space-2); color: var(--color-text-primary); text-decoration: none; }
 .logo__mark { width: 36px; height: 36px; display: grid; place-items: center; border: var(--border); border-radius: var(--radius-sm); background: var(--color-primary); box-shadow: var(--shadow-sm); font-family: var(--font-pixel); color: var(--ink); font-size: 18px; }
 .logo__name { font-family: var(--font-display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: var(--text-xl); text-transform: uppercase; white-space: nowrap; }
 
-/* Main column: a container, so its grids follow the room left by the sidebar */
-.main { container: main / inline-size; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-fluid-md); align-content: start; padding: var(--space-fluid-md) var(--space-gutter) var(--section-y); }
 .top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-4); }
 .top h1 { font-size: clamp(2.5rem, 6vw, var(--text-4xl)); }
 .top .dot { color: var(--color-primary); }

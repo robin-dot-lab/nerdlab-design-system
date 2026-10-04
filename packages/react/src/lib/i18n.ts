@@ -32,6 +32,7 @@ const en = {
   showPassword: 'Show password',
   passwordStrength: 'Password strength',
   strength: ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'] as readonly string[],
+  collapseSidebar: 'Collapse sidebar',
   /** Punctuation before a value: "Warning: " / « Attention : ». */
   colon: ': ',
 };
@@ -63,6 +64,7 @@ const fr: Messages = {
   showPassword: 'Afficher le mot de passe',
   passwordStrength: 'Robustesse du mot de passe',
   strength: ['Très faible', 'Faible', 'Moyen', 'Bon', 'Robuste'],
+  collapseSidebar: 'Réduire la barre latérale',
   colon: ' : ',
 };
 

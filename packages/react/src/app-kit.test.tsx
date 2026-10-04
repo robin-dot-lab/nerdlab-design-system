@@ -2,7 +2,8 @@ import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
-  Button, CopyButton, CopyField, EmptyState, Field, I18nProvider, Input, InputAddon, InputGroup, PasswordInput, Select, Spinner,
+  AppShell, AuthLayout, Button, CopyButton, CopyField, EmptyState, Field, I18nProvider, Input, InputAddon, InputGroup,
+  MobileNav, PasswordInput, Select, Sidebar, SidebarItem, SidebarSection, Spinner, Topbar,
 } from './index.js';
 
 const clipboard = (writeText: (s: string) => Promise<void>) =>
@@ -152,3 +153,74 @@ describe('PasswordInput', () => {
   });
 });
 
+describe('Sidebar', () => {
+  const nav = (props: { collapsed?: boolean; collapsible?: boolean; onCollapsedChange?: (c: boolean) => void }) => (
+    <Sidebar label="Main navigation" header={<b>Nerdlab</b>} {...props}>
+      <SidebarSection title="Mail">
+        <SidebarItem href="/inbox" icon={<svg />} current count={3} countLabel="3 unread">Inbox</SidebarItem>
+        <SidebarItem href="/addresses" icon={<svg />} count={0}>Addresses</SidebarItem>
+      </SidebarSection>
+    </Sidebar>
+  );
+  it('a named nav, sections named by their heading, the current page and a counter in words', () => {
+    render(nav({}));
+    const landmark = screen.getByRole('navigation', { name: 'Main navigation' });
+    const list = within(landmark).getByRole('list', { name: 'Mail' });
+    const links = within(list).getAllByRole('link');
+    expect(links[0]!.getAttribute('aria-current')).toBe('page');
+    expect(links[0]!.textContent).toBe('Inbox33 unread');
+    expect(within(links[0]!).getByText('3').getAttribute('aria-hidden')).toBe('true');
+    expect(links[1]!.hasAttribute('aria-current')).toBe(false);
+    expect(links[1]!.querySelector('.nl-badge')).toBeNull();
+  });
+  it('collapses with a pressed toggle; labels stay the links’ names and show in a tooltip', async () => {
+    const onCollapsedChange = vi.fn();
+    const { container } = render(nav({ collapsible: true, onCollapsedChange }));
+    const toggle = screen.getByRole('button', { name: 'Collapse sidebar' });
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    await userEvent.click(toggle);
+    expect(onCollapsedChange).toHaveBeenCalledWith(true);
+    expect(container.firstElementChild!.className).toBe('nl-sidebar nl-sidebar--collapsed');
+    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+    const inbox = screen.getByRole('link', { name: /Inbox/ });
+    await userEvent.tab();
+    await userEvent.tab();
+    expect(document.activeElement).toBe(inbox);
+    expect((await screen.findByRole('tooltip')).textContent).toBe('Inbox');
+  });
+  it('asChild puts the icon, label and counter inside a router link', () => {
+    const RouterLink = (p: { to: string; className?: string; children?: React.ReactNode }) => <a href={p.to} className={p.className}>{p.children}</a>;
+    render(<Sidebar label="Nav"><ul><SidebarItem asChild current count={2}><RouterLink to="/inbox">Inbox</RouterLink></SidebarItem></ul></Sidebar>);
+    const link = screen.getByRole('link', { name: /^Inbox/ });
+    expect(link.getAttribute('href')).toBe('/inbox');
+    expect(link.className).toBe('nl-sidebar__item');
+  });
+});
+
+describe('AppShell, Topbar and AuthLayout', () => {
+  it('a frame with sidebar, sticky top bar and main content', () => {
+    render(
+      <AppShell
+        sidebar={<Sidebar label="Main navigation"><ul /></Sidebar>}
+        topbar={<Topbar title={<h1>Inbox</h1>} actions={<Button>New address</Button>} user={<span>Ada</span>} mobileNav={<MobileNav><a href="/">Inbox</a></MobileNav>} />}
+        mainProps={{ id: 'content' }}
+      >
+        <p>Hello</p>
+      </AppShell>,
+    );
+    expect(screen.getByRole('main').id).toBe('content');
+    expect(screen.getByRole('main').textContent).toBe('Hello');
+    expect(screen.getByRole('banner').className).toBe('nl-topbar');
+    expect(screen.getByRole('heading', { level: 1, name: 'Inbox' })).toBeTruthy();
+    expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Menu' }).closest('.nl-topbar__mobile-nav')).toBeTruthy();
+  });
+  it('AuthLayout: main landmark, h1 title, card with the form, secondary links', () => {
+    render(<AuthLayout logo={<b>N</b>} title="Create your account" description="Disposable addresses in one click." footer={<p>Already have an account? <a href="/login">Sign in</a></p>}><form aria-label="Sign up" /></AuthLayout>);
+    const main = screen.getByRole('main');
+    expect(main.className).toBe('nl-auth');
+    expect(within(main).getByRole('heading', { level: 1, name: 'Create your account' }).closest('.nl-card')).toBeTruthy();
+    expect(screen.getByRole('form', { name: 'Sign up' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Sign in' }).closest('.nl-auth__footer')).toBeTruthy();
+  });
+});

@@ -29,5 +29,6 @@
   /* App and mail components: focus rings drawn with box-shadow, the spinner's strong quarter, pressed toggles, the current link. */
   .nl-spinner { forced-color-adjust: none; border-color: GrayText; border-block-start-color: CanvasText; }
   .nl-input-group:focus-within { outline: 2px solid Highlight; outline-offset: 1px; }
-  .nl-input-group__button[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
+  .nl-input-group__button[aria-pressed="true"], .nl-sidebar__toggle[aria-pressed="true"],
+  .nl-sidebar__item[aria-current="page"] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
 }

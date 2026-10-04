@@ -1,5 +1,5 @@
 import {
-  Avatar, Badge, Breadcrumb, Bubble, Button, Callout, Cluster, DataTable, Delta, Field, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Ribbon, Search, SegmentedControl, Select, Split, Stack, StatTile, Switch, Toast, ToggleChip,
+  AppShell, Avatar, Badge, Breadcrumb, Bubble, Button, Callout, Cluster, DataTable, Delta, Field, Menu, MenuItem, MenuTrigger, Meter, MobileNav, Pagination, Ribbon, Search, SegmentedControl, Select, Sidebar, SidebarItem, SidebarSection, Split, Stack, StatTile, Switch, Toast, ToggleChip, Topbar,
   type DataTableColumn, type DataTableSort,
 } from '@robin-dot-lab/react';
 import { ChevronDown } from '@robin-dot-lab/icons';
@@ -78,6 +78,7 @@ export function App() {
     key === 'all' ? exportCsv(ORDERS, 'nerdlab-orders-tout.csv')
     : key === 'selection' ? exportCsv(ORDERS.filter((o) => selected.has(o.id)), 'nerdlab-orders-selection.csv')
     : exportCsv(orders, `nerdlab-orders-${shown.range}j.csv`);
+  const logo = <a className="logo" href="#top"><span className="logo__mark" aria-hidden="true">N</span><span className="logo__name">Nerdlab Events</span></a>;
   const themeSwitch = <Switch checked={theme === 'dark'} onChange={(e) => setTheme(e.currentTarget.checked ? 'dark' : 'light')}>Thème sombre</Switch>;
   const paletteSelect = (id: string) => (
     <Field label="Palette" id={id}>
@@ -89,17 +90,15 @@ export function App() {
 
   return (
     <>
-      <div className="shell">
-        <aside className="side">
-          <a className="logo" href="#top"><span className="logo__mark" aria-hidden="true">N</span><span className="logo__name">Nerdlab Events</span></a>
-          <nav aria-label="Navigation principale" className="side__nav">
-            {NAV.map((n, i) => <a key={n} href="#top" aria-current={i === 0 ? 'page' : undefined}>{n}</a>)}
-          </nav>
-          <div className="side__theme">{paletteSelect('palette-side')}{themeSwitch}</div>
-          <MobileNav className="side__mobile" label="Menu">{NAV.map((n) => <a key={n} href="#top">{n}</a>)}</MobileNav>
-        </aside>
-
-        <main className="main" id="top">
+      <AppShell
+        sidebar={
+          <Sidebar label="Navigation principale" header={logo} footer={<div className="side__theme">{paletteSelect('palette-side')}{themeSwitch}</div>}>
+            <SidebarSection>{NAV.map((n, i) => <SidebarItem key={n} href="#top" current={i === 0}>{n}</SidebarItem>)}</SidebarSection>
+          </Sidebar>
+        }
+        topbar={<Topbar className="mobile-bar" title={logo} mobileNav={<MobileNav label="Menu">{NAV.map((n) => <a key={n} href="#top">{n}</a>)}</MobileNav>} />}
+        mainProps={{ id: 'top', className: 'main' }}
+      >
           <Ribbon className="announce" items={['Figma Pixel Party · 27.04 · Lyon', 'Plus que 25 places', 'Pixel Shader Jam le 03.05', 'Stay nerdy']} aria-label="Annonces" role="region" />
           <header className="top">
             <div><Breadcrumb items={[{ label: 'Nerdlab Events', href: '#top' }, { label: 'Analytics', href: '#top' }, { label: 'Vue d’ensemble' }]} /><h1 className="nl-display">Dashboard<span className="dot">.</span></h1></div>
@@ -198,8 +197,7 @@ export function App() {
               </Stack>
             </section>
           </div>
-        </main>
-      </div>
+      </AppShell>
       <Toast message={toast} onDismiss={clearToast} />
     </>
   );

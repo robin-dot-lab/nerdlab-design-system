@@ -1,0 +1,44 @@
+/* AppShell, Topbar, AuthLayout (new in the package; promoted from the dashboard's local frame).
+   Below 1024px — the breakpoint of .nl-nav-toggle — the sidebar is hidden and the top bar shows the
+   MobileNav; from 1024px the sidebar is a sticky column as wide as the Sidebar decides. */
+.nl-app-shell { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; }
+.nl-app-shell__sidebar { display: none; }
+.nl-app-shell__main { display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; }
+.nl-app-shell__content {
+  container: nl-content / inline-size;
+  display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-fluid-md);
+  min-width: 0; padding: var(--space-fluid-md) var(--space-gutter) var(--section-y);
+}
+@media (min-width: 1024px) {
+  .nl-app-shell { grid-template-columns: auto minmax(0, 1fr); }
+  .nl-app-shell__sidebar { display: block; position: sticky; inset-block-start: 0; height: 100vh; height: 100dvh; }
+}
+
+.nl-topbar {
+  position: sticky; inset-block-start: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4);
+  min-height: var(--nav-offset); padding: var(--space-2) var(--space-gutter);
+  border-block-end: var(--border);
+  background: var(--color-surface); color: var(--color-text-primary);
+}
+.nl-topbar__title { flex: 1 1 10rem; min-width: 0; }
+/* With less room than that, actions and user menu wrap under the title instead of crushing it. */
+.nl-topbar__title > :is(h1, h2, p) { margin: 0; font-family: var(--font-display); font-weight: var(--weight-black); font-size: var(--text-xl); line-height: var(--leading-xl); overflow-wrap: break-word; }
+.nl-topbar__actions, .nl-topbar__user { display: flex; align-items: center; gap: var(--space-2); }
+.nl-topbar__mobile-nav { display: flex; }
+@media (min-width: 1024px) {
+  .nl-topbar__mobile-nav { display: none; }
+}
+
+.nl-auth {
+  display: grid; justify-items: center; align-content: center; gap: var(--space-6);
+  min-height: 100vh; min-height: 100dvh;
+  padding: var(--space-fluid-lg) var(--space-gutter);
+  background: var(--grid-paper); color: var(--color-text-primary);
+}
+.nl-auth__logo { display: flex; justify-content: center; }
+.nl-auth__card { display: grid; gap: var(--space-4); width: 100%; max-width: 28rem; }
+.nl-auth__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-black); font-size: var(--text-2xl); line-height: var(--leading-2xl); }
+.nl-auth__description { margin: 0; color: var(--color-text-secondary); }
+.nl-auth__footer { text-align: center; font-size: var(--text-sm); }
+.nl-auth__footer a { color: inherit; font-weight: var(--weight-bold); text-decoration-thickness: 2px; text-underline-offset: 3px; }

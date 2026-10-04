@@ -1,5 +1,15 @@
 # Public API of @robin-dot-lab/css-candy, checked by tools/api-surface/check.mjs. Removing a line is a breaking change.
 class .nl-accordion
+class .nl-app-shell
+class .nl-app-shell__content
+class .nl-app-shell__main
+class .nl-app-shell__sidebar
+class .nl-auth
+class .nl-auth__card
+class .nl-auth__description
+class .nl-auth__footer
+class .nl-auth__logo
+class .nl-auth__title
 class .nl-avatar
 class .nl-avatar--accent
 class .nl-avatar--lg
@@ -219,6 +229,19 @@ class .nl-share__seg
 class .nl-share-list
 class .nl-share-list__num
 class .nl-share-list__share
+class .nl-sidebar
+class .nl-sidebar__count
+class .nl-sidebar__footer
+class .nl-sidebar__header
+class .nl-sidebar__heading
+class .nl-sidebar__icon
+class .nl-sidebar__item
+class .nl-sidebar__label
+class .nl-sidebar__list
+class .nl-sidebar__nav
+class .nl-sidebar__section
+class .nl-sidebar__toggle
+class .nl-sidebar--collapsed
 class .nl-skeleton
 class .nl-skeleton--block
 class .nl-skeleton--circle
@@ -280,6 +303,11 @@ class .nl-toast-region
 class .nl-toggle
 class .nl-tooltip
 class .nl-tooltip__arrow
+class .nl-topbar
+class .nl-topbar__actions
+class .nl-topbar__mobile-nav
+class .nl-topbar__title
+class .nl-topbar__user
 class .nl-visually-hidden
 class .nl-window
 class .nl-window__bar

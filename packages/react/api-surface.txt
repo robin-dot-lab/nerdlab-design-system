@@ -1,6 +1,8 @@
 # Public API of @robin-dot-lab/react, checked by tools/api-surface/check.mjs. Removing a line is a breaking change.
 type AccordionItemProps
 type AccordionProps
+type AppShellProps
+type AuthLayoutProps
 type AvatarGroupProps
 type AvatarProps
 type BadgeProps
@@ -57,6 +59,9 @@ type RibbonProps
 type SearchProps
 type SegmentedControlProps
 type SelectProps
+type SidebarItemProps
+type SidebarProps
+type SidebarSectionProps
 type SkeletonProps
 type SortDirection
 type SpinnerProps
@@ -76,11 +81,14 @@ type ToastProps
 type ToggleChipProps
 type TooltipProps
 type TooltipTriggerProps
+type TopbarProps
 type WindowBarProps
 type WindowBodyProps
 type WindowProps
 value Accordion
 value AccordionItem
+value AppShell
+value AuthLayout
 value Avatar
 value AvatarGroup
 value Badge
@@ -137,6 +145,9 @@ value Search
 value Section
 value SegmentedControl
 value Select
+value Sidebar
+value SidebarItem
+value SidebarSection
 value Skeleton
 value Spinner
 value Split
@@ -155,6 +166,7 @@ value today
 value ToggleChip
 value Tooltip
 value TooltipTrigger
+value Topbar
 value useLocale
 value VisuallyHidden
 value Window

@@ -40,6 +40,8 @@ export { PasswordInput, type PasswordInputProps, type PasswordStrength } from '.
 export { CopyButton, CopyField, type CopyButtonProps, type CopyFieldProps } from './copy/copy-button.js';
 export { EmptyState, type EmptyStateProps } from './empty-state/empty-state.js';
 export { Spinner, type SpinnerProps } from './spinner/spinner.js';
+export { AppShell, Topbar, AuthLayout, type AppShellProps, type TopbarProps, type AuthLayoutProps } from './shell/app-shell.js';
+export { Sidebar, SidebarSection, SidebarItem, type SidebarProps, type SidebarSectionProps, type SidebarItemProps } from './shell/sidebar.js';
 // Passed through from React Aria and @internationalized/date (ADR-021): they follow those packages'
 // versions. `I18nProvider` sets the language and formats of every component; `useLocale` reads it.
 export { Focusable, I18nProvider, useLocale } from './lib/react-aria.js';
