@@ -32,18 +32,18 @@ jobs:
           echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # v2 is the first version that reads Changesets v3's layout: v1 failed on the .changeset/pre/
+      # folder the CLI writes in pre-release mode.
       - id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          version: pnpm version-packages
-          publish: pnpm release
-          title: Version Packages
-          commit: 'chore: version packages'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # changesets/action does not pick up the tags printed by changeset publish (CLI v3), so it
-      # neither pushes them nor creates releases: do both explicitly, idempotently, for every version
-      # the registry actually has (whatever the action decided, pre-release mode included).
+          version-script: pnpm version-packages
+          publish-script: pnpm release
+          pr-title: Version Packages
+          commit-message: 'chore: version packages'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      # Safety net, idempotent: make sure every version the registry actually has carries its tag and
+      # its GitHub release (v1 of the action created neither with the v3 CLI).
       - name: Tag and release published versions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
