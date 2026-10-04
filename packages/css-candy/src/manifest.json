@@ -64,6 +64,7 @@
     "components/banner.css",
     "components/otp.css",
     "components/kbd.css",
+    "components/qr-code.css",
     "components/forced-colors.css"
   ],
   "utilities": [

@@ -231,6 +231,13 @@ class .nl-popover__title
 class .nl-popover--list
 class .nl-progress
 class .nl-progress--pixel
+class .nl-qr
+class .nl-qr__background
+class .nl-qr__code
+class .nl-qr__modules
+class .nl-qr__value
+class .nl-qr--lg
+class .nl-qr--sm
 class .nl-radio
 class .nl-radio-group
 class .nl-radio-group__options

@@ -2,7 +2,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { Field, I18nProvider, Kbd, OTPInput } from './index.js';
+import { Field, I18nProvider, Kbd, OTPInput, QRCode } from './index.js';
 
 const cells = () => screen.getAllByRole('textbox') as HTMLInputElement[];
 const code = () => cells().map((c) => c.value).join('');
@@ -67,5 +67,26 @@ describe('Kbd', () => {
     expect(outer.tagName).toBe('KBD');
     expect(outer.className).toBe('nl-kbd');
     expect(outer.querySelectorAll('kbd')).toHaveLength(2);
+  });
+});
+
+describe('QRCode', () => {
+  it('an SVG image named in the locale, with the encoded text as its equivalent', () => {
+    const { container, rerender } = render(<QRCode value="pixel-otter-42@nerdlab.sh" />);
+    const img = screen.getByRole('img', { name: 'QR code' });
+    expect(img.tagName.toLowerCase()).toBe('svg');
+    expect(img.querySelector('path')!.getAttribute('d')).toMatch(/^M\d+ \d+h1v1h-1z/);
+    expect(container.querySelector('figcaption')!.textContent).toBe('pixel-otter-42@nerdlab.sh');
+    expect(container.querySelector('figcaption')!.className).toBe('nl-visually-hidden');
+    rerender(<I18nProvider locale="fr-FR"><QRCode value="x" showValue size="lg" /></I18nProvider>);
+    expect(screen.getByRole('img', { name: 'Code QR' })).toBeTruthy();
+    expect(container.querySelector('figure')!.className).toBe('nl-qr nl-qr--lg');
+    expect(container.querySelector('figcaption')!.className).toBe('nl-qr__value');
+  });
+  it('a longer text makes a bigger matrix', () => {
+    const { container, rerender } = render(<QRCode value="a" />);
+    const small = container.querySelector('svg')!.getAttribute('viewBox');
+    rerender(<QRCode value={'https://nerdlab.sh/inbox/'.repeat(4)} />);
+    expect(container.querySelector('svg')!.getAttribute('viewBox')).not.toBe(small);
   });
 });

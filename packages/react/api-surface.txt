@@ -59,6 +59,7 @@ type PasswordStrength
 type PillProps
 type PopoverProps
 type ProgressProps
+type QRCodeProps
 type RadioGroupProps
 type RadioProps
 type RelativeTimeProps
@@ -151,6 +152,7 @@ value PasswordInput
 value Pill
 value Popover
 value Progress
+value QRCode
 value Radio
 value RadioGroup
 value RelativeTime
