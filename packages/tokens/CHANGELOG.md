@@ -1,5 +1,11 @@
 # @robin-dot-lab/tokens
 
+## 1.0.0-rc.0
+
+### Major Changes
+
+- ace30e8: 1.0 release candidate: the CSS variables and palette ids listed in `api-surface.txt` are the stable API. No change in values.
+
 ## 0.3.0
 
 ### Minor Changes
