@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { BarList, ChartCard, Heatmap, Legend, LineChart, ShareBar, Sparkline } from './index.js';
@@ -22,6 +22,18 @@ describe('ShareBar measures its labels again when fonts load', () => {
     } finally {
       Reflect.deleteProperty(document, 'fonts');
     }
+  });
+});
+
+describe('ShareBar follows the palette', () => {
+  it('re-reads its colours when <html data-palette> changes', async () => {
+    const { container } = render(<ShareBar title="Part" width={400} items={[{ id: 'a', label: 'A', value: 1, slot: 1 }]} />);
+    const seen = () => container.querySelector('.nl-share')!.getAttribute('data-theme-seen');
+    const before = seen();
+    await act(async () => { document.documentElement.dataset.palette = 'sorbet'; await Promise.resolve(); });
+    await waitFor(() => expect(seen()).not.toBe(before));
+    expect(seen()).toContain('sorbet');
+    delete document.documentElement.dataset.palette;
   });
 });
 

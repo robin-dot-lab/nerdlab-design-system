@@ -38,7 +38,7 @@ import '@robin-dot-lab/css-candy/candy.css'; // tokens + base + components + uti
 </div>
 ```
 
-- **Dark theme:** `<html data-theme="dark">`.
+- **Dark theme:** `<html data-theme="dark">`, or `data-theme="auto"` to follow the device's light/dark setting (live).
 - **Palettes:** `<html data-palette="sorbet">` — Candy (default), Sorbet, Ink, Terracotta, Slate, Moss, Mono Retro, each light and dark; also on any container. List: `@robin-dot-lab/tokens/palettes.json` (add `@robin-dot-lab/tokens` to your dependencies to import it).
 - **Overrides without `!important`:** the whole skin lives in cascade layers (`nl.tokens < nl.base < nl.components < nl.utilities`), and unlayered CSS always wins. `:root { --color-primary: #7B4DFF; }` re-brands a token.
 - **Responsive and accessible:** fluid type and spacing, container queries, 44px touch targets on coarse pointers, `prefers-reduced-motion`, text on candy colours always in ink (≥ 4.5:1).

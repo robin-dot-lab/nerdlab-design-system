@@ -20,8 +20,8 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `packages/css-candy/test/reference/` | The original static design, frozen: stylesheet + two pages, the oracle of the parity tests. Never edit it to make a test pass. Candy was called **Pop** until 2026-10-02: these files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it. Candy is the only skin; colour variety comes from palettes |
-| `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images) |
-| `.github/workflows/` | CI (`pnpm test` in 14 parallel jobs, every palette audited), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), visual baselines (Linux) |
+| `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images), `consumer-check` (the published kit, installed from outside) |
+| `.github/workflows/` | CI (`pnpm test` in 14 parallel jobs, every palette audited), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), Consumer check (after each release: install from the registry into a blank app, build, check), visual baselines (Linux) |
 
 ## Commands
 
@@ -34,6 +34,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 - `STORY_FILTER=<id fragment>` — limits the Storybook audit, visual and cross-browser scripts to matching stories
 - `PALETTE=<id> node scripts/a11y-audit.mjs` (in `apps/docs`) — audits every story in another palette (CI does it for all of them)
 - `node tools/readme-assets/capture.mjs` — regenerate the README images (after `pnpm build`)
+- `NODE_AUTH_TOKEN=$(gh auth token) tools/consumer-check/run.sh` — install the published kit into a blank app and check it (needs `read:packages`)
 - Firefox and WebKit for the cross-browser tests: `node node_modules/playwright-core/cli.js install firefox webkit`
 
 ## Rules (each one is enforced; the guard is in brackets)

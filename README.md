@@ -163,7 +163,7 @@ The list is exported as `@robin-dot-lab/tokens/palettes.json` (`id`, `name`, `de
 ### Theme and overrides
 
 ```html
-<html data-theme="dark">  <!-- dark theme: one attribute -->
+<html data-theme="dark">  <!-- dark theme: one attribute; "auto" follows the device, "light" is the default -->
 ```
 
 ```css

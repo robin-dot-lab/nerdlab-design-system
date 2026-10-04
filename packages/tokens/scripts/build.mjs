@@ -71,10 +71,15 @@ for (const theme of THEMES) {
   const paletteCss = palettes.map((p) => [
     block(`[data-palette="${p.id}"]`, p.light, derivedLight),
     block(`[data-palette="${p.id}"][data-theme="dark"],\n[data-theme="dark"] [data-palette="${p.id}"],\n.dark [data-palette="${p.id}"]`, p.dark, [...derivedLight, ...derivedDark]),
-    // An explicit light container inside a dark page (showcases, previews) wins over the inherited dark.
-    block(`[data-palette="${p.id}"][data-theme="light"]`, p.light, derivedLight),
   ].join('\n')).join('\n');
-  fs.writeFileSync(`${out}tokens.css`, `${base}\n${dark}\n/* Palettes (src/${theme}/palettes, plus Candy itself) */\n${paletteCss}\n`);
+  // data-theme="auto": the dark values when the device prefers a dark scheme, light otherwise.
+  const darkBody = dark.slice(dark.indexOf('{') + 1, dark.lastIndexOf('}'));
+  const indent = (css) => css.split('\n').map((l) => (l ? `  ${l}` : l)).join('\n');
+  const autoCss = `@media (prefers-color-scheme: dark) {\n${indent(`[data-theme="auto"] {${darkBody}}\n${palettes.map((p) =>
+    block(`[data-palette="${p.id}"][data-theme="auto"],\n[data-theme="auto"] [data-palette="${p.id}"]`, p.dark, [...derivedLight, ...derivedDark])).join('\n')}`)}\n}`;
+  // An explicit light container inside a dark or auto page (showcases, previews) wins over the inherited theme: last.
+  const explicitLight = palettes.map((p) => block(`[data-palette="${p.id}"][data-theme="light"]`, p.light, derivedLight)).join('\n');
+  fs.writeFileSync(`${out}tokens.css`, `${base}\n${dark}\n/* Palettes (src/${theme}/palettes, plus Candy itself) */\n${paletteCss}\n/* Automatic theme */\n${autoCss}\n${explicitLight}\n`);
   fs.writeFileSync(`${out}palettes.json`, JSON.stringify(palettes.map(({ id, name, description }) => ({ id, name, description })), null, 2) + '\n');
   fs.rmSync(`${out}tokens.base.css`);
   fs.rmSync(`${out}tokens.dark.css`);

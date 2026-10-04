@@ -26,7 +26,7 @@ pnpm add @robin-dot-lab/tokens
 
 | Export | Contents |
 |---|---|
-| `@robin-dot-lab/tokens/candy.css` | CSS custom properties on `:root`, and the dark theme's overrides on `[data-theme="dark"]` / `.dark`. Aliases stay `var()` references, so the dark theme only redefines what changes |
+| `@robin-dot-lab/tokens/candy.css` | CSS custom properties on `:root`, and the dark theme's overrides on `[data-theme="dark"]` / `.dark` (and on `[data-theme="auto"]` when the device prefers dark). Aliases stay `var()` references, so the dark theme only redefines what changes |
 | `@robin-dot-lab/tokens/candy` | One constant per token (`colorPrimary`, `shadowMd`…), typed, with **resolved light-theme** values — for canvas, charts or tests, never for styling components |
 | `@robin-dot-lab/tokens/candy.json` | Flat name → value map |
 

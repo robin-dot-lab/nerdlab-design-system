@@ -246,6 +246,22 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   }
 }
 
+// 8. No stored choice: data-theme="auto" follows the device, live.
+{
+  const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, colorScheme: 'dark' });
+  await routeTestFonts(context);
+  const page = await context.newPage();
+  await page.goto(url, { waitUntil: 'networkidle' });
+  const bg = () => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--color-background').trim().toLowerCase());
+  check(await page.evaluate(() => document.documentElement.dataset.theme) === 'auto', 'first visit: data-theme="auto"');
+  check(await bg() === '#15111c', 'auto + device in dark mode: dark background');
+  check(await page.getByRole('switch', { name: 'Thème sombre' }).first().isChecked(), 'the theme switch shows the effective (dark) theme');
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.waitForTimeout(300);
+  check(await bg() === '#fbf3e8', 'the device switches to light: the page follows without reload');
+  await context.close();
+}
+
 // 6. Firefox and WebKit (Safari's engine): the page renders cleanly at both widths, in both themes
 for (const name of ['firefox', 'webkit']) {
   const engine = await pw[name].launch();

@@ -7,7 +7,7 @@ const preview: Preview = {
   globalTypes: {
     theme: {
       description: 'Design system theme',
-      toolbar: { title: 'Theme', icon: 'mirror', items: [{ value: 'light', title: 'Light' }, { value: 'dark', title: 'Dark' }], dynamicTitle: true },
+      toolbar: { title: 'Theme', icon: 'mirror', items: [{ value: 'light', title: 'Light' }, { value: 'dark', title: 'Dark' }, { value: 'auto', title: 'System' }], dynamicTitle: true },
     },
     palette: {
       description: 'Colour palette',

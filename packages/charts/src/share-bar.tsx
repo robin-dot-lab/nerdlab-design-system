@@ -30,14 +30,18 @@ export function ShareBar({ items, title, formatValue = String, locale = DEFAULT_
   const tip = useChartTooltip();
   // Label widths are measured on a canvas: measure again once the skin's fonts have loaded.
   const fontsVersion = useFontsVersion();
-  // Label colours depend on the active theme's tokens: re-read them when <html data-theme> changes.
+  // Label colours depend on the active colour tokens: re-read them when <html data-theme> or
+  // data-palette changes, and when the device switches scheme (data-theme="auto" follows it).
   const [theme, setTheme] = useState('');
   useEffect(() => {
-    const read = () => setTheme(document.documentElement.dataset.theme ?? '');
+    const html = document.documentElement;
+    const scheme = typeof matchMedia === 'undefined' ? null : matchMedia('(prefers-color-scheme: dark)');
+    const read = () => setTheme(`${html.dataset.theme ?? ''}/${html.dataset.palette ?? ''}/${scheme?.matches ? 'dark' : 'light'}/${html.className}`);
     read();
     const mo = new MutationObserver(read);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
-    return () => mo.disconnect();
+    mo.observe(html, { attributes: true, attributeFilter: ['data-theme', 'data-palette', 'class'] });
+    scheme?.addEventListener('change', read);
+    return () => { mo.disconnect(); scheme?.removeEventListener('change', read); };
   }, []);
   const total = items.reduce((a, i) => a + i.value, 0);
   if (!total) return <p className="nl-chart-empty">{emptyLabel}</p>;

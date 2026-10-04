@@ -1,0 +1,32 @@
+name: Consumer check
+
+# After every release, install the published packages into a blank Vite app (tools/consumer-check),
+# exactly as the README says, build it and check it in Chrome. Catches what CI cannot see from inside
+# the workspace: missing files in a tarball, broken exports or types, wrong install instructions.
+on:
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  check:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Let the registry settle after a release
+        if: github.event_name == 'workflow_run'
+        run: sleep 30
+      - run: tools/consumer-check/run.sh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
