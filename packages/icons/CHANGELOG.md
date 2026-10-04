@@ -1,5 +1,11 @@
 # @robin-dot-lab/icons
 
+## 1.0.0-rc.1
+
+### Minor Changes
+
+- 1ff58a3: Fifteen new icons for application and mail screens: `Copy`, `Eye`, `EyeOff`, `Mail`, `Inbox`, `PanelLeft`, `Paperclip`, `Download`, `Trash`, `File`, `FileText`, `FileImage`, `FileArchive`, `Code`, `Clock`.
+
 ## 1.0.0-rc.0
 
 ### Major Changes
