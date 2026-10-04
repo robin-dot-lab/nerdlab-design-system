@@ -25,6 +25,15 @@ class .nl-badge--mint
 class .nl-badge--primary
 class .nl-badge--secondary
 class .nl-badge--tomato
+class .nl-banner
+class .nl-banner__action
+class .nl-banner__body
+class .nl-banner__close
+class .nl-banner__icon
+class .nl-banner__message
+class .nl-banner--error
+class .nl-banner--success
+class .nl-banner--warning
 class .nl-bar-row
 class .nl-bar-row__bar
 class .nl-bar-row__name
@@ -94,6 +103,11 @@ class .nl-cluster
 class .nl-cluster--between
 class .nl-cluster--center
 class .nl-cluster--end
+class .nl-code
+class .nl-code__bar
+class .nl-code__label
+class .nl-code__pre
+class .nl-code--wrap
 class .nl-combobox
 class .nl-combobox__group
 class .nl-container

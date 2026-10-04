@@ -6,6 +6,7 @@ type AuthLayoutProps
 type AvatarGroupProps
 type AvatarProps
 type BadgeProps
+type BannerProps
 type BentoFootProps
 type BentoProps
 type BentoTitleProps
@@ -18,6 +19,7 @@ type CalloutProps
 type CardProps
 type CheckboxProps
 type ClusterProps
+type CodeBlockProps
 type ComboBoxItemProps
 type ComboBoxProps
 type CopyButtonProps
@@ -96,6 +98,7 @@ value AuthLayout
 value Avatar
 value AvatarGroup
 value Badge
+value Banner
 value Bento
 value Breadcrumb
 value Bubble
@@ -106,6 +109,7 @@ value Callout
 value Card
 value Checkbox
 value Cluster
+value CodeBlock
 value ComboBox
 value ComboBoxItem
 value Container

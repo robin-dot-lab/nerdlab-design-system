@@ -1,9 +1,9 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { hydrateRoot } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ExpiryIndicator, I18nProvider, RelativeTime, StatusDot } from './index.js';
+import { Banner, CodeBlock, ExpiryIndicator, I18nProvider, RelativeTime, StatusDot } from './index.js';
 
 const NOW = new Date('2026-10-04T12:00:00Z');
 afterEach(() => vi.useRealTimers());
@@ -88,3 +88,38 @@ describe('StatusDot', () => {
   });
 });
 
+describe('CodeBlock', () => {
+  it('a named, focusable region of <pre><code> text, with a copy button; never parses HTML', async () => {
+    const source = '<script>alert(1)</script>\nSubject: Hi';
+    render(<CodeBlock label="Message source" wrap>{source}</CodeBlock>);
+    const region = screen.getByRole('region', { name: 'Message source' });
+    expect(region.tagName).toBe('PRE');
+    expect(region.getAttribute('tabindex')).toBe('0');
+    expect(region.querySelector('code')!.textContent).toBe(source);
+    expect(region.querySelector('script')).toBeNull();
+    expect(region.closest('.nl-code')!.className).toBe('nl-code nl-code--wrap');
+    expect(screen.getByRole('button', { name: 'Copy code' })).toBeTruthy();
+  });
+  it('without copy', () => {
+    render(<CodeBlock label="Snippet" copyable={false}>x</CodeBlock>);
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+});
+
+describe('Banner', () => {
+  it('a region named by its tone, the tone said before the message, an action and a close button', async () => {
+    const onDismiss = vi.fn();
+    render(<Banner tone="warning" action={<a href="#verify">Verify</a>} onDismiss={onDismiss}>Your email is not verified.</Banner>);
+    const region = screen.getByRole('region', { name: 'Warning' });
+    expect(region.className).toBe('nl-banner nl-banner--warning');
+    expect(within(region).getByText('Your email is not verified.', { exact: false }).textContent).toBe('Warning: Your email is not verified.');
+    await userEvent.click(within(region).getByRole('button', { name: 'Dismiss' }));
+    expect(onDismiss).toHaveBeenCalled();
+  });
+  it('no close button without onDismiss; French words', () => {
+    render(<I18nProvider locale="fr-FR"><Banner label="Maintenance">Coupure à 22 h.</Banner></I18nProvider>);
+    const region = screen.getByRole('region', { name: 'Maintenance' });
+    expect(within(region).queryByRole('button')).toBeNull();
+    expect(region.textContent).toBe('Information : Coupure à 22 h.');
+  });
+});
