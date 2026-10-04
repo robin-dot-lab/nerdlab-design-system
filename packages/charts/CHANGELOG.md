@@ -1,5 +1,16 @@
 # @robin-dot-lab/charts
 
+## 1.0.0-rc.0
+
+### Major Changes
+
+- ace30e8: 1.0 release candidate. Breaking: the `locale` prop is removed from `LineChart`, `BarList`, `ShareBar` and `Heatmap`; number formats and built-in sentences follow React Aria's locale (`<I18nProvider>` from `@robin-dot-lab/react`), English unless the locale is French. `ChartCard`'s toggle labels follow it too.
+
+### Patch Changes
+
+- Updated dependencies [ace30e8]
+  - @robin-dot-lab/react@1.0.0-rc.0
+
 ## 0.1.3
 
 ### Patch Changes

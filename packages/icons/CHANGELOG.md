@@ -1,5 +1,11 @@
 # @robin-dot-lab/icons
 
+## 1.0.0-rc.0
+
+### Major Changes
+
+- ace30e8: 1.0 release candidate: the icons listed in `api-surface.txt` are the stable API. No change in drawings.
+
 ## 0.1.1
 
 ### Patch Changes

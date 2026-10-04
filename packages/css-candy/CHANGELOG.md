@@ -1,5 +1,16 @@
 # @robin-dot-lab/css-candy
 
+## 1.0.0-rc.0
+
+### Major Changes
+
+- ace30e8: 1.0 release candidate: the `nl-*` classes listed in `api-surface.txt` are the stable API. New: forced-colours support (Windows high contrast): icon-mask marks, chart marks, selected states and focus rings stay visible.
+
+### Patch Changes
+
+- Updated dependencies [ace30e8]
+  - @robin-dot-lab/tokens@1.0.0-rc.0
+
 ## 0.3.0
 
 ### Minor Changes
