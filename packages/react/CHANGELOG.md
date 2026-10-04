@@ -1,5 +1,13 @@
 # @robin-dot-lab/react
 
+## 0.2.1
+
+### Patch Changes
+
+- bf353fe: README: installation steps that work with pnpm 11 (the token goes in the user-level `~/.npmrc`; how to ask for a version published less than a day ago).
+- Updated dependencies [bf353fe]
+  - @robin-dot-lab/icons@0.1.1
+
 ## 0.2.0
 
 ### Minor Changes

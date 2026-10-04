@@ -1,5 +1,13 @@
 # @robin-dot-lab/charts
 
+## 0.1.3
+
+### Patch Changes
+
+- bf353fe: `ShareBar` re-reads its label colours when the palette changes and when the device switches scheme, not only on `data-theme` changes.
+- Updated dependencies [bf353fe]
+  - @robin-dot-lab/react@0.2.1
+
 ## 0.1.2
 
 ### Patch Changes
