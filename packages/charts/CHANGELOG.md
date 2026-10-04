@@ -1,5 +1,12 @@
 # @robin-dot-lab/charts
 
+## 1.0.0-rc.2
+
+### Patch Changes
+
+- Updated dependencies [0540be0]
+  - @robin-dot-lab/react@1.0.0-rc.2
+
 ## 1.0.0-rc.1
 
 ### Patch Changes
