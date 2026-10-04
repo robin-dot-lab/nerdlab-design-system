@@ -134,6 +134,11 @@ class .nl-empty__action
 class .nl-empty__description
 class .nl-empty__icon
 class .nl-empty__title
+class .nl-expiry
+class .nl-expiry__text
+class .nl-expiry--bar
+class .nl-expiry--expired
+class .nl-expiry--soon
 class .nl-eyebrow
 class .nl-field
 class .nl-field-button
@@ -212,6 +217,7 @@ class .nl-radio
 class .nl-radio-group
 class .nl-radio-group__options
 class .nl-radio-group--horizontal
+class .nl-relative-time
 class .nl-ribbon
 class .nl-ribbon__pause
 class .nl-ribbon__track
@@ -266,6 +272,14 @@ class .nl-stat__label
 class .nl-stat__row
 class .nl-stat__value
 class .nl-stat--hero
+class .nl-status
+class .nl-status__dot
+class .nl-status__label
+class .nl-status--bad
+class .nl-status--info
+class .nl-status--ok
+class .nl-status--pulse
+class .nl-status--warn
 class .nl-sticker
 class .nl-sticker__small
 class .nl-sticker--accent

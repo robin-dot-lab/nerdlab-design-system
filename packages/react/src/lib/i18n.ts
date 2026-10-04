@@ -33,6 +33,10 @@ const en = {
   passwordStrength: 'Password strength',
   strength: ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'] as readonly string[],
   collapseSidebar: 'Collapse sidebar',
+  expires: 'Expires',
+  expiringSoon: 'Expiring soon',
+  expired: 'Expired',
+  expiresOn: (date: string) => `Expires on ${date}`,
   /** Punctuation before a value: "Warning: " / « Attention : ». */
   colon: ': ',
 };
@@ -65,6 +69,10 @@ const fr: Messages = {
   passwordStrength: 'Robustesse du mot de passe',
   strength: ['Très faible', 'Faible', 'Moyen', 'Bon', 'Robuste'],
   collapseSidebar: 'Réduire la barre latérale',
+  expires: 'Expire',
+  expiringSoon: 'Expire bientôt',
+  expired: 'Expiré',
+  expiresOn: (date) => `Expire le ${date}`,
   colon: ' : ',
 };
 

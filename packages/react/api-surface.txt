@@ -34,6 +34,8 @@ type DividerProps
 type DrawerFooterProps
 type DrawerProps
 type EmptyStateProps
+type ExpiryIndicatorProps
+type ExpiryState
 type FieldProps
 type Gap
 type GridProps
@@ -55,6 +57,7 @@ type PopoverProps
 type ProgressProps
 type RadioGroupProps
 type RadioProps
+type RelativeTimeProps
 type RibbonProps
 type SearchProps
 type SegmentedControlProps
@@ -68,6 +71,7 @@ type SpinnerProps
 type SplitProps
 type StackProps
 type StatTileProps
+type StatusDotProps
 type StickerProps
 type StickerSmallProps
 type SwatchToken
@@ -117,6 +121,7 @@ value Divider
 value Drawer
 value DrawerFooter
 value EmptyState
+value ExpiryIndicator
 value Field
 value Focusable
 value getLocalTimeZone
@@ -140,6 +145,7 @@ value Popover
 value Progress
 value Radio
 value RadioGroup
+value RelativeTime
 value Ribbon
 value Search
 value Section
@@ -153,6 +159,7 @@ value Spinner
 value Split
 value Stack
 value StatTile
+value StatusDot
 value Sticker
 value StickerSmall
 value Switch

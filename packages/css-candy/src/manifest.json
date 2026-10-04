@@ -58,6 +58,8 @@
     "components/copy.css",
     "components/app-shell.css",
     "components/sidebar.css",
+    "components/time.css",
+    "components/status.css",
     "components/forced-colors.css"
   ],
   "utilities": [
