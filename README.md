@@ -72,9 +72,10 @@
 |---|---|---|
 | [`@robin-dot-lab/tokens`](packages/tokens) | Design tokens in [DTCG](https://www.designtokens.org/) format, compiled by Style Dictionary to CSS variables, JS and JSON | `candy.css` · `candy` · `candy.json` |
 | [`@robin-dot-lab/css-candy`](packages/css-candy) | The Candy skin: every `nl-*` class, in cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` | `candy.css` · `fonts.css` |
-| [`@robin-dot-lab/react`](packages/react) | 60+ typed React 19 components that only set classes | `import { Button } from '@robin-dot-lab/react'` |
+| [`@robin-dot-lab/react`](packages/react) | 80+ typed React 19 components that only set classes | `import { Button } from '@robin-dot-lab/react'` |
 | [`@robin-dot-lab/charts`](packages/charts) | Line, bars, heatmap, share bar, sparkline, chart card with legend and table twin | `import { LineChart } from '@robin-dot-lab/charts'` |
-| [`@robin-dot-lab/icons`](packages/icons) | 25 inline SVG icons, 2px strokes in `currentColor`, sized by the skin | `import { Calendar } from '@robin-dot-lab/icons'` |
+| [`@robin-dot-lab/icons`](packages/icons) | 44 inline SVG icons, 2px strokes in `currentColor`, sized by the skin | `import { Calendar } from '@robin-dot-lab/icons'` |
+| [`@robin-dot-lab/mail`](packages/mail) | Mail screens: message list, sandboxed email viewer, attachments, disposable-address card (first version: `0.1.0-rc.0`) | `import { MessageList } from '@robin-dot-lab/mail'` |
 
 Published on **GitHub Packages**. Two lines of configuration, in two places:
 
@@ -91,7 +92,7 @@ Published on **GitHub Packages**. Two lines of configuration, in two places:
 pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@1.0.0-rc.0`). Release candidates are published under the `rc` dist-tag (`pnpm add @robin-dot-lab/react@rc`).
 
 ```bash
-pnpm add @robin-dot-lab/css-candy @robin-dot-lab/react      # + @robin-dot-lab/charts, @robin-dot-lab/icons
+pnpm add @robin-dot-lab/css-candy @robin-dot-lab/react      # + @robin-dot-lab/charts, @robin-dot-lab/icons, @robin-dot-lab/mail
 pnpm add @robin-dot-lab/tokens                             # only to list the palettes (palettes.json) in a picker
 ```
 
@@ -193,16 +194,18 @@ The list is exported as `@robin-dot-lab/tokens/palettes.json` (`id`, `name`, `de
 
 | Family | Components |
 |---|---|
-| **Actions** | `Button` (8 variants, `asChild`), `Menu` · `MenuTrigger` · `MenuItem`, `Pagination`, `SegmentedControl`, `ToggleChip` |
-| **Forms** | `Field`, `Input`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `RadioGroup` · `Radio`, `Checkbox`, `Switch`, `Search` |
+| **App frame** | `AppShell`, `Sidebar` · `SidebarSection` · `SidebarItem` (collapsible), `Topbar`, `AuthLayout`, `Banner` |
+| **Actions** | `Button` (8 variants, `asChild`, `loading`), `CopyButton`, `Menu` · `MenuTrigger` · `MenuItem`, `Pagination`, `SegmentedControl`, `ToggleChip` |
+| **Forms** | `Field`, `Input`, `PasswordInput` (show / hide, strength), `InputGroup` · `InputAddon`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `OTPInput`, `RadioGroup` · `Radio`, `Checkbox`, `Switch`, `Search` |
 | **Overlays** | `Dialog` · `DialogTrigger`, `Drawer`, `Popover`, `Tooltip` |
-| **Content** | `Window`, `Card`, `Bento`, `Callout`, `InfoList`, `Accordion`, `Tabs`, `DataTable` (sortable, selectable, stacks into cards on phones) |
-| **Indicators** | `StatTile`, `Delta`, `Meter`, `Progress`, `Skeleton`, `Badge`, `Toast` |
+| **Content** | `Window`, `Card`, `Bento`, `Callout`, `InfoList`, `Accordion`, `Tabs`, `DataTable` (sortable, selectable, stacks into cards on phones), `CopyField`, `CodeBlock`, `Kbd`, `QRCode`, `EmptyState` |
+| **Indicators** | `StatTile`, `Delta`, `Meter`, `Progress`, `Skeleton`, `Spinner`, `Badge`, `Toast`, `StatusDot`, `RelativeTime`, `ExpiryIndicator` |
 | **Navigation and people** | `Breadcrumb`, `MobileNav`, `Avatar`, `AvatarGroup` |
 | **Layout** | `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Split`, `VisuallyHidden` |
 | **Personality** | `Sticker`, `Burst`, `Bubble`, `Pill`, `Ribbon` (pausable marquee), `Divider` |
 | **Charts** | `LineChart`, `BarList`, `Heatmap`, `ShareBar`, `Sparkline`, `ChartCard`, `Legend` |
-| **Icons** | 25 icons: arrows and chevrons, check, close, plus, minus, search, menu, info, warning, error, success, calendar, user, filter, sort, play, pause… |
+| **Icons** | 44 icons: arrows and chevrons, check, close, plus, minus, search, menu, info, warning, error, success, calendar, user, filter, sort, play, pause, copy, eye, mail, inbox, paperclip, download, trash, files by type, code, clock… |
+| **Mail** | `MessageList` · `MessageListItem`, `MessageHeader`, `EmailViewer` (sandboxed, remote images blocked until asked), `AttachmentChip` · `AttachmentList`, `AddressCard` |
 
 Every component has stories, props documentation and an accessibility audit in **[Storybook](https://robin-dot-lab.github.io/nerdlab-design-system/)**.
 
@@ -214,7 +217,9 @@ flowchart LR
   css --> app["Your app"]
   react["@robin-dot-lab/react<br/>props → classes"] --> app
   charts["@robin-dot-lab/charts<br/>geometry + tokens"] --> app
+  mail["@robin-dot-lab/mail<br/>mail screens"] --> app
   react --> charts
+  react --> mail
   css -. "styles" .-> docs["Storybook"]
   react --> docs
   css --> dash["Integration dashboard<br/>(built against dist/)"]

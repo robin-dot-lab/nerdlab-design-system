@@ -27,6 +27,22 @@ jobs:
       - name: Let the registry settle after a release
         if: github.event_name == 'workflow_run'
         run: sleep 30
-      - run: tools/consumer-check/run.sh
+      # A Release run that only opened the "Version Packages" pull request published nothing: the
+      # versions in this checkout are not on the registry yet, and installing them would fail.
+      - name: Are this checkout's versions published?
+        id: published
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '//npm.pkg.github.com/:_authToken=%s\n' "$NODE_AUTH_TOKEN" > "$RUNNER_TEMP/.npmrc"
+          missing=""
+          for f in packages/*/package.json; do
+            spec=$(node -p "const j=require('./$f'); j.private ? '' : j.name + '@' + j.version")
+            [ -z "$spec" ] && continue
+            npm view "$spec" version --registry=https://npm.pkg.github.com --userconfig "$RUNNER_TEMP/.npmrc" >/dev/null 2>&1 || missing="$missing $spec"
+          done
+          if [ -n "$missing" ]; then echo "not published yet:$missing (nothing to check)"; echo "ok=false" >> "$GITHUB_OUTPUT"; else echo "ok=true" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.published.outputs.ok == 'true'
+        run: tools/consumer-check/run.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

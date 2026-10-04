@@ -47,12 +47,13 @@ export function Rsvp() {
 
 | Family | Components |
 |---|---|
-| Actions | `Button`, `Menu` · `MenuTrigger` · `MenuItem`, `Pagination`, `SegmentedControl`, `ToggleChip` |
-| Forms | `Field`, `Input`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `RadioGroup`, `Checkbox`, `Switch`, `Search` |
+| App frame | `AppShell`, `Sidebar` · `SidebarSection` · `SidebarItem`, `Topbar`, `AuthLayout`, `Banner` |
+| Actions | `Button` (with `loading`), `CopyButton`, `Menu` · `MenuTrigger` · `MenuItem`, `Pagination`, `SegmentedControl`, `ToggleChip` |
+| Forms | `Field`, `Input`, `PasswordInput`, `InputGroup` · `InputAddon`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `OTPInput`, `RadioGroup`, `Checkbox`, `Switch`, `Search` |
 | Overlays | `Dialog`, `Drawer`, `Popover`, `Tooltip` (with `DialogTrigger` / `TooltipTrigger`) |
-| Content | `Window`, `Card`, `Bento`, `Callout`, `InfoList`, `Accordion`, `Tabs`, `DataTable` (sortable, selectable, stacks into cards) |
+| Content | `Window`, `Card`, `Bento`, `Callout`, `InfoList`, `Accordion`, `Tabs`, `DataTable` (sortable, selectable, stacks into cards), `CopyField`, `CodeBlock`, `Kbd`, `QRCode`, `EmptyState` |
 | Navigation and people | `Breadcrumb`, `MobileNav`, `Avatar`, `AvatarGroup` |
-| Indicators | `StatTile`, `Delta`, `Meter`, `Progress`, `Skeleton`, `Badge`, `Toast` |
+| Indicators | `StatTile`, `Delta`, `Meter`, `Progress`, `Skeleton`, `Spinner`, `Badge`, `Toast`, `StatusDot`, `RelativeTime`, `ExpiryIndicator` |
 | Layout | `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Split`, `VisuallyHidden` |
 | Personality | `Sticker`, `Burst`, `Bubble`, `Pill`, `Ribbon`, `Divider` |
 

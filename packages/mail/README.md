@@ -16,8 +16,10 @@ Published on GitHub Packages. Two lines of configuration, in two places:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
+pnpm 11 ignores tokens read from environment variables in a project `.npmrc`, hence the user-level file. While the kit is in release candidate, ask for the `rc` dist-tag: this package has no `latest` version yet, so a bare `pnpm add @robin-dot-lab/mail` fails.
+
 ```sh
-pnpm add @robin-dot-lab/mail @robin-dot-lab/react @robin-dot-lab/css-candy
+pnpm add @robin-dot-lab/mail@rc @robin-dot-lab/react@rc @robin-dot-lab/css-candy@rc
 ```
 
 ## Usage

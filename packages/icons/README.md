@@ -84,7 +84,7 @@ export const Star = (props: Omit<IconProps, 'children'>) => (
 
 ## Icons
 
-`Check`, `Close`, `ChevronDown`, `ChevronUp`, `ChevronLeft`, `ChevronRight`, `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`, `Plus`, `Minus`, `Search`, `Menu`, `Info`, `Warning`, `Error`, `Success`, `InfoMark` and `ExclamationMark` (bare marks for a coloured disc), `Calendar`, `User`, `ExternalLink`, `Pause`, `Play`, `Sort`, `Home`, `Filter`, `MoreHorizontal`.
+`Check`, `Close`, `ChevronDown`, `ChevronUp`, `ChevronLeft`, `ChevronRight`, `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`, `Plus`, `Minus`, `Search`, `Menu`, `Info`, `Warning`, `Error`, `Success`, `InfoMark` and `ExclamationMark` (bare marks for a coloured disc), `Calendar`, `User`, `ExternalLink`, `Pause`, `Play`, `Sort`, `Home`, `Filter`, `MoreHorizontal`, `Copy`, `Eye`, `EyeOff`, `Mail`, `Inbox`, `PanelLeft`, `Paperclip`, `Download`, `Trash`, `File`, `FileText`, `FileImage`, `FileArchive`, `Code`, `Clock`.
 
 Also exported: `Icon` (the base frame) and the types `IconProps`, `IconSize`, `IconComponentProps`.
 
