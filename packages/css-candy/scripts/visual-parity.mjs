@@ -9,7 +9,7 @@ import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import { missingFonts, routeTestFonts } from '../../../tools/test-fonts/route.mjs';
 
-const REF_DIR = path.resolve('../../design-system-nerdlab-candy');
+const REF_DIR = path.resolve('test/reference');
 const PAGES = ['design-system-preview.html', 'dashboard-preview.html'];
 const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 375, height: 812 }];
 const SCHEMES = ['light', 'dark'];

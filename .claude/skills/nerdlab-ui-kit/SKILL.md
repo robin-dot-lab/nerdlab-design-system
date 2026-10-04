@@ -32,7 +32,7 @@ It creates the skin CSS (appended last to `manifest.json`), the component, a tes
 
 ## 2. Changing an existing component or class
 
-- Changing a class's look is a visual change: if the parity test fails, it is either a regression (fix it) or an intended change (declare it in `parity-deviations.json` **and** `test/reference-deviations.css`, plus an ADR or a line in the relevant note). Never edit `design-system-nerdlab-candy/`.
+- Changing a class's look is a visual change: if the parity test fails, it is either a regression (fix it) or an intended change (declare it in `parity-deviations.json` **and** `test/reference-deviations.css`, plus an ADR or a line in the relevant note). Never edit `packages/css-candy/test/reference/`.
 - Renaming or removing a class or a prop is a breaking change for consumers: ask first.
 
 ## 3. Tokens and charts

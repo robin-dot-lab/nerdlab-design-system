@@ -19,7 +19,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `packages/icons` | `@robin-dot-lab/icons`: inline SVG icons (`nl-icon`, sized by the skin, `currentColor`); decorative unless given a `title` |
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
-| `design-system-nerdlab-candy/` | Original static system: visual reference and parity oracle. Never edit it to make a test pass. Candy is the only skin (the Ultramarine variant was dropped). Candy was called **Pop** until 2026-10-02: the static files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it |
+| `packages/css-candy/test/reference/` | The original static design, frozen: stylesheet + two pages, the oracle of the parity tests. Never edit it to make a test pass. Candy was called **Pop** until 2026-10-02: these files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it. Candy is the only skin; colour variety comes from palettes |
 | `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images) |
 | `.github/workflows/` | CI (`pnpm test` in 14 parallel jobs, every palette audited), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), visual baselines (Linux) |
 
