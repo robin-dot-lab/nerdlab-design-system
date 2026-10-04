@@ -15,3 +15,6 @@
 .nl-burst--primary { background: var(--color-primary); }
 .nl-burst--mint { background: var(--color-mint); }
 .nl-burst--tomato { background: var(--color-tomato); }
+
+/* In a row, a sticker keeps room for its hard shadow, which sticks out bottom-right of the disc */
+.nl-cluster > .nl-sticker { margin-inline-end: var(--space-2); margin-block-end: var(--space-2); }

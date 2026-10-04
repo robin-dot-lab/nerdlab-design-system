@@ -1,0 +1,40 @@
+/* Navigation fixes for application pages (new in the package; feedback of the mail platform).
+   - The MobileNav panel keeps the case of its links (addresses, names) and marks the current page as
+     the sidebar does: fill and outline, never the fill alone.
+   - Inside a Topbar, the panel opens right under the bar, whatever the bar's height: no --nav-offset
+     to keep in sync, and the toggle is never covered.
+   - The Topbar stops sticking when the viewport is short (a phone in landscape, 400 % zoom), where a
+     sticky bar would hide the page; `.nl-topbar--static` never sticks; `.nl-topbar--truncate` keeps
+     the title on one line.
+   - A skip link, visible on focus, leads past the sidebar to the content. */
+.nl-nav-panel a { text-transform: none; }
+.nl-nav-panel a[aria-current="page"] {
+  background: var(--color-accent); color: var(--ink); font-weight: var(--weight-bold);
+  outline: var(--border); outline-offset: calc(var(--border-width) * -1);
+}
+
+.nl-topbar .nl-nav-panel[data-open="true"] {
+  position: absolute; inset-block-start: 100%;
+  max-height: calc(100dvh - var(--nav-offset));
+}
+.nl-topbar--static { position: relative; }
+@media (max-height: 30rem) {
+  .nl-topbar { position: relative; }
+}
+.nl-topbar--truncate { flex-wrap: nowrap; }
+.nl-topbar--truncate .nl-topbar__title { flex-basis: 0; }
+.nl-topbar--truncate .nl-topbar__title > :is(h1, h2, p) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; overflow-wrap: normal; }
+
+.nl-skip-link {
+  position: absolute; z-index: 100; inset-block-start: var(--space-2); inset-inline-start: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border); border-radius: var(--radius-full);
+  background: var(--color-accent); color: var(--ink); box-shadow: var(--shadow-sm);
+  font-weight: var(--weight-bold); text-decoration: none;
+  translate: 0 calc(-100% - var(--space-4));
+}
+.nl-skip-link:focus { translate: none; }
+.nl-app-shell__content:focus { outline: none; }
+
+/* AuthLayout's secondary links: targets at least 24px high (WCAG 2.5.8 without the spacing exception) */
+.nl-auth__footer a { display: inline-flex; align-items: center; min-height: var(--space-6); padding-inline: var(--space-1); }

@@ -70,9 +70,14 @@ export function CopyButton({
   );
 }
 
-export interface CopyFieldProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'readOnly' | 'type'> {
+export interface CopyFieldProps extends Omit<ComponentProps<'input'>, 'value' | 'defaultValue' | 'readOnly' | 'type' | 'ref'> {
   /** The value shown (read-only, monospace) and copied. */
   value: string;
+  /**
+   * Show the whole value, wrapping anywhere over as many lines as it needs (a read-only textarea),
+   * instead of one line cut by an ellipsis. For long unbroken values: addresses, tokens, URLs.
+   */
+  multiline?: boolean;
   /** Accessible name of the copy button. Defaults to “Copy”. */
   copyLabel?: string;
   onCopied?: (value: string) => void;
@@ -84,19 +89,45 @@ export interface CopyFieldProps extends Omit<ComponentProps<'input'>, 'value' | 
  * A read-only value with a copy button built in. Wire the field to a label with `<Field>` (or `aria-label`).
  * When copying fails, the text is selected so the user can copy it by hand.
  */
-export function CopyField({ value, copyLabel, onCopied, wrapperClassName, className, id, ...props }: CopyFieldProps) {
+export function CopyField({ value, copyLabel, onCopied, multiline = false, wrapperClassName, className, id, ...props }: CopyFieldProps) {
   const c = useFieldControl(id, false, props['aria-describedby']);
-  const input = useRef<HTMLInputElement>(null);
+  const input = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
+  const rows = useContentRows(multiline ? input : null, value);
+  const shared = {
+    id: c.id, readOnly: true, value,
+    className: cn('nl-input nl-copy-field__input', className),
+    onFocus: (e: { currentTarget: HTMLInputElement | HTMLTextAreaElement }) => e.currentTarget.select(),
+  };
   return (
-    <span className={cn('nl-input-group nl-copy-field', wrapperClassName)}>
-      <input
-        ref={input} id={c.id} type="text" readOnly value={value}
-        className={cn('nl-input nl-copy-field__input', className)}
-        onFocus={(e) => e.currentTarget.select()}
-        {...props}
-        aria-describedby={c.describedBy}
-      />
+    <span className={cn('nl-input-group nl-copy-field', multiline && 'nl-copy-field--multiline', wrapperClassName)}>
+      {multiline
+        ? <textarea ref={input} rows={rows} {...shared} {...(props as ComponentProps<'textarea'>)} aria-describedby={c.describedBy} />
+        : <input ref={input} type="text" {...shared} {...props} aria-describedby={c.describedBy} />}
       <CopyButton value={value} label={copyLabel} onCopied={onCopied} onCopyError={() => { input.current?.focus(); input.current?.select(); }} />
     </span>
   );
+}
+
+/**
+ * Rows a read-only textarea needs to show its whole value. Browsers with `field-sizing: content`
+ * (set by the skin) size it themselves; elsewhere the rows follow the text and the field's width.
+ */
+function useContentRows(ref: { current: HTMLTextAreaElement | null } | null, value: string) {
+  const [rows, setRows] = useState(1);
+  useEffect(() => {
+    const el = ref?.current;
+    if (!el || (typeof CSS !== 'undefined' && CSS.supports('field-sizing', 'content'))) return;
+    const measure = () => {
+      const cs = getComputedStyle(el);
+      const line = parseFloat(cs.lineHeight) || 1;
+      el.rows = 1; // measure the text's own height, not the current rows'
+      const text = el.scrollHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      setRows(Math.max(1, Math.round(text / line)));
+    };
+    measure();
+    const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    ro?.observe(el);
+    return () => ro?.disconnect();
+  }, [ref, value]);
+  return rows;
 }

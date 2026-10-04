@@ -47,6 +47,16 @@ export function emailDocument(html: string, { remoteImages = false } = {}): stri
       }
     });
     doc.querySelectorAll('[background]').forEach((el) => { if (REMOTE_URL.test(el.getAttribute('background')!)) el.removeAttribute('background'); });
+  } else {
+    // Allowed: images parked in data-blocked-* (by this function, or by a server that blocks remote images
+    // the same way) get their URLs back, so “Show images” works even on HTML that arrived without them.
+    doc.querySelectorAll('img, source, input[type="image"]').forEach((el) => {
+      for (const name of ['src', 'srcset']) {
+        const parked = el.getAttribute(`data-blocked-${name}`);
+        if (parked && !el.hasAttribute(name)) el.setAttribute(name, parked);
+        el.removeAttribute(`data-blocked-${name}`);
+      }
+    });
   }
   doc.querySelectorAll('a[href]').forEach((a) => {
     a.setAttribute('target', '_blank');

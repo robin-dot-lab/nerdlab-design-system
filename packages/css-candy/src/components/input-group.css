@@ -45,6 +45,9 @@
 
 .nl-copy-field .nl-copy-field__input { font-family: var(--font-mono); font-size: var(--text-sm); text-overflow: ellipsis; }
 .nl-copy-field > .nl-copy { display: flex; align-self: stretch; border-inline-start: var(--border); }
+/* Multiline: the whole value, wrapping anywhere; the height follows the text (field-sizing where the
+   browser has it, rows set by the component elsewhere). */
+.nl-copy-field--multiline .nl-copy-field__input { resize: none; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; text-overflow: clip; field-sizing: content; min-height: 0; }
 .nl-copy-field > .nl-copy .nl-btn { border: 0; border-radius: 0; border-start-end-radius: calc(var(--radius-md) - var(--border-width)); border-end-end-radius: calc(var(--radius-md) - var(--border-width)); box-shadow: none; min-height: 100%; }
 @media (pointer: coarse) {
   .nl-input-group { min-height: var(--touch-target); }

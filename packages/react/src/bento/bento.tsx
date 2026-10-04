@@ -15,8 +15,10 @@ export const bentoVariants = cva('nl-bento', {
       mint: 'nl-bento--mint',
       lavender: 'nl-bento--lavender',
     },
+    /** Ink border and hard shadow like `Card` and `Window`, content stacked at the top (default: the soft product tile). */
+    outlined: { true: 'nl-bento--outlined', false: '' },
   },
-  defaultVariants: { tone: 'surface' },
+  defaultVariants: { tone: 'surface', outlined: false },
 });
 
 export interface BentoProps extends ComponentProps<'div'>, VariantProps<typeof bentoVariants> {
@@ -24,9 +26,9 @@ export interface BentoProps extends ComponentProps<'div'>, VariantProps<typeof b
   asChild?: boolean;
 }
 
-function BentoRoot({ className, tone, asChild = false, ...props }: BentoProps) {
+function BentoRoot({ className, tone, outlined, asChild = false, ...props }: BentoProps) {
   const Comp = asChild ? Slot : 'div';
-  return <Comp className={cn(bentoVariants({ tone }), className)} {...props} />;
+  return <Comp className={cn(bentoVariants({ tone, outlined }), className)} {...props} />;
 }
 
 export type BentoTitleProps = ComponentProps<'h3'>;

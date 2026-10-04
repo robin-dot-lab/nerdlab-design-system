@@ -185,3 +185,44 @@ describe('AddressCard', () => {
     fireEvent.keyDown(document.body, { key: 'Escape' });
   });
 });
+
+describe('EmailViewer offers only the parts the message has (K11)', () => {
+  it('a text-only mail has no HTML tab', () => {
+    render(<EmailViewer text={'Line 1\nLine 2'} />);
+    expect(screen.getAllByRole('tab').map((t) => t.textContent)).toEqual(['Text']);
+    expect(screen.getByText(/Line 1/)).toBeTruthy();
+  });
+  it('an HTML-only mail has no text tab; the source adds its own', () => {
+    render(<EmailViewer html="<p>Hi</p>" source="raw" />);
+    expect(screen.getAllByRole('tab').map((t) => t.textContent)).toEqual(['HTML', 'Source']);
+  });
+});
+
+describe('images the server already blocked (K18)', () => {
+  const blocked = '<p>Hi</p><img data-blocked-src="https://example.org/a.png" data-blocked-srcset="https://example.org/a2.png 2x" alt="A">';
+  it('emailDocument gives parked URLs back once images are allowed, and keeps them parked otherwise', () => {
+    expect(hasRemoteImages(blocked)).toBe(true);
+    const off = new DOMParser().parseFromString(emailDocument(blocked), 'text/html').querySelector('img')!;
+    expect(off.hasAttribute('src')).toBe(false);
+    const on = new DOMParser().parseFromString(emailDocument(blocked, { remoteImages: true }), 'text/html').querySelector('img')!;
+    expect(on.getAttribute('src')).toBe('https://example.org/a.png');
+    expect(on.getAttribute('srcset')).toBe('https://example.org/a2.png 2x');
+    expect(on.hasAttribute('data-blocked-src')).toBe(false);
+  });
+  it('uncontrolled: “Show images” renders the restored URLs with https: allowed', async () => {
+    render(<EmailViewer html={blocked} />);
+    await userEvent.click(await screen.findByRole('button', { name: 'Show images' }));
+    await waitFor(() => expect(document.querySelector('iframe')!.getAttribute('srcdoc')).toContain('src="https://example.org/a.png"'));
+    expect(document.querySelector('iframe')!.getAttribute('srcdoc')).toContain('img-src data: cid: https:');
+  });
+  it('controlled: the click only asks the app, which passes new HTML and remoteImages', async () => {
+    const onChange = vi.fn();
+    const { rerender } = render(<EmailViewer html={blocked} remoteImages={false} onRemoteImagesChange={onChange} />);
+    await userEvent.click(await screen.findByRole('button', { name: 'Show images' }));
+    expect(onChange).toHaveBeenCalledWith(true);
+    expect(screen.getByRole('button', { name: 'Show images' })).toBeTruthy(); // still blocked until the app says so
+    rerender(<EmailViewer html={'<p>Hi</p><img src="https://example.org/a.png" alt="A">'} remoteImages onRemoteImagesChange={onChange} />);
+    await waitFor(() => expect(document.querySelector('iframe')!.getAttribute('srcdoc')).toContain('src="https://example.org/a.png"'));
+    expect(screen.queryByRole('button', { name: 'Show images' })).toBeNull();
+  });
+});

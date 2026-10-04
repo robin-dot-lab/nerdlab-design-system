@@ -244,15 +244,15 @@
   },
   "font": {
     "display": {
-      "$value": "'Bricolage Grotesque', 'Arial Black', system-ui, sans-serif",
+      "$value": "'Bricolage Grotesque', 'Bricolage Grotesque Fallback', 'Arial Black', system-ui, sans-serif",
       "$type": "fontFamily"
     },
     "body": {
-      "$value": "'Outfit', system-ui, sans-serif",
+      "$value": "'Outfit', 'Outfit Fallback', system-ui, sans-serif",
       "$type": "fontFamily"
     },
     "mono": {
-      "$value": "'Space Mono', ui-monospace, monospace",
+      "$value": "'Space Mono', 'Space Mono Fallback', ui-monospace, monospace",
       "$type": "fontFamily"
     },
     "pixel": {

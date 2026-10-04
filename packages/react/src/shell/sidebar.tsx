@@ -101,7 +101,8 @@ export function SidebarItem({ icon, current = false, count, countLabel, asChild 
   const content = (
     <>
       {icon != null && <span className="nl-sidebar__icon" aria-hidden="true">{icon}</span>}
-      <span className="nl-sidebar__label">{label}</span>
+      {/* A label cut by its ellipsis stays readable whole on hover; its accessible name is already whole. */}
+      <span className="nl-sidebar__label" title={!collapsed && typeof label === 'string' ? label : undefined}>{label}</span>
       {count ? (
         <>
           <Badge variant="primary" className="nl-sidebar__count" aria-hidden={countLabel ? true : undefined}>{count}</Badge>

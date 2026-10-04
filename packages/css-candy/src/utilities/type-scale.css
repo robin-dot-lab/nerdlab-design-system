@@ -1,0 +1,11 @@
+/* Type scale for display and headline text (new in the package). The reference sized its titles
+   page by page; an application needs the steps as classes. Each step reads a fluid --text-* token,
+   so titles grow with the viewport. Without a modifier the styles keep the browser's heading size. */
+.nl-display--sm { font-size: var(--text-3xl); }
+.nl-display--md { font-size: var(--text-4xl); }
+.nl-display--lg { font-size: var(--text-5xl); }
+.nl-display--xl { font-size: var(--text-6xl); }
+.nl-headline--sm { font-size: var(--text-xl); }
+.nl-headline--md { font-size: var(--text-2xl); }
+.nl-headline--lg { font-size: var(--text-3xl); }
+.nl-headline--xl { font-size: var(--text-4xl); }

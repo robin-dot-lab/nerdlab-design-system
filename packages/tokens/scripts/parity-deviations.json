@@ -3,12 +3,15 @@
   "candy": {
     "root": {
       "color-error-text": "#C8281B",
-      "color-overlay": "rgba(27, 21, 37, 0.55)"
+      "color-overlay": "rgba(27, 21, 37, 0.55)",
+      "font-display": "'Bricolage Grotesque', 'Bricolage Grotesque Fallback', 'Arial Black', system-ui, sans-serif",
+      "font-body": "'Outfit', 'Outfit Fallback', system-ui, sans-serif",
+      "font-mono": "'Space Mono', 'Space Mono Fallback', ui-monospace, monospace"
     },
     "dark": {
       "color-error-text": "#FF4D3D",
       "color-overlay": "rgba(4, 3, 8, 0.78)"
     },
-    "why": "ADR-007: accessible error text (reference #FF4D3D on cream is 2.99:1); color-overlay: modal scrim, new in the package, deeper in the dark theme (2026-10-03)"
+    "why": "ADR-007: accessible error text (reference #FF4D3D on cream is 2.99:1); color-overlay: modal scrim, new in the package, deeper in the dark theme (2026-10-03); font stacks: metric-matched fallback faces after each web font (ADR-027, 2026-10-04)"
   }
 }
