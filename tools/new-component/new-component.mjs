@@ -64,7 +64,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = { args: { children: '${name}' } };
 `);
 
-const anchor = "export { Focusable } from 'react-aria-components';";
+// New exports go above the third-party pass-throughs, which stay last in the index.
+const anchor = '// Passed through from React Aria';
 if (!indexCode.includes(anchor)) fail(`anchor not found in ${index}`);
 fs.writeFileSync(p(index), indexCode.replace(anchor, `export { ${name}, type ${name}Props } from './${kebab}/${kebab}.js';\n${anchor}`));
 
