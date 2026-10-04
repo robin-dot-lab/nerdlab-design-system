@@ -17,6 +17,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `packages/react` | `@robin-dot-lab/react`: typed components that only set `nl-*` classes (React 19, built file by file with `tsc`) |
 | `packages/charts` | `@robin-dot-lab/charts`: geometry in JS, colours only from skin tokens |
 | `packages/icons` | `@robin-dot-lab/icons`: inline SVG icons (`nl-icon`, sized by the skin, `currentColor`); decorative unless given a `title` |
+| `packages/mail` | `@robin-dot-lab/mail`: mail components on top of `react` (message list, email viewer, attachments, address card). No CSS of its own: its styles are `css-candy/src/components/mail.css`. Its guards (style values, `'use client'`, story/test/class integrity, language) are `src/guards.test.ts` |
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `packages/css-candy/test/reference/` | The original static design, frozen: stylesheet + two pages, the oracle of the parity tests. Never edit it to make a test pass. Candy was called **Pop** until 2026-10-02: these files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it. Candy is the only skin; colour variety comes from palettes |
@@ -26,7 +27,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 ## Commands
 
 - `pnpm install` · `pnpm build` · `pnpm test` (builds, typechecks, then tests every package, ~13 min, no network needed; `STORY_FILTER` to iterate faster) · `pnpm typecheck`
-- `pnpm changeset` — describe a change to a published package (`@robin-dot-lab/tokens`, `css-candy`, `react`, `charts`, `icons`) for the changelog. Packages are published to GitHub Packages (`@robin-dot-lab`, `npm.pkg.github.com`) by the manual *Release* workflow. While `.changeset/pre.json` exists the repo is in pre-release mode (`1.0.0-rc.N`, dist-tag `rc`); `pnpm changeset pre exit` before the final 1.0.0
+- `pnpm changeset` — describe a change to a published package (`@robin-dot-lab/tokens`, `css-candy`, `react`, `charts`, `icons`, `mail`) for the changelog. Packages are published to GitHub Packages (`@robin-dot-lab`, `npm.pkg.github.com`) by the manual *Release* workflow. While `.changeset/pre.json` exists the repo is in pre-release mode (`1.0.0-rc.N`, dist-tag `rc`); `pnpm changeset pre exit` before the final 1.0.0
 - `pnpm storybook` (:6006, reads sources) · `pnpm --filter @robin-dot-lab/dashboard dev` (:5173, reads `dist/`: run `pnpm build` first)
 - `pnpm new:component <PascalName> [--element span]` — scaffold a component everywhere it must exist
 - `pnpm fetch:test-fonts` — refresh the offline font cache when a test reports a missing font URL
@@ -34,6 +35,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 - `STORY_FILTER=<id fragment>` — limits the Storybook audit, visual and cross-browser scripts to matching stories
 - `PALETTE=<id> node scripts/a11y-audit.mjs` (in `apps/docs`) — audits every story in another palette (CI does it for all of them)
 - `node scripts/forced-colors.mjs` (in `apps/docs`) — every story in forced colours (Windows high contrast)
+- `node scripts/email-sandbox.mjs` (in `apps/docs`) — the `EmailViewer`'s isolation in Chrome: no script, no form, no remote image before “Show images”
 - `UPDATE_API=1 pnpm --filter <package> test` — accept a change of the public API snapshot (`api-surface.txt`); a removed line needs a major changeset
 - `node tools/readme-assets/capture.mjs` — regenerate the README images (after `pnpm build`)
 - `SOURCE=local tools/consumer-check/run.sh` — pack this checkout and install it into a blank Vite app and a Next.js App Router app, build and check them (after `pnpm build`; needs the network for npm). Without `SOURCE=local` it installs this checkout's versions from the registry: `NODE_AUTH_TOKEN=$(gh auth token)` (needs `read:packages`)
@@ -74,7 +76,9 @@ Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). 
 - `DataTable` sorts internally unless `sort` is passed; with pagination use controlled `sort` + `onSortChange`.
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.
 - React Aria Components has no `'use client'`: never re-export it from the package index directly, go through a `'use client'` module (`lib/react-aria.ts`). In a server component, function props and `CalendarDate` values cannot reach a client component.
-- Stories render under `<I18nProvider locale="en-GB">` (toolbar *Locale*), the dashboard under `fr-FR`: screenshots never depend on the machine's language.
+- Stories render under `<I18nProvider locale="en-GB">` (toolbar *Locale*), the dashboard under `fr-FR`: screenshots never depend on the machine's language. `visual.mjs` also freezes the clock (2026-10-04 10:00 UTC) and the time zone (UTC): write story dates relative to `Date.now()`.
+- `forced-colors.css` stays the last file of the manifest: a new skin file goes just before it, or its rules would override the forced-colour fixes.
+- A sandboxed iframe (the `EmailViewer`) has an opaque origin: axe runs with `iframes: false`, and focus inside it matches no selector on the `<iframe>` (the viewer sets `data-focused` itself).
 - `TooltipTrigger`, `DialogTrigger` and `MenuTrigger` wrap their first child themselves (`Focusable` / `Pressable`): pass our `Button` directly.
 - React Aria sets `z-index: 100000` inline on popovers; do not fight it in the skin. After a `ComboBox` pick, the input value is committed as the list closes: in browser tests, wait for it.
 - pnpm 11 blocks dependency install scripts: a new dependency with one must be listed in `allowBuilds` (`pnpm-workspace.yaml`).

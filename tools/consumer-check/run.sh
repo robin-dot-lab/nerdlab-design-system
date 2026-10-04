@@ -14,7 +14,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
 SOURCE="${SOURCE:-registry}"
 APPS="${APPS:-vite next}"
-PKGS="tokens icons css-candy react charts"
+PKGS="tokens icons css-candy react charts mail"
 WORK="$(mktemp -d)"
 version() { node -p "require('$ROOT/packages/$1/package.json').version"; }
 

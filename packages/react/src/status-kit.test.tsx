@@ -57,6 +57,7 @@ describe('ExpiryIndicator', () => {
     expect(container.textContent).toContain('Expires in 6 minutes');
     expect(container.firstElementChild!.className).toBe('nl-expiry nl-expiry--normal');
     expect(screen.getByRole('status').textContent).toBe('');
+    expect(onStateChange).toHaveBeenCalledWith('normal');
     await act(() => vi.advanceTimersByTimeAsync(2 * 60_000));
     expect(container.textContent).toContain('Expiring soon: in 4 minutes');
     expect(screen.getByRole('status').textContent).toBe('Expiring soon');

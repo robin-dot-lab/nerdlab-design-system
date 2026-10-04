@@ -6,7 +6,7 @@
     "storybook": "storybook dev -p 6006",
     "build": "storybook build -o storybook-static --quiet",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "node scripts/a11y-audit.mjs && node scripts/forced-colors.mjs && node scripts/visual.mjs && node scripts/cross-browser.mjs",
+    "test": "node scripts/a11y-audit.mjs && node scripts/forced-colors.mjs && node scripts/visual.mjs && node scripts/cross-browser.mjs && node scripts/email-sandbox.mjs",
     "visual:update": "UPDATE=1 node scripts/visual.mjs"
   },
   "devDependencies": {
@@ -27,6 +27,7 @@
     "@robin-dot-lab/charts": "workspace:*",
     "@robin-dot-lab/css-candy": "workspace:*",
     "@robin-dot-lab/icons": "workspace:*",
+    "@robin-dot-lab/mail": "workspace:*",
     "@robin-dot-lab/react": "workspace:*",
     "@robin-dot-lab/tokens": "workspace:*",
     "react": "^19.3.0",

@@ -17,6 +17,7 @@ ok(await page.evaluate(() => getComputedStyle(document.querySelector('.nl-window
 ok((await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim())).toLowerCase() === '#f5a3c7', 'Sorbet palette active from <html data-palette>');
 ok(await page.locator('svg.nl-icon').count() >= 2, 'icons render');
 ok(await page.getByRole('list', { name: 'Tickets per event' }).getByRole('listitem').count() === 4, 'chart renders its four bars');
+ok(await page.getByRole('listbox', { name: 'Messages' }).getByRole('option', { selected: true }).count() === 1, 'mail: message list renders with its selection');
 for (const p of ['sorbet', 'ink', 'mono-retro']) for (const dark of [false, true]) {
   await page.getByRole('combobox', { name: 'Palette' }).selectOption(p);
   const sw = page.getByRole('switch', { name: 'Dark theme' }); if ((await sw.isChecked()) !== dark) await sw.click();

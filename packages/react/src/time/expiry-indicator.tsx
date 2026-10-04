@@ -14,7 +14,7 @@ interface CommonProps extends Omit<ComponentProps<'div'>, 'children'> {
   expiresAt: Date | string | number;
   /** How long before the deadline the state turns to “expiring soon”, in milliseconds. Default 5 minutes. */
   soonBefore?: number;
-  /** Called when the state changes (after mount), e.g. to disable actions once expired. */
+  /** Called with the state once it is known (after mount), then on every change: to disable actions once expired, say. */
   onStateChange?: (state: ExpiryState) => void;
 }
 
@@ -50,10 +50,9 @@ export function ExpiryIndicator({ expiresAt, soonBefore = 5 * 60_000, onStateCha
   const [announcement, setAnnouncement] = useState('');
   useEffect(() => {
     if (state === null) return;
-    if (previous.current !== null && previous.current !== state) {
-      setAnnouncement(state === 'expired' ? t.expired : state === 'soon' ? t.expiringSoon : '');
-      onStateChange?.(state);
-    }
+    if (previous.current === state) return;
+    if (previous.current !== null) setAnnouncement(state === 'expired' ? t.expired : state === 'soon' ? t.expiringSoon : '');
+    onStateChange?.(state);
     previous.current = state;
   }, [state, t, onStateChange]);
 

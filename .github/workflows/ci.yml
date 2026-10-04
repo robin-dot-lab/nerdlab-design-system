@@ -95,6 +95,7 @@ jobs:
           - { name: a11y palette moss, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=moss }
           - { name: a11y palette mono-retro, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=mono-retro }
           - { name: webkit, script: cross-browser.mjs, env: ENGINE=webkit, browser: webkit }
+          - { name: email sandbox, script: email-sandbox.mjs, env: SANDBOX=chrome }
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
