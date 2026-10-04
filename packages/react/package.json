@@ -1,6 +1,6 @@
 {
   "name": "@robin-dot-lab/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Nerdlab React components: thin typed layer over the nl-* classes (skin-agnostic)",
   "keywords": [
     "nerdlab",
