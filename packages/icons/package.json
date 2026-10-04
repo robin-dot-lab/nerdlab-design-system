@@ -1,6 +1,6 @@
 {
   "name": "@robin-dot-lab/icons",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "Nerdlab icons: inline SVG React components drawn with 2px strokes in currentColor, sized by the nl-icon skin classes",
   "keywords": [
     "nerdlab",
