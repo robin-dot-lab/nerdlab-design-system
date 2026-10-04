@@ -4,6 +4,7 @@ import { Close } from '@robin-dot-lab/icons';
 import type { ComponentProps, ReactNode } from 'react';
 import { Dialog as AriaDialog, Heading, Modal, ModalOverlay, type DialogProps as AriaDialogProps } from 'react-aria-components';
 import { cn } from '../lib/cn.js';
+import { useMessages } from '../lib/i18n.js';
 
 export interface DrawerProps extends Omit<AriaDialogProps, 'children' | 'className' | 'style'> {
   /** Visible title in the drawer head; names it for assistive tech. */
@@ -23,7 +24,8 @@ export interface DrawerProps extends Omit<AriaDialogProps, 'children' | 'classNa
  * Modal panel from an edge of the screen (filters, details, navigation on phones): focus is trapped,
  * Escape closes, the page behind is inert, focus returns to the trigger. Open it with `DialogTrigger`.
  */
-export function Drawer({ title, children, placement = 'end', isDismissable = true, closeLabel = 'Fermer', className, isOpen, onOpenChange, ...props }: DrawerProps) {
+export function Drawer({ title, children, placement = 'end', isDismissable = true, closeLabel, className, isOpen, onOpenChange, ...props }: DrawerProps) {
+  const { t } = useMessages();
   const controlled = isOpen === undefined ? {} : { isOpen, onOpenChange };
   return (
     <ModalOverlay className="nl-drawer-overlay" isDismissable={isDismissable} {...controlled}>
@@ -33,7 +35,7 @@ export function Drawer({ title, children, placement = 'end', isDismissable = tru
             <>
               <div className="nl-drawer__head">
                 <Heading slot="title" className="nl-drawer__title">{title}</Heading>
-                <button type="button" className="nl-dialog__close" aria-label={closeLabel} onClick={close}><Close size="sm" /></button>
+                <button type="button" className="nl-dialog__close" aria-label={closeLabel ?? t.close} onClick={close}><Close size="sm" /></button>
               </div>
               <div className="nl-drawer__body">{typeof children === 'function' ? children({ close }) : children}</div>
             </>

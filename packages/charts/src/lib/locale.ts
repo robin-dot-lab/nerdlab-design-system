@@ -1,9 +1,36 @@
+import { useLocale } from '@robin-dot-lab/react';
+
 /**
- * The charts speak French by default (the kit's first consumer is French) and English for any other
- * locale. `locale` drives number formats, the punctuation before a colon, and the few built-in sentences.
+ * The charts’ words and number formats follow React Aria’s locale, like the rest of the kit (ADR-023): the nearest
+ * `<I18nProvider locale="…">` (re-exported by @robin-dot-lab/react), else the browser's language.
+ * French locales get French sentences and typography, every other locale English.
  */
-export const DEFAULT_LOCALE = 'fr-FR';
-export const isFrench = (locale: string) => locale.toLowerCase().startsWith('fr');
-/** "Lyon : 42" in French typography, "Lyon: 42" otherwise. */
-export const colon = (locale: string) => (isFrench(locale) ? ' : ' : ': ');
-export const percent = (locale: string) => new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 1 });
+const en = {
+  noData: 'No data.',
+  noSeries: 'No series selected.',
+  ofTotal: 'of total',
+  total: 'Total',
+  showTable: 'Table view',
+  showChart: 'Chart view',
+  keyboardHint: (title: string, n: number) => `${title}, ${n} series. Left and right arrows move through the points.`,
+  thousands: 'k',
+  colon: ': ',
+};
+type Words = typeof en;
+const fr: Words = {
+  noData: 'Aucune donnée.',
+  noSeries: 'Aucune série sélectionnée.',
+  ofTotal: 'du total',
+  total: 'Total',
+  showTable: 'Vue table',
+  showChart: 'Vue graphe',
+  keyboardHint: (title, n) => `${title}, ${n} séries. Flèches gauche et droite pour parcourir les points.`,
+  thousands: ' k',
+  colon: ' : ',
+};
+
+export function useChartLocale() {
+  const { locale } = useLocale();
+  const t = locale.toLowerCase().startsWith('fr') ? fr : en;
+  return { locale, t, percent: new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 1 }) };
+}

@@ -3,8 +3,9 @@ name: CI
 # The same checks as `pnpm test`, spread over parallel machines:
 #   packages   build, typecheck, unit tests, token and pixel parity, dashboard e2e (3 engines)
 #   storybook  one Storybook build, shared with the six shards below as an artifact
-#   shards     a11y audit (desktop / phone), visual regression (desktop-light / phone-dark),
+#   shards     a11y audit (desktop / phone), forced colours, visual regression (desktop-light / phone-dark),
 #              cross-browser smoke (firefox / webkit), and the a11y audit of each extra palette
+#   consumers  the packed tarballs installed into a blank Vite app and a Next.js App Router app
 on:
   push:
     branches: [main]
@@ -53,6 +54,24 @@ jobs:
           path: apps/docs/storybook-static/
           retention-days: 3
 
+  consumers:
+    name: Consumers (Vite, Next.js)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo run build --filter='./packages/*'
+      # Installs the tarballs `pnpm pack` makes, outside the workspace, as a consumer would (ADR-021).
+      - run: tools/consumer-check/run.sh
+        env:
+          SOURCE: local
+
   stories:
     name: Stories — ${{ matrix.name }}
     needs: storybook
@@ -64,6 +83,7 @@ jobs:
         include:
           - { name: a11y desktop, script: a11y-audit.mjs, env: VIEWPORT=desktop }
           - { name: a11y phone, script: a11y-audit.mjs, env: VIEWPORT=phone }
+          - { name: forced colors, script: forced-colors.mjs, env: FORCED=1 }
           - { name: visual desktop-light, script: visual.mjs, env: VARIANT=desktop-light }
           - { name: visual phone-dark, script: visual.mjs, env: VARIANT=phone-dark }
           - { name: firefox, script: cross-browser.mjs, env: ENGINE=firefox, browser: firefox }

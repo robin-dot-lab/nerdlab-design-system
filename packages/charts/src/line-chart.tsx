@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useChartTooltip } from './lib/tooltip.js';
-import { DEFAULT_LOCALE, isFrench } from './lib/locale.js';
+import { useChartLocale } from './lib/locale.js';
 import { slotColor, type Slot } from './lib/types.js';
 import { useWidth } from './lib/use-width.js';
 
@@ -24,8 +24,6 @@ export interface LineChartProps {
   totalLabel?: string | false;
   emptyLabel?: string;
   width?: number;
-  /** Number format of the default ticks and language of the keyboard hint; French by default. */
-  locale?: string;
 }
 
 function niceTicks(max: number, count = 4) {
@@ -35,14 +33,17 @@ function niceTicks(max: number, count = 4) {
   const ticks: number[] = []; for (let v = 0; v <= top + 1e-9; v += step) ticks.push(v);
   return { ticks, top };
 }
-const tickFor = (locale: string) => (t: number) => (t >= 1000 ? `${(t / 1000).toLocaleString(locale)}${isFrench(locale) ? ' k' : 'k'}` : String(t));
+const tickFor = (locale: string, k: string) => (t: number) => (t >= 1000 ? `${(t / 1000).toLocaleString(locale)}${k}` : String(t));
 const MIN_LABEL_GAP = 56;
 
 /** 2px lines on one Y axis, end labels with leader lines, crosshair tooltip; ←/→ move it when focused. */
 export function LineChart({
-  series, xLabels, title, formatValue = String, formatCompact, locale = DEFAULT_LOCALE, formatTick = tickFor(locale),
-  pointTitle, totalLabel = 'Total', emptyLabel = 'Aucune série sélectionnée.', width,
+  series, xLabels, title, formatValue = String, formatCompact, formatTick: tickProp,
+  pointTitle, totalLabel: totalProp, emptyLabel, width,
 }: LineChartProps) {
+  const { locale, t } = useChartLocale();
+  const formatTick = tickProp ?? tickFor(locale, t.thousands);
+  const totalLabel = totalProp ?? t.total;
   const [ref, W] = useWidth<HTMLDivElement>(width);
   const tip = useChartTooltip();
   const [cur, setCur] = useState<number | null>(null);
@@ -70,14 +71,12 @@ export function LineChart({
   const overflow = ends.length ? ends[ends.length - 1]!.y - (H - m.b) : 0;
   if (overflow > 0) ends.forEach((l) => (l.y -= overflow));
 
-  if (!series.length) return <p className="nl-chart-empty">{emptyLabel}</p>;
+  if (!series.length) return <p className="nl-chart-empty">{emptyLabel ?? t.noSeries}</p>;
   return (
     <div ref={ref} className="nl-chart">
       {W > 0 && (
         <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} tabIndex={0} role="img"
-          aria-label={isFrench(locale)
-            ? `${title}, ${series.length} séries. Flèches gauche et droite pour parcourir les points.`
-            : `${title}, ${series.length} series. Left and right arrows move through the points.`}
+          aria-label={t.keyboardHint(title, series.length)}
           onFocus={() => at(cur ?? n - 1)} onBlur={clear}
           onKeyDown={(e) => {
             if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); at((cur ?? n - 1) + (e.key === 'ArrowRight' ? 1 : -1)); }

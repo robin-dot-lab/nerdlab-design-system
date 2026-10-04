@@ -1,0 +1,28 @@
+/* Forced colours (Windows high contrast; new in the package, ADR-022). The browser swaps the skin's
+   colours for a few system ones and drops box-shadows. What the skin draws with colour alone gets
+   system colours back here; nothing changes outside this mode. Audited by apps/docs/scripts/forced-colors.mjs. */
+@media (forced-colors: active) {
+  /* Marks drawn as icon masks (and the indeterminate dash): their background would become Canvas. */
+  .nl-accordion summary::before,
+  .nl-check:checked::after,
+  .nl-check:indeterminate::after,
+  .nl-table th[aria-sort] .nl-table__sort::after { forced-color-adjust: none; background: CanvasText; }
+
+  /* Data marks keep the palette's colours: the values are also in text, the legend and the table view. */
+  .nl-bar-row__bar, .nl-share__seg, .nl-heat__cell, .nl-scale__steps i, .nl-key-rect, .nl-key-line { forced-color-adjust: none; }
+
+  /* Chrome does not force SVG paint: chart text and leader lines take the system text colour. */
+  .nl-chart text, .nl-chart text tspan { fill: CanvasText; }
+  .nl-chart path[stroke="var(--color-text-secondary)"] { stroke: CanvasText; }
+
+  /* Focus rings drawn with box-shadow, or none at all, become outlines. */
+  .nl-input:focus-visible, .nl-search input:focus-visible, .nl-bar-row:focus-visible,
+  .nl-date-segment[data-focused], .nl-menu__item[data-focus-visible], .nl-listbox__item[data-focus-visible] {
+    outline: 2px solid Highlight; outline-offset: 1px;
+  }
+
+  /* States shown by a fill: the current page, the chosen day, highlighted options. */
+  .nl-pagination .nl-btn[aria-current="page"],
+  .nl-calendar__cell[data-selected],
+  .nl-listbox__item[data-selected], .nl-menu__item[data-focused] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
+}

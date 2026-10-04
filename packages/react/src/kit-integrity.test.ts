@@ -11,7 +11,7 @@ const walk = (dir: string, re: RegExp): string[] =>
 
 /** Value exports that are components (PascalCase), excluding re-exports of third-party primitives. */
 // Focusable (React Aria) and CalendarDate (@internationalized/date) are re-exports, not kit components.
-const THIRD_PARTY = new Set(['Focusable', 'CalendarDate']);
+const THIRD_PARTY = new Set(['Focusable', 'CalendarDate', 'I18nProvider']);
 const components = [...read('packages/react/src/index.ts').matchAll(/export \{([^}]+)\}/g)]
   .flatMap((m) => m[1]!.split(','))
   .map((s) => s.trim())

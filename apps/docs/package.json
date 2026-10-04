@@ -6,7 +6,7 @@
     "storybook": "storybook dev -p 6006",
     "build": "storybook build -o storybook-static --quiet",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "node scripts/a11y-audit.mjs && node scripts/visual.mjs && node scripts/cross-browser.mjs",
+    "test": "node scripts/a11y-audit.mjs && node scripts/forced-colors.mjs && node scripts/visual.mjs && node scripts/cross-browser.mjs",
     "visual:update": "UPDATE=1 node scripts/visual.mjs"
   },
   "devDependencies": {

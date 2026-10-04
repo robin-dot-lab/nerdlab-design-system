@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { Delta, Meter, meterLevel, Pagination, Search, SegmentedControl, StatTile, Toast, ToggleChip } from './index.js';
+import { meterLevel } from './meter/meter.js';
+import { Delta, Meter, Pagination, Search, SegmentedControl, StatTile, Toast, ToggleChip } from './index.js';
 
 describe('Delta', () => {
   it('good rise: class, visible sign, words for assistive tech', () => {
@@ -11,7 +12,7 @@ describe('Delta', () => {
     expect(el.className).toBe('nl-delta nl-delta--good');
     expect(el.textContent).toContain('+10');
     expect(el.querySelector('svg.nl-icon')).toBeTruthy(); // arrow icon, hidden with its sign
-    expect(screen.getByText(/Hausse de 10/).className).toBe('nl-visually-hidden');
+    expect(screen.getByText(/Up 10/).className).toBe('nl-visually-hidden');
     expect(el.hasAttribute('aria-label')).toBe(false);
   });
   it('a rise is bad when upIsGood=false; a fall shows −', () => {
@@ -54,17 +55,17 @@ describe('Pagination', () => {
     const onPageChange = vi.fn();
     render(<Pagination page={5} pages={9} onPageChange={onPageChange} label="Commandes" />);
     expect(screen.getByRole('navigation', { name: 'Commandes' })).toBeTruthy();
-    expect(screen.getAllByRole('button').map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Page précédente', 'Page 4', 'Page 5', 'Page 6', 'Page suivante']);
-    expect(screen.getByRole('button', { name: 'Page précédente' }).querySelector('svg.nl-icon')).toBeTruthy();
+    expect(screen.getAllByRole('button').map((b) => b.getAttribute('aria-label') ?? b.textContent)).toEqual(['Previous page', 'Page 4', 'Page 5', 'Page 6', 'Next page']);
+    expect(screen.getByRole('button', { name: 'Previous page' }).querySelector('svg.nl-icon')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Page 5' }).getAttribute('aria-current')).toBe('page');
-    await userEvent.click(screen.getByRole('button', { name: 'Page suivante' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Next page' }));
     expect(onPageChange).toHaveBeenCalledWith(6);
   });
   it('first and last pages disable previous / next', () => {
     const { rerender } = render(<Pagination page={1} pages={2} onPageChange={() => {}} />);
-    expect((screen.getByRole('button', { name: 'Page précédente' }) as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByRole('button', { name: 'Previous page' }) as HTMLButtonElement).disabled).toBe(true);
     rerender(<Pagination page={2} pages={2} onPageChange={() => {}} />);
-    expect((screen.getByRole('button', { name: 'Page suivante' }) as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByRole('button', { name: 'Next page' }) as HTMLButtonElement).disabled).toBe(true);
   });
 });
 

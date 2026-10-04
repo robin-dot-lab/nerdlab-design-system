@@ -16,7 +16,7 @@ Published on GitHub Packages. Two lines of configuration, in two places:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@0.2.0`).
+pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@1.0.0-rc.0`). Release candidates are published under the `rc` dist-tag (`pnpm add @robin-dot-lab/react@rc`).
 
 ```sh
 pnpm add @robin-dot-lab/charts @robin-dot-lab/react @robin-dot-lab/css-candy
@@ -32,9 +32,8 @@ const series = [
   { id: 'music', name: 'Music', slot: 2, values: [8, 11, 14, 13] },
 ] as const;
 
-<ChartCard title="Tickets" legend={<Legend kind="line" items={series.map((s) => ({ label: s.name, slot: s.slot }))} />}
-  labels={{ showTable: 'Table view', showChart: 'Chart view' }}>
-  <LineChart title="Tickets per week" series={[...series]} xLabels={['W1', 'W2', 'W3', 'W4']} locale="en-GB" />
+<ChartCard title="Tickets" legend={<Legend kind="line" items={series.map((s) => ({ label: s.name, slot: s.slot }))} />}>
+  <LineChart title="Tickets per week" series={[...series]} xLabels={['W1', 'W2', 'W3', 'W4']} />
 </ChartCard>
 ```
 
@@ -47,7 +46,7 @@ const series = [
 | `Sparkline` | decorative trend in a stat tile |
 | `ChartCard`, `Legend` | title, legend and a **table view twin** for every chart |
 
-A series has a `slot` (1–4): at most four series per chart, colours in a fixed order. `locale` (default `fr-FR`) sets number formats and the few built-in sentences.
+A series has a `slot` (1–4): at most four series per chart, colours in a fixed order. Number formats and the few built-in sentences follow React Aria's locale, like the rest of the kit: `<I18nProvider locale="fr-FR">` from `@robin-dot-lab/react` (French for French locales, English otherwise).
 
 ## Links
 

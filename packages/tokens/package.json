@@ -40,7 +40,7 @@
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node scripts/check-parity.mjs && node scripts/check-contrast.mjs"
+    "test": "node scripts/check-parity.mjs && node scripts/check-contrast.mjs && node ../../tools/api-surface/check.mjs"
   },
   "devDependencies": {
     "style-dictionary": "^5.5.5"

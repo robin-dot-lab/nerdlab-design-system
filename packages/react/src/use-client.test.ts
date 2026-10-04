@@ -8,10 +8,19 @@ import { expect, it } from 'vitest';
 const SRC = import.meta.dirname;
 const files = (fs.readdirSync(SRC, { recursive: true }) as string[])
   .filter((f) => /\.tsx?$/.test(f) && !/\.test\.tsx?$/.test(f) && !f.startsWith('lib') && f !== 'index.ts');
-const NEEDS_CLIENT = /\b(?:useState|useEffect|useLayoutEffect|useReducer|useRef|useContext|createContext)\b|from 'react-aria-components'/;
+const NEEDS_CLIENT = /\b(?:useState|useEffect|useLayoutEffect|useReducer|useRef|useContext|createContext|useMessages|useLocale)\b|from 'react-aria-components'/;
 
 it.each(files)('%s declares "use client" iff it needs it', (file) => {
   const code = fs.readFileSync(path.join(SRC, file), 'utf8');
   const declares = /^\s*['"]use client['"];/.test(code);
   expect(declares, `${file}: ${NEEDS_CLIENT.test(code) ? 'needs' : 'does not need'} "use client"`).toBe(NEEDS_CLIENT.test(code));
+});
+
+// A server component imports the package index: everything it re-exports must come from our own
+// modules, where the directive is checked above. A third-party client library re-exported straight
+// from the index (React Aria has no 'use client') would crash in a server component graph.
+it('index.ts re-exports only from the package’s own modules', () => {
+  const index = fs.readFileSync(path.join(SRC, 'index.ts'), 'utf8');
+  const sources = [...index.matchAll(/from '([^']+)'/g)].map((m) => m[1]);
+  expect(sources.filter((s) => !s!.startsWith('./'))).toEqual([]);
 });

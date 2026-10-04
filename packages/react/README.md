@@ -16,7 +16,7 @@ Published on GitHub Packages. Two lines of configuration, in two places:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@0.2.0`).
+pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@1.0.0-rc.0`). Release candidates are published under the `rc` dist-tag (`pnpm add @robin-dot-lab/react@rc`).
 
 ```sh
 pnpm add @robin-dot-lab/react @robin-dot-lab/css-candy
@@ -35,7 +35,7 @@ export function Rsvp() {
   return (
     <DialogTrigger>
       <Button variant="primary">Join the party</Button>
-      <Dialog title="RSVP.EXE" closeLabel="Close">
+      <Dialog title="RSVP.EXE">
         {({ close }) => <DialogActions><Button onClick={close}>See you there</Button></DialogActions>}
       </Dialog>
     </DialogTrigger>
@@ -56,7 +56,11 @@ export function Rsvp() {
 | Layout | `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Split`, `VisuallyHidden` |
 | Personality | `Sticker`, `Burst`, `Bubble`, `Pill`, `Ribbon`, `Divider` |
 
-Interactive parts use native elements when the platform is enough (`<details>`, `<meter>`, `<select>`, radios) and [React Aria](https://react-spectrum.adobe.com/react-aria/) otherwise (tabs, tooltip, dialog, drawer, popover, menu, combobox, date picker). Default labels are in French; every component takes its labels as props (`closeLabel`, `labels`, `locale`…).
+Interactive parts use native elements when the platform is enough (`<details>`, `<meter>`, `<select>`, radios) and [React Aria](https://react-spectrum.adobe.com/react-aria/) otherwise (tabs, tooltip, dialog, drawer, popover, menu, combobox, date picker). Default words and formats follow React Aria's locale: wrap the app in `<I18nProvider locale="fr-FR">` (re-exported here, with `useLocale`); without it, the browser's language. French locales get French words, every other locale English ones; any word can still be passed as a prop (`closeLabel`, `labels`, `emptyLabel`…).
+
+Server Components: import from a server component directly; modules that need the client carry `'use client'`. Function props and `CalendarDate` values cannot cross from a server to a client component: set those from a client component.
+
+Public API: everything exported by the package index, listed in [`api-surface.txt`](api-surface.txt). `Focusable`, `I18nProvider`, `useLocale` (React Aria) and `parseDate`, `today`, `getLocalTimeZone`, `CalendarDate` (@internationalized/date) are passed through: they behave as those packages document.
 
 ## Links
 

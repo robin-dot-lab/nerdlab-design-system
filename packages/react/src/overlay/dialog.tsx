@@ -8,6 +8,7 @@ import {
   type DialogProps as AriaDialogProps, type DialogTriggerProps as AriaDialogTriggerProps,
 } from 'react-aria-components';
 import { cn } from '../lib/cn.js';
+import { useMessages } from '../lib/i18n.js';
 import { windowBarVariants } from '../window/window.js';
 import { withPressableTrigger } from './trigger.js';
 
@@ -40,7 +41,8 @@ export interface DialogProps extends Omit<AriaDialogProps, 'children' | 'classNa
  * Modal window: traps focus, closes on Escape, makes the page behind inert, returns focus to the trigger.
  * Use `role="alertdialog"` for a confirmation that interrupts.
  */
-export function Dialog({ title, children, barColor, size = 'md', isDismissable = true, closeLabel = 'Fermer', className, isOpen, onOpenChange, ...props }: DialogProps) {
+export function Dialog({ title, children, barColor, size = 'md', isDismissable = true, closeLabel, className, isOpen, onOpenChange, ...props }: DialogProps) {
+  const { t } = useMessages();
   const controlled = isOpen === undefined ? {} : { isOpen, onOpenChange };
   return (
     <ModalOverlay className="nl-dialog-overlay" isDismissable={isDismissable} {...controlled}>
@@ -50,7 +52,7 @@ export function Dialog({ title, children, barColor, size = 'md', isDismissable =
             <>
               <div className={windowBarVariants({ color: barColor })}>
                 <Heading slot="title" className="nl-dialog__title">{title}</Heading>
-                <button type="button" className="nl-dialog__close" aria-label={closeLabel} onClick={close}>
+                <button type="button" className="nl-dialog__close" aria-label={closeLabel ?? t.close} onClick={close}>
                   <Close size="sm" />
                 </button>
               </div>

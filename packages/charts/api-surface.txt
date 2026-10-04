@@ -1,0 +1,21 @@
+# Public API of @robin-dot-lab/charts, checked by tools/api-surface/check.mjs. Removing a line is a breaking change.
+type BarItem
+type BarListProps
+type ChartCardProps
+type HeatmapProps
+type LineChartProps
+type LineSeries
+type ShareBarProps
+type ShareItem
+type Slot
+type SparklineProps
+type TwinTable
+value BarList
+value ChartCard
+value Heatmap
+value Legend
+value LineChart
+value seqColor
+value ShareBar
+value slotColor
+value Sparkline

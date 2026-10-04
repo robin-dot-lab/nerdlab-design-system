@@ -88,7 +88,7 @@ Published on **GitHub Packages**. Two lines of configuration, in two places:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@0.2.0`).
+pnpm 11 ignores tokens read from environment variables in a project `.npmrc` (a committed file could leak them), hence the user-level file; `pnpm config set "//npm.pkg.github.com/:_authToken" <token>` works too. pnpm also holds back versions published less than a day ago (`minimumReleaseAge`): right after a release, ask for the version explicitly (`pnpm add @robin-dot-lab/react@1.0.0-rc.0`). Release candidates are published under the `rc` dist-tag (`pnpm add @robin-dot-lab/react@rc`).
 
 ```bash
 pnpm add @robin-dot-lab/css-candy @robin-dot-lab/react      # + @robin-dot-lab/charts, @robin-dot-lab/icons
@@ -141,6 +141,22 @@ export function Welcome() {
   );
 }
 ```
+
+### Language and formats
+
+The kit's own words (close buttons, pagination, the tone said before a callout, empty tables…) and its number and date formats follow [React Aria's locale](https://react-spectrum.adobe.com/react-aria/internationalization.html). Without a provider that is the browser's language; set it once at the root:
+
+```tsx
+import { I18nProvider } from '@robin-dot-lab/react';
+
+<I18nProvider locale="fr-FR"><App /></I18nProvider>   // French words, « 12,5 % », 27/04/2026
+```
+
+French locales get French words, every other locale English ones, each with its own formats. Any word can still be replaced by a prop (`closeLabel`, `labels`, `emptyLabel`…).
+
+### Server Components
+
+The packages work in a React Server Component tree (Next.js App Router) with no wrapper of your own: modules that need the client say `'use client'` themselves, and static components stay server-rendered. Two limits of the platform: props that are functions (`onPageChange`, render-prop children) and class instances (a `DatePicker`'s `CalendarDate` value) cannot cross from a server component to a client one, so set those from a client component. Both a Vite app and a Next.js app are built and checked against the packed packages in CI (`tools/consumer-check`).
 
 No React? The classes work on plain HTML:
 
@@ -216,14 +232,16 @@ The CSS is the source of truth; React never carries a colour, a length or a `sty
 |---|---|
 | Unit tests (Vitest, Testing Library) | Behaviour, ARIA, keyboard of every component |
 | Kit integrity | Every component has a story and a test; every class it uses exists in the skin |
+| Public API | Every export, class, CSS variable and palette listed in `api-surface.txt`: removing one fails until a major version |
 | Code guards | No colour, length or `style` in React; `'use client'` exactly where needed |
 | Token and pixel parity | The skin renders the original Candy design pixel for pixel, except declared, documented fixes |
 | Accessibility audit | axe on every story, light and dark, 1280 and 390 px, including open dialogs and menus |
+| Forced colours | Every story in Windows high-contrast mode: marks, data, selected states and focus rings stay visible |
 | Visual regression | Every story compared with its committed screenshot (desktop light, phone dark) |
 | Cross-browser | Every story in Firefox and WebKit: renders, no console error, axe clean |
 | Dashboard end-to-end | 60+ checks: real journeys, keyboard, focus return, theme switch, three engines |
 
-CI runs the same checks on every push and pull request, spread over 14 parallel jobs (about 6 minutes), including an accessibility audit of every story in each palette.
+CI runs the same checks on every push and pull request, spread over 16 parallel jobs, including an accessibility audit of every story in each palette and the packed packages installed into a blank Vite app and a Next.js App Router app.
 
 ## Contributing
 

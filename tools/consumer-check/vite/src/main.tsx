@@ -1,10 +1,10 @@
-// A consumer app written from the README only: skin + fonts, components, a chart, icons, palettes.
+// A consumer app written from the README only: skin + fonts, components, a chart, icons, palettes, locale.
 import '@robin-dot-lab/css-candy/fonts.css';
 import '@robin-dot-lab/css-candy/candy.css';
 import { BarList, ChartCard } from '@robin-dot-lab/charts';
 import { Calendar, Plus } from '@robin-dot-lab/icons';
 import {
-  Badge, Button, Callout, Container, DatePicker, Dialog, DialogActions, DialogTrigger, Field, parseDate, Section, Select, Stack, Switch, Window,
+  Badge, Button, Callout, Container, DatePicker, Dialog, DialogActions, DialogTrigger, Field, I18nProvider, parseDate, Section, Select, Stack, Switch, Window,
 } from '@robin-dot-lab/react';
 import palettes from '@robin-dot-lab/tokens/palettes.json';
 import { StrictMode, useState } from 'react';
@@ -27,20 +27,20 @@ function App() {
               <Window.Bar color="primary">HELLO.EXE</Window.Bar>
               <Window.Body>
                 <Stack>
-                  <p>Installed from GitHub Packages. <Badge variant="mint">0.2.0</Badge></p>
+                  <p>Installed from GitHub Packages. <Badge variant="mint">Vite</Badge></p>
                   <DialogTrigger>
                     <Button variant="primary"><Plus /> Join the party</Button>
-                    <Dialog title="RSVP.EXE" closeLabel="Close">
+                    <Dialog title="RSVP.EXE">
                       {({ close }) => (<><p>See you on the 27th, in Lyon.</p><DialogActions><Button onClick={close}>Close</Button></DialogActions></>)}
                     </Dialog>
                   </DialogTrigger>
                 </Stack>
               </Window.Body>
             </Window>
-            <DatePicker label="Event date" locale="en-GB" defaultValue={parseDate('2026-04-27')} />
-            <Callout tone="success" lang="en" title="It works"><p><Calendar /> Components, icons, charts and palettes from the registry.</p></Callout>
-            <ChartCard title="Tickets" labels={{ showTable: 'Table view', showChart: 'Chart view' }}>
-              <BarList title="Tickets per event" unit="tickets" locale="en-GB" items={[
+            <DatePicker label="Event date" defaultValue={parseDate('2026-04-27')} />
+            <Callout tone="success" title="It works"><p><Calendar /> Components, icons, charts and palettes from the registry.</p></Callout>
+            <ChartCard title="Tickets">
+              <BarList title="Tickets per event" unit="tickets" items={[
                 { id: 'a', label: 'Pixel Party', value: 120, slot: 1 }, { id: 'b', label: 'Synth Night', value: 90, slot: 2 },
                 { id: 'c', label: 'Shader Jam', value: 60, slot: 3 }, { id: 'd', label: 'Zine Lab', value: 30, slot: 4 },
               ]} />
@@ -51,4 +51,4 @@ function App() {
     </Container>
   );
 }
-createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>);
+createRoot(document.getElementById('root')!).render(<StrictMode><I18nProvider locale="en-GB"><App /></I18nProvider></StrictMode>);

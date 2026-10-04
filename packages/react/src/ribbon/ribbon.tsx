@@ -3,6 +3,7 @@
 import { Pause, Play } from '@robin-dot-lab/icons';
 import { useState, type ComponentProps } from 'react';
 import { cn } from '../lib/cn.js';
+import { useMessages } from '../lib/i18n.js';
 
 export interface RibbonProps extends Omit<ComponentProps<'div'>, 'children'> {
   /** Words that scroll by. Read once, in order, by assistive tech; the moving copies are hidden from it. */
@@ -15,7 +16,8 @@ export interface RibbonProps extends Omit<ComponentProps<'div'>, 'children'> {
 }
 
 /** Scrolling marquee band. Still under reduced motion; pausable otherwise. */
-export function Ribbon({ items, pausable = true, pauseLabel = 'Mettre en pause le défilement', playLabel = 'Reprendre le défilement', className, ...props }: RibbonProps) {
+export function Ribbon({ items, pausable = true, pauseLabel, playLabel, className, ...props }: RibbonProps) {
+  const { t } = useMessages();
   const [paused, setPaused] = useState(false);
   // The track slides by half its width: two identical halves, each repeated enough to fill wide screens.
   const half = [...items, ...items];
@@ -26,7 +28,7 @@ export function Ribbon({ items, pausable = true, pauseLabel = 'Mettre en pause l
         {[...half, ...half].map((word, i) => <span key={i}>{word}</span>)}
       </div>
       {pausable && (
-        <button type="button" className="nl-ribbon__pause" aria-label={paused ? playLabel : pauseLabel} onClick={() => setPaused((p) => !p)}>
+        <button type="button" className="nl-ribbon__pause" aria-label={paused ? playLabel ?? t.resumeScrolling : pauseLabel ?? t.pauseScrolling} onClick={() => setPaused((p) => !p)}>
           {paused ? <Play /> : <Pause />}
         </button>
       )}

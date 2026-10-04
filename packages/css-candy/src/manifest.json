@@ -51,7 +51,8 @@
     "components/combobox.css",
     "components/date-picker.css",
     "components/table-selection.css",
-    "components/palette-aware.css"
+    "components/palette-aware.css",
+    "components/forced-colors.css"
   ],
   "utilities": [
     "utilities/typography.css",

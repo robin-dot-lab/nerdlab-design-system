@@ -7,6 +7,7 @@ import {
   type ComboBoxProps as AriaComboBoxProps, type ListBoxItemProps,
 } from 'react-aria-components';
 import { cn } from '../lib/cn.js';
+import { useMessages } from '../lib/i18n.js';
 
 export interface ComboBoxProps<T extends object> extends Omit<AriaComboBoxProps<T>, 'children' | 'className' | 'style'> {
   label: ReactNode;
@@ -25,7 +26,8 @@ export interface ComboBoxProps<T extends object> extends Omit<AriaComboBoxProps<
  * A text field that filters a list of options (role="combobox"): type to narrow, arrows to move,
  * Enter to pick. Use `Select` when the list is short and needs no search.
  */
-export function ComboBox<T extends object>({ label, description, errorMessage, placeholder, emptyLabel = 'Aucun résultat.', className, children, ...props }: ComboBoxProps<T>) {
+export function ComboBox<T extends object>({ label, description, errorMessage, placeholder, emptyLabel, className, children, ...props }: ComboBoxProps<T>) {
+  const { t } = useMessages();
   return (
     <AriaComboBox className={cn('nl-combobox', className)} isInvalid={errorMessage != null || undefined} {...props}>
       <Label className="nl-label">{label}</Label>
@@ -36,7 +38,7 @@ export function ComboBox<T extends object>({ label, description, errorMessage, p
       {description != null && errorMessage == null && <Text slot="description" className="nl-help">{description}</Text>}
       <FieldError className="nl-help nl-help--error">{errorMessage}</FieldError>
       <Popover className="nl-popover nl-popover--list" offset={6}>
-        <ListBox className="nl-listbox" renderEmptyState={() => <div className="nl-listbox__empty">{emptyLabel}</div>}>
+        <ListBox className="nl-listbox" renderEmptyState={() => <div className="nl-listbox__empty">{emptyLabel ?? t.noResults}</div>}>
           {children}
         </ListBox>
       </Popover>

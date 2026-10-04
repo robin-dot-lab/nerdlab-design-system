@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type Key, type ReactNode } from 'react';
 import { cn } from '../lib/cn.js';
+import { useMessages } from '../lib/i18n.js';
 
 export interface DataTableColumn<T> {
   key: string;
@@ -46,7 +47,7 @@ export interface DataTableProps<T> {
   selectedKeys?: ReadonlySet<Key>;
   defaultSelectedKeys?: Iterable<Key>;
   onSelectionChange?: (keys: Set<Key>) => void;
-  /** Accessible names of the checkboxes (French by default). */
+  /** Accessible names of the checkboxes. Default: the active locale's. */
   selectionLabels?: { all: string; row: (row: T) => string; column: string };
   className?: string;
 }
@@ -58,11 +59,13 @@ const labelOf = <T,>(c: DataTableColumn<T>) => c.label ?? (typeof c.header === '
 
 export function DataTable<T>({
   columns, rows, rowKey, caption, hideCaption = false, stack = true, framed = true,
-  empty = 'Aucune donnée.', defaultSort, sort: sortProp, onSortChange,
+  empty, defaultSort, sort: sortProp, onSortChange,
   selectable = false, selectedKeys, defaultSelectedKeys, onSelectionChange,
-  selectionLabels = { all: 'Sélectionner toutes les lignes affichées', row: () => 'Sélectionner la ligne', column: 'Sélection' },
+  selectionLabels: selectionProp,
   className,
 }: DataTableProps<T>) {
+  const { t } = useMessages();
+  const selectionLabels = selectionProp ?? { all: t.selectAllRows, row: () => t.selectRow, column: t.selection };
   const [innerSelected, setInnerSelected] = useState<Set<Key>>(() => new Set(defaultSelectedKeys));
   const selected = selectedKeys ?? innerSelected;
   const setSelected = (next: Set<Key>) => { if (selectedKeys === undefined) setInnerSelected(next); onSelectionChange?.(next); };
@@ -128,7 +131,7 @@ export function DataTable<T>({
         </thead>
         <tbody>
           {sorted.length === 0 ? (
-            <tr><td className="nl-table__empty" colSpan={span}>{empty}</td></tr>
+            <tr><td className="nl-table__empty" colSpan={span}>{empty ?? t.noData}</td></tr>
           ) : (
             sorted.map((row, i) => {
               const k = keys[i]!, isSelected = selectable && selected.has(k);

@@ -1,7 +1,13 @@
-import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render as rtlRender, screen, waitFor, within } from '@testing-library/react';
+import { I18nProvider } from '@robin-dot-lab/react';
+import type { ReactNode } from 'react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { BarList, ChartCard, Heatmap, Legend, LineChart, ShareBar, Sparkline } from './index.js';
+
+// The fixtures are French: render them under a French provider (the words follow React Aria's locale).
+const Fr = ({ children }: { children: ReactNode }) => <I18nProvider locale="fr-FR">{children}</I18nProvider>;
+const render: typeof rtlRender = ((ui: Parameters<typeof rtlRender>[0], o?: object) => rtlRender(ui, { wrapper: Fr, ...o })) as typeof rtlRender;
 
 const series = [
   { id: 'a', name: 'Design', slot: 1 as const, values: [10, 20, 30, 25] },
@@ -38,14 +44,19 @@ describe('ShareBar follows the palette', () => {
 });
 
 describe('locale', () => {
-  it('BarList speaks French by default and English for another locale', () => {
+  it('BarList speaks French under a French provider and English otherwise', () => {
     const items = [{ id: 'x', label: 'K-pop', value: 994, slot: 2 as const }, { id: 'y', label: 'Shader', value: 6, slot: 3 as const }];
-    const { rerender } = render(<BarList title="Top" unit="tickets" items={items} />);
+    const { unmount } = render(<BarList title="Top" unit="tickets" items={items} />);
     expect(screen.getAllByRole('listitem')[0]!.getAttribute('aria-label')).toBe('K-pop : 994 tickets');
-    rerender(<BarList title="Top" unit="tickets" items={items} locale="en-GB" />);
+    unmount();
+    const { rerender } = rtlRender(<BarList title="Top" unit="tickets" items={items} />);
     expect(screen.getAllByRole('listitem')[0]!.getAttribute('aria-label')).toBe('K-pop: 994 tickets');
-    rerender(<BarList title="Top" items={[]} locale="en-GB" />);
+    rerender(<BarList title="Top" items={[]} />);
     expect(screen.getByText('No data.')).toBeTruthy();
+  });
+  it('LineChart describes its keys in English by default', () => {
+    rtlRender(<LineChart width={800} title="Revenue" series={series} xLabels={['1', '2', '3', '4']} />);
+    expect(screen.getByRole('img').getAttribute('aria-label')).toBe('Revenue, 2 series. Left and right arrows move through the points.');
   });
 });
 
@@ -139,5 +150,19 @@ describe('Sparkline / Legend / ChartCard', () => {
     expect(screen.getByRole('table', { name: 'Top — Billets' })).toBeTruthy();
     expect(screen.queryByText('chart')).toBeNull();
     expect(screen.getByRole('button', { name: 'Vue graphe' }).getAttribute('aria-pressed')).toBe('true');
+  });
+});
+
+// AGENTS.md rule 11: the charts' words live in lib/locale.ts only; the locale comes from React Aria.
+describe('no hard-coded language', async () => {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const SRC = import.meta.dirname;
+  const files = (fs.readdirSync(SRC, { recursive: true }) as string[])
+    .filter((f) => /\.tsx?$/.test(f) && !/\.test\.tsx?$/.test(f) && f !== path.join('lib', 'locale.ts'));
+  it.each(files)('%s', (file) => {
+    const code = fs.readFileSync(path.join(SRC, file), 'utf8').replace(/\/\/.*$|\/\*[\s\S]*?\*\//gm, '');
+    expect(code, 'a `locale` prop').not.toMatch(/^\s*locale\??:\s*string;/m);
+    expect(code, 'a French string literal').not.toMatch(/['`][^'`\n]*[éèêàùç’][^'`\n]*['`]/);
   });
 });

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, ComboBox, ComboBoxItem, DatePicker, Field, Input, parseDate, Radio, RadioGroup, Select, Textarea } from '@robin-dot-lab/react';
+import { Button, ComboBox, ComboBoxItem, DatePicker, Field, I18nProvider, Input, parseDate, Radio, RadioGroup, Select, Textarea } from '@robin-dot-lab/react';
 
 const meta = {
   title: 'Components/Forms',
@@ -81,12 +81,12 @@ export const ComboBoxField: Story = {
   ),
 };
 
-/** Typed segment by segment (arrows change the focused one) or picked in the calendar. `locale` sets the order. */
+/** Typed segment by segment (arrows change the focused one) or picked in the calendar. The locale (`I18nProvider`, toolbar « Locale ») sets the order. */
 export const DatePickerField: Story = {
   render: () => (
     <div className="nl-stack" style={{ maxWidth: 360 }}>
-      <DatePicker label="Event date" locale="en-GB" defaultValue={parseDate('2026-04-27')} description="Day, month, year." />
-      <DatePicker label="US order" locale="en-US" defaultValue={parseDate('2026-04-27')} />
+      <DatePicker label="Event date" defaultValue={parseDate('2026-04-27')} description="Day, month, year." />
+      <I18nProvider locale="en-US"><DatePicker label="US order" defaultValue={parseDate('2026-04-27')} /></I18nProvider>
     </div>
   ),
 };
@@ -94,7 +94,7 @@ export const DatePickerField: Story = {
 export const DatePickerOpen: Story = {
   render: () => (
     <div style={{ maxWidth: 360, paddingBlockEnd: 380 }}>
-      <DatePicker label="Event date" locale="en-GB" defaultValue={parseDate('2026-04-27')} defaultOpen />
+      <DatePicker label="Event date" defaultValue={parseDate('2026-04-27')} defaultOpen />
     </div>
   ),
 };

@@ -14,10 +14,10 @@ type Story = StoryObj;
 export const Callouts: Story = {
   render: () => (
     <div className="nl-stack" style={{ maxWidth: 560 }}>
-      <Callout lang="en" title="Demo data">The figures are generated from a fixed seed.</Callout>
-      <Callout tone="success" lang="en" title="Export complete">412 orders exported.</Callout>
-      <Callout tone="warning" lang="en" title="Partial data"><p>Ticketing for the 12th has not been synced yet.</p></Callout>
-      <Callout tone="error" lang="en">Payment failed: the card has expired.</Callout>
+      <Callout title="Demo data">The figures are generated from a fixed seed.</Callout>
+      <Callout tone="success" title="Export complete">412 orders exported.</Callout>
+      <Callout tone="warning" title="Partial data"><p>Ticketing for the 12th has not been synced yet.</p></Callout>
+      <Callout tone="error">Payment failed: the card has expired.</Callout>
     </div>
   ),
 };

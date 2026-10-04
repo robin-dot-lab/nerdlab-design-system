@@ -1,7 +1,7 @@
-export { Button, buttonVariants, type ButtonProps } from './button/button.js';
-export { Badge, badgeVariants, type BadgeProps } from './badge/badge.js';
+export { Button, type ButtonProps } from './button/button.js';
+export { Badge, type BadgeProps } from './badge/badge.js';
 export { Card, type CardProps } from './card/card.js';
-export { Window, windowBarVariants, type WindowProps, type WindowBarProps, type WindowBodyProps } from './window/window.js';
+export { Window, type WindowProps, type WindowBarProps, type WindowBodyProps } from './window/window.js';
 export { Field, Input, Textarea, Select, type FieldProps, type InputProps, type TextareaProps, type SelectProps } from './field/field.js';
 export { Tabs, TabList, Tab, TabPanel, type TabsProps, type TabListProps, type TabProps, type TabPanelProps } from './tabs/tabs.js';
 export { Checkbox, Switch, type CheckboxProps, type SwitchProps } from './choice/choice.js';
@@ -12,7 +12,7 @@ export { Container, Section, Stack, Cluster, Grid, Split, VisuallyHidden, type G
 export { DataTable, type DataTableProps, type DataTableColumn, type DataTableSort, type SortDirection } from './data-table/data-table.js';
 export { StatTile, type StatTileProps } from './stat/stat-tile.js';
 export { Delta, type DeltaProps } from './delta/delta.js';
-export { Meter, meterLevel, type MeterProps, type MeterLevel } from './meter/meter.js';
+export { Meter, type MeterProps } from './meter/meter.js';
 export { Pagination, type PaginationProps } from './pagination/pagination.js';
 export { SegmentedControl, type SegmentedControlProps } from './segmented/segmented-control.js';
 export { ToggleChip, type ToggleChipProps, type SwatchToken } from './chip/toggle-chip.js';
@@ -21,19 +21,21 @@ export { Search, type SearchProps } from './search/search.js';
 export { RadioGroup, Radio, type RadioGroupProps, type RadioProps } from './choice/radio-group.js';
 export { Progress, type ProgressProps } from './progress/progress.js';
 export { InfoList, type InfoListProps, type InfoListItemProps } from './info-list/info-list.js';
-export { Bento, bentoVariants, type BentoProps, type BentoTitleProps, type BentoFootProps } from './bento/bento.js';
-export { Pill, Sticker, StickerSmall, Burst, Bubble, stickerVariants, burstVariants, type PillProps, type StickerProps, type StickerSmallProps, type BurstProps, type BubbleProps } from './decor/decor.js';
+export { Bento, type BentoProps, type BentoTitleProps, type BentoFootProps } from './bento/bento.js';
+export { Pill, Sticker, StickerSmall, Burst, Bubble, type PillProps, type StickerProps, type StickerSmallProps, type BurstProps, type BubbleProps } from './decor/decor.js';
 export { Ribbon, type RibbonProps } from './ribbon/ribbon.js';
 export { Divider, type DividerProps } from './divider/divider.js';
-export { Callout, calloutVariants, type CalloutProps } from './callout/callout.js';
+export { Callout, type CalloutProps } from './callout/callout.js';
 export { Dialog, DialogTrigger, DialogActions, type DialogProps, type DialogTriggerProps, type DialogActionsProps } from './overlay/dialog.js';
 export { Popover, type PopoverProps } from './overlay/popover.js';
 export { Menu, MenuTrigger, MenuItem, MenuSeparator, type MenuProps, type MenuTriggerProps, type MenuItemProps } from './overlay/menu.js';
 export { Breadcrumb, type BreadcrumbProps, type BreadcrumbItem } from './breadcrumb/breadcrumb.js';
-export { Avatar, AvatarGroup, avatarVariants, type AvatarProps, type AvatarGroupProps } from './avatar/avatar.js';
+export { Avatar, AvatarGroup, type AvatarProps, type AvatarGroupProps } from './avatar/avatar.js';
 export { Skeleton, type SkeletonProps } from './skeleton/skeleton.js';
 export { Drawer, DrawerFooter, type DrawerProps, type DrawerFooterProps } from './overlay/drawer.js';
 export { ComboBox, ComboBoxItem, type ComboBoxProps, type ComboBoxItemProps } from './combobox/combobox.js';
-export { DatePicker, parseDate, today, getLocalTimeZone, CalendarDate, type DatePickerProps } from './date-picker/date-picker.js';
-export { Focusable } from 'react-aria-components';
-export { cn } from './lib/cn.js';
+export { DatePicker, type DatePickerProps } from './date-picker/date-picker.js';
+// Passed through from React Aria and @internationalized/date (ADR-021): they follow those packages'
+// versions. `I18nProvider` sets the language and formats of every component; `useLocale` reads it.
+export { Focusable, I18nProvider, useLocale } from './lib/react-aria.js';
+export { parseDate, today, getLocalTimeZone, CalendarDate } from './lib/dates.js';

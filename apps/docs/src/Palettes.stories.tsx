@@ -11,7 +11,7 @@ const SWATCHES = ['primary', 'secondary', 'accent', 'mint', 'lavender', 'tomato'
 function Sample({ id, name, description, theme }: { id: string; name: string; description: string; theme: 'light' | 'dark' }) {
   return (
     <section data-palette={id} data-theme={theme} aria-label={`${name}, ${theme}`} className="nl-stack nl-gap-4"
-      style={{ padding: 20, background: 'var(--color-background)', color: 'var(--color-text-primary)', borderRadius: 'var(--radius-lg)', border: 'var(--border)' }}>
+      style={{ forcedColorAdjust: 'none', padding: 20, background: 'var(--color-background)', color: 'var(--color-text-primary)', borderRadius: 'var(--radius-lg)', border: 'var(--border)' }}>
       <div>
         <h3 className="nl-headline" style={{ margin: 0, fontSize: 'var(--text-xl)' }}>{name} <span className="nl-eyebrow nl-muted">{theme}</span></h3>
         <p className="nl-muted" style={{ margin: '4px 0 0', fontSize: 'var(--text-sm)' }}>{description}</p>
@@ -29,7 +29,7 @@ function Sample({ id, name, description, theme }: { id: string; name: string; de
         <Window.Bar color="secondary">{name.toUpperCase()}.EXE</Window.Bar>
         <Window.Body><Stack gap={2}><span>Fill rate</span><Meter value={0.72} label={`Fill rate (${name})`} /></Stack></Window.Body>
       </Window>
-      <Callout tone="warning" lang="en" title="Heads up">Every pair here passes the contrast checks.</Callout>
+      <Callout tone="warning" title="Heads up">Every pair here passes the contrast checks.</Callout>
     </section>
   );
 }

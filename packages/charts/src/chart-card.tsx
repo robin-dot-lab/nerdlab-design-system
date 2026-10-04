@@ -2,6 +2,7 @@
 
 import { Button, Card, DataTable, type DataTableColumn } from '@robin-dot-lab/react';
 import { useState, type ReactNode } from 'react';
+import { useChartLocale } from './lib/locale.js';
 import { slotColor, type Slot } from './lib/types.js';
 
 export interface TwinTable { columns: DataTableColumn<Record<string, string>>[]; rows: Record<string, string>[] }
@@ -12,14 +13,17 @@ export interface ChartCardProps {
   legend?: ReactNode;
   /** Table-view twin: every chart has one, so no value is reachable only through a tooltip. */
   table?: TwinTable;
+  /** Toggle button text. Default: the active locale's. */
   labels?: { showTable: string; showChart: string };
   className?: string;
   children: ReactNode;
 }
 
 /** Card with title, legend and a chart / table toggle. */
-export function ChartCard({ title, subtitle, legend, table, labels = { showTable: 'Vue table', showChart: 'Vue graphe' }, className, children }: ChartCardProps) {
+export function ChartCard({ title, subtitle, legend, table, labels: labelsProp, className, children }: ChartCardProps) {
   const [asTable, setAsTable] = useState(false);
+  const { t } = useChartLocale();
+  const labels = labelsProp ?? { showTable: t.showTable, showChart: t.showChart };
   return (
     <Card className={className}>
       <div className="nl-chart-card__head">

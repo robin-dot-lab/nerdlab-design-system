@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node scripts/visual-parity.mjs"
+    "test": "node scripts/visual-parity.mjs && node ../../tools/api-surface/check.mjs"
   },
   "dependencies": {
     "@robin-dot-lab/tokens": "workspace:*"

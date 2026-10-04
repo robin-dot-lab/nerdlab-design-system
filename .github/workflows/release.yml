@@ -1,9 +1,11 @@
 name: Release
 
-# Publishes the four packages to GitHub Packages (npm.pkg.github.com, scope @robin-dot-lab).
+# Publishes the five packages to GitHub Packages (npm.pkg.github.com, scope @robin-dot-lab).
 # With pending changesets it opens (or updates) a "Version Packages" pull request; once that is
 # merged and this workflow runs again, every package whose version is not yet on the registry
-# is published, tagged, and gets a GitHub release.
+# is published, tagged, and gets a GitHub release. In pre-release mode (`changeset pre enter rc`,
+# see .changeset/pre.json) versions are 1.0.0-rc.N, published under the `rc` dist-tag, and their
+# GitHub releases are marked as pre-releases.
 on:
   workflow_dispatch:
 
@@ -40,9 +42,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # changesets/action does not pick up the tags printed by changeset publish (CLI v3), so it
-      # neither pushes them nor creates releases: do both explicitly, idempotently.
+      # neither pushes them nor creates releases: do both explicitly, idempotently, for every version
+      # the registry actually has (whatever the action decided, pre-release mode included).
       - name: Tag and release published versions
-        if: steps.changesets.outputs.hasChangesets == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -51,6 +53,8 @@ jobs:
           for f in packages/*/package.json; do
             name=$(node -p "require('./$f').name"); version=$(node -p "require('./$f').version")
             tag="$name@$version"
+            npm view "$tag" version --registry=https://npm.pkg.github.com >/dev/null 2>&1 || { echo "$tag not on the registry: skipped"; continue; }
+            pre=""; case "$version" in *-*) pre="--prerelease" ;; esac
             # changeset publish may already have created the tag locally: create it only if missing, then push.
             if ! git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
               git rev-parse -q --verify "refs/tags/$tag" >/dev/null || git tag "$tag"
@@ -63,6 +67,6 @@ jobs:
               else
                 notes="First release of $name."
               fi
-              gh release create "$tag" --title "$tag" --notes "${notes:-$name $version}"
+              gh release create "$tag" $pre --title "$tag" --notes "${notes:-$name $version}"
             fi
           done

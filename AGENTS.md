@@ -20,21 +20,23 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `packages/css-candy/test/reference/` | The original static design, frozen: stylesheet + two pages, the oracle of the parity tests. Never edit it to make a test pass. Candy was called **Pop** until 2026-10-02: these files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it. Candy is the only skin; colour variety comes from palettes |
-| `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images), `consumer-check` (the published kit, installed from outside) |
-| `.github/workflows/` | CI (`pnpm test` in 14 parallel jobs, every palette audited), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), Consumer check (after each release: install from the registry into a blank app, build, check), visual baselines (Linux) |
+| `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images), `consumer-check` (the kit installed from outside into a Vite app and a Next.js App Router app), `api-surface` (public API snapshot) |
+| `.github/workflows/` | CI (`pnpm test` in 16 parallel jobs, every palette audited, forced colours, packed packages checked in Vite and Next.js), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), Consumer check (after each release: install from the registry into a blank app, build, check), visual baselines (Linux) |
 
 ## Commands
 
 - `pnpm install` · `pnpm build` · `pnpm test` (builds, typechecks, then tests every package, ~13 min, no network needed; `STORY_FILTER` to iterate faster) · `pnpm typecheck`
-- `pnpm changeset` — describe a change to a published package (`@robin-dot-lab/tokens`, `css-candy`, `react`, `charts`, `icons`) for the changelog. Packages are published to GitHub Packages (`@robin-dot-lab`, `npm.pkg.github.com`) by the manual *Release* workflow
+- `pnpm changeset` — describe a change to a published package (`@robin-dot-lab/tokens`, `css-candy`, `react`, `charts`, `icons`) for the changelog. Packages are published to GitHub Packages (`@robin-dot-lab`, `npm.pkg.github.com`) by the manual *Release* workflow. While `.changeset/pre.json` exists the repo is in pre-release mode (`1.0.0-rc.N`, dist-tag `rc`); `pnpm changeset pre exit` before the final 1.0.0
 - `pnpm storybook` (:6006, reads sources) · `pnpm --filter @robin-dot-lab/dashboard dev` (:5173, reads `dist/`: run `pnpm build` first)
 - `pnpm new:component <PascalName> [--element span]` — scaffold a component everywhere it must exist
 - `pnpm fetch:test-fonts` — refresh the offline font cache when a test reports a missing font URL
 - `pnpm --filter @robin-dot-lab/docs visual:update` — rewrite the story screenshots of your platform after an intended visual change (CI's Linux set: the *Update visual baselines* workflow)
 - `STORY_FILTER=<id fragment>` — limits the Storybook audit, visual and cross-browser scripts to matching stories
 - `PALETTE=<id> node scripts/a11y-audit.mjs` (in `apps/docs`) — audits every story in another palette (CI does it for all of them)
+- `node scripts/forced-colors.mjs` (in `apps/docs`) — every story in forced colours (Windows high contrast)
+- `UPDATE_API=1 pnpm --filter <package> test` — accept a change of the public API snapshot (`api-surface.txt`); a removed line needs a major changeset
 - `node tools/readme-assets/capture.mjs` — regenerate the README images (after `pnpm build`)
-- `NODE_AUTH_TOKEN=$(gh auth token) tools/consumer-check/run.sh` — install the published kit into a blank app and check it (needs `read:packages`)
+- `SOURCE=local tools/consumer-check/run.sh` — pack this checkout and install it into a blank Vite app and a Next.js App Router app, build and check them (after `pnpm build`; needs the network for npm). Without `SOURCE=local` it installs this checkout's versions from the registry: `NODE_AUTH_TOKEN=$(gh auth token)` (needs `read:packages`)
 - Firefox and WebKit for the cross-browser tests: `node node_modules/playwright-core/cli.js install firefox webkit`
 
 ## Rules (each one is enforced; the guard is in brackets)
@@ -45,9 +47,11 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 4. **Every exported component has a story and a test, and every `nl-*` class it uses exists in the skin** [`packages/react/src/kit-integrity.test.ts`].
 5. **Every skin file is in `manifest.json`**; new files go **at the end** so they cannot change the cascade of existing rules [build + kit integrity].
 6. **The skin must render identically to the reference** except for declared deviations [`packages/css-candy/scripts/visual-parity.mjs`, `packages/tokens/scripts/check-parity.mjs`]. An intentional visual change goes in `packages/tokens/scripts/parity-deviations.json` **and** `packages/css-candy/test/reference-deviations.css`, with a decision note in the vault.
-7. **Accessibility**: no axe violation and no console error in any story, light/dark, 1280/390 px, overlays included [`apps/docs/scripts/a11y-audit.mjs`], nor in the dashboard [`apps/dashboard/scripts/e2e.mjs`]; same in Firefox and WebKit [`apps/docs/scripts/cross-browser.mjs`, e2e]. Text on candy colours is ink; contrast ≥ 4.5:1.
+7. **Accessibility**: no axe violation and no console error in any story, light/dark, 1280/390 px, overlays included [`apps/docs/scripts/a11y-audit.mjs`], nor in the dashboard [`apps/dashboard/scripts/e2e.mjs`]; same in Firefox and WebKit [`apps/docs/scripts/cross-browser.mjs`, e2e]. Text on candy colours is ink; contrast ≥ 4.5:1. In forced colours, marks, data, selected states and focus rings stay visible: fixes go in `forced-colors.css` [`apps/docs/scripts/forced-colors.mjs`].
 8. **Prefer native elements** when they cover keyboard, screen reader and forms (`<input>`, `<details>`, `<meter>`, `<button aria-pressed>`); React Aria only where the platform falls short (tabs, tooltip, dialog, popover, menu); their triggers wrap our `Button` in `Pressable` themselves.
 9. **Every story looks like its committed screenshot** (desktop light, phone dark), per platform [`apps/docs/scripts/visual.mjs`, baselines in `apps/docs/test/visual/<platform>/`]. An intended change updates the baselines in the same commit.
+10. **The public API is a snapshot**: every export of `react`/`charts`/`icons`, every `.nl-*` class, CSS variable and palette id is listed in the package's `api-surface.txt`; a removal is a breaking change (major changeset) [`tools/api-surface/check.mjs`, in each package's `test`]. `packages/react/src/index.ts` re-exports only from the package's own modules [`use-client.test.ts`].
+11. **The kit's words follow React Aria's locale** (`useMessages()` in `packages/react/src/lib/i18n.ts`, `useChartLocale()` in charts): English and French, never a hard-coded sentence; a component never takes a `locale` or `lang` prop [`packages/react/src/i18n.test.tsx`, `packages/charts/src/charts.test.tsx`].
 
 ## Adding or changing a component
 
@@ -69,6 +73,8 @@ Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). 
 - Hand-written tables using `.nl-table--stack` must set `data-label` on every cell; `DataTable` does it for you.
 - `DataTable` sorts internally unless `sort` is passed; with pagination use controlled `sort` + `onSortChange`.
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.
+- React Aria Components has no `'use client'`: never re-export it from the package index directly, go through a `'use client'` module (`lib/react-aria.ts`). In a server component, function props and `CalendarDate` values cannot reach a client component.
+- Stories render under `<I18nProvider locale="en-GB">` (toolbar *Locale*), the dashboard under `fr-FR`: screenshots never depend on the machine's language.
 - `TooltipTrigger`, `DialogTrigger` and `MenuTrigger` wrap their first child themselves (`Focusable` / `Pressable`): pass our `Button` directly.
 - React Aria sets `z-index: 100000` inline on popovers; do not fight it in the skin. After a `ComboBox` pick, the input value is committed as the list closes: in browser tests, wait for it.
 - pnpm 11 blocks dependency install scripts: a new dependency with one must be listed in `allowBuilds` (`pnpm-workspace.yaml`).

@@ -5,7 +5,6 @@ import { Grid, StatTile, Delta } from '@robin-dot-lab/react';
 const eur = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 const compact = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'EUR', notation: 'compact', maximumFractionDigits: 1 }).format;
 const CARD_LABELS = { showTable: 'Table view', showChart: 'Chart view' };
-const DELTA_LABELS = { up: 'Up', down: 'Down' };
 const wave = (base: number, k: number) => Array.from({ length: 14 }, (_, i) => Math.round(base * (1 + 0.25 * Math.sin(i / 2 + k) + i * 0.02)));
 const SERIES: LineSeries[] = [
   { id: 'design', name: 'Design', slot: 1, values: wave(1800, 0) },
@@ -22,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Colour = series (`slot` 1 → 4, fixed order). Focus + ←/→: crosshair and tooltip from the keyboard. */
 export const Line: Story = {
-  args: { title: 'Revenue by category', series: SERIES, xLabels: DAYS, formatValue: eur.format, formatCompact: compact, locale: 'en-GB' },
+  args: { title: 'Revenue by category', series: SERIES, xLabels: DAYS, formatValue: eur.format, formatCompact: compact },
   render: (args) => (
     <ChartCard title="Revenue by category" subtitle="Per day, in euros" labels={CARD_LABELS}
       legend={<Legend kind="line" items={SERIES.map((s) => ({ label: s.name, slot: s.slot }))} />}
@@ -36,7 +35,7 @@ export const Bars: Story = {
   args: { title: '', series: [], xLabels: [] },
   render: () => (
     <ChartCard title="Top events" subtitle="Tickets sold" labels={CARD_LABELS} legend={<Legend kind="rect" items={SERIES.map((s) => ({ label: s.name, slot: s.slot }))} />}>
-      <BarList locale="en-GB" title="Top events" unit="tickets" shareLabel="of top 5" emptyLabel="No data." items={[
+      <BarList title="Top events" unit="tickets" shareLabel="of top 5" emptyLabel="No data." items={[
         { id: '1', label: 'K-pop Listening Party', value: 994, slot: 2, group: 'Music' },
         { id: '2', label: 'Pixel Shader Jam', value: 805, slot: 3, group: 'Code' },
         { id: '3', label: 'Gochisō Ramen Night', value: 647, slot: 4, group: 'Food' },
@@ -53,7 +52,7 @@ export const HeatmapStory: Story = {
   args: { title: '', series: [], xLabels: [] },
   render: () => (
     <ChartCard title="Attendance" subtitle="Check-ins by day and time slot" labels={CARD_LABELS}>
-      <Heatmap locale="en-GB" title="Check-ins by day and time slot" unit="check-ins" cornerLabel="Day" rowLabels={DOW} colLabels={SLOTS}
+      <Heatmap title="Check-ins by day and time slot" unit="check-ins" cornerLabel="Day" rowLabels={DOW} colLabels={SLOTS}
         values={DOW.map((_, d) => SLOTS.map((_, s) => Math.round(20 * (s >= 4 ? 1.6 + (d >= 4 ? 0.9 : 0) : 1) * (d >= 5 ? 1.4 : 1) + ((d * 7 + s) % 5) * 3)))} />
     </ChartCard>
   ),
@@ -64,7 +63,7 @@ export const Share: Story = {
   args: { title: '', series: [], xLabels: [] },
   render: () => (
     <ChartCard title="Revenue split" subtitle="Share of each category" labels={CARD_LABELS}>
-      <ShareBar locale="en-GB" title="Share of revenue" emptyLabel="No data." formatValue={eur.format} items={SERIES.map((s) => ({ id: s.id, label: s.name, value: s.values.reduce((a, v) => a + v, 0), slot: s.slot }))} />
+      <ShareBar title="Share of revenue" emptyLabel="No data." formatValue={eur.format} items={SERIES.map((s) => ({ id: s.id, label: s.name, value: s.values.reduce((a, v) => a + v, 0), slot: s.slot }))} />
     </ChartCard>
   ),
 };
@@ -74,7 +73,7 @@ export const SparklinesInTiles: Story = {
   render: () => (
     <Grid min="sm" gap={4}>
       {SERIES.slice(0, 3).map((s) => (
-        <StatTile key={s.id} title={s.name.toUpperCase()} label={`${s.name} revenue`} value={eur.format(s.values.at(-1)!)} meta={<Delta current={s.values.at(-1)!} previous={s.values.at(-2)!} locale="en-GB" labels={DELTA_LABELS} />}>
+        <StatTile key={s.id} title={s.name.toUpperCase()} label={`${s.name} revenue`} value={eur.format(s.values.at(-1)!)} meta={<Delta current={s.values.at(-1)!} previous={s.values.at(-2)!} />}>
           <Sparkline values={s.values.slice(-12)} />
         </StatTile>
       ))}

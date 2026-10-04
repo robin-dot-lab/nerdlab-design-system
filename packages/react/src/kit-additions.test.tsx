@@ -4,7 +4,7 @@ import { useState, type Key } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import {
   Avatar, AvatarGroup, Breadcrumb, Button, ComboBox, ComboBoxItem, DataTable, DatePicker, DialogTrigger, Drawer, DrawerFooter,
-  parseDate, Skeleton, Tooltip, TooltipTrigger,
+  I18nProvider, parseDate, Skeleton, Tooltip, TooltipTrigger,
 } from './index.js';
 
 describe('Breadcrumb', () => {
@@ -16,9 +16,9 @@ describe('Breadcrumb', () => {
     expect(within(nav).getByText('Pixel Party').getAttribute('aria-current')).toBe('page');
     expect(within(nav).getAllByRole('listitem')).toHaveLength(3);
   });
-  it('defaults to a French name', () => {
-    render(<Breadcrumb items={[{ label: 'Accueil' }]} />);
-    expect(screen.getByRole('navigation', { name: 'Fil d’Ariane' })).toBeTruthy();
+  it('defaults to the locale’s name', () => {
+    render(<Breadcrumb items={[{ label: 'Home' }]} />);
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeTruthy();
   });
 });
 
@@ -96,7 +96,7 @@ describe('ComboBox', () => {
 describe('DatePicker', () => {
   it('labelled segments in the locale order; picking a day in the calendar sets the value', async () => {
     const onChange = vi.fn();
-    render(<DatePicker label="Date" locale="en-GB" defaultValue={parseDate('2026-04-27')} onChange={onChange} />);
+    render(<I18nProvider locale="en-GB"><DatePicker label="Date" defaultValue={parseDate('2026-04-27')} onChange={onChange} /></I18nProvider>);
     const group = screen.getByRole('group', { name: 'Date' });
     const segments = within(group).getAllByRole('spinbutton');
     expect(segments.map((s) => s.getAttribute('aria-label') ?? s.textContent)).toHaveLength(3);
@@ -106,9 +106,9 @@ describe('DatePicker', () => {
     await userEvent.click(within(grid).getByText('29'));
     expect(onChange.mock.calls.at(-1)![0].toString()).toBe('2026-04-29');
   });
-  it('French by default', () => {
+  it('follows the browser locale without a provider', () => {
     render(<DatePicker label="Date" defaultValue={parseDate('2026-04-27')} />);
-    expect(screen.getByRole('group', { name: 'Date' }).textContent).toContain('27/04/2026');
+    expect(screen.getByRole('group', { name: 'Date' }).textContent).toContain('4/27/2026');
   });
 });
 
@@ -141,9 +141,9 @@ describe('DataTable selection', () => {
       </>);
     }
     render(<Demo />);
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Sélectionner toutes les lignes affichées' }));
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Select all visible rows' }));
     await userEvent.click(screen.getByText('next'));
-    await userEvent.click(screen.getAllByRole('checkbox', { name: 'Sélectionner la ligne' })[0]!);
+    await userEvent.click(screen.getAllByRole('checkbox', { name: 'Select row' })[0]!);
     expect(screen.getByRole('status').textContent).toBe('a,b,c,z');
   });
 });

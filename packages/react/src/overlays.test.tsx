@@ -31,7 +31,7 @@ describe('Dialog', () => {
       </DialogTrigger>,
     );
     await userEvent.click(screen.getByRole('button', { name: 'Ouvrir' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Fermer' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }));
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
     await userEvent.click(screen.getByRole('button', { name: 'Ouvrir' }));
     await userEvent.click(screen.getByRole('button', { name: 'OK' }));

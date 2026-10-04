@@ -70,9 +70,9 @@ describe('Ribbon', () => {
   });
   it('the pause button stops the track and says what it will do next', async () => {
     const { container } = render(<Ribbon items={['Lyon']} />);
-    await userEvent.click(screen.getByRole('button', { name: 'Mettre en pause le défilement' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Pause scrolling' }));
     expect(container.firstElementChild!.className).toContain('nl-ribbon--paused');
-    await userEvent.click(screen.getByRole('button', { name: 'Reprendre le défilement' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Resume scrolling' }));
     expect(container.firstElementChild!.className).not.toContain('nl-ribbon--paused');
   });
   it('pausable={false} drops the button', () => {
@@ -83,18 +83,14 @@ describe('Ribbon', () => {
 
 describe('Callout', () => {
   it('tone class, hidden tone word before the title, decorative icon', () => {
-    const { container } = render(<Callout tone="warning" title="Données partielles"><p>Le 12 manque.</p></Callout>);
+    const { container } = render(<Callout tone="warning" title="Partial data"><p>The 12th is missing.</p></Callout>);
     const el = container.firstElementChild!;
     expect(el.className).toBe('nl-callout nl-callout--warning');
-    expect(el.querySelector('.nl-callout__title')!.textContent).toBe('Attention : Données partielles');
+    expect(el.querySelector('.nl-callout__title')!.textContent).toBe('Warning: Partial data');
     expect(el.querySelector('.nl-callout__icon')!.getAttribute('aria-hidden')).toBe('true');
   });
-  it('lang="en" says the tone in English, with English punctuation', () => {
-    const { container } = render(<Callout tone="warning" lang="en" title="Partial data">x</Callout>);
-    expect(container.querySelector('.nl-callout__title')!.textContent).toBe('Warning: Partial data');
-  });
   it('without a title the tone word leads the body; toneLabel translates it', () => {
-    const { container } = render(<Callout tone="error" toneLabel="Error">Payment failed.</Callout>);
-    expect(container.querySelector('.nl-callout__body')!.textContent).toBe('Error : Payment failed.');
+    const { container } = render(<Callout tone="error" toneLabel="Oops">Payment failed.</Callout>);
+    expect(container.querySelector('.nl-callout__body')!.textContent).toBe('Oops: Payment failed.');
   });
 });

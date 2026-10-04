@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../lib/cn.js';
+import { useMessages } from '../lib/i18n.js';
 
 export interface MobileNavProps extends Omit<ComponentProps<'div'>, 'children'> {
   /** Accessible name of the toggle button. */
@@ -18,7 +19,9 @@ export interface MobileNavProps extends Omit<ComponentProps<'div'>, 'children'> 
  * the skin hides the toggle (desktop widths). The breakpoint lives in the skin's CSS only:
  * the component watches the toggle's visibility instead of duplicating it.
  */
-export function MobileNav({ label = 'Menu', showLabel = false, className, children, ...props }: MobileNavProps) {
+export function MobileNav({ label: labelProp, showLabel = false, className, children, ...props }: MobileNavProps) {
+  const { t } = useMessages();
+  const label = labelProp ?? t.menu;
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
