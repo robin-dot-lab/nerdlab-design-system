@@ -32,9 +32,11 @@ for (const { name: engine, theme } of ENGINES) {
       await waitForStory(page).catch(() => errors.push('story did not render'));
       await page.waitForTimeout(250);
       await page.addScriptTag({ content: AXE });
-      const violations = await page.evaluate(async () => (await window.axe.run({
+      // iframes: false — an email in the EmailViewer is third-party content in a sandbox with an opaque origin;
+    // axe cannot audit it, and its attempt to message the frame is a console error in Firefox and WebKit.
+    const violations = await page.evaluate(async () => (await window.axe.run({
         include: [...document.body.children].filter((el) => el.id === 'storybook-root' || el.matches('.nl-dialog-overlay, .nl-popover, :has(.nl-dialog-overlay, .nl-popover)')),
-      })).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`));
+      }, { iframes: false })).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`));
       const label = `${engine} ${theme} ${story.id}`;
       if (violations.length || errors.length) {
         failures++;
