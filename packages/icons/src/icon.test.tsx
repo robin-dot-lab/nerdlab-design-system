@@ -76,8 +76,9 @@ describe('icon set', () => {
   it('exports the full set', () => {
     expect(icons.map(([name]) => name).sort()).toEqual([
       'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'Calendar', 'Check', 'ChevronDown', 'ChevronLeft', 'ChevronRight', 'ChevronUp',
-      'Close', 'Error', 'ExclamationMark', 'ExternalLink', 'Filter', 'Home', 'Info', 'InfoMark', 'Menu', 'Minus', 'MoreHorizontal', 'Pause',
-      'Play', 'Plus', 'Search', 'Sort', 'Success', 'User', 'Warning',
+      'Clock', 'Close', 'Code', 'Copy', 'Download', 'Error', 'ExclamationMark', 'ExternalLink', 'Eye', 'EyeOff', 'File', 'FileArchive',
+      'FileImage', 'FileText', 'Filter', 'Home', 'Inbox', 'Info', 'InfoMark', 'Mail', 'Menu', 'Minus', 'MoreHorizontal', 'PanelLeft',
+      'Paperclip', 'Pause', 'Play', 'Plus', 'Search', 'Sort', 'Success', 'Trash', 'User', 'Warning',
     ]);
   });
 

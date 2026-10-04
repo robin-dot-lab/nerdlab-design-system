@@ -140,3 +140,86 @@ export const MoreHorizontal = createIcon(
     <circle cx="19" cy="12" r="1.5" fill="currentColor" />
   </>,
 );
+
+export const Copy = createIcon(
+  'Copy',
+  <>
+    <rect x="8.5" y="8.5" width="12" height="12" rx="2" />
+    <path d="M15.5 8.5V5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5" />
+  </>,
+);
+
+export const Eye = createIcon(
+  'Eye',
+  <>
+    <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+    <circle cx="12" cy="12" r="3" />
+  </>,
+);
+export const EyeOff = createIcon(
+  'EyeOff',
+  <>
+    <path d="M9.9 5.8A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17 17 0 0 1-2.6 3.4M6.6 6.6C3.9 8.3 2.5 12 2.5 12S6 18.5 12 18.5a9 9 0 0 0 5.4-1.8" />
+    <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M3.5 3.5l17 17" />
+  </>,
+);
+
+export const Mail = createIcon(
+  'Mail',
+  <>
+    <rect x="3" y="5.5" width="18" height="13" rx="2" />
+    <path d="M3.5 7l8.5 6.5L20.5 7" />
+  </>,
+);
+
+export const Inbox = createIcon(
+  'Inbox',
+  <>
+    <path d="M3.5 13.5l2.6-7.3A1.5 1.5 0 0 1 7.5 5h9a1.5 1.5 0 0 1 1.4 1.2l2.6 7.3V18a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 3.5 18Z" />
+    <path d="M3.5 13.5h4.5l1.5 2.5h5l1.5-2.5h4.5" />
+  </>,
+);
+
+export const PanelLeft = createIcon(
+  'PanelLeft',
+  <>
+    <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
+    <path d="M9.5 4.5v15" />
+  </>,
+);
+
+export const Paperclip = createIcon('Paperclip', <path d="M20 11.5l-7.8 7.8a5 5 0 0 1-7.1-7.1l8.2-8.2a3.3 3.3 0 0 1 4.7 4.7l-8.2 8.2a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6" />);
+
+export const Download = createIcon('Download', <path d="M12 4v11M7 10.5l5 5 5-5M4.5 20h15" />);
+
+export const Trash = createIcon(
+  'Trash',
+  <>
+    <path d="M4 6.5h16M9.5 6.5V4.5h5v2M6 6.5l1 13a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5l1-13" />
+    <path d="M10 10.5v6M14 10.5v6" />
+  </>,
+);
+
+const sheet = 'M14 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8L14 3.5Z M14 3.5V8h4.5';
+
+export const File = createIcon('File', <path d={sheet} />);
+export const FileText = createIcon('FileText', <><path d={sheet} /><path d="M9 12.5h6M9 16h6" /></>);
+export const FileImage = createIcon(
+  'FileImage',
+  <>
+    <path d={sheet} />
+    <circle cx="10" cy="11.5" r="1.3" />
+    <path d="M18.5 17l-3.5-3.5-6.5 7" />
+  </>,
+);
+export const FileArchive = createIcon('FileArchive', <><path d={sheet} /><path d="M11 5v2M11 9v2M11 13v2M9.5 17h3" /></>);
+
+export const Code = createIcon('Code', <path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 4.5l-3 15" />);
+
+export const Clock = createIcon(
+  'Clock',
+  <>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3.5 2" />
+  </>,
+);
