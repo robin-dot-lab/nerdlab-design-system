@@ -48,6 +48,7 @@ export function Rsvp() {
 | Family | Components |
 |---|---|
 | App frame | `AppShell`, `Sidebar` · `SidebarSection` · `SidebarItem`, `Topbar`, `AuthLayout`, `Banner` |
+| Public pages | `SiteHeader`, `SiteFooter`, `Band` |
 | Actions | `Button` (with `loading`), `CopyButton`, `Menu` · `MenuTrigger` · `MenuItem`, `Pagination`, `SegmentedControl`, `ToggleChip` |
 | Forms | `Field`, `Input`, `PasswordInput`, `InputGroup` · `InputAddon`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `OTPInput`, `RadioGroup`, `Checkbox`, `Switch`, `Search` |
 | Overlays | `Dialog`, `Drawer`, `Popover`, `Tooltip` (with `DialogTrigger` / `TooltipTrigger`) |

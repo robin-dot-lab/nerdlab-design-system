@@ -8,3 +8,10 @@
 .nl-bento--mint { background: var(--color-mint); color: var(--ink); }
 .nl-bento--lavender { background: var(--color-lavender); color: var(--ink); }
 .nl-bento__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-black); font-size: var(--text-2xl); line-height: var(--leading-2xl); }
+
+/* Outlined (new in the package): the tile in the language of Card and Window — ink border and hard
+   shadow instead of the soft "product" shadow — with its content stacked at the top; a foot, if any,
+   still sits at the bottom. The soft tile stays the default: it is the reference's product variant. */
+.nl-bento--outlined { justify-content: flex-start; gap: var(--space-3); border: var(--border); box-shadow: var(--shadow-md); }
+.nl-bento--outlined > :is(h1, h2, h3, h4, p) { margin-block: 0; }
+.nl-bento--outlined .nl-bento__foot { margin-block-start: auto; }

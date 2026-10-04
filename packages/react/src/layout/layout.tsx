@@ -49,12 +49,16 @@ export function Grid({ gap, min, ...props }: GridProps) {
 }
 
 const splitVariants = cva('nl-split', {
-  variants: { ratio: { equal: '', '1-2': 'nl-split--1-2', '2-1': 'nl-split--2-1', sidebar: 'nl-split--sidebar', 'sidebar-end': 'nl-split--sidebar-end' } },
+  variants: {
+    ratio: { equal: '', '1-2': 'nl-split--1-2', '2-1': 'nl-split--2-1', sidebar: 'nl-split--sidebar', 'sidebar-end': 'nl-split--sidebar-end' },
+    /** `stretch` (default): both panes as tall as the taller one. `start`: each pane keeps its content's height. */
+    align: { stretch: '', start: 'nl-split--start' },
+  },
 });
 export interface SplitProps extends PrimitiveProps, VariantProps<typeof splitVariants> { gap?: Gap }
 /** Two panes: stacked on small screens, side by side from the skin's large breakpoint. */
-export function Split({ gap, ratio, ...props }: SplitProps) {
-  return primitive(splitVariants({ ratio }), gapClass(gap), props);
+export function Split({ gap, ratio, align, ...props }: SplitProps) {
+  return primitive(splitVariants({ ratio, align }), gapClass(gap), props);
 }
 
 /** Content for assistive technologies only. */

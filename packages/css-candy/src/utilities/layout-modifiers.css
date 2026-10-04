@@ -34,3 +34,15 @@
 /* Stack: cross-axis alignment (default stretch) */
 .nl-stack--start { justify-items: start; }
 .nl-stack--center { justify-items: center; }
+
+/* Stack: its rows sit at the top. Stretched by a parent (a Split pane, a grid cell), a grid would
+   otherwise share the extra height between its rows and pull them apart. The gap is the only spacing
+   between the rows: the browser's margins on headings and paragraphs would add to it. */
+.nl-stack { align-content: start; }
+.nl-stack > * { margin-block: 0; }
+
+/* Split: panes keep the height of their content instead of the tallest pane's */
+.nl-split--start { align-items: start; }
+
+/* Long unbroken strings (addresses, tokens, URLs) wrap anywhere instead of overflowing */
+.nl-break-anywhere { overflow-wrap: anywhere; }

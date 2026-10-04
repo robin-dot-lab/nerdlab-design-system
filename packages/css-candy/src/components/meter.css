@@ -13,3 +13,9 @@
 .nl-meter::-webkit-meter-suboptimum-value,
 .nl-meter::-webkit-meter-even-less-good-value { border-radius: var(--radius-full); background: var(--meter-fill); }
 .nl-meter::-moz-meter-bar { border-radius: var(--radius-full); background: var(--meter-fill); }
+
+/* Meter with a visible label (`showLabel`): the words above the bar, the value at the row's end */
+.nl-meter-field { display: grid; gap: var(--space-2); }
+.nl-meter-field__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-1) var(--space-3); font-size: var(--text-sm); }
+.nl-meter-field__label { font-weight: var(--weight-semibold); }
+.nl-meter-field__value { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }

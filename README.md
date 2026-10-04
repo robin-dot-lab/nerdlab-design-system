@@ -194,14 +194,15 @@ The list is exported as `@robin-dot-lab/tokens/palettes.json` (`id`, `name`, `de
 
 | Family | Components |
 |---|---|
-| **App frame** | `AppShell`, `Sidebar` · `SidebarSection` · `SidebarItem` (collapsible), `Topbar`, `AuthLayout`, `Banner` |
+| **App frame** | `AppShell` (with a skip link), `Sidebar` · `SidebarSection` · `SidebarItem` (collapsible), `Topbar`, `AuthLayout`, `Banner` |
+| **Public pages** | `SiteHeader`, `SiteFooter`, `Band` (hero, feature row, final call) |
 | **Actions** | `Button` (8 variants, `asChild`, `loading`), `CopyButton`, `Menu` · `MenuTrigger` · `MenuItem`, `Pagination`, `SegmentedControl`, `ToggleChip` |
 | **Forms** | `Field`, `Input`, `PasswordInput` (show / hide, strength), `InputGroup` · `InputAddon`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `OTPInput`, `RadioGroup` · `Radio`, `Checkbox`, `Switch`, `Search` |
 | **Overlays** | `Dialog` · `DialogTrigger`, `Drawer`, `Popover`, `Tooltip` |
 | **Content** | `Window`, `Card`, `Bento`, `Callout`, `InfoList`, `Accordion`, `Tabs`, `DataTable` (sortable, selectable, stacks into cards on phones), `CopyField`, `CodeBlock`, `Kbd`, `QRCode`, `EmptyState` |
 | **Indicators** | `StatTile`, `Delta`, `Meter`, `Progress`, `Skeleton`, `Spinner`, `Badge`, `Toast`, `StatusDot`, `RelativeTime`, `ExpiryIndicator` |
 | **Navigation and people** | `Breadcrumb`, `MobileNav`, `Avatar`, `AvatarGroup` |
-| **Layout** | `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Split`, `VisuallyHidden` |
+| **Layout** | `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Split`, `VisuallyHidden` · classes `.nl-display--sm…xl`, `.nl-headline--sm…xl` (fluid title sizes), `.nl-break-anywhere` (long addresses, tokens, URLs) |
 | **Personality** | `Sticker`, `Burst`, `Bubble`, `Pill`, `Ribbon` (pausable marquee), `Divider` |
 | **Charts** | `LineChart`, `BarList`, `Heatmap`, `ShareBar`, `Sparkline`, `ChartCard`, `Legend` |
 | **Icons** | 44 icons: arrows and chevrons, check, close, plus, minus, search, menu, info, warning, error, success, calendar, user, filter, sort, play, pause, copy, eye, mail, inbox, paperclip, download, trash, files by type, code, clock… |

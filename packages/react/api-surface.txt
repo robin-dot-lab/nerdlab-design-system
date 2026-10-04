@@ -6,6 +6,7 @@ type AuthLayoutProps
 type AvatarGroupProps
 type AvatarProps
 type BadgeProps
+type BandProps
 type BannerProps
 type BentoFootProps
 type BentoProps
@@ -70,6 +71,8 @@ type SelectProps
 type SidebarItemProps
 type SidebarProps
 type SidebarSectionProps
+type SiteFooterProps
+type SiteHeaderProps
 type SkeletonProps
 type SortDirection
 type SpinnerProps
@@ -101,6 +104,7 @@ value AuthLayout
 value Avatar
 value AvatarGroup
 value Badge
+value Band
 value Banner
 value Bento
 value Breadcrumb
@@ -164,6 +168,8 @@ value Select
 value Sidebar
 value SidebarItem
 value SidebarSection
+value SiteFooter
+value SiteHeader
 value Skeleton
 value Spinner
 value Split

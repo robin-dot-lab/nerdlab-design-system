@@ -20,6 +20,15 @@ export interface EmailViewerProps extends Omit<ComponentProps<'div'>, 'children'
   /** Initially selected tab. Default: HTML when there is HTML, else text. */
   defaultView?: EmailView;
   onViewChange?: (view: EmailView) => void;
+  /**
+   * Remote images shown (controlled). When the server already removed them from the HTML (its own
+   * blocking, CSS `url()` neutralised), pair it with `onRemoteImagesChange`: fetch the message again with
+   * remote images and pass the new `html`. Uncontrolled, “Show images” restores the URLs parked in
+   * `data-blocked-src` / `data-blocked-srcset` and allows `https:` images for this message.
+   */
+  remoteImages?: boolean;
+  /** Called with `true` when the user asks to show the remote images. */
+  onRemoteImagesChange?: (show: boolean) => void;
 }
 
 /**
@@ -29,13 +38,17 @@ export interface EmailViewerProps extends Omit<ComponentProps<'div'>, 'children'
  * load only after “Show images”, which adds `https:` to the CSP for this message. Tabs switch to the text version
  * and the source. The frame cannot measure its content (that would need same-origin): the skin gives it a height.
  */
-export function EmailViewer({ html, text, source, view, defaultView, onViewChange, className, ...props }: EmailViewerProps) {
+export function EmailViewer({ html, text, source, view, defaultView, onViewChange, remoteImages, onRemoteImagesChange, className, ...props }: EmailViewerProps) {
   const { t } = useMailMessages();
-  const [images, setImages] = useState(false);
+  const [innerImages, setInnerImages] = useState(false);
+  const controlled = remoteImages !== undefined;
+  const images = controlled ? remoteImages : innerImages;
+  const showImages = () => { if (!controlled) setInnerImages(true); onRemoteImagesChange?.(true); };
   // Built after mount: DOMParser does not exist on the server, and a srcdoc that differed between the
   // server and the client would break hydration.
   const [doc, setDoc] = useState<string | null>(null);
-  useEffect(() => { setImages(false); }, [html]);
+  // A new message starts with its images blocked again (uncontrolled; controlled, the app decides).
+  useEffect(() => { setInnerImages(false); }, [html]);
   useEffect(() => { setDoc(html == null ? null : emailDocument(html, { remoteImages: images })); }, [html, images]);
   const remote = html != null && hasRemoteImages(html);
 
@@ -55,39 +68,40 @@ export function EmailViewer({ html, text, source, view, defaultView, onViewChang
     <div className={cn('nl-email', className)} {...props}>
       <Tabs
         selectedKey={view}
-        defaultSelectedKey={defaultView ?? (html != null ? 'html' : 'text')}
+        defaultSelectedKey={defaultView ?? (html != null ? 'html' : text == null && source != null ? 'source' : 'text')}
         onSelectionChange={(k: Key) => onViewChange?.(k as EmailView)}
       >
         <TabList aria-label={t.views}>
-          <Tab id="html">{t.html}</Tab>
-          <Tab id="text">{t.text}</Tab>
+          {/* Only the parts the message has: no empty HTML tab for a text-only mail. */}
+          {html != null && <Tab id="html">{t.html}</Tab>}
+          {(text != null || html == null) && <Tab id="text">{t.text}</Tab>}
           {source != null && <Tab id="source">{t.source}</Tab>}
         </TabList>
-        <TabPanel id="html" className="nl-email__panel">
-          {html == null ? <p className="nl-email__missing">{t.noHtml}</p> : (
-            <>
-              {remote && !images && (
-                <Callout className="nl-email__images">
-                  <p>{t.remoteImagesBlocked}</p>
-                  <Button size="sm" onClick={() => setImages(true)}>{t.showImages}</Button>
-                </Callout>
-              )}
-              {doc != null && (
-                <iframe
-                  ref={frame}
-                  className="nl-email__frame"
-                  title={t.emailContent}
-                  sandbox="allow-popups allow-popups-to-escape-sandbox"
-                  referrerPolicy="no-referrer"
-                  srcDoc={doc}
-                />
-              )}
-            </>
-          )}
-        </TabPanel>
-        <TabPanel id="text" className="nl-email__panel">
-          {text == null ? <p className="nl-email__missing">{t.noText}</p> : <div className="nl-email__text">{text}</div>}
-        </TabPanel>
+        {html != null && (
+          <TabPanel id="html" className="nl-email__panel">
+            {remote && !images && (
+              <Callout className="nl-email__images">
+                <p>{t.remoteImagesBlocked}</p>
+                <Button size="sm" onClick={showImages}>{t.showImages}</Button>
+              </Callout>
+            )}
+            {doc != null && (
+              <iframe
+                ref={frame}
+                className="nl-email__frame"
+                title={t.emailContent}
+                sandbox="allow-popups allow-popups-to-escape-sandbox"
+                referrerPolicy="no-referrer"
+                srcDoc={doc}
+              />
+            )}
+          </TabPanel>
+        )}
+        {(text != null || html == null) && (
+          <TabPanel id="text" className="nl-email__panel">
+            {text == null ? <p className="nl-email__missing">{t.noText}</p> : <div className="nl-email__text">{text}</div>}
+          </TabPanel>
+        )}
         {source != null && (
           <TabPanel id="source" className="nl-email__panel">
             <CodeBlock label={t.source}>{source}</CodeBlock>

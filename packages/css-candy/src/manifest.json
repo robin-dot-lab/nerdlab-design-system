@@ -66,6 +66,8 @@
     "components/kbd.css",
     "components/qr-code.css",
     "components/mail.css",
+    "components/app-navigation.css",
+    "components/site.css",
     "components/forced-colors.css"
   ],
   "utilities": [
@@ -74,6 +76,7 @@
     "utilities/motion.css",
     "utilities/layout.css",
     "utilities/layout-modifiers.css",
-    "utilities/a11y.css"
+    "utilities/a11y.css",
+    "utilities/type-scale.css"
   ]
 }

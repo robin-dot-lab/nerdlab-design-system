@@ -1,0 +1,33 @@
+/* Public pages (new in the package): a site header, a site footer and bands, after the showcase's own
+   header, `section.block` and footer. An application page uses AppShell + Topbar instead. */
+.nl-site-header { border-block-end: var(--border); background: var(--color-surface); color: var(--color-text-primary); }
+.nl-site-header--sticky { position: sticky; inset-block-start: 0; z-index: 20; }
+@media (max-height: 30rem) { .nl-site-header--sticky { position: relative; } }
+.nl-site-header__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-6); padding-block: var(--space-3); position: relative; }
+.nl-site-header__brand { display: flex; align-items: center; margin-inline-end: auto; font-family: var(--font-display); font-weight: var(--weight-black); font-size: var(--text-xl); }
+.nl-site-header__brand a { color: inherit; text-decoration: none; }
+.nl-site-header__nav { display: block; }
+/* With a MobileNav, the inline links give way to it below the large breakpoint. */
+.nl-site-header--has-mobile-nav .nl-site-header__nav { display: none; }
+.nl-site-header__nav ul { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-5); margin: 0; padding: 0; list-style: none; }
+.nl-site-header__nav a { display: inline-flex; align-items: center; min-height: var(--space-6); color: inherit; font-weight: var(--weight-semibold); text-decoration: none; }
+.nl-site-header__nav a:hover, .nl-site-header__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.nl-site-header__actions { display: flex; align-items: center; gap: var(--space-2); }
+.nl-site-header .nl-nav-panel[data-open="true"] { position: absolute; inset-block-start: 100%; max-height: calc(100dvh - var(--nav-offset)); }
+@media (min-width: 1024px) {
+  .nl-site-header--has-mobile-nav .nl-site-header__nav { display: block; }
+  .nl-site-header__mobile-nav { display: none; }
+}
+
+.nl-site-footer { background: var(--ink); color: var(--cream); padding-block: var(--space-fluid-lg); }
+.nl-site-footer__inner { display: grid; gap: var(--space-6); }
+.nl-site-footer a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.nl-site-footer a:focus-visible { outline-color: var(--color-accent); }
+.nl-site-footer__legal { font-size: var(--text-sm); opacity: 0.85; }
+
+.nl-band { padding-block: var(--space-fluid-xl); border-block-end: var(--border); background: var(--color-background); color: var(--color-text-primary); }
+.nl-band--paper { background: var(--grid-paper); }
+.nl-band--surface { background: var(--color-surface); }
+.nl-band--accent { background: var(--color-accent); color: var(--ink); }
+.nl-band--primary { background: var(--color-primary); color: var(--ink); }
+.nl-band--ink { background: var(--ink); color: var(--cream); }

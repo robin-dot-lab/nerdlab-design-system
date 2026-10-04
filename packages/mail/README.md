@@ -38,7 +38,7 @@ import { EmailViewer, MessageHeader, MessageList } from '@robin-dot-lab/mail';
 |---|---|
 | `MessageList`, `MessageListItem` | a React Aria ListBox of messages: one selected, ↑/↓, type-ahead, optional j/k from the page (never while typing in a field), skeletons while loading, an empty state |
 | `MessageHeader` | subject, From / To / Date, delete and view-source actions |
-| `EmailViewer` | HTML / Text / Source tabs. The HTML renders in `<iframe srcdoc sandbox>` without `allow-scripts`, `allow-same-origin` or `allow-forms`, with a CSP injected into the document (`default-src 'none'; style-src 'unsafe-inline'; img-src data: cid:`). Remote images are not requested until “Show images”; links open in a new tab with `noopener noreferrer`. The frame's height comes from the skin: a sandboxed document cannot be measured |
+| `EmailViewer` | HTML / Text / Source tabs. The HTML renders in `<iframe srcdoc sandbox>` without `allow-scripts`, `allow-same-origin` or `allow-forms`, with a CSP injected into the document (`default-src 'none'; style-src 'unsafe-inline'; img-src data: cid:`). Remote images are not requested until “Show images” (or control them with `remoteImages` / `onRemoteImagesChange` when your server strips them: fetch the message again with images and pass the new `html`; URLs parked in `data-blocked-src` are restored either way); links open in a new tab with `noopener noreferrer`. The frame's height comes from the skin: a sandboxed document cannot be measured |
 | `AttachmentChip`, `AttachmentList` | icon by MIME type, size in the locale, a download link named after the file |
 | `AddressCard` | a disposable address to copy, its unread count, time left and state in words, and an actions menu |
 

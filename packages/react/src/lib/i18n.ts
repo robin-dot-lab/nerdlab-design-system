@@ -41,6 +41,7 @@ const en = {
   expiresOn: (date: string) => `Expires on ${date}`,
   otpCell: (n: number, total: number, digits: boolean) => `${digits ? 'Digit' : 'Character'} ${n} of ${total}`,
   qrCode: 'QR code',
+  skipToContent: 'Skip to content',
   /** Punctuation before a value: "Warning: " / « Attention : ». */
   colon: ': ',
 };
@@ -81,6 +82,7 @@ const fr: Messages = {
   expiresOn: (date) => `Expire le ${date}`,
   otpCell: (n, total, digits) => `${digits ? 'Chiffre' : 'Caractère'} ${n} sur ${total}`,
   qrCode: 'Code QR',
+  skipToContent: 'Aller au contenu',
   colon: ' : ',
 };
 

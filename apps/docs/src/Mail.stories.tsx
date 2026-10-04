@@ -139,3 +139,11 @@ export const Dashboard: Story = {
     );
   },
 };
+
+/**
+ * K18: images the server already blocked (URLs parked in `data-blocked-src`). “Show images” gives them back;
+ * an app that strips them entirely controls `remoteImages` and fetches the message again on `onRemoteImagesChange`.
+ */
+export const ServerBlockedImages: Story = {
+  render: () => <EmailViewer html={'<p>Hi, here is the poster.</p><img data-blocked-src="https://example.org/poster.png" alt="Poster">'} />,
+};

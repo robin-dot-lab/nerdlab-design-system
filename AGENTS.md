@@ -21,7 +21,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 | `apps/docs` | Storybook 10 + a11y audit of every story |
 | `apps/dashboard` | Integration test: a real page built against the packages' `dist/` |
 | `packages/css-candy/test/reference/` | The original static design, frozen: stylesheet + two pages, the oracle of the parity tests. Never edit it to make a test pass. Candy was called **Pop** until 2026-10-02: these files still say Pop, and `.nl-pop-text` names an effect, not the skin — keep it. Candy is the only skin; colour variety comes from palettes |
-| `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images), `consumer-check` (the kit installed from outside into a Vite app and a Next.js App Router app), `api-surface` (public API snapshot) |
+| `tools/` | `new-component` generator, `test-fonts` offline font cache, `readme-assets` (README images), `consumer-check` (the kit installed from outside into a Vite app and a Next.js App Router app), `api-surface` (public API snapshot), `font-fallbacks` (metrics of the fallback faces in `fonts.css`) |
 | `.github/workflows/` | CI (`pnpm test` in 16 parallel jobs, every palette audited, forced colours, packed packages checked in Vite and Next.js), Pages (Storybook + dashboard), Release (version PR, then publish + tags + releases), Consumer check (after each release: install from the registry into a blank app, build, check), visual baselines (Linux) |
 
 ## Commands
@@ -38,6 +38,7 @@ Design system and React library for Nerdlab: one CSS skin (Candy) with `nl-*` cl
 - `node scripts/email-sandbox.mjs` (in `apps/docs`) — the `EmailViewer`'s isolation in Chrome: no script, no form, no remote image before “Show images”
 - `UPDATE_API=1 pnpm --filter <package> test` — accept a change of the public API snapshot (`api-surface.txt`); a removed line needs a major changeset
 - `node tools/readme-assets/capture.mjs` — regenerate the README images (after `pnpm build`)
+- `node tools/font-fallbacks/measure.mjs` — re-measure the metric-matched fallback faces after changing a font family or its axes; paste the output into `packages/css-candy/src/fonts.css`
 - `SOURCE=local tools/consumer-check/run.sh` — pack this checkout and install it into a blank Vite app and a Next.js App Router app, build and check them (after `pnpm build`; needs the network for npm). Without `SOURCE=local` it installs this checkout's versions from the registry: `NODE_AUTH_TOKEN=$(gh auth token)` (needs `read:packages`)
 - Firefox and WebKit for the cross-browser tests: `node node_modules/playwright-core/cli.js install firefox webkit`
 
@@ -72,12 +73,14 @@ Tokens: edit `packages/tokens/src/candy/*.tokens.json` (never generated files). 
 - `apps/dashboard` and the docs typecheck read `packages/*/dist`: after changing a package, rebuild it or they see the old API (`pnpm test` does it).
 - `storybook build` does not typecheck; `pnpm test` does.
 - `candy.css` loads no fonts: apps import `@robin-dot-lab/css-candy/fonts.css` (Google Fonts) or self-host the same families.
+- A `Stack` resets its children's block margins: the gap is the only spacing between rows. Do not add margins to children of a `Stack`; nest a `Stack` with another `gap` instead.
 - Hand-written tables using `.nl-table--stack` must set `data-label` on every cell; `DataTable` does it for you.
 - `DataTable` sorts internally unless `sort` is passed; with pagination use controlled `sort` + `onSortChange`.
 - React Aria collections (Tabs…) render a hidden `<template>` first inside their parent.
 - React Aria Components has no `'use client'`: never re-export it from the package index directly, go through a `'use client'` module (`lib/react-aria.ts`). In a server component, function props and `CalendarDate` values cannot reach a client component.
 - Stories render under `<I18nProvider locale="en-GB">` (toolbar *Locale*), the dashboard under `fr-FR`: screenshots never depend on the machine's language. `visual.mjs` also freezes the clock (2026-10-04 10:00 UTC) and the time zone (UTC): write story dates relative to `Date.now()`.
 - `forced-colors.css` stays the last file of the manifest: a new skin file goes just before it, or its rules would override the forced-colour fixes.
+- Keep a story that renders an `EmailViewer` out of a stories file with a `play` function: Storybook's instrumenter then posts messages to every frame of the page, and Firefox and WebKit report each one sent to the sandboxed frame (origin `null`) as a console error.
 - A sandboxed iframe (the `EmailViewer`) has an opaque origin: axe runs with `iframes: false`, and focus inside it matches no selector on the `<iframe>` (the viewer sets `data-focused` itself).
 - `TooltipTrigger`, `DialogTrigger` and `MenuTrigger` wrap their first child themselves (`Focusable` / `Pressable`): pass our `Button` directly.
 - React Aria sets `z-index: 100000` inline on popovers; do not fight it in the skin. After a `ComboBox` pick, the input value is committed as the list closes: in browser tests, wait for it.

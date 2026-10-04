@@ -28,3 +28,35 @@
   content: ""; width: 14px; height: 14px; background: var(--ink);
   -webkit-mask: var(--nl-mask-check) center / contain no-repeat; mask: var(--nl-mask-check) center / contain no-repeat;
 }
+
+/* ADR-027 — font stacks name the metric-matched fallback faces of fonts.css */
+/* The faces themselves, as fonts.css declares them (the reference page loads its fonts on its own) */
+@font-face {
+  font-family: 'Bricolage Grotesque Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Arial');
+  size-adjust: 77.92%;
+  ascent-override: 119.36%;
+  descent-override: 34.65%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Outfit Fallback';
+  src: local('Arial');
+  size-adjust: 97.48%;
+  ascent-override: 102.59%;
+  descent-override: 26.67%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Space Mono Fallback';
+  src: local('Courier New');
+  size-adjust: 101.98%;
+  ascent-override: 109.82%;
+  descent-override: 35.30%;
+  line-gap-override: 0%;
+}
+:root {
+  --font-display: 'Bricolage Grotesque', 'Bricolage Grotesque Fallback', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Outfit', 'Outfit Fallback', system-ui, sans-serif;
+  --font-mono: 'Space Mono', 'Space Mono Fallback', ui-monospace, monospace;
+}
