@@ -25,6 +25,9 @@ const VARIANTS = [
 const ACTIVE = VARIANTS.filter((v) => !process.env.VARIANT || v.name === process.env.VARIANT);
 // Motion is frozen so a screenshot never catches an animation mid-way (marquee, stripes, enter transitions).
 const FREEZE = '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}';
+// Time is frozen too, in a fixed zone: stories that show dates relative to now (RelativeTime, ExpiryIndicator,
+// the mail list) or a clock time render the same pixels on every run and every machine. Timers still run.
+const FIXED_NOW = new Date('2026-10-04T10:00:00Z');
 // Story ids keep the accents of their titles; file names stay ASCII.
 const fileName = (id, variant) => `${id.normalize('NFD').replace(/[̀-ͯ]/g, '')}--${variant}.png`;
 
@@ -39,11 +42,12 @@ const browser = await pw.chromium.launch({
 let failures = 0, missing = 0, written = 0;
 
 for (const v of ACTIVE) {
-  const context = await browser.newContext({ viewport: v.viewport, deviceScaleFactor: 1 });
+  const context = await browser.newContext({ viewport: v.viewport, deviceScaleFactor: 1, timezoneId: 'UTC' });
   await context.route('**/favicon.ico', (route) => route.fulfill({ status: 204 }));
   await routeTestFonts(context);
   for (const story of stories) {
     const page = await context.newPage();
+    await page.clock.setFixedTime(FIXED_NOW);
     await page.goto(storyUrl(base, story.id, v.theme), { waitUntil: 'networkidle' });
     await page.addStyleTag({ content: FREEZE });
     await waitForStory(page).catch(() => {});

@@ -53,9 +53,11 @@ for (const vp of VIEWPORTS) for (const theme of THEMES) {
     await page.waitForTimeout(250); // play functions and enter transitions
     await page.addScriptTag({ content: AXE });
     // The story root, plus overlays React Aria portals to <body> (dialogs, popovers, menus).
+    // iframes: false — an email in the EmailViewer is third-party content in a sandbox with an opaque origin;
+    // axe cannot audit it, and its attempt to message the frame is a console error in Firefox and WebKit.
     const violations = await page.evaluate(async () => (await window.axe.run({
       include: [...document.body.children].filter((el) => el.id === 'storybook-root' || el.matches('.nl-dialog-overlay, .nl-popover, :has(.nl-dialog-overlay, .nl-popover)')),
-    })).violations
+    }, { iframes: false })).violations
       .map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`));
     const label = `${vp.name} ${theme}${process.env.PALETTE ? ` ${process.env.PALETTE}` : ''} ${story.id}`;
     if (violations.length || errors.length) {

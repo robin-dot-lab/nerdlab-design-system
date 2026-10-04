@@ -25,4 +25,14 @@
   .nl-pagination .nl-btn[aria-current="page"],
   .nl-calendar__cell[data-selected],
   .nl-listbox__item[data-selected], .nl-menu__item[data-focused] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
+
+  /* App and mail components: focus rings drawn with box-shadow, the spinner's strong quarter, pressed toggles, the current link. */
+  .nl-spinner { forced-color-adjust: none; border-color: GrayText; border-block-start-color: CanvasText; }
+  .nl-input-group:focus-within { outline: 2px solid Highlight; outline-offset: 1px; }
+  .nl-input-group__button[aria-pressed="true"], .nl-sidebar__toggle[aria-pressed="true"],
+  .nl-sidebar__item[aria-current="page"] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
+  /* Status dots keep their tone, like data marks: the status is also in words next to them. */
+  .nl-status__dot, .nl-status--pulse .nl-status__dot::after { forced-color-adjust: none; }
+  /* A QR code keeps dark modules on a light square: forced colours would make it unscannable. */
+  .nl-qr__code { forced-color-adjust: none; }
 }

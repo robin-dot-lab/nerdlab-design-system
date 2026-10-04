@@ -1,6 +1,6 @@
 ---
 name: nerdlab-ui-kit
-description: Procedure for evolving the Nerdlab UI kit in this repo — adding or changing a React component, a skin class (nl-*), a design token, a chart, or a story. Use whenever a task touches packages/react, packages/css-candy, packages/tokens, packages/charts or apps/docs, so the change lands in every place the kit requires and the Obsidian vault stays in sync.
+description: Procedure for evolving the Nerdlab UI kit in this repo — adding or changing a React component, a skin class (nl-*), a design token, a chart, or a story. Use whenever a task touches packages/react, packages/mail, packages/css-candy, packages/tokens, packages/charts or apps/docs, so the change lands in every place the kit requires and the Obsidian vault stays in sync.
 ---
 
 # Evolving the Nerdlab UI kit
@@ -13,7 +13,7 @@ The rules and commands are in `AGENTS.md` (already loaded through CLAUDE.md). Th
 2. If the change hits an open question, or contradicts an ADR, stop and ask the user.
 3. Decide where the change belongs:
    - a look → `packages/css-candy` (tokens in `packages/tokens` if a value is new);
-   - a behaviour or an API → `packages/react` / `packages/charts`;
+   - a behaviour or an API → `packages/react` / `packages/charts`; a mail-specific one → `packages/mail` (its styles still go in the skin, `mail.css`);
    - both → CSS first, then React.
 
 ## 1. New component
@@ -22,7 +22,7 @@ The rules and commands are in `AGENTS.md` (already loaded through CLAUDE.md). Th
 pnpm new:component <PascalName> [--element span]
 ```
 
-It creates the skin CSS (appended last to `manifest.json`), the component, a test, a story and the export. Then:
+It creates the skin CSS (appended to `manifest.json`), the component, a test, a story and the export. The generator inserts it just before `components/forced-colors.css`, which stays last so its fixes win. Then:
 
 - Style `.nl-<name>` with tokens only (`var(--color-*)`, `var(--space-*)`…). No raw colours, no magic numbers that a token already covers.
 - Variants: a `cva` map from props to `nl-<name>--*` classes. Never a style prop, never a CSS variable set from React.

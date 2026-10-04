@@ -1,0 +1,66 @@
+{
+  "name": "@robin-dot-lab/mail",
+  "version": "0.0.0",
+  "description": "Nerdlab mail components: message list, safe email viewer, attachments and address cards, on the nl-* skin",
+  "keywords": [
+    "nerdlab",
+    "design-system",
+    "react",
+    "email",
+    "react-aria"
+  ],
+  "license": "MIT",
+  "author": "Nerdlab",
+  "homepage": "https://robin-dot-lab.github.io/nerdlab-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robin-dot-lab/nerdlab-design-system.git",
+    "directory": "packages/mail"
+  },
+  "bugs": {
+    "url": "https://github.com/robin-dot-lab/nerdlab-design-system/issues"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run && node ../../tools/api-surface/check.mjs"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@robin-dot-lab/icons": "workspace:*",
+    "@robin-dot-lab/react": "workspace:*",
+    "clsx": "^2.1.1",
+    "react-aria-components": "^1.21.1"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^30.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  }
+}

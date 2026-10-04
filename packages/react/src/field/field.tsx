@@ -3,7 +3,7 @@
 import { createContext, useContext, useId, type ComponentProps, type ReactNode } from 'react';
 import { cn } from '../lib/cn.js';
 
-interface FieldContextValue { id: string; describedBy: string | undefined; invalid: boolean }
+interface FieldContextValue { id: string; labelId: string; describedBy: string | undefined; invalid: boolean }
 const FieldContext = createContext<FieldContextValue | null>(null);
 
 export interface FieldProps extends Omit<ComponentProps<'div'>, 'children'> {
@@ -25,8 +25,8 @@ export function Field({ label, help, error, id, className, children, ...props }:
   const messageId = message ? `${controlId}-message` : undefined;
   return (
     <div className={cn('nl-field', className)} {...props}>
-      <label className="nl-label" htmlFor={controlId}>{label}</label>
-      <FieldContext.Provider value={{ id: controlId, describedBy: messageId, invalid: Boolean(error) }}>
+      <label className="nl-label" id={`${controlId}-label`} htmlFor={controlId}>{label}</label>
+      <FieldContext.Provider value={{ id: controlId, labelId: `${controlId}-label`, describedBy: messageId, invalid: Boolean(error) }}>
         {children}
       </FieldContext.Provider>
       {message && <span id={messageId} className={cn('nl-help', error ? 'nl-help--error' : undefined)}>{message}</span>}
@@ -35,14 +35,25 @@ export function Field({ label, help, error, id, className, children, ...props }:
 }
 
 /** id, aria-describedby and invalid state of a control, merged with the enclosing <Field> if any. */
-function useFieldControl(id: string | undefined, invalid: boolean | undefined, describedBy: string | undefined) {
+export function useFieldControl(id: string | undefined, invalid: boolean | undefined, describedBy: string | undefined) {
   const field = useContext(FieldContext);
   const isInvalid = invalid ?? field?.invalid ?? false;
   return {
     id: id ?? field?.id,
+    /** The field label's id, for a control that is a group (a label only names labelable elements). */
+    labelId: field?.labelId,
     isInvalid,
     describedBy: [describedBy, field?.describedBy].filter(Boolean).join(' ') || undefined,
   };
+}
+
+/**
+ * Cuts the link to the enclosing <Field> for what it wraps: a second control next to the field's own
+ * (a domain <Select> in an InputGroup addon) must not take the field's id, label or error.
+ * Internal: not exported from the package index.
+ */
+export function FieldBoundary({ children }: { children: ReactNode }) {
+  return <FieldContext.Provider value={null}>{children}</FieldContext.Provider>;
 }
 
 export interface InputProps extends ComponentProps<'input'> {

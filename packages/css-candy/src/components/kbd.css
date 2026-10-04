@@ -1,0 +1,9 @@
+/* Kbd (new in the package): a key cap in mono type with a heavier bottom edge. */
+.nl-kbd {
+  display: inline-block; min-width: 1.6em; padding: 0.05em 0.4em;
+  border: var(--border-hairline) solid var(--color-line); border-block-end-width: var(--border-width); border-radius: var(--radius-sm);
+  background: var(--color-surface); color: var(--color-text-primary);
+  font-family: var(--font-mono); font-size: 0.85em; font-weight: var(--weight-bold); line-height: 1.4; text-align: center; white-space: nowrap;
+}
+.nl-kbd .nl-kbd { font-size: 1em; }
+.nl-kbd:has(.nl-kbd) { border: 0; padding: 0; background: none; min-width: 0; }

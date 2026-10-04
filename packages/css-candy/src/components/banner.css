@@ -1,0 +1,25 @@
+/* Banner (new in the package): a full-width message at the top of the page, tinted by its tone like
+   Callout, but square-cornered and edge to edge, with an action and a close button. The tone is also in words. */
+.nl-banner {
+  --banner-tone: var(--color-secondary);
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2) var(--space-gutter);
+  border-block-end: var(--border);
+  background: color-mix(in oklab, var(--banner-tone) 30%, var(--color-surface));
+  color: var(--color-text-primary);
+}
+.nl-banner--success { --banner-tone: var(--color-mint); }
+.nl-banner--warning { --banner-tone: var(--color-accent); }
+.nl-banner--error { --banner-tone: var(--color-error); }
+.nl-banner__icon {
+  display: inline-grid; place-items: center; flex: none;
+  width: var(--space-6); height: var(--space-6);
+  border: var(--border); border-radius: var(--radius-full);
+  background: var(--banner-tone); color: var(--ink); font-size: var(--text-sm);
+}
+.nl-banner__body { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+.nl-banner__message { flex: 1 1 16rem; margin: 0; font-weight: var(--weight-semibold); }
+.nl-banner__action { flex: none; }
+/* A quiet close button: no lift, no shadow (ghost + sm would keep the shadow of .nl-btn--sm). */
+.nl-banner__close.nl-btn { flex: none; box-shadow: none; }
+.nl-banner__close.nl-btn:hover { background: color-mix(in oklab, var(--banner-tone) 45%, var(--color-surface)); }

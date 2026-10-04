@@ -1,0 +1,20 @@
+# Public API of @robin-dot-lab/mail, checked by tools/api-surface/check.mjs. Removing a line is a breaking change.
+type AddressAction
+type AddressCardProps
+type Attachment
+type AttachmentChipProps
+type AttachmentListProps
+type EmailView
+type EmailViewerProps
+type MailAddress
+type MessageHeaderProps
+type MessageListItemProps
+type MessageListProps
+type MessageSummary
+value AddressCard
+value AttachmentChip
+value AttachmentList
+value EmailViewer
+value MessageHeader
+value MessageList
+value MessageListItem

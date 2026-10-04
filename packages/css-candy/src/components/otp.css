@@ -1,0 +1,8 @@
+/* OTPInput (new in the package): N cells of the input look, mono digits, centred; the error state
+   borders every cell. */
+.nl-otp { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.nl-otp__cell {
+  inline-size: calc(1ch + var(--space-8)); padding-inline: 0;
+  font-family: var(--font-mono); font-size: var(--text-xl); font-weight: var(--weight-bold); text-align: center;
+}
+.nl-otp--error .nl-otp__cell { border-color: var(--color-error-text); }

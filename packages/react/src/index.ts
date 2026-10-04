@@ -35,6 +35,21 @@ export { Skeleton, type SkeletonProps } from './skeleton/skeleton.js';
 export { Drawer, DrawerFooter, type DrawerProps, type DrawerFooterProps } from './overlay/drawer.js';
 export { ComboBox, ComboBoxItem, type ComboBoxProps, type ComboBoxItemProps } from './combobox/combobox.js';
 export { DatePicker, type DatePickerProps } from './date-picker/date-picker.js';
+export { InputGroup, InputAddon, type InputGroupProps, type InputAddonProps } from './field/input-group.js';
+export { PasswordInput, type PasswordInputProps, type PasswordStrength } from './field/password-input.js';
+export { CopyButton, CopyField, type CopyButtonProps, type CopyFieldProps } from './copy/copy-button.js';
+export { EmptyState, type EmptyStateProps } from './empty-state/empty-state.js';
+export { Spinner, type SpinnerProps } from './spinner/spinner.js';
+export { AppShell, Topbar, AuthLayout, type AppShellProps, type TopbarProps, type AuthLayoutProps } from './shell/app-shell.js';
+export { Sidebar, SidebarSection, SidebarItem, type SidebarProps, type SidebarSectionProps, type SidebarItemProps } from './shell/sidebar.js';
+export { RelativeTime, type RelativeTimeProps } from './time/relative-time.js';
+export { ExpiryIndicator, type ExpiryIndicatorProps, type ExpiryState } from './time/expiry-indicator.js';
+export { StatusDot, type StatusDotProps } from './status/status-dot.js';
+export { CodeBlock, type CodeBlockProps } from './code-block/code-block.js';
+export { Banner, type BannerProps } from './banner/banner.js';
+export { OTPInput, type OTPInputProps } from './otp/otp-input.js';
+export { Kbd, type KbdProps } from './kbd/kbd.js';
+export { QRCode, type QRCodeProps } from './qr-code/qr-code.js';
 // Passed through from React Aria and @internationalized/date (ADR-021): they follow those packages'
 // versions. `I18nProvider` sets the language and formats of every component; `useLocale` reads it.
 export { Focusable, I18nProvider, useLocale } from './lib/react-aria.js';

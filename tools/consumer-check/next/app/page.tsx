@@ -1,5 +1,6 @@
 import { BarList, ChartCard } from '@robin-dot-lab/charts';
 import { Calendar, Plus } from '@robin-dot-lab/icons';
+import { AttachmentList } from '@robin-dot-lab/mail';
 import {
   Badge, Breadcrumb, Button, Callout, Card, Container, DatePicker, Delta, Dialog, DialogTrigger, Meter, Section, Stack,
   StatTile, Tab, TabList, TabPanel, Tabs, Window,
@@ -36,6 +37,7 @@ export default function Page() {
             {/* No defaultValue here: a CalendarDate is a class instance, which a server component cannot pass to a client one. */}
             <DatePicker label="Date de l’événement" />
             <Callout tone="warning" title="Données partielles"><p><Calendar /> La billetterie du 12 n’est pas synchronisée.</p></Callout>
+            <AttachmentList attachments={[{ name: 'billet.pdf', size: 184_000, type: 'application/pdf', href: '/billet.pdf' }]} />
             <ChartCard title="Billets">
               <BarList title="Billets par événement" unit="billets" items={[
                 { id: 'a', label: 'Pixel Party', value: 120, slot: 1 }, { id: 'b', label: 'Synth Night', value: 90, slot: 2 },

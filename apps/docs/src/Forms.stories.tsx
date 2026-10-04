@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, ComboBox, ComboBoxItem, DatePicker, Field, I18nProvider, Input, parseDate, Radio, RadioGroup, Select, Textarea } from '@robin-dot-lab/react';
+import { Button, ComboBox, ComboBoxItem, DatePicker, Field, I18nProvider, Input, InputAddon, InputGroup, parseDate, PasswordInput, Radio, RadioGroup, Select, Textarea } from '@robin-dot-lab/react';
 
 const meta = {
   title: 'Components/Forms',
   component: RadioGroup,
-  subcomponents: { Radio, Select, Textarea },
+  subcomponents: { Radio, Select, Textarea, PasswordInput, InputGroup, InputAddon },
 } satisfies Meta<typeof RadioGroup>;
 export default meta;
 // Render-only stories: the components have required props, so args are not typed here.
@@ -95,6 +95,37 @@ export const DatePickerOpen: Story = {
   render: () => (
     <div style={{ maxWidth: 360, paddingBlockEnd: 380 }}>
       <DatePicker label="Event date" defaultValue={parseDate('2026-04-27')} defaultOpen />
+    </div>
+  ),
+};
+
+/** Show/hide toggle (`aria-pressed`, stable name) and an optional strength said in words, not only in colour. */
+export const Password: Story = {
+  render: () => (
+    <div className="nl-stack" style={{ maxWidth: 360 }}>
+      <Field label="Password"><PasswordInput defaultValue="hunter2" /></Field>
+      <Field label="New password" help="12 characters or more."><PasswordInput defaultValue="correct horse" strength={2} autoComplete="new-password" /></Field>
+      <Field label="Confirm" error="The passwords do not match."><PasswordInput defaultValue="correct" /></Field>
+    </div>
+  ),
+};
+
+/** Addons before or after the input, in text or as a control. The input keeps the field’s name; a domain select names itself. */
+export const InputGroups: Story = {
+  render: () => (
+    <div className="nl-stack" style={{ maxWidth: 420 }}>
+      <Field label="Alias" help="Letters, digits and dashes.">
+        <InputGroup><Input defaultValue="pixel-otter" /><InputAddon>@nerdlab.sh</InputAddon></InputGroup>
+      </Field>
+      <Field label="Alias on another domain">
+        <InputGroup>
+          <Input defaultValue="pixel-otter" />
+          <InputAddon><Select aria-label="Domain" defaultValue="nerdlab.sh"><option>nerdlab.sh</option><option>tmp.nerdlab.sh</option></Select></InputAddon>
+        </InputGroup>
+      </Field>
+      <Field label="Website" error="Enter a domain name.">
+        <InputGroup><InputAddon>https://</InputAddon><Input defaultValue="nerd lab" /></InputGroup>
+      </Field>
     </div>
   ),
 };

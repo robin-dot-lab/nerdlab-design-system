@@ -24,6 +24,7 @@ try {
   ok(await page.evaluate(() => getComputedStyle(document.querySelector('.nl-window')).borderTopWidth) === '2px', 'skin applied');
   ok(await page.getByRole('navigation', { name: 'Fil d’Ariane' }).isVisible(), 'breadcrumb named in French');
   ok(await page.getByRole('list', { name: 'Billets par événement' }).getByRole('listitem').count() === 4, 'chart renders its four bars');
+  ok(await page.getByRole('link', { name: /^Télécharger billet\.pdf/ }).isVisible(), 'mail: attachment from a server component, named in French');
   await page.getByRole('tab', { name: 'Détail' }).click();
   ok(await page.getByRole('tabpanel', { name: 'Détail' }).isVisible(), 'tabs hydrate and switch');
   await page.getByRole('button', { name: 'Rejoindre la fête' }).click();

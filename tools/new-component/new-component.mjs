@@ -64,13 +64,16 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = { args: { children: '${name}' } };
 `);
 
-const anchor = "export { Focusable } from 'react-aria-components';";
+// New exports go above the third-party pass-throughs, which stay last in the index.
+const anchor = '// Passed through from React Aria';
 if (!indexCode.includes(anchor)) fail(`anchor not found in ${index}`);
 fs.writeFileSync(p(index), indexCode.replace(anchor, `export { ${name}, type ${name}Props } from './${kebab}/${kebab}.js';\n${anchor}`));
 
-// Appended last: a new file can never change the cascade of the rules before it.
+// Appended after every component, but before forced-colors.css, which must stay last so its fixes win:
+// a new file can never change the cascade of the rules before it.
 const m = JSON.parse(fs.readFileSync(p(manifest), 'utf8'));
-m.components.push(`components/${kebab}.css`);
+const fc = m.components.indexOf('components/forced-colors.css');
+m.components.splice(fc === -1 ? m.components.length : fc, 0, `components/${kebab}.css`);
 fs.writeFileSync(p(manifest), JSON.stringify(m, null, 2) + '\n');
 
 console.log(`Created\n${Object.values(files).map((f) => `  + ${f}`).join('\n')}\nModified\n  ~ ${index}\n  ~ ${manifest}
