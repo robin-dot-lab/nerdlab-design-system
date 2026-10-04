@@ -1,5 +1,11 @@
 # @robin-dot-lab/tokens
 
+## 0.3.0
+
+### Minor Changes
+
+- bf353fe: `data-theme="auto"` follows the device's light/dark setting, live, in every palette (`data-theme="light"` stays the default, `"dark"` forces dark). An explicit `data-theme="light"` container still wins inside a dark or automatic page.
+
 ## 0.2.0
 
 ### Minor Changes
