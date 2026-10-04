@@ -5,7 +5,9 @@ import { spawn } from 'node:child_process'; import fs from 'node:fs'; import { c
 const req = createRequire(import.meta.url);
 const pw = req('playwright-core'); const AXE = fs.readFileSync(req.resolve('axe-core/axe.min.js'), 'utf8');
 const PORT = 4300 + Math.floor(Math.random() * 500); const URL_ = `http://localhost:${PORT}/`;
-const server = spawn('npx', ['next', 'start', '-p', String(PORT)], { stdio: ['ignore', 'pipe', 'inherit'] });
+// Own process group: `npx` starts `next` as a child, and killing npx alone left the server (and this
+// script) running until the CI job timed out.
+const server = spawn('npx', ['next', 'start', '-p', String(PORT)], { stdio: ['ignore', 'ignore', 'inherit'], detached: true });
 let failures = 0;
 const ok = (c, l) => { if (!c) failures++; console.log(`${c ? '✓' : '✗'} ${l}`); };
 try {
@@ -32,6 +34,7 @@ try {
   ok(v.length === 0, `axe clean${v.length ? ' → ' + v.join(' | ') : ''}`);
   ok(errors.length === 0, `no console error (hydration included)${errors.length ? ' → ' + errors.join(' | ') : ''}`);
   await b.close();
-} finally { server.kill(); }
+} finally { try { process.kill(-server.pid, 'SIGTERM'); } catch {} }
 if (failures) { console.error(`${failures} Next.js consumer check(s) failed`); process.exit(1); }
 console.log('next consumer check ok');
+process.exit(0);
