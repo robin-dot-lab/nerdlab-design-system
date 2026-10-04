@@ -1,5 +1,11 @@
 # @robin-dot-lab/mail
 
+## 1.0.0-rc.1
+
+### Major Changes
+
+- 13b4c99: Joins the 1.0 release train with the rest of the kit: the mail components listed in `api-surface.txt` are the stable API from 1.0.0 on. No change in behaviour.
+
 ## 0.1.0-rc.0
 
 ### Minor Changes
