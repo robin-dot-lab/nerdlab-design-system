@@ -1,6 +1,6 @@
 {
   "name": "@robin-dot-lab/css-candy",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Nerdlab Candy skin: tokens + nl-* component classes in cascade layers",
   "keywords": [
     "nerdlab",
