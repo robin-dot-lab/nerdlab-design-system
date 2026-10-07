@@ -147,11 +147,11 @@ describe('Attachments', () => {
   const pdf = { name: 'ticket.pdf', size: 12_400, type: 'application/pdf', href: '/a/1' };
   it('a download link named by the file, size in the locale, icon by type', () => {
     const { rerender } = render(<AttachmentChip attachment={pdf} />);
-    const link = screen.getByRole('link', { name: 'Download ticket.pdf, 12.4 kB' });
+    const link = screen.getByRole('link', { name: 'ticket.pdf, 12.4 kB, download' });
     expect(link.getAttribute('download')).toBe('ticket.pdf');
     expect(link.getAttribute('href')).toBe('/a/1');
     rerender(<I18nProvider locale="fr-FR"><AttachmentChip attachment={{ ...pdf, size: 3_100_000 }} /></I18nProvider>);
-    expect(screen.getByRole('link').getAttribute('aria-label')).toMatch(/^Télécharger ticket\.pdf, 3,1\sMo$/);
+    expect(screen.getByRole('link').getAttribute('aria-label')).toMatch(/^ticket\.pdf, 3,1\sMo, télécharger$/);
   });
   it('a named list, nothing when empty', () => {
     const { rerender, container } = render(<AttachmentList attachments={[pdf, { name: 'photo.jpg', size: 900, type: 'image/jpeg', href: '/a/2' }]} />);
