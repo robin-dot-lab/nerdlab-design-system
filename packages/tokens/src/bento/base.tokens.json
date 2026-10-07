@@ -1,0 +1,551 @@
+{
+  "ink": {
+    "$value": "#16201B",
+    "$type": "color",
+    "$description": "Darkest text and the primary button. Bento never draws outlines with it."
+  },
+  "cream": {
+    "$value": "#FFFFFF",
+    "$type": "color",
+    "$description": "Light text on forest, coral and ink fills; the email frame and QR code background."
+  },
+  "color": {
+    "primary": {
+      "$value": "#2E5641",
+      "$type": "color",
+      "$description": "Forest. Brand tiles and fills; carries white text (text-on-primary) in both themes."
+    },
+    "primary-hover": {
+      "$value": "#24463A",
+      "$type": "color"
+    },
+    "primary-soft": {
+      "$value": "#DCE8E0",
+      "$type": "color",
+      "$description": "Forest tint: hover and selected backgrounds."
+    },
+    "secondary": {
+      "$value": "#F3EFA0",
+      "$type": "color",
+      "$description": "Butter. Tiles, the highlighted code, the marker; text-primary on it."
+    },
+    "secondary-hover": {
+      "$value": "#EBE586",
+      "$type": "color"
+    },
+    "secondary-soft": {
+      "$value": "#F8F6D3",
+      "$type": "color",
+      "$description": "Butter tint: table heads, selected rows."
+    },
+    "accent": {
+      "$value": "#F48B2A",
+      "$type": "color",
+      "$description": "Orange accent: the call to action. Always ink text (white is 2.45:1)."
+    },
+    "accent-hover": {
+      "$value": "#E77B17",
+      "$type": "color"
+    },
+    "tomato": {
+      "$value": "#C8392F",
+      "$type": "color",
+      "$description": "Coral red: destructive actions and failure badges. White text (5.1:1); ΔE 20 from the orange."
+    },
+    "lavender": {
+      "$value": "#DCD6FB",
+      "$type": "color",
+      "$description": "Lilac tone; text-primary on it."
+    },
+    "violet": {
+      "$value": "#4B3FA0",
+      "$type": "color",
+      "$description": "Deep lilac: links and strokes."
+    },
+    "mint": {
+      "$value": "#F9DCDC",
+      "$type": "color",
+      "$description": "Powder pink tone (the Candy name is kept: same API, Bento value); text-primary on it."
+    },
+    "forest": {
+      "$value": "#2E5641",
+      "$type": "color"
+    },
+    "background": {
+      "$value": "#ECEEEA",
+      "$type": "color",
+      "$description": "Grey-green page background: tiles sit on it."
+    },
+    "background-grid": {
+      "$value": "#E6E9E4",
+      "$type": "color"
+    },
+    "grid-line": {
+      "$value": "#D8DDD8",
+      "$type": "color"
+    },
+    "surface": {
+      "$value": "#FFFFFF",
+      "$type": "color"
+    },
+    "surface-elevated": {
+      "$value": "#FFFFFF",
+      "$type": "color"
+    },
+    "surface-sunken": {
+      "$value": "#F1F3EF",
+      "$type": "color",
+      "$description": "Wells inside a tile: quiet buttons, code, tracks."
+    },
+    "line": {
+      "$value": "{ink}",
+      "$type": "color",
+      "$description": "Strokes and the focus ring."
+    },
+    "border": {
+      "$value": "#7A847E",
+      "$type": "color",
+      "$description": "Form control boundary: 3:1 on the background and surfaces (WCAG 1.4.11). Tiles and buttons have no border."
+    },
+    "border-subtle": {
+      "$value": "#DCE0DB",
+      "$type": "color",
+      "$description": "Hairline separators (list rows, table rows)."
+    },
+    "text-primary": {
+      "$value": "#16201B",
+      "$type": "color"
+    },
+    "text-secondary": {
+      "$value": "#55605A",
+      "$type": "color"
+    },
+    "text-on-primary": {
+      "$value": "{cream}",
+      "$type": "color"
+    },
+    "text-on-dark": {
+      "$value": "{cream}",
+      "$type": "color"
+    },
+    "success": {
+      "$value": "#3DAA6E",
+      "$type": "color"
+    },
+    "warning": {
+      "$value": "#E9B23C",
+      "$type": "color"
+    },
+    "error": {
+      "$value": "#F0857A",
+      "$type": "color",
+      "$description": "Error fills with ink text."
+    },
+    "error-text": {
+      "$value": "#B42318",
+      "$type": "color"
+    },
+    "overlay": {
+      "$value": "rgba(22, 32, 27, 0.45)",
+      "$type": "color"
+    },
+    "info": {
+      "$value": "#A397F0",
+      "$type": "color"
+    }
+  },
+  "pixel": {
+    "moss": {
+      "$value": "#5E9C7A",
+      "$type": "color",
+      "$description": "Bento has no pixel art: the pixel tokens take Bento colours."
+    },
+    "bark": {
+      "$value": "{ink}",
+      "$type": "color"
+    },
+    "pumpkin": {
+      "$value": "{color.accent}",
+      "$type": "color"
+    },
+    "sand": {
+      "$value": "{color.surface-sunken}",
+      "$type": "color"
+    },
+    "leaf": {
+      "$value": "#D5E8C0",
+      "$type": "color"
+    }
+  },
+  "chart": {
+    "1": {
+      "$value": "#2E5641",
+      "$type": "color"
+    },
+    "2": {
+      "$value": "#F48B2A",
+      "$type": "color"
+    },
+    "3": {
+      "$value": "#6F5FD3",
+      "$type": "color"
+    },
+    "4": {
+      "$value": "#E0679A",
+      "$type": "color"
+    },
+    "seq-1": {
+      "$value": "#CFE3D6",
+      "$type": "color"
+    },
+    "seq-2": {
+      "$value": "#9CC7AE",
+      "$type": "color"
+    },
+    "seq-3": {
+      "$value": "#5E9C7A",
+      "$type": "color"
+    },
+    "seq-4": {
+      "$value": "#2E5641",
+      "$type": "color"
+    },
+    "seq-5": {
+      "$value": "#17301F",
+      "$type": "color"
+    },
+    "grid": {
+      "$value": "#E3E6E1",
+      "$type": "color"
+    },
+    "muted": {
+      "$value": "#C5CBC6",
+      "$type": "color"
+    }
+  },
+  "font": {
+    "display": {
+      "$value": "'Outfit', 'Outfit Fallback', system-ui, sans-serif",
+      "$type": "fontFamily",
+      "$description": "Titles and large numbers, 600 and 700, tight tracking."
+    },
+    "body": {
+      "$value": "'Manrope', 'Manrope Fallback', system-ui, sans-serif",
+      "$type": "fontFamily",
+      "$description": "Text and interface, 400 to 700."
+    },
+    "mono": {
+      "$value": "'JetBrains Mono', 'JetBrains Mono Fallback', ui-monospace, monospace",
+      "$type": "fontFamily"
+    },
+    "pixel": {
+      "$value": "{font.mono}",
+      "$type": "fontFamily",
+      "$description": "Bento has no pixel face: the mono face stands in."
+    }
+  },
+  "text": {
+    "xs": {
+      "$value": "0.75rem",
+      "$type": "dimension"
+    },
+    "sm": {
+      "$value": "0.875rem",
+      "$type": "dimension"
+    },
+    "base": {
+      "$value": "1rem",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": "clamp(1.0625rem, 1.0417rem + 0.1042vw, 1.125rem)",
+      "$type": "dimension"
+    },
+    "xl": {
+      "$value": "clamp(1.25rem, 1.2083rem + 0.2083vw, 1.375rem)",
+      "$type": "dimension"
+    },
+    "2xl": {
+      "$value": "clamp(1.5rem, 1.4167rem + 0.4167vw, 1.75rem)",
+      "$type": "dimension"
+    },
+    "3xl": {
+      "$value": "clamp(2rem, 1.8333rem + 0.8333vw, 2.5rem)",
+      "$type": "dimension"
+    },
+    "4xl": {
+      "$value": "clamp(2.5rem, 2.1667rem + 1.6667vw, 3.5rem)",
+      "$type": "dimension"
+    },
+    "5xl": {
+      "$value": "clamp(3.25rem, 2.6667rem + 2.9167vw, 5rem)",
+      "$type": "dimension"
+    },
+    "6xl": {
+      "$value": "clamp(4rem, 2.8333rem + 5.8333vw, 7.5rem)",
+      "$type": "dimension"
+    }
+  },
+  "leading": {
+    "xs": {
+      "$value": "1rem",
+      "$type": "number"
+    },
+    "sm": {
+      "$value": "1.25rem",
+      "$type": "number"
+    },
+    "base": {
+      "$value": "1.5rem",
+      "$type": "number"
+    },
+    "lg": {
+      "$value": "1.55",
+      "$type": "number"
+    },
+    "xl": {
+      "$value": "1.3",
+      "$type": "number"
+    },
+    "2xl": {
+      "$value": "1.15",
+      "$type": "number"
+    },
+    "3xl": {
+      "$value": "1.05",
+      "$type": "number"
+    },
+    "4xl": {
+      "$value": "0.95",
+      "$type": "number"
+    },
+    "5xl": {
+      "$value": "0.9",
+      "$type": "number"
+    },
+    "6xl": {
+      "$value": "0.87",
+      "$type": "number"
+    }
+  },
+  "weight": {
+    "normal": {
+      "$value": "400",
+      "$type": "fontWeight"
+    },
+    "medium": {
+      "$value": "500",
+      "$type": "fontWeight"
+    },
+    "semibold": {
+      "$value": "600",
+      "$type": "fontWeight"
+    },
+    "bold": {
+      "$value": "700",
+      "$type": "fontWeight"
+    },
+    "black": {
+      "$value": "700",
+      "$type": "fontWeight",
+      "$description": "Bento loads Outfit and Manrope up to 700."
+    }
+  },
+  "tracking": {
+    "display": {
+      "$value": "-0.03em",
+      "$type": "dimension"
+    },
+    "mono": {
+      "$value": "0.04em",
+      "$type": "dimension"
+    }
+  },
+  "space": {
+    "0": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "1": {
+      "$value": "0.25rem",
+      "$type": "dimension"
+    },
+    "2": {
+      "$value": "0.5rem",
+      "$type": "dimension"
+    },
+    "3": {
+      "$value": "0.75rem",
+      "$type": "dimension"
+    },
+    "4": {
+      "$value": "1rem",
+      "$type": "dimension"
+    },
+    "5": {
+      "$value": "1.25rem",
+      "$type": "dimension"
+    },
+    "6": {
+      "$value": "1.5rem",
+      "$type": "dimension"
+    },
+    "8": {
+      "$value": "2rem",
+      "$type": "dimension"
+    },
+    "10": {
+      "$value": "2.5rem",
+      "$type": "dimension"
+    },
+    "12": {
+      "$value": "3rem",
+      "$type": "dimension"
+    },
+    "16": {
+      "$value": "4rem",
+      "$type": "dimension"
+    },
+    "20": {
+      "$value": "5rem",
+      "$type": "dimension"
+    },
+    "fluid-xs": {
+      "$value": "clamp(0.5rem, 0.4167rem + 0.4167vw, 0.75rem)",
+      "$type": "dimension"
+    },
+    "fluid-sm": {
+      "$value": "clamp(0.75rem, 0.5833rem + 0.8333vw, 1.25rem)",
+      "$type": "dimension"
+    },
+    "fluid-md": {
+      "$value": "clamp(1rem, 0.8333rem + 0.8333vw, 1.5rem)",
+      "$type": "dimension"
+    },
+    "fluid-lg": {
+      "$value": "clamp(1.5rem, 1.1667rem + 1.6667vw, 2.5rem)",
+      "$type": "dimension"
+    },
+    "fluid-xl": {
+      "$value": "clamp(2rem, 1.3333rem + 3.3333vw, 4rem)",
+      "$type": "dimension"
+    },
+    "gutter": {
+      "$value": "clamp(1rem, 0.5rem + 2.5vw, 2.5rem)",
+      "$type": "dimension"
+    }
+  },
+  "grid": {
+    "cell": {
+      "$value": "24px"
+    },
+    "paper": {
+      "$value": "{color.surface-sunken}",
+      "$description": "No grid paper in Bento: a flat sunken fill."
+    }
+  },
+  "section": {
+    "y": {
+      "$value": "clamp(3rem, 2.3333rem + 3.3333vw, 5rem)"
+    }
+  },
+  "touch": {
+    "target": {
+      "$value": "44px"
+    }
+  },
+  "nav": {
+    "offset": {
+      "$value": "64px"
+    }
+  },
+  "content": {
+    "max": {
+      "$value": "1200px"
+    }
+  },
+  "radius": {
+    "none": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "sm": {
+      "$value": "12px",
+      "$type": "dimension"
+    },
+    "md": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$description": "Inner elements."
+    },
+    "lg": {
+      "$value": "24px",
+      "$type": "dimension",
+      "$description": "Inner elements, cards."
+    },
+    "xl": {
+      "$value": "32px",
+      "$type": "dimension",
+      "$description": "Tiles."
+    },
+    "full": {
+      "$value": "9999px",
+      "$type": "dimension"
+    }
+  },
+  "border": {
+    "width": {
+      "$value": "1.5px",
+      "$description": "Form control boundary."
+    },
+    "thick": {
+      "$value": "2px",
+      "$description": "Focus ring."
+    },
+    "hairline": {
+      "$value": "1px"
+    },
+    "DEFAULT": {
+      "$value": "{border.width} solid {color.border}",
+      "$description": "Form controls only: tiles and buttons have none."
+    },
+    "heavy": {
+      "$value": "{border.thick} solid {color.line}"
+    }
+  },
+  "shadow": {
+    "sm": {
+      "$value": "none",
+      "$type": "shadow",
+      "$description": "Bento has no hard shadows."
+    },
+    "md": {
+      "$value": "none",
+      "$type": "shadow"
+    },
+    "lg": {
+      "$value": "none",
+      "$type": "shadow"
+    },
+    "soft": {
+      "$value": "0 24px 48px -20px rgba(22, 32, 27, 0.28), 0 2px 8px rgba(22, 32, 27, 0.06)",
+      "$type": "shadow",
+      "$description": "Only what floats: dialog, menu, popover, tooltip, toast, drawer."
+    },
+    "glow": {
+      "$value": "0 0 0 6px {color.surface}",
+      "$type": "shadow",
+      "$description": "Halo under the focus ring, so the ring keeps its contrast on any tone."
+    }
+  },
+  "transition": {
+    "default": {
+      "$value": "background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease",
+      "$type": "transition"
+    },
+    "slow": {
+      "$value": "all 0.4s cubic-bezier(.2, .8, .2, 1)",
+      "$type": "transition"
+    }
+  }
+}

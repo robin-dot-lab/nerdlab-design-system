@@ -27,5 +27,13 @@ for (const [theme, ref] of Object.entries(REFERENCE)) {
     console.log(`${theme}/${label}: ${a.size} reference vars checked`);
   }
 }
+// Bento (ADR-030) has no reference sheet: it must expose exactly Candy's variable names, values aside,
+// so an application or the kit's CSS never reads a variable that one skin lacks.
+const names = (css) => new Set(css.match(/--[\w-]+(?=\s*:)/g));
+const candyNames = names(fs.readFileSync('dist/candy/tokens.css', 'utf8'));
+const bentoNames = names(fs.readFileSync('dist/bento/tokens.css', 'utf8'));
+for (const n of candyNames) if (!bentoNames.has(n)) { failures++; console.error(`✗ bento lacks ${n}`); }
+for (const n of bentoNames) if (!candyNames.has(n)) { failures++; console.error(`✗ bento has ${n}, which Candy does not`); }
+console.log(`bento: ${bentoNames.size} variables, the same names as candy`);
 if (failures) { console.error(`${failures} parity failure(s)`); process.exit(1); }
 console.log('parity ok');

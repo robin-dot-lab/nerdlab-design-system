@@ -1,11 +1,11 @@
-// Checks every palette, light and dark, before it ships:
+// Checks every palette of both skins (Candy's seven, Bento's own), light and dark, before it ships:
 //  - text pairs reach 4.5:1 (WCAG AA), lines and focus rings 3:1 against what they sit on;
 //  - adjacent categorical chart colours (1/2, 2/3, 3/4: series are assigned in that fixed order, and the
 //    dataviz method checks the adjacent pair list) stay apart for everyone: OKLab ΔE ≥ 15 with normal vision,
 //    and ≥ 6 under protanopia, deuteranopia and tritanopia (6–8 is allowed only because every chart
 //    has a legend, direct labels and a table view; it is reported as a warning).
 // Chart marks under 3:1 against the surface are reported too, never fatal (labels and tables back them).
-import { loadPalettes } from './palettes.mjs';
+import { loadPalettes, loadBento } from './palettes.mjs';
 
 const hex = (c) => {
   const m = /^#([0-9a-f]{6})$/i.exec(c.trim());
@@ -33,24 +33,53 @@ const CVD = {
 const unlin = (v) => { const c = Math.min(1, Math.max(0, v)); return c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055; };
 const simulate = (rgb, m) => { const l = rgb.map(lin); return m.map((row) => unlin(row[0] * l[0] + row[1] * l[1] + row[2] * l[2])); };
 
+// Candy: every candy fill carries ink text.
 const FILLS = ['color.primary', 'color.primary-hover', 'color.secondary', 'color.secondary-hover', 'color.accent', 'color.accent-hover',
   'color.tomato', 'color.lavender', 'color.mint', 'color.success', 'color.warning', 'color.error', 'color.info'];
-const TEXT = [
-  ['color.text-primary', 'color.background'], ['color.text-primary', 'color.surface'], ['color.text-primary', 'color.surface-elevated'],
-  ['color.text-primary', 'color.surface-sunken'], ['color.text-primary', 'color.primary-soft'], ['color.text-primary', 'color.secondary-soft'],
-  ['color.text-secondary', 'color.background'], ['color.text-secondary', 'color.surface'],
-  ['color.error-text', 'color.background'], ['color.error-text', 'color.surface'],
-  ['cream', 'ink'], ...FILLS.map((f) => ['ink', f]),
-];
-const LINE = [['line', 'color.background'], ['line', 'color.surface'], ['color.violet', 'color.surface'], ['color.violet', 'color.background']];
+const CANDY = {
+  text: [
+    ['color.text-primary', 'color.background'], ['color.text-primary', 'color.surface'], ['color.text-primary', 'color.surface-elevated'],
+    ['color.text-primary', 'color.surface-sunken'], ['color.text-primary', 'color.primary-soft'], ['color.text-primary', 'color.secondary-soft'],
+    ['color.text-secondary', 'color.background'], ['color.text-secondary', 'color.surface'],
+    ['color.error-text', 'color.background'], ['color.error-text', 'color.surface'],
+    ['cream', 'ink'], ...FILLS.map((f) => ['ink', f]),
+  ],
+  line: [['line', 'color.background'], ['line', 'color.surface'], ['color.violet', 'color.surface'], ['color.violet', 'color.background']],
+};
+// Bento (ADR-030): the tones carry the theme's text (ink in light, light text on the darkened tones in dark),
+// forest and coral carry white, orange and the status fills carry ink, the primary button is the text
+// colour itself with the background colour on it; form controls draw a 3:1 boundary, the focus ring 3:1.
+const SURFACES = ['color.background', 'color.surface', 'color.surface-elevated', 'color.surface-sunken'];
+const TONES = ['color.secondary', 'color.secondary-hover', 'color.lavender', 'color.mint', 'color.primary-soft', 'color.secondary-soft'];
+const BENTO = {
+  text: [
+    ...[...SURFACES, ...TONES].map((bg) => ['color.text-primary', bg]),
+    ...[...SURFACES, ...TONES].map((bg) => ['color.text-secondary', bg]),
+    ['color.text-on-primary', 'color.primary'], ['color.text-on-primary', 'color.primary-hover'],
+    ['cream', 'color.tomato'], ['cream', 'ink'],
+    ...['color.accent', 'color.accent-hover', 'color.success', 'color.warning', 'color.error', 'color.info'].map((f) => ['ink', f]),
+    ['color.background', 'color.text-primary'],
+    ['color.error-text', 'color.background'], ['color.error-text', 'color.surface'],
+    ['color.violet', 'color.background'], ['color.violet', 'color.surface'],
+  ],
+  line: [
+    ...SURFACES.map((bg) => ['line', bg]), ...TONES.map((bg) => ['line', bg]),
+    ...SURFACES.map((bg) => ['color.border', bg]),
+  ],
+};
 
 let failures = 0, warnings = 0;
-for (const p of loadPalettes()) for (const mode of ['light', 'dark']) {
-  const v = { ...p[mode], line: mode === 'dark' ? p[mode].cream : p[mode].ink };
+const skins = [
+  ...loadPalettes().map((p) => ({ id: p.id, light: p.light, dark: p.dark, pairs: CANDY, line: (mode, v) => (mode === 'dark' ? v.cream : v.ink) })),
+  { id: 'bento', ...loadBento(), pairs: BENTO, line: (mode, v) => v['color.line'] },
+];
+for (const p of skins) for (const mode of ['light', 'dark']) {
+  const v = { ...p[mode] };
+  v.line = p.line(mode, v);
   const get = (k) => { const c = hex(v[k]); if (!c) throw new Error(`${p.id} ${mode}: ${k} is not #RRGGBB (${v[k]})`); return c; };
   const bad = [], warn = [];
-  for (const [fg, bg] of TEXT) { const r = ratio(get(fg), get(bg)); if (r < 4.5) bad.push(`${fg} on ${bg} ${r.toFixed(2)}:1`); }
-  for (const [fg, bg] of LINE) { const r = ratio(get(fg), get(bg)); if (r < 3) bad.push(`${fg} on ${bg} ${r.toFixed(2)}:1 (needs 3)`); }
+  for (const [fg, bg] of p.pairs.text) { const r = ratio(get(fg), get(bg)); if (r < 4.5) bad.push(`${fg} on ${bg} ${r.toFixed(2)}:1`); }
+  for (const [fg, bg] of p.pairs.line) { const r = ratio(get(fg), get(bg)); if (r < 3) bad.push(`${fg} on ${bg} ${r.toFixed(2)}:1 (needs 3)`); }
   const cats = [1, 2, 3, 4].map((i) => get(`chart.${i}`));
   for (const [i, c] of cats.entries()) { const r = ratio(c, get('color.surface')); if (r < 3) warn.push(`chart.${i + 1} on surface ${r.toFixed(2)}:1`); }
   for (const [i, j] of [[0, 1], [1, 2], [2, 3]]) {
