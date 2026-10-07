@@ -90,7 +90,8 @@ for (const theme of THEMES) {
     // re-declares every base value: Bento's highlighted code keeps its light butter on a dark page.
     const baseBody = base.slice(base.indexOf('{') + 1, base.lastIndexOf('}'));
     const autoCss = `@media (prefers-color-scheme: dark) {\n${indent(`[data-theme="auto"] {${darkBody}}`)}\n}`;
-    fs.writeFileSync(`${out}tokens.css`, `${base}\n${dark}\n/* Automatic theme */\n${autoCss}\n/* Explicit light container */\n[data-theme="light"] {${baseBody}}\n`);
+    // Containers only (:not(:root)): on <html>, light is already the default.
+    fs.writeFileSync(`${out}tokens.css`, `${base}\n${dark}\n/* Automatic theme */\n${autoCss}\n/* Explicit light container */\n[data-theme="light"]:not(:root) {${baseBody}}\n`);
     console.log(`tokens: ${theme} built`);
   }
   fs.rmSync(`${out}tokens.base.css`);

@@ -16,7 +16,13 @@ function applySkin(skin: string) {
   if (!style) { style = document.createElement('style'); style.id = 'nl-skin'; document.head.prepend(style); }
   if (style.dataset.skin !== skin) { style.textContent = SKINS[skin] ?? SKINS.candy!; style.dataset.skin = skin; }
 }
-applySkin(new URLSearchParams(location.search).get('globals')?.match(/skin:(\w+)/)?.[1] ?? 'candy');
+// The skin and the theme of the URL apply before the first story renders, as an application sets them
+// before its first paint. Set during the first render instead, WebKit sometimes kept the light values
+// it had resolved for the story's elements (seen on Forms/InputGroups in Bento, dark).
+const urlGlobals = new URLSearchParams(location.search).get('globals') ?? '';
+applySkin(urlGlobals.match(/skin:(\w+)/)?.[1] ?? 'candy');
+const urlTheme = urlGlobals.match(/theme:(\w+)/)?.[1];
+if (urlTheme) document.documentElement.dataset.theme = urlTheme;
 
 const preview: Preview = {
   globalTypes: {

@@ -40,6 +40,8 @@
   /* App and mail components: the spinner's strong quarter, pressed toggles, the current link. */
   .nl-spinner { forced-color-adjust: none; border-color: GrayText; border-block-start-color: CanvasText; }
   .nl-input-group:focus-within { outline: 2px solid Highlight; outline-offset: 1px; }
+  /* A field inside a group drops its own ring (the group draws it); here the focused field keeps one too. */
+  .nl-input-group > .nl-input:focus-visible, .nl-input-group__addon .nl-input:focus-visible { outline: 2px solid Highlight; outline-offset: -3px; }
   .nl-input-group__button[aria-pressed="true"], .nl-sidebar__toggle[aria-pressed="true"],
   .nl-sidebar__item[aria-current="page"] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
   .nl-toggle:checked, .nl-check:checked, .nl-check:indeterminate, .nl-radio:checked { border-color: Highlight; }
