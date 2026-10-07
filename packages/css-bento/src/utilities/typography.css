@@ -1,0 +1,40 @@
+/* Text styles: display, headline, eyebrow, pixel, muted, effects. Bento: Outfit for titles and big
+   numbers, tight tracking, sentence case; the poster effects of Candy (hollow, popped) are plain here. */
+.nl-display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin: 0;
+}
+.nl-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0;
+}
+.nl-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  line-height: var(--leading-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: var(--weight-bold);
+}
+.nl-pixel { font-family: var(--font-pixel); }
+.nl-muted { color: var(--color-text-secondary); }
+
+/* Outlined (hollow) text in Candy: plain secondary text in Bento */
+.nl-outline-text { color: var(--color-text-secondary); }
+/* Popped text in Candy: no shadow in Bento */
+.nl-pop-text { text-shadow: none; }
+
+/* Highlighter: a rounded butter fill behind the words */
+.nl-mark {
+  background: var(--color-secondary);
+  color: var(--color-text-primary);
+  border-radius: 0.3em;
+  padding: 0 0.15em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}

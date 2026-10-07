@@ -1,0 +1,13 @@
+/* Checkbox: boundary at 3:1, forest when checked with a white tick (the tick is drawn in icon.css) */
+.nl-check {
+  appearance: none;
+  width: 22px; height: 22px; margin: 0;
+  border: var(--border); border-radius: calc(var(--radius-sm) / 2);
+  background: var(--color-surface);
+  display: inline-grid; place-items: center;
+  cursor: pointer;
+}
+.nl-check:checked { background: var(--color-primary); border-color: var(--color-primary); }
+@media (pointer: coarse) {
+  .nl-check { width: 26px; height: 26px; }
+}

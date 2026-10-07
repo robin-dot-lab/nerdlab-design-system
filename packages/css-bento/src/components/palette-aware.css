@@ -1,0 +1,5 @@
+/* Palettes: Bento has one palette of its own (ADR-030), so [data-palette] has no effect here. Candy keeps
+   this file for two rules that follow its palettes; their Bento counterparts already derive from tokens.
+   The file is kept so both skins have the same files in the same order. */
+.nl-btn--tomato { --btn-bg-hover: color-mix(in oklab, var(--color-tomato) 88%, var(--ink)); }
+.nl-search input::placeholder { color: var(--color-text-secondary); }

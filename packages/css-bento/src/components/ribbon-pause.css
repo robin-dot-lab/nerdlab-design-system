@@ -1,0 +1,17 @@
+/* Pausable ribbon: a marquee that moves for more than five seconds needs a way to stop it (WCAG 2.2.2).
+   The button sits over the track's inline end; under reduced motion the track is already still, so it is hidden. */
+.nl-ribbon--pausable { position: relative; padding-inline-end: var(--touch-target); }
+.nl-ribbon__pause {
+  position: absolute; inset-block: 0; inset-inline-end: 0;
+  min-width: var(--touch-target);
+  border: 0; border-start-end-radius: inherit; border-end-end-radius: inherit;
+  background: var(--color-secondary-hover); color: var(--color-text-primary);
+  font: inherit; font-size: var(--text-base); cursor: pointer;
+}
+.nl-ribbon__pause:hover { background: color-mix(in oklab, var(--color-secondary-hover) 88%, var(--color-text-primary)); }
+.nl-ribbon__pause:focus-visible { outline-offset: -4px; box-shadow: none; }
+.nl-ribbon--paused .nl-ribbon__track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .nl-ribbon--pausable { padding-inline-end: 0; }
+  .nl-ribbon__pause { display: none; }
+}

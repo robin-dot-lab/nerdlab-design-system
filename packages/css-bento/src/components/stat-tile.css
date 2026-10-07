@@ -1,0 +1,6 @@
+/* Stat tile: sits on .nl-window, an inline-size container: the value scales with the tile (cqi). Big numbers in the display face. */
+.nl-stat .nl-window__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); align-content: start; }
+.nl-stat__label { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-secondary); }
+.nl-stat__value { font-family: var(--font-display); font-size: clamp(1.75rem, 15cqi, var(--text-3xl)); font-weight: var(--weight-bold); line-height: 1; letter-spacing: var(--tracking-display); }
+.nl-stat--hero .nl-stat__value { font-size: clamp(2.25rem, 15cqi, 3.75rem); }
+.nl-stat__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-size: var(--text-xs); color: var(--color-text-secondary); }

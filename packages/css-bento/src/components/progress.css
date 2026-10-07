@@ -1,0 +1,15 @@
+/* Progress bar: a sunken pill track with a forest fill */
+.nl-progress {
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  overflow: hidden;
+}
+.nl-progress > span {
+  display: block; height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+}
+/* Pixel progress: no pixel art in Bento, the same bar */
+.nl-progress--pixel { border-radius: var(--radius-full); }
+.nl-progress--pixel > span { border-radius: var(--radius-full); }

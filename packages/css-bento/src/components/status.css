@@ -1,0 +1,23 @@
+/* StatusDot: a dot in the status tone with its words next to it (never the dot alone). `--pulse` adds
+   a ring that grows and fades, still under reduced motion. */
+.nl-status { --status-tone: var(--color-text-secondary); display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
+.nl-status--ok { --status-tone: var(--color-success); }
+.nl-status--warn { --status-tone: var(--color-warning); }
+.nl-status--bad { --status-tone: var(--color-tomato); }
+.nl-status--info { --status-tone: var(--color-info); }
+.nl-status__dot {
+  position: relative; flex: none;
+  width: 0.625em; height: 0.625em;
+  border-radius: var(--radius-full);
+  background: var(--status-tone);
+}
+.nl-status--pulse .nl-status__dot::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: inherit; background: var(--status-tone);
+  animation: nl-status-pulse 1.6s ease-out infinite;
+}
+@keyframes nl-status-pulse { to { transform: scale(2.4); opacity: 0; } }
+.nl-status__label { font-weight: var(--weight-semibold); }
+@media (prefers-reduced-motion: reduce) {
+  .nl-status--pulse .nl-status__dot::after { animation: none; opacity: 0; }
+}

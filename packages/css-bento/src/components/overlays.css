@@ -1,0 +1,74 @@
+/* Overlays: dialog, popover, menu. React Aria positions them and sets [data-entering], [data-exiting],
+   [data-placement], [data-focused]; the dialog is a .nl-window in front of the page. Everything that
+   floats has the soft shadow — and only that. No blur behind the scrim (ADR-030: no frosted glass). */
+.nl-dialog-overlay {
+  position: fixed; inset: 0; z-index: 110;
+  display: grid; place-items: center;
+  padding: var(--space-4);
+  background: var(--color-overlay);
+  overflow-y: auto;
+}
+.nl-dialog-modal { width: min(100%, 34rem); outline: none; }
+.nl-dialog-modal--lg { width: min(100%, 48rem); }
+.nl-dialog { display: flex; flex-direction: column; max-height: calc(100dvh - var(--space-8)); outline: none; box-shadow: var(--shadow-soft); }
+.nl-dialog .nl-window__bar { flex: none; padding-block-start: var(--space-4); padding-inline-end: var(--space-4); color: var(--color-text-primary); }
+.nl-dialog .nl-window__bar::before { display: none; }
+.nl-dialog__title { min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-xl); line-height: var(--leading-xl); letter-spacing: -0.02em; }
+.nl-dialog__close {
+  display: inline-grid; place-items: center; flex: none;
+  min-width: var(--space-10); min-height: var(--space-10);
+  border: 0; border-radius: var(--radius-full);
+  background: var(--color-surface-sunken); color: var(--color-text-primary);
+  font: inherit; font-size: var(--text-lg); line-height: 1; cursor: pointer;
+}
+.nl-dialog__close:hover { background: color-mix(in oklab, var(--color-surface-sunken) 90%, var(--color-text-primary)); }
+.nl-dialog__body { overflow-y: auto; }
+.nl-dialog__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-3); margin-block-start: var(--space-5); }
+.nl-dialog-overlay[data-entering] { animation: nl-overlay-in 0.15s ease-out; }
+.nl-dialog-overlay[data-exiting] { animation: nl-overlay-in 0.12s ease-in reverse; }
+.nl-dialog-modal[data-entering] { animation: nl-dialog-in 0.18s ease-out; }
+@keyframes nl-overlay-in { from { opacity: 0; } }
+@keyframes nl-dialog-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+@media (pointer: coarse) {
+  .nl-dialog__close { min-width: var(--touch-target); min-height: var(--touch-target); }
+}
+
+.nl-popover {
+  max-width: min(22rem, calc(100vw - var(--space-8)));
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-elevated); color: var(--color-text-primary);
+  box-shadow: var(--shadow-soft);
+  outline: none;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+.nl-popover[data-entering], .nl-popover[data-exiting] { opacity: 0; }
+.nl-popover[data-placement="bottom"][data-entering] { transform: translateY(-4px); }
+.nl-popover[data-placement="top"][data-entering] { transform: translateY(4px); }
+.nl-popover__dialog { display: grid; gap: var(--space-2); padding: var(--space-4) var(--space-5); outline: none; }
+.nl-popover__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-lg); line-height: var(--leading-xl); }
+.nl-popover__arrow svg { display: block; fill: var(--color-surface-elevated); }
+.nl-popover[data-placement="bottom"] .nl-popover__arrow svg { transform: rotate(180deg); }
+.nl-popover[data-placement="right"] .nl-popover__arrow svg { transform: rotate(90deg); }
+.nl-popover[data-placement="left"] .nl-popover__arrow svg { transform: rotate(-90deg); }
+
+.nl-menu { display: grid; gap: var(--space-1); min-width: 12rem; max-height: inherit; overflow-y: auto; padding: var(--space-2); outline: none; }
+.nl-menu__item {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer; outline: none;
+}
+.nl-menu__item[data-focused] { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+.nl-menu__item[data-focus-visible] { box-shadow: inset 0 0 0 var(--border-thick) var(--color-line); }
+.nl-menu__item[data-disabled] { opacity: 0.5; cursor: not-allowed; }
+.nl-menu__item--danger { color: var(--color-error-text); }
+.nl-menu__item--danger[data-focused] { background: var(--color-tomato); color: var(--cream); }
+.nl-menu__separator { margin: var(--space-1) var(--space-2); border-block-start: var(--border-hairline) solid var(--color-border-subtle); }
+@media (pointer: coarse) {
+  .nl-menu__item { min-height: var(--touch-target); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nl-dialog-overlay[data-entering], .nl-dialog-overlay[data-exiting], .nl-dialog-modal[data-entering] { animation: none; }
+  .nl-popover { transition: none; }
+}

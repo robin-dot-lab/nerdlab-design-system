@@ -1,0 +1,59 @@
+/* InputGroup: one bordered control made of an input and addons (text, a select, a button). The group
+   draws the boundary and the focus ring; the parts inside lose theirs.
+   Also PasswordInput (toggle button, strength line) and CopyField (monospace value + copy button). */
+.nl-input-group {
+  display: flex; align-items: stretch; min-width: 0;
+  border: var(--border); border-radius: var(--radius-sm);
+  background: var(--color-surface); color: var(--color-text-primary);
+  transition: var(--transition-default);
+}
+.nl-input-group:focus-within { outline: var(--border-thick) solid var(--color-line); outline-offset: 2px; box-shadow: var(--shadow-glow); }
+.nl-input-group:has(.nl-input--error) { border-color: var(--color-error-text); }
+.nl-input-group > .nl-input,
+.nl-input-group__addon .nl-input {
+  flex: 1; min-width: 0;
+  border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+.nl-input-group > .nl-input:focus,
+.nl-input-group__addon .nl-input:focus { outline: none; box-shadow: none; }
+.nl-input-group__addon {
+  display: inline-flex; align-items: center; flex: none;
+  padding-inline: var(--space-3);
+  background: var(--color-surface-sunken); color: var(--color-text-secondary);
+  font-size: var(--text-sm); white-space: nowrap;
+}
+.nl-input-group__addon:first-child { border-inline-end: var(--border-hairline) solid var(--color-border-subtle); border-start-start-radius: inherit; border-end-start-radius: inherit; }
+.nl-input-group__addon:last-child { border-inline-start: var(--border-hairline) solid var(--color-border-subtle); border-start-end-radius: inherit; border-end-end-radius: inherit; }
+/* A select in an addon: the addon keeps its padding for text only. */
+.nl-input-group__addon:has(.nl-select) { padding-inline: 0; }
+.nl-input-group__addon .nl-select { display: flex; align-self: stretch; }
+.nl-input-group__addon .nl-select .nl-input { padding-inline-end: var(--space-10); font-size: var(--text-sm); color: var(--color-text-primary); }
+.nl-input-group__button {
+  display: inline-grid; place-items: center; flex: none;
+  min-width: var(--space-10); padding-inline: var(--space-2);
+  border: 0; border-inline-start: var(--border-hairline) solid var(--color-border-subtle); border-radius: 0;
+  border-start-end-radius: inherit; border-end-end-radius: inherit;
+  background: transparent; color: var(--color-text-primary); cursor: pointer;
+}
+.nl-input-group__button:hover { background: var(--color-surface-sunken); }
+.nl-input-group__button[aria-pressed="true"] { background: var(--color-secondary); color: var(--color-text-primary); }
+.nl-input-group__button:focus-visible { outline: 2px solid var(--color-line); outline-offset: -4px; box-shadow: none; }
+
+.nl-password__strength { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); font-size: var(--text-xs); }
+.nl-password__strength .nl-meter { width: 100%; }
+
+.nl-copy-field .nl-copy-field__input { font-family: var(--font-mono); font-size: var(--text-sm); text-overflow: ellipsis; }
+.nl-copy-field > .nl-copy { display: flex; align-self: stretch; border-inline-start: var(--border-hairline) solid var(--color-border-subtle); }
+/* Multiline: the whole value, wrapping anywhere; the height follows the text (field-sizing where the
+   browser has it, rows set by the component elsewhere). */
+.nl-copy-field--multiline .nl-copy-field__input { resize: none; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; text-overflow: clip; field-sizing: content; min-height: 0; }
+.nl-copy-field > .nl-copy .nl-btn { border-radius: 0; border-start-end-radius: calc(var(--radius-sm) - var(--border-width)); border-end-end-radius: calc(var(--radius-sm) - var(--border-width)); min-height: 100%; }
+@media (pointer: coarse) {
+  .nl-input-group { min-height: var(--touch-target); }
+  .nl-input-group__button { min-width: var(--touch-target); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nl-input-group { transition: none; }
+}
+/* Hidden passwords: the dots get a little air. */
+.nl-password > .nl-input[type="password"] { letter-spacing: 0.12em; }

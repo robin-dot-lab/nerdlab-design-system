@@ -1,0 +1,7 @@
+/* DataTable row selection: a checkbox column; a selected row gets the butter tint and a forest stripe,
+   never colour alone (the checkbox is checked). */
+.nl-table .nl-table__select { width: 1%; padding-inline-end: 0; }
+.nl-table tbody tr.nl-table__row--selected { background: var(--color-secondary-soft); box-shadow: inset 3px 0 0 var(--color-primary); }
+/* Mixed state of a checkbox (the select-all header when only some rows are selected). */
+.nl-check:indeterminate { background: var(--color-primary); border-color: var(--color-primary); }
+.nl-check:indeterminate::after { content: ""; width: 10px; height: 2px; border-radius: var(--radius-full); background: var(--cream); }

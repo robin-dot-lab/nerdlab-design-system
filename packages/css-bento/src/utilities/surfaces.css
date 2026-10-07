@@ -1,0 +1,2 @@
+/* Surface utilities. No grid paper in Bento: --grid-paper is a flat sunken fill. */
+.nl-grid-paper { background: var(--grid-paper); }

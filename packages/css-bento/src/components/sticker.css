@@ -1,0 +1,11 @@
+/* Sticker: in Bento a tonal label, straight, in the display face (no tilted disc, no outline) */
+.nl-sticker {
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-tomato);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  line-height: 1.1;
+}

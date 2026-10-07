@@ -1,0 +1,3 @@
+/* Decorative motion: none in Bento. The classes stay (same API as Candy) and keep things still. */
+@keyframes nl-spin { to { transform: rotate(360deg); } }
+.nl-wobble, .nl-spin-slow { animation: none; }

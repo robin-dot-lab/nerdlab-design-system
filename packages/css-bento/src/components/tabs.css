@@ -1,0 +1,22 @@
+/* Tabs: a sunken pill; the selected tab is inverted (text colour fill), like the primary button */
+.nl-tabs {
+  display: inline-flex; gap: var(--space-1);
+  max-width: 100%; overflow-x: auto; scrollbar-width: none;
+  padding: var(--space-1);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+}
+.nl-tab {
+  flex: none;
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent; color: var(--color-text-secondary);
+  font: inherit; font-weight: var(--weight-semibold); font-size: var(--text-sm);
+  cursor: pointer;
+}
+.nl-tab:hover { color: var(--color-text-primary); }
+.nl-tab[aria-selected="true"] { background: var(--color-text-primary); color: var(--color-background); }
+@media (pointer: coarse) {
+  .nl-tab { min-height: var(--touch-target); }
+}

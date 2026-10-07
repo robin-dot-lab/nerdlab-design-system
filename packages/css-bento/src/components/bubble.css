@@ -1,0 +1,8 @@
+/* Speech bubble: in Bento a plain card, no tail, no outline */
+.nl-bubble {
+  position: relative; display: inline-block;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface); color: var(--color-text-primary);
+  font-family: var(--font-display); font-weight: var(--weight-semibold);
+}

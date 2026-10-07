@@ -1,0 +1,24 @@
+/* Callout: a static message inside the page. The tone tints the background and fills the icon disc; the
+   component also says the tone in words, so colour is never the only signal. */
+.nl-callout {
+  --callout-tone: var(--color-secondary);
+  --callout-ink: var(--color-text-primary);
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start;
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--callout-tone) 35%, var(--color-surface));
+  color: var(--color-text-primary);
+}
+.nl-callout--success { --callout-tone: var(--color-success); --callout-ink: var(--ink); }
+.nl-callout--warning { --callout-tone: var(--color-warning); --callout-ink: var(--ink); }
+.nl-callout--error { --callout-tone: var(--color-error); --callout-ink: var(--ink); }
+.nl-callout__icon {
+  display: inline-grid; place-items: center;
+  width: var(--space-8); height: var(--space-8);
+  border-radius: var(--radius-full);
+  background: var(--callout-tone); color: var(--callout-ink);
+  line-height: 1;
+}
+.nl-callout__body { display: grid; gap: var(--space-1); padding-block-start: var(--space-1); }
+.nl-callout__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-semibold); font-size: var(--text-lg); line-height: var(--leading-xl); }
+.nl-callout__body > p { margin: 0; }

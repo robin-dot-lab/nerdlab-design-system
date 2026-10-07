@@ -1,0 +1,23 @@
+/* Base: box model, body, focus, selection, media.
+   Focus (ADR-030): a crisp ring in the text colour, offset from the element, over a surface-coloured halo,
+   so it keeps its contrast on any tone (forest, ink, butter…). The ring is an outline: forced colours keep it. */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: var(--border-thick) solid var(--color-line);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-glow);
+}
+
+::selection { background: var(--color-secondary); color: var(--color-text-primary); }
+img, video { max-width: 100%; height: auto; }

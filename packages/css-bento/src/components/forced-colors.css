@@ -1,16 +1,24 @@
-/* Forced colours (Windows high contrast; new in the package, ADR-022). The browser swaps the skin's
-   colours for a few system ones and drops box-shadows. What the skin draws with colour alone gets
-   system colours back here; nothing changes outside this mode. Audited by apps/docs/scripts/forced-colors.mjs. */
+/* Forced colours (Windows high contrast, ADR-022). The browser swaps the skin's colours for a few system
+   ones and drops box-shadows. What the skin draws with colour alone gets system colours back here; nothing
+   changes outside this mode. Audited by apps/docs/scripts/forced-colors.mjs. Last file of the manifest. */
 @media (forced-colors: active) {
-  /* Marks drawn as icon masks (and the indeterminate dash): their background would become Canvas. */
+  /* Marks drawn as icon masks (and the indeterminate dash, the radio dot, the companion arrow):
+     their background would become Canvas. */
   .nl-accordion summary::before,
   .nl-check:checked::after,
   .nl-check:indeterminate::after,
+  .nl-radio:checked::after,
   .nl-btn--arrow::after,
   .nl-table th[aria-sort] .nl-table__sort::after { forced-color-adjust: none; background: CanvasText; }
+  /* The companion disc keeps a visible edge. */
+  .nl-btn--arrow::before { border: 1px solid ButtonText; }
+  /* Fills without an outline in Bento get one back: buttons, tiles and pills would merge with the page. */
+  .nl-btn, .nl-chip, .nl-tabs, .nl-nav-toggle, .nl-dialog__close, .nl-sidebar__toggle, .nl-calendar__nav { border: 1px solid ButtonText; }
+  .nl-window, .nl-card, .nl-bento, .nl-popover, .nl-tooltip, .nl-toast, .nl-message-list, .nl-accordion details, .nl-code, .nl-drawer, .nl-sidebar { border: 1px solid CanvasText; }
 
   /* Data marks keep the palette's colours: the values are also in text, the legend and the table view. */
   .nl-bar-row__bar, .nl-share__seg, .nl-heat__cell, .nl-scale__steps i, .nl-key-rect, .nl-key-line { forced-color-adjust: none; }
+  .nl-meter, .nl-progress, progress.nl-progress { forced-color-adjust: none; }
 
   /* Chrome does not force SVG paint: chart text and leader lines take the system text colour. */
   .nl-chart text, .nl-chart text tspan { fill: CanvasText; }
@@ -22,16 +30,21 @@
     outline: 2px solid Highlight; outline-offset: 1px;
   }
 
-  /* States shown by a fill: the current page, the chosen day, highlighted options. */
+  /* States shown by a fill: the current page, the chosen day, highlighted options, the selected tab and message. */
   .nl-pagination .nl-btn[aria-current="page"],
   .nl-calendar__cell[data-selected],
-  .nl-listbox__item[data-selected], .nl-menu__item[data-focused] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
+  .nl-listbox__item[data-selected], .nl-menu__item[data-focused],
+  .nl-tab[aria-selected="true"], .nl-segmented .nl-tab[aria-pressed="true"], .nl-chip[aria-pressed="true"],
+  .nl-message[data-selected], .nl-nav-panel a[aria-current="page"] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
 
-  /* App and mail components: focus rings drawn with box-shadow, the spinner's strong quarter, pressed toggles, the current link. */
+  /* App and mail components: the spinner's strong quarter, pressed toggles, the current link. */
   .nl-spinner { forced-color-adjust: none; border-color: GrayText; border-block-start-color: CanvasText; }
   .nl-input-group:focus-within { outline: 2px solid Highlight; outline-offset: 1px; }
   .nl-input-group__button[aria-pressed="true"], .nl-sidebar__toggle[aria-pressed="true"],
   .nl-sidebar__item[aria-current="page"] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText; }
+  .nl-toggle:checked, .nl-check:checked, .nl-check:indeterminate, .nl-radio:checked { border-color: Highlight; }
+  .nl-toggle::after { forced-color-adjust: none; background: CanvasText; }
+  .nl-toggle:checked::after { background: Highlight; }
   /* Status dots keep their tone, like data marks: the status is also in words next to them. */
   .nl-status__dot, .nl-status--pulse .nl-status__dot::after { forced-color-adjust: none; }
   /* A QR code keeps dark modules on a light square: forced colours would make it unscannable. */

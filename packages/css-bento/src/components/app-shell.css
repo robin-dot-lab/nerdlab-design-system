@@ -1,0 +1,48 @@
+/* AppShell, Topbar, AuthLayout. Below 1024px — the breakpoint of .nl-nav-toggle — the sidebar is hidden
+   and the top bar shows the MobileNav; from 1024px the sidebar and the top bar are tiles floating on the
+   page colour, as in the Bento inbox. */
+.nl-app-shell { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; background: var(--color-background); }
+.nl-app-shell__sidebar { display: none; }
+.nl-app-shell__main { display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; }
+.nl-app-shell__content {
+  container: nl-content / inline-size;
+  display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-fluid-md);
+  min-width: 0; padding: var(--space-fluid-md) var(--space-gutter) var(--section-y);
+}
+@media (min-width: 1024px) {
+  .nl-app-shell { grid-template-columns: auto minmax(0, 1fr); }
+  .nl-app-shell__sidebar { display: block; position: sticky; inset-block-start: 0; height: 100vh; height: 100dvh; padding: var(--space-4) 0 var(--space-4) var(--space-4); }
+  .nl-app-shell__sidebar > .nl-sidebar { border-radius: var(--radius-xl); }
+  .nl-app-shell__content { padding-inline: var(--space-4); padding-block-start: var(--space-4); }
+}
+
+.nl-topbar {
+  position: sticky; inset-block-start: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4);
+  min-height: var(--nav-offset); padding: var(--space-2) var(--space-gutter);
+  background: var(--color-surface); color: var(--color-text-primary);
+}
+@media (min-width: 1024px) {
+  .nl-topbar { margin: var(--space-4) var(--space-4) 0; padding-inline: var(--space-6) var(--space-2); border-radius: var(--radius-full); }
+}
+.nl-topbar__title { flex: 1 1 10rem; min-width: 0; }
+/* With less room than that, actions and user menu wrap under the title instead of crushing it. */
+.nl-topbar__title > :is(h1, h2, p) { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-xl); line-height: var(--leading-xl); letter-spacing: -0.02em; overflow-wrap: break-word; }
+.nl-topbar__actions, .nl-topbar__user { display: flex; align-items: center; gap: var(--space-2); }
+.nl-topbar__mobile-nav { display: flex; }
+@media (min-width: 1024px) {
+  .nl-topbar__mobile-nav { display: none; }
+}
+
+.nl-auth {
+  display: grid; justify-items: center; align-content: center; gap: var(--space-6);
+  min-height: 100vh; min-height: 100dvh;
+  padding: var(--space-fluid-lg) var(--space-gutter);
+  background: var(--color-background); color: var(--color-text-primary);
+}
+.nl-auth__logo { display: flex; justify-content: center; }
+.nl-auth__card { display: grid; gap: var(--space-4); width: 100%; max-width: 28rem; border-radius: var(--radius-xl); padding: var(--space-8); }
+.nl-auth__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-2xl); line-height: var(--leading-2xl); letter-spacing: -0.02em; }
+.nl-auth__description { margin: 0; color: var(--color-text-secondary); }
+.nl-auth__footer { text-align: center; font-size: var(--text-sm); }
+.nl-auth__footer a { color: inherit; font-weight: var(--weight-bold); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }

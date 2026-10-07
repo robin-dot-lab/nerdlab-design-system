@@ -1,0 +1,12 @@
+/* Pill: a tonal label */
+.nl-pill {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary); /* not inherited: on a forest tile the pill keeps its own text colour */
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+.nl-pill--filled { background: var(--color-secondary); color: var(--color-text-primary); }

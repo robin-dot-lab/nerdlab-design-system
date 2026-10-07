@@ -1,0 +1,40 @@
+/* Accordion: native <details>/<summary>. DOM: .nl-accordion > details > summary + div
+   Each item is a tile; the +/− mark sits on a sunken disc that turns butter when open. */
+.nl-accordion { display: grid; gap: var(--space-2); }
+.nl-accordion details {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.nl-accordion summary {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  list-style: none; cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-lg);
+  line-height: var(--leading-lg);
+}
+.nl-accordion summary::-webkit-details-marker { display: none; }
+.nl-accordion summary::after {
+  content: ""; flex: none;
+  width: 28px; height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+}
+.nl-accordion details[open] > summary::after { background: var(--color-secondary); }
+/* The +/− mark (an icon mask, see icon.css) sits centred on the 28px disc drawn by ::after. */
+.nl-accordion summary::before {
+  content: ""; position: absolute; inset-block-start: 50%; inset-inline-end: calc(var(--space-5) + 7px);
+  width: 14px; height: 14px; translate: 0 -50%;
+  background: var(--color-text-primary);
+  -webkit-mask: var(--nl-mask-plus) center / contain no-repeat; mask: var(--nl-mask-plus) center / contain no-repeat;
+}
+.nl-accordion details[open] > summary::before { -webkit-mask-image: var(--nl-mask-minus); mask-image: var(--nl-mask-minus); }
+.nl-accordion summary:hover { background: color-mix(in oklab, var(--color-surface-sunken) 60%, var(--color-surface)); }
+.nl-accordion details > :not(summary) { padding: 0 var(--space-5) var(--space-5); color: var(--color-text-secondary); }
+@media (pointer: coarse) {
+  .nl-accordion summary { min-height: var(--touch-target); }
+}

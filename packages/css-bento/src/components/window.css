@@ -1,0 +1,35 @@
+/* Window: in Bento a tile with a header row. No OS chrome: the decorative controls are hidden (they
+   are aria-hidden in the markup) and the bar's colour becomes a small dot before the title. */
+.nl-window {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+.nl-window__bar {
+  --bar-tone: var(--color-accent);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--space-8);
+  padding: var(--space-5) var(--space-6) 0;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.nl-window__bar::before {
+  content: ""; flex: none;
+  width: 0.5rem; height: 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--bar-tone);
+}
+.nl-window__bar--primary { --bar-tone: var(--color-primary); }
+.nl-window__bar--secondary { --bar-tone: color-mix(in oklab, var(--color-secondary) 55%, var(--color-text-primary)); }
+.nl-window__bar--lavender { --bar-tone: color-mix(in oklab, var(--color-lavender) 55%, var(--color-text-primary)); }
+.nl-window__bar--mint { --bar-tone: color-mix(in oklab, var(--color-mint) 55%, var(--color-text-primary)); }
+.nl-window__controls { display: none; }
+.nl-window__body { padding: var(--space-6); }
+.nl-window__bar + .nl-window__body { padding-block-start: var(--space-3); }
+.nl-window { container-type: inline-size; }
+.nl-window__bar > :first-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

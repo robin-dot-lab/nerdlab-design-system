@@ -1,0 +1,17 @@
+/* EmptyState: what an empty list or page shows. A butter disc for the decorative icon, the title in the
+   display face, a short secondary line and the action. */
+.nl-empty {
+  display: grid; justify-items: center; gap: var(--space-3);
+  padding: var(--space-8) var(--space-4);
+  text-align: center; color: var(--color-text-primary);
+}
+.nl-empty__icon {
+  display: inline-grid; place-items: center;
+  width: var(--space-16); height: var(--space-16);
+  border-radius: var(--radius-full);
+  background: var(--color-secondary); color: var(--color-text-primary);
+  font-size: var(--text-2xl);
+}
+.nl-empty__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-xl); line-height: var(--leading-xl); letter-spacing: -0.02em; }
+.nl-empty__description { margin: 0; max-width: 42ch; color: var(--color-text-secondary); }
+.nl-empty__action { margin-block-start: var(--space-2); }

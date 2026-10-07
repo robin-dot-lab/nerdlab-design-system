@@ -1,0 +1,3 @@
+/* Pagination: buttons from button.css; the current page is inverted (the component sets .nl-btn--accent on it). */
+.nl-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); }
+.nl-pagination .nl-btn[aria-current="page"] { --btn-bg: var(--color-text-primary); --btn-bg-hover: var(--color-text-primary); --btn-fg: var(--color-background); }

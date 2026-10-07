@@ -1,4 +1,4 @@
-# Public API of @robin-dot-lab/css-candy, checked by tools/api-surface/check.mjs. Removing a line is a breaking change.
+# Public API of @robin-dot-lab/css-bento, checked by tools/api-surface/check.mjs. Removing a line is a breaking change.
 class .nl-accordion
 class .nl-address-card
 class .nl-address-card__head

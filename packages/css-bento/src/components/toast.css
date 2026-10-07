@@ -1,0 +1,14 @@
+/* Toast: it floats, so it has the soft shadow */
+.nl-toast {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-elevated); color: var(--color-text-primary);
+  box-shadow: var(--shadow-soft);
+}
+.nl-toast__icon {
+  width: 32px; height: 32px; flex: none;
+  display: grid; place-items: center;
+  border-radius: var(--radius-full);
+  background: var(--color-success); color: var(--ink); font-weight: var(--weight-bold);
+}
