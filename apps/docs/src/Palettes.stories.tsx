@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Badge, Button, Callout, Card, Cluster, Meter, Stack, Window } from '@robin-dot-lab/react';
 import palettes from '@robin-dot-lab/tokens/palettes.json';
 
-const meta = { title: 'Foundations/Palettes', parameters: { layout: 'fullscreen' } } satisfies Meta;
+// Candy's seven palettes: Bento has one palette and ignores data-palette, so the story is Candy-only (ADR-030).
+const meta = { title: 'Foundations/Palettes', tags: ['candy-only'], parameters: { layout: 'fullscreen' } } satisfies Meta;
 export default meta;
 type Story = StoryObj;
 
