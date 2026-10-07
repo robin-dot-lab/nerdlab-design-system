@@ -2,7 +2,7 @@
 .nl-card {
   background: var(--color-surface);
   color: var(--color-text-primary);
-  border-radius: var(--radius-lg);
+  border-radius: calc(var(--radius-xl) - 4px); /* 28px: a tile */
   padding: var(--space-6);
 }
 .nl-card { container-type: inline-size; }

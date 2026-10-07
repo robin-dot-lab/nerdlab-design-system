@@ -1,4 +1,4 @@
-/* Tabs: a sunken pill; the selected tab is inverted (text colour fill), like the primary button */
+/* Tabs: a neutral rail; the selected tab is a white pill with ink text, in bold */
 .nl-tabs {
   display: inline-flex; gap: var(--space-1);
   max-width: 100%; overflow-x: auto; scrollbar-width: none;
@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 .nl-tab:hover { color: var(--color-text-primary); }
-.nl-tab[aria-selected="true"] { background: var(--color-text-primary); color: var(--color-background); }
+.nl-tab[aria-selected="true"] { background: var(--color-surface-elevated); color: var(--color-text-primary); font-weight: var(--weight-bold); }
 @media (pointer: coarse) {
   .nl-tab { min-height: var(--touch-target); }
 }
