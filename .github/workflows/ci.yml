@@ -96,6 +96,7 @@ jobs:
           - { name: a11y palette mono-retro, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=mono-retro }
           - { name: webkit, script: cross-browser.mjs, env: ENGINE=webkit, browser: webkit }
           - { name: email sandbox, script: email-sandbox.mjs, env: SANDBOX=chrome }
+          - { name: manager, script: manager.mjs, env: MANAGER=chrome }
           # The Bento skin: every story, same checks as Candy (it has a single palette).
           - { name: bento a11y desktop, script: a11y-audit.mjs, env: SKIN=bento VIEWPORT=desktop }
           - { name: bento a11y phone, script: a11y-audit.mjs, env: SKIN=bento VIEWPORT=phone }
