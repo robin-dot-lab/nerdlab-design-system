@@ -1,5 +1,16 @@
 # @robin-dot-lab/css-candy
 
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 7dc1c16: New modifier `.nl-btn--arrow`: a round companion disc with an arrow right after a button, drawn by the button itself (one target, one accessible name). Pass it in `className`; the Bento skin has the same class.
+
+### Patch Changes
+
+- Updated dependencies [7dc1c16]
+  - @robin-dot-lab/tokens@1.0.0-rc.2
+
 ## 1.0.0-rc.2
 
 ### Minor Changes

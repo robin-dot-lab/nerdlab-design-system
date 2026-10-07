@@ -1,6 +1,6 @@
 {
   "name": "@robin-dot-lab/tokens",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Nerdlab design tokens (DTCG source) compiled by Style Dictionary, for the Candy and Bento skins",
   "keywords": [
     "nerdlab",
