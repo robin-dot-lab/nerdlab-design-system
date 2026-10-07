@@ -34,4 +34,4 @@
 .nl-band--accent { background: var(--color-accent); color: var(--ink); }
 .nl-band--primary { background: var(--color-primary); color: var(--color-text-on-primary); }
 .nl-band--ink { background: var(--ink); color: var(--cream); }
-:is(.nl-band--ink, .nl-band--primary, .nl-band--accent) .nl-muted { color: color-mix(in oklab, currentColor 80%, transparent); }
+:is(.nl-band--ink, .nl-band--primary, .nl-band--accent) { --nl-muted: color-mix(in oklab, currentColor 80%, transparent); }

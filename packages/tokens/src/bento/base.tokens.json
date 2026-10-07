@@ -63,9 +63,9 @@
       "$description": "Deep lilac: links and strokes."
     },
     "mint": {
-      "$value": "#F9DCDC",
+      "$value": "#D3E9DB",
       "$type": "color",
-      "$description": "Powder pink tone (the Candy name is kept: same API, Bento value); text-primary on it."
+      "$description": "Sage: success-like tone (paid, copied); text-primary on it."
     },
     "forest": {
       "$value": "#2E5641",

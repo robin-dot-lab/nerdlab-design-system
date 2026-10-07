@@ -1,7 +1,7 @@
 /* Banner: a full-width message at the top of the page, tinted by its tone like Callout, edge to edge,
    with an action and a close button. The tone is also in words. */
 .nl-banner {
-  --banner-tone: var(--color-secondary);
+  --banner-tone: var(--color-lavender); /* info */
   --banner-ink: var(--color-text-primary);
   display: flex; align-items: center; gap: var(--space-3);
   padding: var(--space-2) var(--space-gutter);

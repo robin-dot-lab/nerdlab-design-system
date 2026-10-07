@@ -1,7 +1,7 @@
 /* Callout: a static message inside the page. The tone tints the background and fills the icon disc; the
    component also says the tone in words, so colour is never the only signal. */
 .nl-callout {
-  --callout-tone: var(--color-secondary);
+  --callout-tone: var(--color-lavender); /* info */
   --callout-ink: var(--color-text-primary);
   display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start;
   padding: var(--space-4) var(--space-5);

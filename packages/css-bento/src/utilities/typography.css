@@ -23,7 +23,7 @@
   font-weight: var(--weight-bold);
 }
 .nl-pixel { font-family: var(--font-pixel); }
-.nl-muted { color: var(--color-text-secondary); }
+.nl-muted { color: var(--nl-muted, var(--color-text-secondary)); } /* strong tiles and bands set --nl-muted */
 
 /* Outlined (hollow) text in Candy: plain secondary text in Bento */
 .nl-outline-text { color: var(--color-text-secondary); }

@@ -9,7 +9,8 @@
 .nl-bento--accent { background: var(--color-accent); color: var(--ink); }
 .nl-bento--mint { background: var(--color-mint); color: var(--color-text-primary); }
 .nl-bento--lavender { background: var(--color-lavender); color: var(--color-text-primary); }
-:is(.nl-bento--ink, .nl-bento--primary, .nl-bento--accent) .nl-muted { color: color-mix(in oklab, currentColor 80%, transparent); }
+/* .nl-muted (a utility, so a later layer) reads --nl-muted: on these tiles, the tile's own text, a little lighter. */
+:is(.nl-bento--ink, .nl-bento--primary, .nl-bento--accent) { --nl-muted: color-mix(in oklab, currentColor 80%, transparent); }
 .nl-bento__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-2xl); line-height: var(--leading-2xl); letter-spacing: -0.02em; }
 
 /* Outlined: the tile with its content stacked at the top and a hairline, on a page of tiles where it
