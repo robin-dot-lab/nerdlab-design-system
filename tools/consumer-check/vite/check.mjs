@@ -13,8 +13,16 @@ let failures = 0;
 const ok = (c, l) => { if (!c) failures++; console.log(`${c ? '✓' : '✗'} ${l}`); };
 const axe = async () => { if (!(await page.evaluate(() => 'axe' in window))) await page.addScriptTag({ content: AXE }); return page.evaluate(async () => (await axe.run(document)).violations.map((v) => `${v.id}: ${v.nodes.slice(0, 2).map((n) => n.target.join(' ')).join(', ')}`)); };
 ok(await page.getByRole('heading', { name: 'Consumer test' }).isVisible(), 'page renders');
-ok(await page.evaluate(() => getComputedStyle(document.querySelector('.nl-window')).borderTopWidth) === '2px', 'skin applied (window has its 2px ink border)');
-ok((await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim())).toLowerCase() === '#f5a3c7', 'Sorbet palette active from <html data-palette>');
+const primary = () => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim().toLowerCase());
+if (process.env.SKIN === 'bento') {
+  // Bento (ADR-030): tiles without outline on a grey-green page; it has one palette, data-palette does nothing.
+  ok(await page.evaluate(() => getComputedStyle(document.querySelector('.nl-window')).borderTopWidth) === '0px', 'Bento skin applied (window without border)');
+  ok(await page.evaluate(() => getComputedStyle(document.body).backgroundColor) === 'rgb(236, 238, 234)', 'Bento page background');
+  ok(await primary() === '#2e5641', 'data-palette has no effect under Bento (forest primary)');
+} else {
+  ok(await page.evaluate(() => getComputedStyle(document.querySelector('.nl-window')).borderTopWidth) === '2px', 'skin applied (window has its 2px ink border)');
+  ok(await primary() === '#f5a3c7', 'Sorbet palette active from <html data-palette>');
+}
 ok(await page.locator('svg.nl-icon').count() >= 2, 'icons render');
 ok(await page.getByRole('list', { name: 'Tickets per event' }).getByRole('listitem').count() === 4, 'chart renders its four bars');
 ok(await page.getByRole('listbox', { name: 'Messages' }).getByRole('option', { selected: true }).count() === 1, 'mail: message list renders with its selection');

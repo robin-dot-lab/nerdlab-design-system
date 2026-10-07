@@ -21,7 +21,7 @@ try {
   const errors = []; page.on('console', (m) => m.type() === 'error' && errors.push(m.text())); page.on('pageerror', (e) => errors.push(e.message));
   page.on('response', (r) => r.status() >= 400 && errors.push(r.status() + ' ' + r.url()));
   await page.goto(URL_, { waitUntil: 'networkidle' }); await page.evaluate(() => document.fonts.ready);
-  ok(await page.evaluate(() => getComputedStyle(document.querySelector('.nl-window')).borderTopWidth) === '2px', 'skin applied');
+  ok(await page.evaluate(() => getComputedStyle(document.querySelector('.nl-window')).borderTopWidth) === (process.env.SKIN === 'bento' ? '0px' : '2px'), `${process.env.SKIN ?? 'candy'} skin applied`);
   ok(await page.getByRole('navigation', { name: 'Fil d’Ariane' }).isVisible(), 'breadcrumb named in French');
   ok(await page.getByRole('list', { name: 'Billets par événement' }).getByRole('listitem').count() === 4, 'chart renders its four bars');
   ok(await page.getByRole('link', { name: /^Télécharger billet\.pdf/ }).isVisible(), 'mail: attachment from a server component, named in French');
