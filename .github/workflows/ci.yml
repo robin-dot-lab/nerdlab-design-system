@@ -57,7 +57,7 @@ jobs:
   consumers:
     name: Consumers (Vite, Next.js)
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -96,6 +96,14 @@ jobs:
           - { name: a11y palette mono-retro, script: a11y-audit.mjs, env: VIEWPORT=desktop PALETTE=mono-retro }
           - { name: webkit, script: cross-browser.mjs, env: ENGINE=webkit, browser: webkit }
           - { name: email sandbox, script: email-sandbox.mjs, env: SANDBOX=chrome }
+          # The Bento skin: every story, same checks as Candy (it has a single palette).
+          - { name: bento a11y desktop, script: a11y-audit.mjs, env: SKIN=bento VIEWPORT=desktop }
+          - { name: bento a11y phone, script: a11y-audit.mjs, env: SKIN=bento VIEWPORT=phone }
+          - { name: bento forced colors, script: forced-colors.mjs, env: SKIN=bento }
+          - { name: bento visual desktop-light, script: visual.mjs, env: SKIN=bento VARIANT=desktop-light }
+          - { name: bento visual phone-dark, script: visual.mjs, env: SKIN=bento VARIANT=phone-dark }
+          - { name: bento firefox, script: cross-browser.mjs, env: SKIN=bento ENGINE=firefox, browser: firefox }
+          - { name: bento webkit, script: cross-browser.mjs, env: SKIN=bento ENGINE=webkit, browser: webkit }
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
