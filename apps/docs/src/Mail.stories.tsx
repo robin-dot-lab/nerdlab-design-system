@@ -3,7 +3,7 @@ import { Inbox, Mail, Plus, Trash } from '@robin-dot-lab/icons';
 import {
   AddressCard, AttachmentChip, AttachmentList, EmailViewer, MessageHeader, MessageList, MessageListItem, type MessageSummary,
 } from '@robin-dot-lab/mail';
-import { AppShell, Button, MobileNav, Sidebar, SidebarItem, SidebarSection, Split, Stack, Topbar } from '@robin-dot-lab/react';
+import { AppShell, Button, Card, CopyButton, MobileNav, Sidebar, SidebarItem, SidebarSection, Split, Stack, Topbar } from '@robin-dot-lab/react';
 import { useState } from 'react';
 
 const meta = {
@@ -107,18 +107,29 @@ export const Addresses: Story = {
   ),
 };
 
-/** The whole platform screen: AppShell, the addresses, the inbox and the open message in a Split. */
+// The open message of the dashboard: a verification code, which the app has detected (story data).
+const CODE_MAIL: MessageSummary = { id: 'm0', from: { name: 'Acme Store', address: 'no-reply@acme.example' }, subject: 'Your verification code', preview: 'Your code: 4821. It is valid for 10 minutes.', date: ago(MIN / 2), unread: true };
+const CODE_HTML = `<div style="font-family: sans-serif; padding: 16px"><p>Hello,</p><p>Your code: <strong>4821</strong>. It is valid for 10 minutes.</p><p><img src="https://tracker.example/pixel.png" alt="" width="1" height="1"></p></div>`;
+const INBOX = [CODE_MAIL, ...MESSAGES];
+
+/**
+ * The whole platform screen: AppShell, the addresses, the inbox and the open message in a Split.
+ * Two things the mail components do not offer are composed here, around them: the detected code next to
+ * the viewer's tabs (EmailViewer has no slot there, so the pill is laid over the tab row), and Delete as a
+ * discreet round icon button beside the title (instead of MessageHeader's own Delete button).
+ */
 export const Dashboard: Story = {
   parameters: { layout: 'fullscreen' },
   render: function Render() {
-    const [id, setId] = useState<string | null>('m1');
-    const open = MESSAGES.find((m) => m.id === id) ?? MESSAGES[0]!;
+    const [id, setId] = useState<string | null>('m0');
+    const open = INBOX.find((m) => m.id === id) ?? INBOX[0]!;
+    const hasCode = open.id === 'm0';
     return (
       <AppShell
         sidebar={
           <Sidebar label="Main navigation" header={<b className="nl-display">nerdlab.sh</b>}>
             <SidebarSection title="Mail">
-              <SidebarItem href="#inbox" icon={<Inbox />} current count={2} countLabel="2 unread">Inbox</SidebarItem>
+              <SidebarItem href="#inbox" icon={<Inbox />} current count={3} countLabel="3 unread">Inbox</SidebarItem>
               <SidebarItem href="#addresses" icon={<Mail />}>Addresses</SidebarItem>
               <SidebarItem href="#trash" icon={<Trash />}>Trash</SidebarItem>
             </SidebarSection>
@@ -126,14 +137,30 @@ export const Dashboard: Story = {
         }
         topbar={<Topbar title={<h1>Inbox</h1>} actions={<Button variant="primary" size="sm"><Plus /> New address</Button>} mobileNav={<MobileNav><a href="#inbox">Inbox</a><a href="#addresses">Addresses</a></MobileNav>} />}
       >
-        <AddressCard address="pixel-otter-42@nerdlab.sh" unread={2} createdAt={ago(18 * MIN)} expiresAt={Date.now() + 42 * MIN} />
-        <Split ratio="sidebar" gap={4}>
-          <MessageList messages={MESSAGES} selectedId={id} onSelectionChange={setId} shortcuts />
-          <Stack gap={4}>
-            <MessageHeader subject={open.subject} from={open.from} to={{ address: 'pixel-otter-42@nerdlab.sh' }} date={open.date} onDelete={() => {}} />
-            {open.hasAttachments && <AttachmentList attachments={ATTACHMENTS.slice(0, 1)} />}
-            <EmailViewer html={HTML} text={TEXT} source={SOURCE} />
-          </Stack>
+        <AddressCard address="pixel-otter-42@nerdlab.sh" unread={3} createdAt={ago(18 * MIN)} expiresAt={Date.now() + 42 * MIN} />
+        {/* The list column is 320px wide; panes keep their own height (the list does not run to the bottom). */}
+        <Split ratio="sidebar" gap={4} align="start" style={{ '--split': 'minmax(0, 20rem) minmax(0, 1fr)' } as React.CSSProperties}>
+          <MessageList messages={INBOX} selectedId={id} onSelectionChange={setId} shortcuts />
+          <Card>
+            <Stack gap={4}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-3)' }}>
+                <MessageHeader style={{ flex: 1, minWidth: 0 }} subject={open.subject} from={open.from} to={{ address: 'pixel-otter-42@nerdlab.sh' }} date={open.date} />
+                <Button variant="ghost" shape="square" className="nl-btn--tomato" aria-label="Delete message"><Trash /></Button>
+              </div>
+              {open.hasAttachments && <AttachmentList attachments={ATTACHMENTS.slice(0, 1)} />}
+              {/* Over the tab row in a wide tile, above the viewer in a narrow one (the tile is a size container). */}
+              <style>{'.story-code-pill { position: absolute; inset-inline-end: 0; inset-block-start: 0; } @container (max-width: 34rem) { .story-code-pill { position: static; width: fit-content; margin-block-end: var(--space-3); } }'}</style>
+              <div style={{ position: 'relative' }}>
+                {hasCode && (
+                  <div className="nl-cluster nl-gap-2 story-code-pill" data-theme="light" style={{ padding: '4px 4px 4px 16px', borderRadius: 'var(--radius-full)', background: 'var(--color-accent)', color: 'var(--ink)' }}>
+                    <span style={{ fontWeight: 700 }}>Code found <span style={{ fontFamily: 'var(--font-display)' }}>4821</span></span>
+                    <CopyButton value="4821" label="Copy" showLabel variant="primary" />
+                  </div>
+                )}
+                <EmailViewer html={hasCode ? CODE_HTML : HTML} text={hasCode ? 'Hello,\n\nYour code: 4821. It is valid for 10 minutes.' : TEXT} source={hasCode ? undefined : SOURCE} />
+              </div>
+            </Stack>
+          </Card>
         </Split>
       </AppShell>
     );

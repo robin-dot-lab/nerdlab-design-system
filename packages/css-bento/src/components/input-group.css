@@ -42,12 +42,17 @@
 .nl-password__strength { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); font-size: var(--text-xs); }
 .nl-password__strength .nl-meter { width: 100%; }
 
-.nl-copy-field .nl-copy-field__input { font-family: var(--font-mono); font-size: var(--text-sm); text-overflow: ellipsis; }
-.nl-copy-field > .nl-copy { display: flex; align-self: stretch; border-inline-start: var(--border-hairline) solid var(--color-border-subtle); }
+/* CopyField: a neutral pill without a border (it is read-only, not a field to fill), the value in the text
+   face, and a labelled Copy pill: the button's accessible name is shown as its text. */
+.nl-copy-field { border: 0; border-radius: var(--radius-full); background: var(--color-surface-sunken); padding: var(--space-1); }
+.nl-copy-field .nl-copy-field__input { padding-inline: var(--space-4); font-family: var(--font-body); font-size: var(--text-base); text-overflow: ellipsis; }
+.nl-copy-field > .nl-copy { display: flex; align-self: stretch; }
 /* Multiline: the whole value, wrapping anywhere; the height follows the text (field-sizing where the
    browser has it, rows set by the component elsewhere). */
 .nl-copy-field--multiline .nl-copy-field__input { resize: none; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; text-overflow: clip; field-sizing: content; min-height: 0; }
-.nl-copy-field > .nl-copy .nl-btn { border-radius: 0; border-start-end-radius: calc(var(--radius-sm) - var(--border-width)); border-end-end-radius: calc(var(--radius-sm) - var(--border-width)); min-height: 100%; }
+.nl-copy-field > .nl-copy .nl-btn { --btn-bg: var(--color-surface); border-radius: var(--radius-full); padding-inline: var(--space-4); min-height: 100%; }
+.nl-copy-field > .nl-copy .nl-btn[aria-label]::after { content: attr(aria-label); }
+.nl-copy-field--multiline { border-radius: var(--radius-lg); }
 @media (pointer: coarse) {
   .nl-input-group { min-height: var(--touch-target); }
   .nl-input-group__button { min-width: var(--touch-target); }
