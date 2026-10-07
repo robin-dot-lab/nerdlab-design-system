@@ -162,8 +162,8 @@ for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'd
   await details.waitFor({ state: 'detached' });
   // React Aria restores focus a frame after the dialog unmounts: wait for it rather than read it once
   // (reading right away failed now and then on CI).
-  const focusBack = await page.waitForFunction(() => document.activeElement?.classList.contains('order-id'), null, { timeout: 2000 }).then(() => true, () => false);
-  check(focusBack, 'Escape closes it and focus returns to the order number');
+  const orderFocusBack = await page.waitForFunction(() => document.activeElement?.classList.contains('order-id'), null, { timeout: 2000 }).then(() => true, () => false);
+  check(orderFocusBack, 'Escape closes it and focus returns to the order number');
 
   await page.getByRole('button', { name: 'Nouvel événement' }).click();
   const form = page.getByRole('dialog', { name: 'NEW_EVENT.EXE' });
