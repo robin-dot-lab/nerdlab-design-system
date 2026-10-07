@@ -9,4 +9,4 @@
   font-weight: var(--weight-semibold);
   white-space: nowrap;
 }
-.nl-pill--filled { background: var(--color-secondary); color: var(--color-text-primary); }
+.nl-pill--filled { background: var(--color-accent); color: var(--ink); }

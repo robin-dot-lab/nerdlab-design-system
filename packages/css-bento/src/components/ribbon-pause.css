@@ -5,10 +5,10 @@
   position: absolute; inset-block: 0; inset-inline-end: 0;
   min-width: var(--touch-target);
   border: 0; border-start-end-radius: inherit; border-end-end-radius: inherit;
-  background: var(--color-secondary-hover); color: var(--color-text-primary);
+  background: var(--color-accent-hover); color: var(--ink);
   font: inherit; font-size: var(--text-base); cursor: pointer;
 }
-.nl-ribbon__pause:hover { background: color-mix(in oklab, var(--color-secondary-hover) 88%, var(--color-text-primary)); }
+.nl-ribbon__pause:hover { background: color-mix(in oklab, var(--color-accent-hover) 88%, var(--ink)); }
 .nl-ribbon__pause:focus-visible { outline-offset: -4px; box-shadow: none; }
 .nl-ribbon--paused .nl-ribbon__track { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {

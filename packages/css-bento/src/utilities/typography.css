@@ -32,8 +32,8 @@
 
 /* Highlighter: a rounded butter fill behind the words */
 .nl-mark {
-  background: var(--color-secondary);
-  color: var(--color-text-primary);
+  background: var(--color-accent);
+  color: var(--ink);
   border-radius: 0.3em;
   padding: 0 0.15em;
   -webkit-box-decoration-break: clone; box-decoration-break: clone;

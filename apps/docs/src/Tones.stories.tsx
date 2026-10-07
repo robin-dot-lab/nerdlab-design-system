@@ -10,10 +10,10 @@ type Story = StoryObj;
 const TONES = [
   { tone: 'surface', note: 'Default tile' },
   { tone: 'primary', note: 'Forest in Bento' },
-  { tone: 'secondary', note: 'Butter in Bento' },
-  { tone: 'accent', note: 'Orange in Bento: always ink text' },
+  { tone: 'secondary', note: 'Powder pink in Bento' },
+  { tone: 'accent', note: 'Butter in Bento: always ink text' },
   { tone: 'mint', note: 'Sage in Bento' },
-  { tone: 'lavender', note: 'Lilac in Bento' },
+  { tone: 'lavender', note: 'Grey-green (info) in Bento' },
   { tone: 'ink', note: 'Ink' },
 ] as const;
 
@@ -31,7 +31,7 @@ export const Tiles: Story = {
   ),
 };
 
-/** Badges and buttons in every tone, including the coral used for destructive actions (`tomato`). */
+/** Badges and buttons in every tone, including the raspberry used for destructive actions in Bento (`tomato`). */
 export const Fills: Story = {
   render: () => (
     <Stack gap={4}>

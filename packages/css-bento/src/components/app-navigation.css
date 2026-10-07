@@ -1,11 +1,11 @@
 /* Navigation for application pages.
-   - The MobileNav panel marks the current page as the sidebar does: lilac fill and bold (and aria-current).
+   - The MobileNav panel marks the current page as the sidebar does: pink fill and bold (and aria-current).
    - Inside a Topbar, the panel opens right under the bar, whatever the bar's height.
    - The Topbar stops sticking when the viewport is short; `.nl-topbar--static` never sticks;
      `.nl-topbar--truncate` keeps the title on one line.
    - A skip link, visible on focus, leads past the sidebar to the content. */
 .nl-nav-panel a { text-transform: none; }
-.nl-nav-panel a[aria-current="page"] { background: var(--color-lavender); color: var(--color-text-primary); font-weight: var(--weight-bold); }
+.nl-nav-panel a[aria-current="page"] { background: var(--color-secondary); color: var(--color-text-primary); font-weight: var(--weight-bold); }
 
 .nl-topbar .nl-nav-panel[data-open="true"] {
   position: absolute; inset-block-start: calc(100% + var(--space-2));

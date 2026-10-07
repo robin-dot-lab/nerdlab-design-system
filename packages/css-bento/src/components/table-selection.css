@@ -1,4 +1,4 @@
-/* DataTable row selection: a checkbox column; a selected row gets the butter tint and a forest stripe,
+/* DataTable row selection: a checkbox column; a selected row gets the pink tint and a forest stripe,
    never colour alone (the checkbox is checked). */
 .nl-table .nl-table__select { width: 1%; padding-inline-end: 0; }
 .nl-table tbody tr.nl-table__row--selected { background: var(--color-secondary-soft); box-shadow: inset 3px 0 0 var(--color-primary); }

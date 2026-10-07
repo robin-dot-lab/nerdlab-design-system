@@ -37,7 +37,7 @@
 .nl-btn--lg { --btn-pad-y: var(--space-4); padding-inline: var(--space-8); font-size: var(--text-lg); }
 .nl-btn--square { border-radius: var(--radius-sm); }
 
-/* Pixel button: Bento has no pixel art; it is the orange call to action. */
+/* Pixel button: Bento has no pixel art; it is the butter call to action. */
 .nl-btn--pixel { --btn-bg: var(--color-accent); --btn-bg-hover: var(--color-accent-hover); --btn-fg: var(--ink); }
 
 @media (pointer: coarse) {

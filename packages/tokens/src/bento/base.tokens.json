@@ -25,42 +25,42 @@
       "$description": "Forest tint: hover and selected backgrounds."
     },
     "secondary": {
-      "$value": "#F3EFA0",
+      "$value": "#F9DCDC",
       "$type": "color",
-      "$description": "Butter. Tiles, the highlighted code, the marker; text-primary on it."
+      "$description": "Powder pink: selection, current page, headers. Ink text in light."
     },
     "secondary-hover": {
-      "$value": "#EBE586",
+      "$value": "#F6D1D1",
       "$type": "color"
     },
     "secondary-soft": {
-      "$value": "#F8F6D3",
+      "$value": "#FCEEEE",
       "$type": "color",
-      "$description": "Butter tint: table heads, selected rows."
+      "$description": "Pink tint: selected rows."
     },
     "accent": {
-      "$value": "#F48B2A",
+      "$value": "#F3EFA0",
       "$type": "color",
-      "$description": "Orange accent: the call to action. Always ink text (white is 2.45:1)."
+      "$description": "Butter: the call to action and the default badge. Always ink text."
     },
     "accent-hover": {
-      "$value": "#E77B17",
+      "$value": "#EBE586",
       "$type": "color"
     },
     "tomato": {
-      "$value": "#C8392F",
+      "$value": "#A8304A",
       "$type": "color",
-      "$description": "Coral red: destructive actions and failure badges. White text (5.1:1); ΔE 20 from the orange."
+      "$description": "Raspberry: destructive actions and failure badges. White text."
     },
     "lavender": {
-      "$value": "#DCD6FB",
+      "$value": "#DFE5E0",
       "$type": "color",
-      "$description": "Lilac tone; text-primary on it."
+      "$description": "Neutral grey-green: the info tone (the Candy name is kept). Text-primary on it."
     },
     "violet": {
-      "$value": "#4B3FA0",
+      "$value": "#1F3D2E",
       "$type": "color",
-      "$description": "Deep lilac: links and strokes."
+      "$description": "Dark forest: links, strokes, the unread dot."
     },
     "mint": {
       "$value": "#D3E9DB",
@@ -137,9 +137,9 @@
       "$type": "color"
     },
     "error": {
-      "$value": "#F0857A",
+      "$value": "#EE93A8",
       "$type": "color",
-      "$description": "Error fills with ink text."
+      "$description": "Error fills (raspberry, light) with ink text."
     },
     "error-text": {
       "$value": "#B42318",
@@ -150,7 +150,7 @@
       "$type": "color"
     },
     "info": {
-      "$value": "#A397F0",
+      "$value": "#9FB8A8",
       "$type": "color"
     }
   },
@@ -183,15 +183,15 @@
       "$type": "color"
     },
     "2": {
-      "$value": "#F48B2A",
+      "$value": "#B8961C",
       "$type": "color"
     },
     "3": {
-      "$value": "#6F5FD3",
+      "$value": "#C2557A",
       "$type": "color"
     },
     "4": {
-      "$value": "#E0679A",
+      "$value": "#86BFA0",
       "$type": "color"
     },
     "seq-1": {

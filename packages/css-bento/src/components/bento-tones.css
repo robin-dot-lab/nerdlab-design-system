@@ -1,6 +1,6 @@
-/* Bento tones. Each tone carries the text its contrast needs (check-contrast, ADR-030): the tonal fills
-   (butter, lilac, powder pink) take the theme's text — ink in light, light text on their darkened values
-   in dark —, forest takes white, orange takes ink, the ink tile takes cream. Secondary text inside the
+/* Bento tones (ADR-031). Each tone carries the text its contrast needs (check-contrast): the tonal fills
+   (powder pink, sage, grey-green) take the theme's text — ink in light, light text on their darkened values
+   in dark —, forest takes white, butter takes ink in both themes, the ink tile takes cream. Secondary text inside the
    strong tiles is the tile's own text, a little lighter. */
 .nl-bento--elevated { background: var(--color-surface-elevated); }
 .nl-bento--ink { background: var(--ink); color: var(--cream); }

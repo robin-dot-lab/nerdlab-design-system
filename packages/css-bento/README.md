@@ -40,7 +40,7 @@ import '@robin-dot-lab/css-bento/bento.css'; // tokens + base + components + uti
 
 - **Dark theme:** `<html data-theme="dark">`, or `data-theme="auto"` to follow the device (live). A container with `data-theme="light"` stays light on a dark page (a highlighted code, a preview).
 - **One palette:** Bento's own. `data-palette` has no effect under this skin.
-- **Tones** (same names as Candy, Bento colours): `primary` forest (white text), `secondary` butter, `accent` orange (always ink text), `mint` sage, `lavender` lilac, `tomato` coral red for destructive actions (white text), `ink`.
+- **Tones** (same names as Candy, Bento colours — green, yellow and pink, flat): `primary` forest (white text), `accent` butter (the call to action, always ink text), `secondary` powder pink (selection, current page), `mint` sage (success), `lavender` neutral grey-green (info), `tomato` raspberry for destructive actions (white text), `violet` dark forest (links), `ink`.
 - **Only what floats has a shadow** (dialog, menu, popover, tooltip, toast, drawer). Form controls keep a 1.5px boundary at 3:1; tiles and buttons have none. Focus is an offset ring over a surface-coloured halo, an outline in forced colours.
 - **Overrides without `!important`:** cascade layers `nl.tokens < nl.base < nl.components < nl.utilities`; unlayered CSS always wins.
 - No fonts are loaded by `bento.css`: import `fonts.css` or self-host the same families, and copy its metric-matched fallback faces (`Outfit Fallback`, `Manrope Fallback`, `JetBrains Mono Fallback`) so the page does not shift when the web fonts arrive.

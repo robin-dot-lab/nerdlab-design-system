@@ -32,7 +32,7 @@ const HTML = `<div style="font-family: sans-serif; padding: 16px; color: #16201B
 </div>`;
 const TEXT = 'Hello,\n\nYour code: 4821. It is valid for 10 minutes.';
 
-/** The open message, its detected code on a light butter tile (light in both themes: `data-theme="light"`) and the email. */
+/** The open message, its detected code on a butter tile (`accent`: light with ink text in both themes) and the email. */
 export const Inbox_: Story = {
   name: 'Inbox',
   render: function Render() {
@@ -67,7 +67,7 @@ export const Inbox_: Story = {
           <Bento>
             <Stack gap={4}>
             <MessageHeader subject={open.subject} from={open.from} to={{ address: ADDRESS }} date={open.date} />
-            <Bento tone="secondary" data-theme="light" style={{ minHeight: 0 }}>
+            <Bento tone="accent" style={{ minHeight: 0 }}>
               <div className="nl-cluster nl-cluster--between">
                 <div>
                   <p style={{ margin: 0, fontWeight: 700 }}>Code found</p>
