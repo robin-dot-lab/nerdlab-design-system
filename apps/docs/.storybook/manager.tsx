@@ -1,5 +1,7 @@
 // Toolbar menu of Candy's palettes, shown only while the Candy skin is selected: Bento has a single
 // palette and ignores [data-palette] (ADR-030). The palette itself is a global of preview.tsx.
+// The manager bundle compiles JSX with the classic runtime: React must be in scope.
+import React from 'react';
 import { addons, types, useGlobals } from 'storybook/manager-api';
 import { Select } from 'storybook/internal/components';
 import palettes from '@robin-dot-lab/tokens/palettes.json';
