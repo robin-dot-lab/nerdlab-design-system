@@ -1,6 +1,6 @@
 {
   "name": "@robin-dot-lab/mail",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "Nerdlab mail components: message list, safe email viewer, attachments and address cards, on the nl-* skin",
   "keywords": [
     "nerdlab",
