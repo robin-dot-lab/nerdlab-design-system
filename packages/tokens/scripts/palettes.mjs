@@ -43,3 +43,29 @@ export function loadPalettes() {
   });
   return [candy, ...others];
 }
+
+/** Every token of a DTCG tree, flat ({ 'color.primary': '#…', 'color.line': '{ink}', … }). */
+function flat(tree, prefix = [], out = {}) {
+  for (const [k, v] of Object.entries(tree)) {
+    if (k.startsWith('$')) continue;
+    if (v && typeof v === 'object' && '$value' in v) out[[...prefix, k].join('.')] = String(v.$value);
+    else if (v && typeof v === 'object') flat(v, [...prefix, k], out);
+  }
+  return out;
+}
+const resolve = (values) => {
+  // Whole-value aliases only ({ink}); composite values (borders, shadows) are left as written.
+  const get = (k, depth = 0) => {
+    const v = values[k] ?? values[`${k}.DEFAULT`];
+    if (depth > 10 || v === undefined) throw new Error(`cannot resolve ${k}`);
+    return /^\{[^}]+\}$/.test(v) ? get(v.slice(1, -1), depth + 1) : v;
+  };
+  return Object.fromEntries(Object.keys(values).map((k) => [k, get(k)]));
+};
+
+/** Bento's single palette, aliases resolved: { light: {...}, dark: {...} } (ADR-030). */
+export function loadBento() {
+  const read = (f) => JSON.parse(fs.readFileSync(new URL(`../src/bento/${f}`, import.meta.url), 'utf8'));
+  const light = flat(read('base.tokens.json'));
+  return { light: resolve(light), dark: resolve({ ...light, ...flat(read('dark.tokens.json')) }) };
+}

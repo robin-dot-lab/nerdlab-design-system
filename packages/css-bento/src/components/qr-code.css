@@ -1,0 +1,12 @@
+/* QRCode: dark modules on a light square in every theme (ink on cream, the two fixed values), so phones
+   can scan it on a dark page too. Sizes are classes. */
+.nl-qr { display: inline-grid; justify-items: center; gap: var(--space-2); margin: 0; }
+.nl-qr__code {
+  display: block; inline-size: 10rem; block-size: auto; aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+}
+.nl-qr--sm .nl-qr__code { inline-size: 6rem; }
+.nl-qr--lg .nl-qr__code { inline-size: 16rem; }
+.nl-qr__background { fill: var(--cream); }
+.nl-qr__modules { fill: var(--ink); }
+.nl-qr__value { max-inline-size: 16rem; font-family: var(--font-mono); font-size: var(--text-xs); overflow-wrap: anywhere; text-align: center; }

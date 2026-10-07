@@ -1,0 +1,21 @@
+/* Tooltip: positioned by React Aria ([data-placement], [data-entering], [data-exiting]).
+   Inverted like the primary button; it floats, so it has the soft shadow. */
+.nl-tooltip {
+  max-width: 16rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-text-primary); color: var(--color-background);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+  font-size: var(--text-sm); font-weight: var(--weight-semibold); line-height: var(--leading-sm);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+.nl-tooltip[data-entering], .nl-tooltip[data-exiting] { opacity: 0; }
+.nl-tooltip[data-placement="top"][data-entering] { transform: translateY(4px); }
+.nl-tooltip[data-placement="bottom"][data-entering] { transform: translateY(-4px); }
+.nl-tooltip__arrow svg { display: block; fill: var(--color-text-primary); }
+.nl-tooltip[data-placement="bottom"] .nl-tooltip__arrow svg { transform: rotate(180deg); }
+.nl-tooltip[data-placement="right"] .nl-tooltip__arrow svg { transform: rotate(90deg); }
+.nl-tooltip[data-placement="left"] .nl-tooltip__arrow svg { transform: rotate(-90deg); }
+@media (prefers-reduced-motion: reduce) {
+  .nl-tooltip { transition: none; }
+}

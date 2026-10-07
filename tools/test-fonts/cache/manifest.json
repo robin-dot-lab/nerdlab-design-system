@@ -1,7 +1,8 @@
 {
   "fetchedWith": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
   "sources": [
-    "packages/css-candy/src/fonts.css"
+    "packages/css-candy/src/fonts.css",
+    "packages/css-bento/src/fonts.css"
   ],
   "entries": {
     "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Silkscreen:wght@400;700&display=swap": {
@@ -83,6 +84,71 @@
       "file": "0fbef778a5181b9a.woff2",
       "contentType": "font/woff2",
       "bytes": 9552
+    },
+    "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@400..700&family=Outfit:wght@600;700&display=swap": {
+      "file": "8385c1a036430c46.css",
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 8929
+    },
+    "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPx3cwgknk-6nFg.woff2": {
+      "file": "7099a57a6d824d28.woff2",
+      "contentType": "font/woff2",
+      "bytes": 1664
+    },
+    "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxTcwgknk-6nFg.woff2": {
+      "file": "96bf44a325c43c70.woff2",
+      "contentType": "font/woff2",
+      "bytes": 8892
+    },
+    "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxPcwgknk-6nFg.woff2": {
+      "file": "8d40b504f7a5449d.woff2",
+      "contentType": "font/woff2",
+      "bytes": 6800
+    },
+    "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPx_cwgknk-6nFg.woff2": {
+      "file": "808103a38cb08ac9.woff2",
+      "contentType": "font/woff2",
+      "bytes": 5872
+    },
+    "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPx7cwgknk-6nFg.woff2": {
+      "file": "8a34053fc040e1ee.woff2",
+      "contentType": "font/woff2",
+      "bytes": 11596
+    },
+    "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2": {
+      "file": "eecd9be6bd30124b.woff2",
+      "contentType": "font/woff2",
+      "bytes": 31340
+    },
+    "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggqxSvfedN62Zw.woff2": {
+      "file": "c2bfcaaa1e970f42.woff2",
+      "contentType": "font/woff2",
+      "bytes": 2592
+    },
+    "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggOxSvfedN62Zw.woff2": {
+      "file": "b74651ef004afd11.woff2",
+      "contentType": "font/woff2",
+      "bytes": 14544
+    },
+    "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggSxSvfedN62Zw.woff2": {
+      "file": "aa8873556cdcbcd7.woff2",
+      "contentType": "font/woff2",
+      "bytes": 9360
+    },
+    "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggixSvfedN62Zw.woff2": {
+      "file": "cb30ddaa104b82b4.woff2",
+      "contentType": "font/woff2",
+      "bytes": 8492
+    },
+    "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggmxSvfedN62Zw.woff2": {
+      "file": "a4a584830ac6d911.woff2",
+      "contentType": "font/woff2",
+      "bytes": 15240
+    },
+    "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2": {
+      "file": "52b571ea7cf9dfd2.woff2",
+      "contentType": "font/woff2",
+      "bytes": 24576
     }
   }
 }

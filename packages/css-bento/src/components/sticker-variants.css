@@ -1,0 +1,16 @@
+/* Sticker and burst variants: tones and size. Bento never tilts: the tilt modifiers keep the label straight. */
+.nl-sticker--accent { background: var(--color-accent); color: var(--ink); }
+.nl-sticker--primary { background: var(--color-primary); color: var(--color-text-on-primary); }
+.nl-sticker--secondary { background: var(--color-secondary); color: var(--color-text-primary); }
+.nl-sticker--mint { background: var(--color-mint); color: var(--color-text-primary); }
+.nl-sticker--lavender { background: var(--color-lavender); color: var(--color-text-primary); }
+.nl-sticker--tilt-right, .nl-sticker--straight { transform: none; }
+.nl-sticker--lg { padding: var(--space-3) var(--space-5); font-size: var(--text-xl); }
+.nl-sticker__small { display: block; font-family: var(--font-body); font-size: var(--text-xs); font-weight: var(--weight-semibold); }
+.nl-burst--label {
+  display: inline-grid; place-items: center; text-align: center;
+  color: var(--ink); font-family: var(--font-display); font-weight: var(--weight-bold);
+}
+.nl-burst--primary { background: var(--color-primary); color: var(--color-text-on-primary); }
+.nl-burst--mint { background: var(--color-mint); color: var(--color-text-primary); }
+.nl-burst--tomato { background: var(--color-tomato); color: var(--cream); }

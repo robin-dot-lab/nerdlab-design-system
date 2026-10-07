@@ -1,0 +1,18 @@
+/* Bento tile: the skin's namesake. A flat tonal surface with large corners; no shadow (only what floats has one). */
+.nl-bento {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  padding: var(--space-fluid-md);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  position: relative;
+}
+.nl-bento__foot {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: var(--text-sm);
+}
+.nl-bento { container-type: inline-size; }

@@ -1,0 +1,8 @@
+/* Card: a quiet tile, no outline, no shadow */
+.nl-card {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+.nl-card { container-type: inline-size; }

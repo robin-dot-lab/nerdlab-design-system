@@ -2,7 +2,9 @@
 // Lists what consumers can rely on and compares it with the committed `api-surface.txt`:
 //   react, charts, icons   every name exported by src/index.ts (values and types);
 //   css-candy              every .nl-* class in dist/candy.css;
-//   tokens                 every CSS custom property in dist/candy/tokens.css, and the palette ids.
+//   css-bento              every .nl-* class in dist/bento.css (the same set as css-candy: tools/skin-parity);
+//   tokens                 every CSS custom property in dist/candy/tokens.css, the palette ids and the skins
+//                          (Bento's variables are the same names, checked by scripts/check-parity.mjs).
 // A name that disappears is a breaking change: it needs a major changeset. UPDATE_API=1 rewrites the file.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,11 +13,15 @@ const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')).name.replace('@r
 const sorted = (xs) => [...new Set(xs)].sort((a, b) => a.localeCompare(b, 'en'));
 
 function surface() {
-  if (pkg === 'css-candy') return sorted(fs.readFileSync('dist/candy.css', 'utf8').match(/\.nl-[a-z0-9_-]+/g).map((c) => `class ${c}`));
+  if (pkg === 'css-candy' || pkg === 'css-bento') {
+    const file = `dist/${pkg.replace('css-', '')}.css`;
+    return sorted(fs.readFileSync(file, 'utf8').match(/\.nl-[a-z0-9_-]+/g).map((c) => `class ${c}`));
+  }
   if (pkg === 'tokens') {
     const vars = fs.readFileSync('dist/candy/tokens.css', 'utf8').match(/--[a-z0-9-]+(?=\s*:)/g);
     const palettes = JSON.parse(fs.readFileSync('dist/candy/palettes.json', 'utf8')).map((p) => `palette ${p.id}`);
-    return [...sorted(vars.map((v) => `var ${v}`)), ...palettes];
+    const skins = fs.readdirSync('dist', { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => `skin ${d.name}`);
+    return [...sorted(vars.map((v) => `var ${v}`)), ...palettes, ...sorted(skins)];
   }
   const index = fs.readFileSync('src/index.ts', 'utf8').replace(/\/\/.*$/gm, '');
   if (/export \*/.test(index)) throw new Error('src/index.ts: name every export (no `export *`), so the surface is explicit');

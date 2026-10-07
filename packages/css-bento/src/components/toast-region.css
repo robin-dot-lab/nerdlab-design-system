@@ -1,0 +1,7 @@
+/* Toast region: fixed, centred live region hosting .nl-toast. */
+.nl-toast-region {
+  position: fixed; z-index: 120; inset-inline: 0; inset-block-end: var(--space-6);
+  display: flex; justify-content: center; padding-inline: var(--space-gutter);
+  pointer-events: none;
+}
+.nl-toast-region > * { pointer-events: auto; }

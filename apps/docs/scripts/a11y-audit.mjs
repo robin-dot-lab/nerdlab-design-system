@@ -3,13 +3,15 @@
 // themes, at desktop and phone widths; axe-core runs on #storybook-root and on the overlays React Aria
 // portals to <body>. Any violation or console error fails the run. Run after `storybook build`
 // (turbo: test depends on build). STORY_FILTER=<substring> audits only the matching story ids;
-// PALETTE=<id> renders every story in that palette (CI audits each palette in its own job).
+// PALETTE=<id> renders every story in that palette (CI audits each palette in its own job);
+// SKIN=bento audits the Bento skin instead of Candy.
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import pw from 'playwright-core';
 import { missingFonts, routeTestFonts } from '../../../tools/test-fonts/route.mjs';
+import { listStories, SKIN, storyUrl } from './lib/storybook.mjs';
 
 const require = createRequire(import.meta.url);
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -31,8 +33,7 @@ const server = http.createServer((req, res) => {
 await new Promise((r) => server.listen(0, r));
 const base = `http://localhost:${server.address().port}`;
 
-const index = JSON.parse(fs.readFileSync(path.join(ROOT, 'index.json'), 'utf8'));
-const stories = Object.values(index.entries).filter((e) => e.type === 'story' && e.id.includes(process.env.STORY_FILTER ?? ''));
+const stories = listStories();
 const browser = await pw.chromium.launch({ channel: process.env.CHROME_CHANNEL ?? 'chrome' });
 let failures = 0;
 
@@ -46,7 +47,7 @@ for (const vp of VIEWPORTS) for (const theme of THEMES) {
     const errors = [];
     page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
     page.on('pageerror', (e) => errors.push(e.message));
-    await page.goto(`${base}/iframe.html?id=${story.id}&viewMode=story&globals=theme:${theme}${process.env.PALETTE ? `;palette:${process.env.PALETTE}` : ''}`, { waitUntil: 'networkidle' });
+    await page.goto(storyUrl(base, story.id, theme), { waitUntil: 'networkidle' });
     // React Aria collections render a hidden <template> first: wait for a real, visible child.
     await page.waitForSelector('#storybook-root > :not(template)', { timeout: 10_000 }).catch(() => errors.push('story did not render'));
     await page.evaluate(() => document.fonts.ready);
@@ -59,7 +60,7 @@ for (const vp of VIEWPORTS) for (const theme of THEMES) {
       include: [...document.body.children].filter((el) => el.id === 'storybook-root' || el.matches('.nl-dialog-overlay, .nl-popover, :has(.nl-dialog-overlay, .nl-popover)')),
     }, { iframes: false })).violations
       .map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`));
-    const label = `${vp.name} ${theme}${process.env.PALETTE ? ` ${process.env.PALETTE}` : ''} ${story.id}`;
+    const label = `${vp.name} ${theme}${SKIN === 'bento' ? ' bento' : ''}${process.env.PALETTE ? ` ${process.env.PALETTE}` : ''} ${story.id}`;
     if (violations.length || errors.length) {
       failures++;
       console.error(`✗ ${label}`);

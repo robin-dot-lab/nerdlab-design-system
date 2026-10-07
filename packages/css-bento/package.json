@@ -1,0 +1,50 @@
+{
+  "name": "@robin-dot-lab/css-bento",
+  "version": "0.0.0",
+  "description": "Nerdlab Bento skin: tokens + nl-* component classes in cascade layers, the same class API as css-candy",
+  "keywords": [
+    "nerdlab",
+    "design-system",
+    "css",
+    "cascade-layers",
+    "bento"
+  ],
+  "license": "MIT",
+  "author": "Nerdlab",
+  "homepage": "https://robin-dot-lab.github.io/nerdlab-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robin-dot-lab/nerdlab-design-system.git",
+    "directory": "packages/css-bento"
+  },
+  "bugs": {
+    "url": "https://github.com/robin-dot-lab/nerdlab-design-system/issues"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "exports": {
+    "./bento.css": "./dist/bento.css",
+    "./fonts.css": "./dist/fonts.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/check-skin.mjs && node ../../tools/skin-parity/check.mjs && node ../../tools/api-surface/check.mjs"
+  },
+  "dependencies": {
+    "@robin-dot-lab/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@robin-dot-lab/css-candy": "workspace:*"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  }
+}

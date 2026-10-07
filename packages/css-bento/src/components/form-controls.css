@@ -1,0 +1,30 @@
+/* Form controls: <textarea> and <select> reuse .nl-input; the radio mirrors .nl-check. */
+textarea.nl-input { min-height: 6rem; resize: vertical; line-height: var(--leading-base); border-radius: var(--radius-md); }
+.nl-select { position: relative; display: block; }
+.nl-select > select { appearance: none; padding-inline-end: calc(var(--space-4) * 2 + var(--space-2)); cursor: pointer; }
+.nl-select::after {
+  content: ""; position: absolute; inset-inline-end: var(--space-4); inset-block-start: 50%;
+  width: var(--space-2); height: var(--space-2);
+  border-inline-end: var(--border-thick) solid var(--color-text-secondary); border-block-end: var(--border-thick) solid var(--color-text-secondary);
+  transform: translateY(-75%) rotate(45deg);
+  pointer-events: none;
+}
+.nl-input:disabled, .nl-select > select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.nl-radio {
+  appearance: none; flex: none;
+  width: 22px; height: 22px; margin: 0;
+  border: var(--border); border-radius: var(--radius-full);
+  background: var(--color-surface);
+  display: inline-grid; place-items: center;
+  cursor: pointer;
+}
+.nl-radio:checked { border-color: var(--color-primary); }
+.nl-radio:checked::after { content: ""; width: 12px; height: 12px; border-radius: var(--radius-full); background: var(--color-primary); }
+@media (pointer: coarse) {
+  .nl-radio { width: 26px; height: 26px; }
+}
+.nl-radio-group { display: grid; gap: var(--space-2); min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.nl-radio-group > legend { padding: 0; margin-block-end: var(--space-2); font-weight: var(--weight-semibold); }
+.nl-radio-group__options { display: grid; gap: var(--space-3); }
+.nl-radio-group--horizontal .nl-radio-group__options { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); }

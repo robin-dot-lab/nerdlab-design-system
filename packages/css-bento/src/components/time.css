@@ -1,0 +1,12 @@
+/* RelativeTime and ExpiryIndicator. The relative time is a tab stop when it has a tooltip: it gets a
+   dotted underline and a focus ring. The expiry line says its state in words; the colour repeats it. */
+.nl-relative-time { white-space: nowrap; }
+.nl-relative-time[tabindex] { text-decoration: underline dotted; text-underline-offset: 3px; cursor: help; border-radius: calc(var(--radius-sm) / 2); }
+.nl-relative-time[tabindex]:focus-visible { outline: var(--border-thick) solid var(--color-line); outline-offset: 2px; }
+
+.nl-expiry { display: inline-grid; gap: var(--space-2); min-width: 0; font-size: var(--text-sm); }
+.nl-expiry--bar { display: grid; }
+.nl-expiry__text { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--color-text-secondary); }
+.nl-expiry--soon .nl-expiry__text { color: var(--color-text-primary); font-weight: var(--weight-bold); }
+.nl-expiry--expired .nl-expiry__text { color: var(--color-error-text); font-weight: var(--weight-bold); }
+.nl-expiry .nl-meter { width: 100%; }

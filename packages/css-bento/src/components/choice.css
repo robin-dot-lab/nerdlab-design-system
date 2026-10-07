@@ -1,0 +1,7 @@
+/* Choice: label wrapping a .nl-check or .nl-toggle with its text */
+.nl-choice {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  font-size: var(--text-base); cursor: pointer;
+}
+.nl-choice:has(input:disabled) { opacity: 0.5; cursor: not-allowed; }
+.nl-choice:has(input:disabled) input { cursor: not-allowed; }

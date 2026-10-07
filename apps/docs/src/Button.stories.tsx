@@ -47,3 +47,15 @@ export const Sizes: Story = {
 export const AsLink: Story = {
   render: () => <Button asChild variant="accent"><a href="#docs">Read the docs</a></Button>,
 };
+
+/** `.nl-btn--arrow`: a round companion disc with an arrow, drawn by the button itself (one target, one name). A class, not a prop: pass it in `className`. */
+export const CompanionArrow: Story = {
+  render: () => (
+    <div className="nl-cluster">
+      <Button variant="primary" className="nl-btn--arrow">Create an account</Button>
+      <Button variant="accent" className="nl-btn--arrow">Get started for free</Button>
+      <Button size="sm" className="nl-btn--arrow">Open</Button>
+      <Button variant="secondary" size="lg" className="nl-btn--arrow">See how it works</Button>
+    </div>
+  ),
+};

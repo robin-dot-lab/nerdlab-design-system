@@ -6,6 +6,7 @@
   .nl-accordion summary::before,
   .nl-check:checked::after,
   .nl-check:indeterminate::after,
+  .nl-btn--arrow::after,
   .nl-table th[aria-sort] .nl-table__sort::after { forced-color-adjust: none; background: CanvasText; }
 
   /* Data marks keep the palette's colours: the values are also in text, the legend and the table view. */

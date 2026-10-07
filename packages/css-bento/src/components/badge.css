@@ -1,0 +1,18 @@
+/* Badge: a small tonal pill. Each tone carries the text its contrast needs (checked by check-contrast). */
+.nl-badge {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  padding: 0.125rem var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--color-accent); /* the `accent` variant of Badge is the bare class, as in Candy */
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.02em;
+}
+.nl-badge--primary { background: var(--color-primary); color: var(--color-text-on-primary); }
+.nl-badge--secondary { background: var(--color-secondary); color: var(--color-text-primary); }
+.nl-badge--mint { background: var(--color-mint); color: var(--color-text-primary); }
+.nl-badge--lavender { background: var(--color-lavender); color: var(--color-text-primary); }
+.nl-badge--tomato { background: var(--color-tomato); color: var(--cream); }
+.nl-badge--ink { background: var(--ink); color: var(--cream); }

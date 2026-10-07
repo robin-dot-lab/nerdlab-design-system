@@ -1,0 +1,2 @@
+/* Segmented control: on .nl-tabs / .nl-tab, with aria-pressed (toggle buttons, not tabs). */
+.nl-segmented .nl-tab[aria-pressed="true"] { background: var(--color-text-primary); color: var(--color-background); }

@@ -1,0 +1,15 @@
+/* Ribbon: a flat tonal band; the words still scroll (and pause: ribbon-pause.css) */
+.nl-ribbon {
+  overflow: hidden; white-space: nowrap;
+  border-radius: var(--radius-lg);
+  background: var(--color-accent); color: var(--ink);
+  font-family: var(--font-display); font-weight: var(--weight-semibold);
+  font-size: var(--text-lg);
+  padding: var(--space-3) 0;
+}
+.nl-ribbon__track { display: inline-flex; gap: var(--space-8); animation: nl-marquee 40s linear infinite; }
+.nl-ribbon__track > * + *::before { content: "·" / ""; margin-inline-end: var(--space-8); color: color-mix(in oklab, var(--ink) 60%, transparent); }
+@keyframes nl-marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .nl-ribbon__track { animation: none; }
+}

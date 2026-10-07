@@ -1,0 +1,2 @@
+/* Divider: a hairline */
+.nl-divider-dashed { border: 0; border-block-start: var(--border-hairline) dashed var(--color-border); margin: var(--space-4) 0; }

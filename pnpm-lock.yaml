@@ -23,6 +23,9 @@ importers:
       '@robin-dot-lab/charts':
         specifier: workspace:*
         version: link:../../packages/charts
+      '@robin-dot-lab/css-bento':
+        specifier: workspace:*
+        version: link:../../packages/css-bento
       '@robin-dot-lab/css-candy':
         specifier: workspace:*
         version: link:../../packages/css-candy
@@ -69,6 +72,9 @@ importers:
       '@robin-dot-lab/charts':
         specifier: workspace:*
         version: link:../../packages/charts
+      '@robin-dot-lab/css-bento':
+        specifier: workspace:*
+        version: link:../../packages/css-bento
       '@robin-dot-lab/css-candy':
         specifier: workspace:*
         version: link:../../packages/css-candy
@@ -164,6 +170,16 @@ importers:
       vitest:
         specifier: ^5.0.3
         version: 5.0.3(@types/node@26.6.3)(jsdom@30.1.1)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.2)(yaml@2.9.1))
+
+  packages/css-bento:
+    dependencies:
+      '@robin-dot-lab/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+    devDependencies:
+      '@robin-dot-lab/css-candy':
+        specifier: workspace:*
+        version: link:../css-candy
 
   packages/css-candy:
     dependencies:

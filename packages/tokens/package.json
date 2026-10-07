@@ -1,7 +1,7 @@
 {
   "name": "@robin-dot-lab/tokens",
   "version": "1.0.0-rc.1",
-  "description": "Nerdlab design tokens (DTCG source) compiled by Style Dictionary",
+  "description": "Nerdlab design tokens (DTCG source) compiled by Style Dictionary, for the Candy and Bento skins",
   "keywords": [
     "nerdlab",
     "design-system",
@@ -33,7 +33,13 @@
       "default": "./dist/candy/tokens.js"
     },
     "./candy.json": "./dist/candy/tokens.json",
-    "./palettes.json": "./dist/candy/palettes.json"
+    "./palettes.json": "./dist/candy/palettes.json",
+    "./bento.css": "./dist/bento/tokens.css",
+    "./bento": {
+      "types": "./dist/bento/tokens.d.ts",
+      "default": "./dist/bento/tokens.js"
+    },
+    "./bento.json": "./dist/bento/tokens.json"
   },
   "sideEffects": [
     "*.css"

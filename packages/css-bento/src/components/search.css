@@ -1,0 +1,22 @@
+/* Search bar: a pill field */
+.nl-search {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+  border: var(--border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+.nl-search:focus-within { outline: var(--border-thick) solid var(--color-line); outline-offset: 2px; box-shadow: var(--shadow-glow); }
+.nl-search input {
+  flex: 1; min-width: 0; min-height: 2.25rem;
+  border: 0; background: transparent;
+  font: inherit; font-weight: var(--weight-medium);
+  color: inherit;
+}
+.nl-search input::placeholder { color: var(--color-text-secondary); }
+.nl-search input:focus { outline: none; box-shadow: none; }
+@media (pointer: coarse) {
+  .nl-search { min-height: var(--touch-target); }
+  .nl-search input { font-size: max(1rem, 16px); }
+}

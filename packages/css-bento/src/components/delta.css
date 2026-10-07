@@ -1,0 +1,9 @@
+/* Delta: signed change vs a previous period. Colour = direction × whether up is good; the words say it too. */
+.nl-delta {
+  display: inline-flex; align-items: center; padding: 1px var(--space-2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs); font-weight: var(--weight-bold); color: var(--ink);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.nl-delta--good { background: var(--color-success); }
+.nl-delta--bad { background: var(--color-error); }

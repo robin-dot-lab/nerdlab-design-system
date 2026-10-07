@@ -74,6 +74,7 @@ class .nl-btn
 class .nl-btn__label
 class .nl-btn__spinner
 class .nl-btn--accent
+class .nl-btn--arrow
 class .nl-btn--ghost
 class .nl-btn--lg
 class .nl-btn--loading

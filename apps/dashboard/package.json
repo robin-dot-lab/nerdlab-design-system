@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@robin-dot-lab/charts": "workspace:*",
+    "@robin-dot-lab/css-bento": "workspace:*",
     "@robin-dot-lab/css-candy": "workspace:*",
     "@robin-dot-lab/icons": "workspace:*",
     "@robin-dot-lab/react": "workspace:*",

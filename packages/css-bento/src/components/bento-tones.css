@@ -1,0 +1,20 @@
+/* Bento tones (ADR-031). Each tone carries the text its contrast needs (check-contrast): the tonal fills
+   (powder pink, sage, grey-green) take the theme's text — ink in light, light text on their darkened values
+   in dark —, forest takes white, butter takes ink in both themes, the ink tile takes cream. Secondary text inside the
+   strong tiles is the tile's own text, a little lighter. */
+.nl-bento--elevated { background: var(--color-surface-elevated); }
+.nl-bento--ink { background: var(--ink); color: var(--cream); }
+.nl-bento--primary { background: var(--color-primary); color: var(--color-text-on-primary); }
+.nl-bento--secondary { background: var(--color-secondary); color: var(--color-text-primary); }
+.nl-bento--accent { background: var(--color-accent); color: var(--ink); }
+.nl-bento--mint { background: var(--color-mint); color: var(--color-text-primary); }
+.nl-bento--lavender { background: var(--color-lavender); color: var(--color-text-primary); }
+/* .nl-muted (a utility, so a later layer) reads --nl-muted: on these tiles, the tile's own text, a little lighter. */
+:is(.nl-bento--ink, .nl-bento--primary, .nl-bento--accent) { --nl-muted: color-mix(in oklab, currentColor 80%, transparent); }
+.nl-bento__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-2xl); line-height: var(--leading-2xl); letter-spacing: -0.02em; }
+
+/* Outlined: the tile with its content stacked at the top and a hairline, on a page of tiles where it
+   must stand apart; a foot, if any, still sits at the bottom. */
+.nl-bento--outlined { justify-content: flex-start; gap: var(--space-3); box-shadow: inset 0 0 0 var(--border-hairline) var(--color-border-subtle); }
+.nl-bento--outlined > :is(h1, h2, h3, h4, p) { margin-block: 0; }
+.nl-bento--outlined .nl-bento__foot { margin-block-start: auto; }

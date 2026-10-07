@@ -19,15 +19,21 @@ export async function serveStorybook() {
   return { base: `http://localhost:${server.address().port}`, close: () => server.close() };
 }
 
-/** Story entries of the build, optionally filtered by STORY_FILTER (substring of the id). */
+/** The skin under test: SKIN=bento, Candy otherwise (ADR-030). */
+export const SKIN = process.env.SKIN === 'bento' ? 'bento' : 'candy';
+
+/** Story entries of the build, optionally filtered by STORY_FILTER (substring of the id). A story tagged
+ *  `candy-only` (Candy's palettes side by side) is left out under Bento, which has one palette; one tagged
+ *  `bento-only` (a composition that pins the Bento skin) is left out of Candy's runs. */
 export function listStories() {
   const index = JSON.parse(fs.readFileSync(path.join(ROOT, 'index.json'), 'utf8'));
-  return Object.values(index.entries).filter((e) => e.type === 'story' && e.id.includes(process.env.STORY_FILTER ?? ''));
+  return Object.values(index.entries).filter((e) => e.type === 'story' && e.id.includes(process.env.STORY_FILTER ?? '')
+    && !e.tags?.includes(SKIN === 'bento' ? 'candy-only' : 'bento-only'));
 }
 
-/** Story URL with the theme global, plus the palette one when PALETTE is set (default: Candy). */
+/** Story URL with the theme global, the skin under SKIN=bento, and the palette when PALETTE is set (default: Candy). */
 export const storyUrl = (base, id, theme, palette = process.env.PALETTE) =>
-  `${base}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story&globals=theme:${theme}${palette ? `;palette:${palette}` : ''}`;
+  `${base}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story&globals=theme:${theme}${SKIN === 'bento' ? ';skin:bento' : ''}${palette ? `;palette:${palette}` : ''}`;
 
 /** Waits until a story has rendered: React Aria collections put a hidden <template> first. */
 export async function waitForStory(page) {

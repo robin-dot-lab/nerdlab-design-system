@@ -1,8 +1,9 @@
 // Visual regression of every story: each one is screenshotted (desktop light, phone dark) and
-// compared with the committed baseline of the current platform, apps/docs/test/visual/<platform>/.
+// compared with the committed baseline of the current platform, apps/docs/test/visual/<platform>/ (Candy)
+// or apps/docs/test/visual/<platform>/bento/ (SKIN=bento, ADR-030).
 // Font rasterisation differs between macOS and Linux, hence one baseline set per platform.
 //   node scripts/visual.mjs            compare (fails on any changed pixel)
-//   UPDATE=1 node scripts/visual.mjs   write the baselines (pnpm --filter @robin-dot-lab/docs visual:update)
+//   UPDATE=1 node scripts/visual.mjs   write the baselines of one skin (`visual:update` writes both)
 // A missing baseline fails locally; on CI it is reported and skipped until the Linux set is refreshed
 // by the "Update visual baselines" workflow. Diffs land in test/visual/__diff__/ (git-ignored).
 import fs from 'node:fs';
@@ -12,11 +13,11 @@ import pw from 'playwright-core';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import { missingFonts, routeTestFonts } from '../../../tools/test-fonts/route.mjs';
-import { listStories, serveStorybook, storyUrl, waitForStory } from './lib/storybook.mjs';
+import { listStories, serveStorybook, SKIN, storyUrl, waitForStory } from './lib/storybook.mjs';
 
 const UPDATE = Boolean(process.env.UPDATE);
-const DIR = path.resolve('test/visual', os.platform());
-const DIFF = path.resolve('test/visual/__diff__');
+const DIR = path.resolve('test/visual', os.platform(), SKIN === 'bento' ? 'bento' : '');
+const DIFF = path.resolve('test/visual/__diff__', SKIN === 'bento' ? 'bento' : '');
 const VARIANTS = [
   { name: 'desktop-light', theme: 'light', viewport: { width: 1280, height: 800 } },
   { name: 'phone-dark', theme: 'dark', viewport: { width: 390, height: 844 } },
@@ -78,7 +79,7 @@ close();
 
 if (missingFonts.size) { console.error(`${missingFonts.size} font URL(s) missing from tools/test-fonts/cache — run \`pnpm fetch:test-fonts\``); process.exit(1); }
 if (UPDATE) { console.log(`${written} baseline(s) written to ${path.relative(process.cwd(), DIR)}`); process.exit(0); }
-console.log(`${stories.length} stories × ${ACTIVE.length} variant(s) on ${os.platform()}`);
+console.log(`${stories.length} stories × ${ACTIVE.length} variant(s) on ${os.platform()}, ${SKIN}`);
 if (missing) {
   const hint = `${missing} story screenshot(s) have no ${os.platform()} baseline: run \`pnpm --filter @robin-dot-lab/docs visual:update\`${process.env.CI ? ' (on Linux: the "Update visual baselines" workflow)' : ''}`;
   if (process.env.CI) console.warn(`warning: ${hint}`); else { console.error(hint); process.exit(1); }

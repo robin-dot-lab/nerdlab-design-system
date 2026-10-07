@@ -1,0 +1,19 @@
+/* Companion arrow (ADR-030): a round disc in the button's colour right after it, with an arrow. Drawn by
+   the button's own pseudo-elements, so it stays one target for the pointer, the keyboard and assistive tech. */
+:root {
+  --nl-mask-arrow-up-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7M8 7h9v9'/%3E%3C/svg%3E");
+}
+.nl-btn--arrow { position: relative; margin-inline-end: calc(1.2em + 2 * var(--btn-pad-y) + var(--space-1)); }
+.nl-btn--arrow::before, .nl-btn--arrow::after {
+  content: ""; position: absolute; inset-block: 0; inset-inline-start: calc(100% + var(--space-1));
+  aspect-ratio: 1; border-radius: var(--radius-full);
+}
+.nl-btn--arrow::before { background: inherit; }
+.nl-btn--arrow::after {
+  background: currentColor;
+  -webkit-mask: var(--nl-mask-arrow-up-right) center / 45% no-repeat; mask: var(--nl-mask-arrow-up-right) center / 45% no-repeat;
+}
+[dir="rtl"] .nl-btn--arrow::after { transform: scaleX(-1); }
+@media (pointer: coarse) {
+  .nl-btn--arrow { margin-inline-end: calc(max(var(--touch-target), 1.2em + 2 * var(--btn-pad-y)) + var(--space-1)); }
+}

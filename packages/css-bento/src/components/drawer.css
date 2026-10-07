@@ -1,0 +1,37 @@
+/* Drawer: a modal panel sliding from an edge. Same scrim and close button as the dialog; it floats: soft shadow. */
+.nl-drawer-overlay { position: fixed; inset: 0; z-index: 110; background: var(--color-overlay); }
+.nl-drawer {
+  position: fixed; inset-block: 0; inset-inline-end: 0;
+  display: flex; flex-direction: column;
+  width: min(100%, 26rem);
+  background: var(--color-surface); color: var(--color-text-primary);
+  border-start-start-radius: var(--radius-xl); border-end-start-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  outline: none;
+}
+.nl-drawer--start { inset-inline-start: 0; inset-inline-end: auto; border-radius: 0 var(--radius-xl) var(--radius-xl) 0; }
+.nl-drawer--bottom {
+  inset-inline: 0; inset-block-start: auto; width: auto; max-height: 85dvh;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+.nl-drawer__dialog { display: flex; flex-direction: column; min-height: 0; flex: 1; outline: none; }
+.nl-drawer__head {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-3) var(--space-6);
+}
+.nl-drawer__title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-xl); line-height: var(--leading-xl); letter-spacing: -0.02em; }
+.nl-drawer__body { flex: 1; overflow-y: auto; padding: var(--space-3) var(--space-6) var(--space-6); }
+.nl-drawer__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-3); padding: var(--space-4) var(--space-6); border-block-start: var(--border-hairline) solid var(--color-border-subtle); }
+.nl-drawer-overlay[data-entering] { animation: nl-overlay-in 0.15s ease-out; }
+.nl-drawer-overlay[data-exiting] { animation: nl-overlay-in 0.15s ease-in reverse; }
+.nl-drawer[data-entering] { animation: nl-drawer-in-end 0.2s ease-out; }
+.nl-drawer--start[data-entering] { animation-name: nl-drawer-in-start; }
+.nl-drawer--bottom[data-entering] { animation-name: nl-drawer-in-bottom; }
+@keyframes nl-drawer-in-end { from { transform: translateX(100%); } }
+@keyframes nl-drawer-in-start { from { transform: translateX(-100%); } }
+@keyframes nl-drawer-in-bottom { from { transform: translateY(100%); } }
+[dir="rtl"] .nl-drawer[data-entering] { animation-name: nl-drawer-in-start; }
+[dir="rtl"] .nl-drawer--start[data-entering] { animation-name: nl-drawer-in-end; }
+@media (prefers-reduced-motion: reduce) {
+  .nl-drawer-overlay[data-entering], .nl-drawer-overlay[data-exiting], .nl-drawer[data-entering] { animation: none; }
+}

@@ -1,0 +1,6 @@
+/* Burst: in Bento a round tonal disc (no star) */
+.nl-burst {
+  width: 72px; aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+}

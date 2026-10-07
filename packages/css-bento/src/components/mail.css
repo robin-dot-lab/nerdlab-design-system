@@ -1,0 +1,81 @@
+/* @robin-dot-lab/mail (its styles live in the skin, never in the mail package). Message list, message
+   header, email viewer, attachments, address card. Unread and selected states are never colour alone:
+   unread is bold with a dot and the word "Unread" for screen readers; selected has a ring and React
+   Aria's aria-selected. */
+
+/* Message list: a ListBox of options, each a rounded row inside a tile. */
+.nl-message-list {
+  display: grid; align-content: start; gap: var(--space-1); margin: 0; padding: var(--space-2);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface); color: var(--color-text-primary);
+  overflow: auto;
+}
+.nl-message {
+  display: grid; grid-template-columns: var(--space-3) minmax(0, 1fr) auto; column-gap: var(--space-2); row-gap: var(--space-1);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-2);
+  border-radius: var(--radius-lg);
+  cursor: pointer; outline: none;
+}
+.nl-message[data-hovered] { background: var(--color-surface-sunken); }
+.nl-message[data-selected] { background: var(--color-secondary); box-shadow: inset 0 0 0 var(--border-width) color-mix(in oklab, var(--color-text-primary) 25%, transparent); }
+.nl-message[data-focus-visible] { outline: var(--border-thick) solid var(--color-line); outline-offset: -3px; }
+.nl-message__dot { grid-row: 1; align-self: center; justify-self: center; width: var(--space-2); height: var(--space-2); border-radius: var(--radius-full); }
+.nl-message--unread .nl-message__dot { background: var(--color-violet); }
+.nl-message__from { grid-column: 2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--text-sm); }
+.nl-message__time { grid-column: 3; font-size: var(--text-xs); color: var(--color-text-secondary); white-space: nowrap; }
+.nl-message__subject { grid-column: 2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nl-message__preview { grid-column: 2 / -1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--text-sm); color: var(--color-text-secondary); }
+.nl-message__flags { grid-column: 3; grid-row: 2; justify-self: end; color: var(--color-text-secondary); }
+.nl-message--unread :is(.nl-message__from, .nl-message__subject) { font-weight: var(--weight-bold); }
+.nl-message-list--loading { cursor: progress; }
+.nl-message--skeleton { display: block; cursor: default; padding-inline: var(--space-4); }
+.nl-message-list .nl-empty { padding-block: var(--space-12); }
+
+/* Message header */
+.nl-message-header { display: grid; align-content: start; gap: var(--space-3); }
+.nl-message-header__subject { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-3xl); line-height: var(--leading-3xl); letter-spacing: var(--tracking-display); overflow-wrap: anywhere; }
+.nl-message-header__meta { display: grid; gap: var(--space-1); margin: 0; font-size: var(--text-sm); }
+.nl-message-header__meta > div { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--space-2); }
+.nl-message-header__meta dt { font-weight: var(--weight-semibold); color: var(--color-text-secondary); }
+.nl-message-header__meta dd { margin: 0; overflow-wrap: anywhere; }
+.nl-message-header__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* Email viewer: the frame has a height from the skin (sandboxed, it cannot be measured) and stays a light
+   page in both themes, like the email clients the message was written for (ADR-025, ADR-030). */
+.nl-email { display: grid; gap: var(--space-3); min-width: 0; }
+.nl-email__panel { display: grid; gap: var(--space-3); padding-block-start: var(--space-3); }
+.nl-email__panel:focus-visible { outline: var(--border-thick) solid var(--color-line); outline-offset: 2px; }
+.nl-email__frame {
+  display: block; width: 100%; height: 36rem; max-height: 70vh; max-height: 70svh;
+  border: var(--border-hairline) solid var(--color-border-subtle); border-radius: var(--radius-lg);
+  background: var(--cream);
+}
+.nl-email__frame:focus, .nl-email__frame[data-focused] { outline: var(--border-thick) solid var(--color-line); outline-offset: 2px; }
+.nl-email__images .nl-btn { justify-self: start; }
+.nl-email__text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-sm); line-height: var(--leading-base); }
+.nl-email__missing { margin: 0; color: var(--color-text-secondary); }
+
+/* Attachments */
+.nl-attachments { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+/* A chip is never wider than its list: the item may shrink, and a long name wraps to be read whole. */
+.nl-attachments > li { min-width: 0; max-width: 100%; }
+.nl-attachment {
+  display: inline-flex; align-items: center; gap: var(--space-2); max-width: 100%;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken); color: var(--color-text-primary); text-decoration: none;
+}
+.nl-attachment:hover { background: color-mix(in oklab, var(--color-surface-sunken) 90%, var(--color-text-primary)); }
+.nl-attachment:focus-visible { outline: var(--border-thick) solid var(--color-line); outline-offset: 2px; }
+.nl-attachment__icon { flex: none; }
+.nl-attachment__download { flex: none; color: var(--color-text-secondary); }
+.nl-attachment__name { min-width: 0; overflow-wrap: anywhere; font-weight: var(--weight-semibold); }
+.nl-attachment__size { font-size: var(--text-xs); color: var(--color-text-secondary); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Address card */
+.nl-address-card { display: grid; gap: var(--space-3); }
+.nl-address-card__head { display: flex; align-items: center; gap: var(--space-2); }
+.nl-address-card__unread { flex: none; }
+.nl-address-card__menu { margin-inline-start: auto; }
+.nl-address-card__menu.nl-btn { box-shadow: none; }
+.nl-address-card--expired .nl-copy-field__input { color: var(--color-text-secondary); text-decoration: line-through; }

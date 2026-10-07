@@ -1,0 +1,37 @@
+/* Public pages: a site header, a site footer and bands. The header is a white pill floating on the page
+   colour, the footer a quiet line of links, a band a full-width tone. */
+.nl-site-header { background: var(--color-background); color: var(--color-text-primary); padding-block: var(--space-3); }
+.nl-site-header--sticky { position: sticky; inset-block-start: 0; z-index: 20; }
+@media (max-height: 30rem) { .nl-site-header--sticky { position: relative; } }
+.nl-site-header__inner {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-6);
+  padding-block: var(--space-2); position: relative;
+  border-radius: var(--radius-full); background: var(--color-surface);
+}
+.nl-site-header__brand { display: flex; align-items: center; margin-inline-end: auto; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-xl); letter-spacing: -0.02em; }
+.nl-site-header__brand a { color: inherit; text-decoration: none; }
+.nl-site-header__nav { display: block; }
+/* With a MobileNav, the inline links give way to it below the large breakpoint. */
+.nl-site-header--has-mobile-nav .nl-site-header__nav { display: none; }
+.nl-site-header__nav ul { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-5); margin: 0; padding: 0; list-style: none; }
+.nl-site-header__nav a { display: inline-flex; align-items: center; min-height: var(--space-6); color: inherit; font-weight: var(--weight-semibold); text-decoration: none; }
+.nl-site-header__nav a:hover, .nl-site-header__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.nl-site-header__actions { display: flex; align-items: center; gap: var(--space-2); }
+.nl-site-header .nl-nav-panel[data-open="true"] { position: absolute; inset-block-start: calc(100% + var(--space-2)); max-height: calc(100dvh - var(--nav-offset)); border-radius: var(--radius-xl); }
+@media (min-width: 1024px) {
+  .nl-site-header--has-mobile-nav .nl-site-header__nav { display: block; }
+  .nl-site-header__mobile-nav { display: none; }
+}
+
+.nl-site-footer { background: var(--color-background); color: var(--color-text-secondary); padding-block: var(--space-fluid-lg); }
+.nl-site-footer__inner { display: grid; gap: var(--space-6); }
+.nl-site-footer a { color: var(--color-text-primary); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.nl-site-footer__legal { font-size: var(--text-sm); }
+
+.nl-band { padding-block: var(--space-fluid-xl); background: var(--color-background); color: var(--color-text-primary); }
+.nl-band--paper { background: var(--grid-paper); }
+.nl-band--surface { background: var(--color-surface); }
+.nl-band--accent { background: var(--color-accent); color: var(--ink); }
+.nl-band--primary { background: var(--color-primary); color: var(--color-text-on-primary); }
+.nl-band--ink { background: var(--ink); color: var(--cream); }
+:is(.nl-band--ink, .nl-band--primary, .nl-band--accent) { --nl-muted: color-mix(in oklab, currentColor 80%, transparent); }

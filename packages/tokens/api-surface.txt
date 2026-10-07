@@ -129,3 +129,5 @@ palette moss
 palette slate
 palette sorbet
 palette terracotta
+skin bento
+skin candy

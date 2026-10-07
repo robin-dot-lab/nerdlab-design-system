@@ -1,0 +1,19 @@
+/* Icons (for @robin-dot-lab/icons): sized by the text around them, drawn in currentColor. */
+.nl-icon { display: inline-block; flex: none; width: 1.25em; height: 1.25em; vertical-align: -0.25em; }
+.nl-icon--sm { width: 1em; height: 1em; vertical-align: -0.125em; }
+.nl-icon--lg { width: 1.5em; height: 1.5em; vertical-align: -0.35em; }
+
+/* The same drawings as @robin-dot-lab/icons, as CSS masks, for marks the skin draws without React
+   (checkbox tick, accordion +/−, sort arrows). Painted with background-color. */
+:root {
+  --nl-mask-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  --nl-mask-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E");
+  --nl-mask-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+  --nl-mask-sort: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 20V4M4 8l4-4 4 4M16 4v16M12 16l4 4 4-4'/%3E%3C/svg%3E");
+  --nl-mask-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M6 11l6-6 6 6'/%3E%3C/svg%3E");
+  --nl-mask-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M6 13l6 6 6-6'/%3E%3C/svg%3E");
+}
+.nl-check:checked::after {
+  content: ""; width: 14px; height: 14px; background: var(--cream);
+  -webkit-mask: var(--nl-mask-check) center / contain no-repeat; mask: var(--nl-mask-check) center / contain no-repeat;
+}

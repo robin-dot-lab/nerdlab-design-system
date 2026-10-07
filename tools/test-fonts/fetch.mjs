@@ -9,7 +9,7 @@ import pw from 'playwright-core';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');
 const DIR = path.join(import.meta.dirname, 'cache');
-const SOURCES = ['packages/css-candy/src/fonts.css'];
+const SOURCES = ['packages/css-candy/src/fonts.css', 'packages/css-bento/src/fonts.css'];
 
 const cssUrls = SOURCES.flatMap((f) => [...fs.readFileSync(path.join(ROOT, f), 'utf8').matchAll(/@import url\('([^']+)'\)/g)].map((m) => m[1]));
 const browser = await pw.chromium.launch({ channel: process.env.CHROME_CHANNEL ?? 'chrome' });

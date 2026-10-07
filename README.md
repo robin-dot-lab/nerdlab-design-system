@@ -70,8 +70,9 @@
 
 | Package | What it is | |
 |---|---|---|
-| [`@robin-dot-lab/tokens`](packages/tokens) | Design tokens in [DTCG](https://www.designtokens.org/) format, compiled by Style Dictionary to CSS variables, JS and JSON | `candy.css` · `candy` · `candy.json` |
+| [`@robin-dot-lab/tokens`](packages/tokens) | Design tokens in [DTCG](https://www.designtokens.org/) format, compiled by Style Dictionary to CSS variables, JS and JSON, for both skins | `candy.css` · `bento.css` · `candy` · `bento` |
 | [`@robin-dot-lab/css-candy`](packages/css-candy) | The Candy skin: every `nl-*` class, in cascade layers `nl.tokens < nl.base < nl.components < nl.utilities` | `candy.css` · `fonts.css` |
+| [`@robin-dot-lab/css-bento`](packages/css-bento) | The Bento skin: the same classes, sober — tonal tiles, pills, no outlines. Import it instead of Candy | `bento.css` · `fonts.css` |
 | [`@robin-dot-lab/react`](packages/react) | 80+ typed React 19 components that only set classes | `import { Button } from '@robin-dot-lab/react'` |
 | [`@robin-dot-lab/charts`](packages/charts) | Line, bars, heatmap, share bar, sparkline, chart card with legend and table twin | `import { LineChart } from '@robin-dot-lab/charts'` |
 | [`@robin-dot-lab/icons`](packages/icons) | 44 inline SVG icons, 2px strokes in `currentColor`, sized by the skin | `import { Calendar } from '@robin-dot-lab/icons'` |

@@ -1,6 +1,6 @@
 # @robin-dot-lab/css-candy
 
-The **Candy** skin of the Nerdlab design system: candy colours on a neo-brutalist frame — 2px ink outlines, hard offset shadows, retro OS windows, pixel art. Plain CSS, framework-free: every component is a set of `nl-*` classes, usable from React (`@robin-dot-lab/react`), any other framework or hand-written HTML.
+The **Candy** skin of the Nerdlab design system: candy colours on a neo-brutalist frame — 2px ink outlines, hard offset shadows, retro OS windows, pixel art. Plain CSS, framework-free: every component is a set of `nl-*` classes, usable from React (`@robin-dot-lab/react`), any other framework or hand-written HTML. A second skin with the same classes, sober and rounded, is [`@robin-dot-lab/css-bento`](../css-bento): import one or the other.
 
 ## Install
 

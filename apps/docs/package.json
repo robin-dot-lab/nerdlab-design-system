@@ -6,8 +6,8 @@
     "storybook": "storybook dev -p 6006",
     "build": "storybook build -o storybook-static --quiet",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "node scripts/a11y-audit.mjs && node scripts/forced-colors.mjs && node scripts/visual.mjs && node scripts/cross-browser.mjs && node scripts/email-sandbox.mjs",
-    "visual:update": "UPDATE=1 node scripts/visual.mjs"
+    "test": "node scripts/a11y-audit.mjs && node scripts/forced-colors.mjs && node scripts/visual.mjs && node scripts/cross-browser.mjs && SKIN=bento node scripts/a11y-audit.mjs && SKIN=bento node scripts/forced-colors.mjs && SKIN=bento node scripts/visual.mjs && SKIN=bento node scripts/cross-browser.mjs && node scripts/email-sandbox.mjs",
+    "visual:update": "UPDATE=1 node scripts/visual.mjs && UPDATE=1 SKIN=bento node scripts/visual.mjs"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.6.1",
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@robin-dot-lab/charts": "workspace:*",
+    "@robin-dot-lab/css-bento": "workspace:*",
     "@robin-dot-lab/css-candy": "workspace:*",
     "@robin-dot-lab/icons": "workspace:*",
     "@robin-dot-lab/mail": "workspace:*",

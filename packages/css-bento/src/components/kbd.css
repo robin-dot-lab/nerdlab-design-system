@@ -1,0 +1,10 @@
+/* Kbd: a key cap in mono type on a sunken fill. */
+.nl-kbd {
+  display: inline-block; min-width: 1.8em; padding: 0.1em 0.45em;
+  border-radius: calc(var(--radius-sm) / 2);
+  background: var(--color-surface-sunken); color: var(--color-text-primary);
+  box-shadow: inset 0 -2px 0 var(--color-border-subtle);
+  font-family: var(--font-mono); font-size: 0.85em; font-weight: var(--weight-bold); line-height: 1.4; text-align: center; white-space: nowrap;
+}
+.nl-kbd .nl-kbd { font-size: 1em; }
+.nl-kbd:has(.nl-kbd) { padding: 0; background: none; box-shadow: none; min-width: 0; }
