@@ -17,14 +17,14 @@ const TONES = [
   { tone: 'ink', note: 'Ink' },
 ] as const;
 
-/** Every tile tone, its text and a secondary line on it. */
+/** Every tile tone with the text it carries. */
 export const Tiles: Story = {
   render: () => (
     <Grid min="xs" gap={4}>
       {TONES.map(({ tone, note }) => (
         <Bento key={tone} tone={tone}>
           <Bento.Title>{tone}</Bento.Title>
-          <p className="nl-muted" style={{ margin: 0 }}>{note}</p>
+          <p style={{ margin: 0 }}>{note}</p>
         </Bento>
       ))}
     </Grid>
