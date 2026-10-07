@@ -1,7 +1,7 @@
 // Integration test of the dashboard built against the packages' dist/ files.
 // Serves dist/, drives the installed Chrome, and checks: no console error, no axe violation
 // (light/dark × 1280/390 px), real user journeys through the library components, and a clean
-// render in Firefox and WebKit.
+// render in Firefox and WebKit — in the Candy skin, then in the Bento skin (ADR-030).
 // SHOTS=<dir> also writes screenshots for manual review.
 import fs from 'node:fs';
 import http from 'node:http';
@@ -32,9 +32,9 @@ const browser = await pw.chromium.launch({ channel: process.env.CHROME_CHANNEL ?
 const failures = [];
 const check = (ok, label) => { if (ok) console.log(`✓ ${label}`); else { failures.push(label); console.error(`✗ ${label}`); } };
 
-async function open(viewport, theme, engine = browser) {
+async function open(viewport, theme, engine = browser, skin = 'candy') {
   const context = await engine.newContext({ viewport, colorScheme: theme, acceptDownloads: true });
-  await context.addInitScript((t) => localStorage.setItem('nl-dashboard-theme', t), theme);
+  await context.addInitScript(([t, s]) => { localStorage.setItem('nl-dashboard-theme', t); if (!localStorage.getItem('nl-dashboard-skin')) localStorage.setItem('nl-dashboard-skin', s); }, [theme, skin]);
   await routeTestFonts(context); // fonts from the local cache: no network dependency
   const page = await context.newPage();
   const errors = [];
@@ -279,6 +279,54 @@ for (const name of ['firefox', 'webkit']) {
     await context.close();
   }
   await engine.close();
+}
+
+// 9. The Bento skin: every theme × width passes axe with no console error nor overflow, the picker
+//    switches skins live and is remembered, the palette picker is gone, and Firefox and WebKit render it.
+{
+  const bentoBg = { light: '#eceeea', dark: '#121614' };
+  const bg = (page) => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--color-background').trim().toLowerCase());
+  for (const [w, h] of [[1280, 900], [390, 844]]) for (const theme of ['light', 'dark']) {
+    const { context, page, errors } = await open({ width: w, height: h }, theme, browser, 'bento');
+    await page.waitForTimeout(300);
+    check(await bg(page) === bentoBg[theme], `bento ${w}px ${theme}: the Bento stylesheet is applied`);
+    const v = await axe(page);
+    check(v.length === 0, `bento ${w}px ${theme}: axe clean${v.length ? ' → ' + v.join(' | ') : ''}`);
+    check(errors.length === 0, `bento ${w}px ${theme}: no console error${errors.length ? ' → ' + errors.join(' | ').slice(0, 300) : ''}`);
+    check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `bento ${w}px ${theme}: no horizontal overflow`);
+    if (shots) await page.screenshot({ path: `${shots}/dashboard-bento-${w}-${theme}.png`, fullPage: true });
+    await context.close();
+  }
+  {
+    const { context, page, errors } = await open({ width: 1280, height: 900 }, 'light');
+    const side = page.locator('.side__theme');
+    await side.getByRole('combobox', { name: 'Peau' }).selectOption('bento');
+    await page.waitForFunction(() => getComputedStyle(document.documentElement).getPropertyValue('--color-background').trim().toLowerCase() === '#eceeea');
+    check(await page.evaluate(() => document.documentElement.dataset.skin === 'bento' && !('palette' in document.documentElement.dataset)), 'skin picker: Bento set on <html>, palette removed');
+    check(await side.getByRole('combobox', { name: 'Palette' }).count() === 0, 'skin picker: no palette picker under Bento');
+    const v = await axe(page);
+    check(v.length === 0, `skin switched live to Bento: axe clean${v.length ? ' → ' + v.join(' | ') : ''}`);
+    await page.reload({ waitUntil: 'networkidle' });
+    check(await bg(page) === bentoBg.light, 'skin remembered across reloads');
+    await side.getByRole('combobox', { name: 'Peau' }).selectOption('candy');
+    await page.waitForFunction(() => getComputedStyle(document.documentElement).getPropertyValue('--color-background').trim().toLowerCase() === '#fbf3e8');
+    check(await page.evaluate(() => document.documentElement.dataset.palette) === 'candy', 'back to Candy: its palette comes back');
+    check(errors.length === 0, `skin picker: no console error${errors.length ? ' → ' + errors.join(' | ').slice(0, 300) : ''}`);
+    await context.close();
+  }
+  for (const name of ['firefox', 'webkit']) {
+    const engine = await pw[name].launch();
+    for (const [w, h, theme] of [[1280, 900, 'dark'], [390, 844, 'light']]) {
+      const { context, page, errors } = await open({ width: w, height: h }, theme, engine, 'bento');
+      await page.waitForTimeout(300);
+      const v = await axe(page);
+      check(v.length === 0, `bento ${name} ${w}px ${theme}: axe clean${v.length ? ' → ' + v.join(' | ') : ''}`);
+      check(errors.length === 0, `bento ${name} ${w}px ${theme}: no console error${errors.length ? ' → ' + errors.join(' | ').slice(0, 300) : ''}`);
+      check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `bento ${name} ${w}px ${theme}: no horizontal overflow`);
+      await context.close();
+    }
+    await engine.close();
+  }
 }
 
 await browser.close();

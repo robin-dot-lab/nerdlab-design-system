@@ -12,7 +12,7 @@ import {
 import { dShort, eur, eurCompact, int, pct, sum } from './format';
 import { GoalsHelp, NewEventDialog, NextEvent, OrderDetails } from './extras';
 import palettes from '@robin-dot-lab/tokens/palettes.json';
-import { usePalette, useTheme } from './hooks';
+import { usePalette, useSkin, useTheme } from './hooks';
 
 const NAV = ['Vue d’ensemble', 'Événements', 'Billets', 'Audience', 'Réglages'];
 const PER_PAGE = 8;
@@ -32,6 +32,7 @@ const orderColumns: DataTableColumn<Order>[] = [
 export function App() {
   const [theme, setTheme] = useTheme();
   const [palette, setPalette] = usePalette();
+  const [skin, setSkin] = useSkin();
   const [filters, setFilters] = useState<Filters>({ range: 30, cats: CATS.map((c) => c.id) });
   const shown = useDeferredValue(filters); // previous render stays on screen while the new slice computes
   const stale = shown !== filters;
@@ -80,12 +81,23 @@ export function App() {
     : exportCsv(orders, `nerdlab-orders-${shown.range}j.csv`);
   const logo = <a className="logo" href="#top"><span className="logo__mark" aria-hidden="true">N</span><span className="logo__name">Nerdlab Events</span></a>;
   const themeSwitch = <Switch checked={theme === 'dark'} onChange={(e) => setTheme(e.currentTarget.checked ? 'dark' : 'light')}>Thème sombre</Switch>;
+  // Skin, then Candy's palettes (Bento has a single palette: no palette picker under it).
   const paletteSelect = (id: string) => (
-    <Field label="Palette" id={id}>
-      <Select value={palette} onChange={(e) => setPalette(e.currentTarget.value)}>
-        {palettes.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-      </Select>
-    </Field>
+    <>
+      <Field label="Peau" id={`${id}-skin`}>
+        <Select value={skin} onChange={(e) => setSkin(e.currentTarget.value === 'bento' ? 'bento' : 'candy')}>
+          <option value="candy">Candy</option>
+          <option value="bento">Bento</option>
+        </Select>
+      </Field>
+      {skin === 'candy' && (
+        <Field label="Palette" id={id}>
+          <Select value={palette} onChange={(e) => setPalette(e.currentTarget.value)}>
+            {palettes.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+          </Select>
+        </Field>
+      )}
+    </>
   );
 
   return (

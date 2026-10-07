@@ -23,6 +23,9 @@ importers:
       '@robin-dot-lab/charts':
         specifier: workspace:*
         version: link:../../packages/charts
+      '@robin-dot-lab/css-bento':
+        specifier: workspace:*
+        version: link:../../packages/css-bento
       '@robin-dot-lab/css-candy':
         specifier: workspace:*
         version: link:../../packages/css-candy
@@ -69,6 +72,9 @@ importers:
       '@robin-dot-lab/charts':
         specifier: workspace:*
         version: link:../../packages/charts
+      '@robin-dot-lab/css-bento':
+        specifier: workspace:*
+        version: link:../../packages/css-bento
       '@robin-dot-lab/css-candy':
         specifier: workspace:*
         version: link:../../packages/css-candy
