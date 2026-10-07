@@ -28,7 +28,8 @@ const en = {
   showImages: 'Show images',
   noText: 'This message has no text version.',
   attachments: 'Attachments',
-  download: (file: string) => `Download ${file}`,
+  // The visible name and size come first, so the accessible name starts with what the link shows (WCAG 2.5.3).
+  download: (file: string, size: string) => `${file}, ${size}, download`,
   address: 'Address',
   copyAddress: 'Copy address',
   unreadCount: (n: number) => (n === 1 ? '1 unread message' : `${n} unread messages`),
@@ -65,7 +66,7 @@ const fr: MailMessages = {
   showImages: 'Afficher les images',
   noText: 'Ce message n’a pas de version texte.',
   attachments: 'Pièces jointes',
-  download: (file) => `Télécharger ${file}`,
+  download: (file, size) => `${file}, ${size}, télécharger`,
   address: 'Adresse',
   copyAddress: 'Copier l’adresse',
   unreadCount: (n) => (n <= 1 ? `${n} message non lu` : `${n} messages non lus`),

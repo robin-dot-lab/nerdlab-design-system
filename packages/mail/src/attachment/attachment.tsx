@@ -33,15 +33,17 @@ export interface AttachmentChipProps extends Omit<ComponentProps<'a'>, 'href' | 
   attachment: Attachment;
 }
 
-/** A downloadable attachment: icon by type, name, size in the locale. The link is named “Download <file>”. */
+/** A downloadable attachment: icon by type, name, size in the locale. The link is named “<file>, <size>, download”:
+ *  its name starts with the text it shows (WCAG 2.5.3, label in name). */
 export function AttachmentChip({ attachment: a, className, ...props }: AttachmentChipProps) {
   const { locale, t } = useMailMessages();
   const Icon = iconFor(a.type);
   const size = formatFileSize(a.size, locale);
   return (
-    <a className={cn('nl-attachment', className)} href={a.href} download={a.name} aria-label={`${t.download(a.name)}, ${size}`} {...props}>
+    <a className={cn('nl-attachment', className)} href={a.href} download={a.name} aria-label={t.download(a.name, size)} {...props}>
       <Icon className="nl-attachment__icon" />
       <span className="nl-attachment__name">{a.name}</span>
+      {/* A space between name and size: the link's text reads "name size", which its name starts with. */}{' '}
       <span className="nl-attachment__size">{size}</span>
       <Download className="nl-attachment__download" />
     </a>
