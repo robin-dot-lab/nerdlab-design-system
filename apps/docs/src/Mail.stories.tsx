@@ -152,7 +152,7 @@ export const Dashboard: Story = {
               <style>{'.story-code-pill { position: absolute; inset-inline-end: 0; inset-block-start: 0; } @container (max-width: 34rem) { .story-code-pill { position: static; width: fit-content; margin-block-end: var(--space-3); } }'}</style>
               <div style={{ position: 'relative' }}>
                 {hasCode && (
-                  <div className="nl-cluster nl-gap-2 story-code-pill" data-theme="light" style={{ padding: '4px 4px 4px 16px', borderRadius: 'var(--radius-full)', background: 'var(--color-accent)', color: 'var(--ink)' }}>
+                  <div className="nl-cluster nl-gap-2 story-code-pill" data-theme="light" style={{ padding: '4px 4px 4px 16px', borderRadius: 'var(--radius-full)', background: 'var(--color-accent)', color: 'var(--ink)', forcedColorAdjust: 'none' }}>
                     <span style={{ fontWeight: 700 }}>Code found <span style={{ fontFamily: 'var(--font-display)' }}>4821</span></span>
                     <CopyButton value="4821" label="Copy" showLabel variant="primary" />
                   </div>
